@@ -2,11 +2,9 @@ package me.linnemann.ptmobile;
 
 import me.linnemann.ptmobile.adapter.ActivitiesCursorAdapter;
 import me.linnemann.ptmobile.cursor.ActivitiesCursor;
-import me.linnemann.ptmobile.cursor.ProjectsCursor;
 import me.linnemann.ptmobile.pivotaltracker.PivotalTracker;
 import android.app.AlertDialog;
 import android.app.ListActivity;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -19,19 +17,22 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
 import android.widget.ListView;
 
+/**
+ * Activity showing a ListView with the latest new from pivotaltracker
+ * 
+ * @author nlinn
+ */
 public class Activities extends ListActivity {
 	
-	public static final int REFRESH = Menu.FIRST;
-	private static final int PREFERENCES_ID = Menu.FIRST + 3;
-	private static final int FLUSH_ID = Menu.FIRST + 4;
-	private static final int ABOUT_ID = Menu.FIRST + 5;
+	public static final int MENU_REFRESH = Menu.FIRST;
+	private static final int MENU_PREFERENCES = Menu.FIRST + 3;
+	private static final int MENU_FLUSH = Menu.FIRST + 4;
+	private static final int MENU_ABOUT = Menu.FIRST + 5;
 
 	private ActivitiesCursor pc;
 	private PivotalTracker tracker;
-	private ProgressDialog dialog;
 	private Context ctx;
 	private boolean alreadyCheckedForUpdates;
 
@@ -100,10 +101,10 @@ public class Activities extends ListActivity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		boolean result = super.onCreateOptionsMenu(menu);
-		menu.add(0, REFRESH, 0, R.string.menu_refesh).setIcon(android.R.drawable.ic_menu_upload);
-		menu.add(0, PREFERENCES_ID, 0, R.string.menu_prefs).setIcon(android.R.drawable.ic_menu_preferences);
-		menu.add(0, FLUSH_ID, 0, "debug: flush local data");
-		menu.add(0, ABOUT_ID, 0, "About").setIcon(android.R.drawable.ic_menu_help);
+		menu.add(0, MENU_REFRESH, 0, R.string.menu_refesh).setIcon(android.R.drawable.ic_menu_upload);
+		menu.add(0, MENU_PREFERENCES, 0, R.string.menu_prefs).setIcon(android.R.drawable.ic_menu_preferences);
+		menu.add(0, MENU_FLUSH, 0, "debug: flush local data");
+		menu.add(0, MENU_ABOUT, 0, "About").setIcon(android.R.drawable.ic_menu_help);
 		return result;
 	}
 
@@ -112,17 +113,17 @@ public class Activities extends ListActivity {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-		case REFRESH:
+		case MENU_REFRESH:
 			refresh();
 			return true;
-		case PREFERENCES_ID:
+		case MENU_PREFERENCES:
 			startActivity(new Intent(this,Preferences.class));
 			return true;
-		case FLUSH_ID:
+		case MENU_FLUSH:
 			tracker.flush();
 			fillData();
 			return true;
-		case ABOUT_ID:
+		case MENU_ABOUT:
 			startActivity(new Intent(this,About.class));
 			return true;
 		}

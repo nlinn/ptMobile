@@ -1,6 +1,5 @@
 package me.linnemann.ptmobile;
 
-import me.linnemann.ptmobile.pivotaltracker.PivotalTracker;
 import android.app.TabActivity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,6 +7,11 @@ import android.view.LayoutInflater;
 import android.view.Window;
 import android.widget.TabHost;
 
+/**
+ * Start Activity: the initial screen, shown project and news tab
+ * @author nlinn
+ *
+ */
 public class Start extends TabActivity {
 
 	private TabHost tabHost;

@@ -1,10 +1,7 @@
 package me.linnemann.ptmobile.adapter;
 
-import me.linnemann.ptmobile.OutputStyler;
 import me.linnemann.ptmobile.R;
 import me.linnemann.ptmobile.cursor.ActivitiesCursor;
-import me.linnemann.ptmobile.cursor.ProjectsCursor;
-import me.linnemann.ptmobile.pivotaltracker.PivotalTracker;
 import android.content.Context;
 import android.database.Cursor;
 import android.view.LayoutInflater;

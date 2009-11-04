@@ -8,8 +8,14 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.TextView;
 
+/**
+ * About Activity: window showing my about text with version info
+ * @author nlinn
+ */
 public class About extends Activity {
 
+	private static final String TAG = "About";
+	
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -23,10 +29,10 @@ public class About extends Activity {
 		PackageInfo info;
 		String newText = "";
 		try {
-			Log.i("about", "trying");
+			Log.i(TAG, "trying");
 			info = manager.getPackageInfo(this.getPackageName(), 0);
 			newText = tv.getText().toString().replaceAll("\\$VERSION\\$", info.versionName);
-			Log.i("about", newText);
+			Log.i(TAG, newText);
 		} catch (NameNotFoundException e) {
 			newText = tv.getText().toString().replaceAll("\\$VERSION\\$", "");
 			e.printStackTrace();
