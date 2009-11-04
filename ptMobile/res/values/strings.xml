@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string name="app_name">ptMobile</string>
+	<string name="welcome">Welcome to ptMobile. Getting started:\n\nOn the
+		pivotaltracker Website:\n\n1) Go to
+		\"My Profile\" and create an
+		API-Token (don\'t worry, you don\'t need to
+		type it on your
+		mobile)\n\n2) Make sure that the projects you
+		want to access from
+		ptMobile have API access enabled\n\nIn ptMobile:\n\n
+		3) Press \"Menu\"
+		>>
+		\"Preferences\" and fetch and save your API-Token using your
+		pivotaltracker
+		username and password.\n\nHave fun.
+	</string>
+
+	<string name="about">
+		ptMobile is a simple pivotaltracker client for android.\n\nSince this is an early release, ptMobile is lacking
+		some important features at the moment.\n\nFeedback, bug reports, feature requests are always welcome.\n\nYours\nNiels\n\nVisit me on www.linnemann.me/ptMobile
+	</string>
+	<string name="thanks">Thanks to:\n- pivotallabs for constantly improving pivotaltracker\n- Dennis Pollack, who created the ptMobile Logo
+	</string>
+
+	<string name="empty_list">no data.</string>
+	<string name="menu_refesh">Refresh</string>
+	<string name="menu_showstories">Show Stories</string>
+	<string name="menu_showprojectdetails">Show Project Details</string>
+	<string name="menu_showstorydetails">Show Story Details</string>
+	<string name="menu_storynextstate">Next State</string>
+	<string name="menu_header_project">Project</string>
+	<string name="menu_prefs">Preferences</string>
+</resources>

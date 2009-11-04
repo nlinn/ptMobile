@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent" android:orientation="vertical"
+	android:layout_height="wrap_content">
+ 
+	<TableLayout android:layout_width="fill_parent"  android:padding="2dip" android:id="@+id/layoutIteration"
+	android:background="#444" android:layout_height="wrap_content" android:stretchColumns="1">
+		<TableRow >
+		<TextView android:text="12"
+			android:id="@+id/textIterationStory"
+			android:textSize="12dip" android:textColor="#fff"
+			android:paddingLeft="12dip"
+			android:gravity="left" 
+			 />
+
+		<TextView android:text="2008-09-12 to yo"
+			android:gravity="left"
+			android:id="@+id/textIterationDateStory"
+			android:textSize="12dip" android:textColor="#fff"
+			android:paddingRight="12dip" 
+			 />
+		</TableRow>
+	</TableLayout>
+
+	<LinearLayout android:layout_width="fill_parent"
+		xmlns:android="http://schemas.android.com/apk/res/android"
+		android:layout_height="fill_parent" android:orientation="horizontal"
+		android:padding="5dip">
+
+		<!-- ICON AREA -->
+		<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+			android:layout_width="wrap_content" android:orientation="vertical"
+			android:layout_height="wrap_content">
+
+			<ImageView android:layout_width="wrap_content"
+				android:layout_height="wrap_content" android:id="@+id/imageTypeStory"
+				android:padding="5dip" android:src="@drawable/feature" />
+
+			<ImageView android:layout_width="wrap_content"
+				android:padding="5dip" android:layout_height="wrap_content"
+				android:id="@+id/imageInfosStory" android:src="@drawable/story_flyover_icon" />
+
+		</LinearLayout>
+
+		<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+			android:layout_width="fill_parent" android:orientation="vertical"
+			android:layout_height="wrap_content">
+
+
+			<TextView android:text="akthist,s" android:layout_height="wrap_content"
+				android:id="@+id/textLabelsStory" android:textSize="12dip"
+				android:textColor="@color/color_labels" android:paddingTop="4dip"
+				android:layout_width="wrap_content" />
+
+			<TextView android:text="This is a nice story... once upon a time"
+
+				android:layout_height="wrap_content" android:id="@+id/textNameStory"
+				android:textColor="#222" android:textSize="16dip"
+				android:paddingTop="3dip" android:layout_width="wrap_content"
+				android:paddingBottom="5dip" />
+
+			<!--
+				<TextView android:layout_marginLeft="5dip"
+				android:layout_height="wrap_content" android:textSize="12dip"
+				android:layout_width="wrap_content" android:id="@+id/textStateStory"
+				android:text="started" />
+			-->
+			<TextView android:text="points: 13" android:layout_height="wrap_content"
+				android:textColor="#222" android:paddingBottom="5dip"
+				android:id="@+id/textEstimateStory" android:textSize="12dip"
+				android:layout_width="wrap_content" />
+
+
+		</LinearLayout>
+
+	</LinearLayout>
+</LinearLayout>

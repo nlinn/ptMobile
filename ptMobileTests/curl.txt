@@ -1,0 +1,1128 @@
+Last login: Sat Oct 31 16:23:25 on console
+niels-linnemanns-imac:~ niels$ niels-linnemanns-imac:~ niels$ curl -H "X-TrackerToken: 01182603613106eee46c5c6b0edf " -X GET http://www.pivotaltracker.com/services/v2/projects/18225/stories
+Access denied.
+niels-linnemanns-imac:~ niels$ curl -H "X-TrackerToken: 01182603613106eee46c5c6b0edffd46 " -X GET http://www.pivotaltracker.com/services/v2/projects/18225/stories
+<?xml version="1.0" encoding="UTF-8"?>
+<stories type="array" count="22" total="22">
+  <story>
+    <id type="integer">777190</id>
+    <story_type>feature</story_type>
+    <url>http://www.pivotaltracker.com/story/show/777190</url>
+    <estimate type="integer">5</estimate>
+    <current_state>accepted</current_state>
+    <description></description>
+    <name>PO can update list of stories via pivotal API</name>
+    <requested_by>Niels Linnemann</requested_by>
+    <owned_by>Niels Linnemann</owned_by>
+    <created_at type="datetime">2009/06/07 11:52:35 UTC</created_at>
+    <accepted_at type="datetime">2009/06/07 12:13:35 UTC</accepted_at>
+    <labels>view</labels>
+  </story>
+  <story>
+    <id type="integer">777191</id>
+    <story_type>feature</story_type>
+    <url>http://www.pivotaltracker.com/story/show/777191</url>
+    <estimate type="integer">2</estimate>
+    <current_state>accepted</current_state>
+    <description></description>
+    <name>PO can search inside story texts</name>
+    <requested_by>Niels Linnemann</requested_by>
+    <owned_by>Niels Linnemann</owned_by>
+    <created_at type="datetime">2009/06/07 11:53:25 UTC</created_at>
+    <accepted_at type="datetime">2009/06/07 12:13:39 UTC</accepted_at>
+    <labels>view</labels>
+  </story>
+  <story>
+    <id type="integer">777189</id>
+    <story_type>feature</story_type>
+    <url>http://www.pivotaltracker.com/story/show/777189</url>
+    <estimate type="integer">5</estimate>
+    <current_state>accepted</current_state>
+    <description></description>
+    <name>PO can print out story cards</name>
+    <requested_by>Niels Linnemann</requested_by>
+    <owned_by>Niels Linnemann</owned_by>
+    <created_at type="datetime">2009/06/07 11:50:45 UTC</created_at>
+    <accepted_at type="datetime">2009/06/07 12:13:46 UTC</accepted_at>
+    <labels>report</labels>
+  </story>
+  <story>
+    <id type="integer">777192</id>
+    <story_type>feature</story_type>
+    <url>http://www.pivotaltracker.com/story/show/777192</url>
+    <estimate type="integer">2</estimate>
+    <current_state>accepted</current_state>
+    <description>* a readonly detail view with pivotals story attributes exist</description>
+    <name>PO can see project attributes</name>
+    <requested_by>Niels Linnemann</requested_by>
+    <owned_by>Niels Linnemann</owned_by>
+    <created_at type="datetime">2009/06/07 11:56:36 UTC</created_at>
+    <accepted_at type="datetime">2009/06/07 12:13:55 UTC</accepted_at>
+    <labels>view</labels>
+  </story>
+  <story>
+    <id type="integer">777199</id>
+    <story_type>chore</story_type>
+    <url>http://www.pivotaltracker.com/story/show/777199</url>
+    <current_state>accepted</current_state>
+    <description></description>
+    <name>refactor data model: iteration as entity</name>
+    <requested_by>Niels Linnemann</requested_by>
+    <owned_by>Niels Linnemann</owned_by>
+    <created_at type="datetime">2009/06/07 12:08:41 UTC</created_at>
+    <accepted_at type="datetime">2009/06/11 20:33:42 UTC</accepted_at>
+  </story>
+  <story>
+    <id type="integer">1332361</id>
+    <story_type>feature</story_type>
+    <url>http://www.pivotaltracker.com/story/show/1332361</url>
+    <estimate type="integer">2</estimate>
+    <current_state>accepted</current_state>
+    <description></description>
+    <name>white background styling of story listview</name>
+    <requested_by>Niels Linnemann</requested_by>
+    <owned_by>Niels Linnemann</owned_by>
+    <created_at type="datetime">2009/09/22 14:42:44 UTC</created_at>
+    <accepted_at type="datetime">2009/09/23 18:31:11 UTC</accepted_at>
+  </story>
+  <story>
+    <id type="integer">1332378</id>
+    <story_type>feature</story_type>
+    <url>http://www.pivotaltracker.com/story/show/1332378</url>
+    <estimate type="integer">1</estimate>
+    <current_state>accepted</current_state>
+    <description></description>
+    <name>white background styling of projects listview</name>
+    <requested_by>Niels Linnemann</requested_by>
+    <owned_by>Niels Linnemann</owned_by>
+    <created_at type="datetime">2009/09/22 14:44:11 UTC</created_at>
+    <accepted_at type="datetime">2009/09/23 18:31:11 UTC</accepted_at>
+  </story>
+  <story>
+    <id type="integer">1332423</id>
+    <story_type>feature</story_type>
+    <url>http://www.pivotaltracker.com/story/show/1332423</url>
+    <estimate type="integer">3</estimate>
+    <current_state>accepted</current_state>
+    <description>ptMobile should check on startup if there are updates available</description>
+    <name>check for updates feature</name>
+    <requested_by>Niels Linnemann</requested_by>
+    <owned_by>Niels Linnemann</owned_by>
+    <created_at type="datetime">2009/09/22 14:49:50 UTC</created_at>
+    <accepted_at type="datetime">2009/09/23 18:31:14 UTC</accepted_at>
+  </story>
+  <story>
+    <id type="integer">1332389</id>
+    <story_type>chore</story_type>
+    <url>http://www.pivotaltracker.com/story/show/1332389</url>
+    <current_state>accepted</current_state>
+    <description></description>
+    <name>testing on galaxy and google testphone</name>
+    <requested_by>Niels Linnemann</requested_by>
+    <owned_by>Niels Linnemann</owned_by>
+    <created_at type="datetime">2009/09/22 14:44:45 UTC</created_at>
+    <accepted_at type="datetime">2009/09/23 18:31:23 UTC</accepted_at>
+  </story>
+  <story>
+    <id type="integer">1332395</id>
+    <story_type>feature</story_type>
+    <url>http://www.pivotaltracker.com/story/show/1332395</url>
+    <estimate type="integer">3</estimate>
+    <current_state>accepted</current_state>
+    <description>* marketing texts
+* feature list</description>
+    <name>english marketing texts for android market</name>
+    <requested_by>Niels Linnemann</requested_by>
+    <owned_by>Niels Linnemann</owned_by>
+    <created_at type="datetime">2009/09/22 14:45:43 UTC</created_at>
+    <accepted_at type="datetime">2009/09/23 18:31:32 UTC</accepted_at>
+  </story>
+  <story>
+    <id type="integer">1332409</id>
+    <story_type>feature</story_type>
+    <url>http://www.pivotaltracker.com/story/show/1332409</url>
+    <estimate type="integer">2</estimate>
+    <current_state>accepted</current_state>
+    <description>* screenshots
+* description
+</description>
+    <name>create a webpage on linnemann.me/ptMobile</name>
+    <requested_by>Niels Linnemann</requested_by>
+    <owned_by>Niels Linnemann</owned_by>
+    <created_at type="datetime">2009/09/22 14:48:30 UTC</created_at>
+    <accepted_at type="datetime">2009/09/23 18:35:42 UTC</accepted_at>
+  </story>
+  <story>
+    <id type="integer">1332350</id>
+    <story_type>release</story_type>
+    <url>http://www.pivotaltracker.com/story/show/1332350</url>
+    <current_state>accepted</current_state>
+    <description></description>
+    <name>first version available on android market</name>
+    <requested_by>Niels Linnemann</requested_by>
+    <created_at type="datetime">2009/09/22 14:41:33 UTC</created_at>
+    <accepted_at type="datetime">2009/09/23 18:35:45 UTC</accepted_at>
+  </story>
+  <story>
+    <id type="integer">1332399</id>
+    <story_type>bug</story_type>
+    <url>http://www.pivotaltracker.com/story/show/1332399</url>
+    <current_state>started</current_state>
+    <description></description>
+    <name>testbug</name>
+    <requested_by>Niels Linnemann</requested_by>
+    <owned_by>Niels Linnemann</owned_by>
+    <created_at type="datetime">2009/09/22 14:46:19 UTC</created_at>
+    <labels>yoyo</labels>
+  </story>
+  <story>
+    <id type="integer">1332373</id>
+    <story_type>chore</story_type>
+    <url>http://www.pivotaltracker.com/story/show/1332373</url>
+    <current_state>started</current_state>
+    <description></description>
+    <name>test if current call to api works with commit mode</name>
+    <requested_by>Niels Linnemann</requested_by>
+    <owned_by>Niels Linnemann</owned_by>
+    <created_at type="datetime">2009/09/22 14:43:40 UTC</created_at>
+  </story>
+  <story>
+    <id type="integer">1332401</id>
+    <story_type>feature</story_type>
+    <url>http://www.pivotaltracker.com/story/show/1332401</url>
+    <estimate type="integer">1</estimate>
+    <current_state>started</current_state>
+    <description></description>
+    <name>send email to pivotal team</name>
+    <requested_by>Niels Linnemann</requested_by>
+    <owned_by>Niels Linnemann</owned_by>
+    <created_at type="datetime">2009/09/22 14:47:26 UTC</created_at>
+  </story>
+  <story>
+    <id type="integer">1332525</id>
+    <story_type>feature</story_type>
+    <url>http://www.pivotaltracker.com/story/show/1332525</url>
+    <estimate type="integer">3</estimate>
+    <current_state>unstarted</current_state>
+    <description>seperators grouping stories in iterations, like on pt website</description>
+    <name>iteration separators in story listings</name>
+    <requested_by>Niels Linnemann</requested_by>
+    <created_at type="datetime">2009/09/22 14:54:22 UTC</created_at>
+    <labels>view</labels>
+  </story>
+  <story>
+    <id type="integer">1332507</id>
+    <story_type>feature</story_type>
+    <url>http://www.pivotaltracker.com/story/show/1332507</url>
+    <estimate type="integer">1</estimate>
+    <current_state>unstarted</current_state>
+    <description>* white background
+* use of icons</description>
+    <name>styling of story details view</name>
+    <requested_by>Niels Linnemann</requested_by>
+    <created_at type="datetime">2009/09/22 14:52:37 UTC</created_at>
+    <labels>view</labels>
+  </story>
+  <story>
+    <id type="integer">1332549</id>
+    <story_type>feature</story_type>
+    <url>http://www.pivotaltracker.com/story/show/1332549</url>
+    <estimate type="integer">5</estimate>
+    <current_state>unstarted</current_state>
+    <description></description>
+    <name>show story comments in story details view</name>
+    <requested_by>Niels Linnemann</requested_by>
+    <created_at type="datetime">2009/09/22 14:56:08 UTC</created_at>
+    <labels>read</labels>
+  </story>
+  <story>
+    <id type="integer">1332554</id>
+    <story_type>feature</story_type>
+    <url>http://www.pivotaltracker.com/story/show/1332554</url>
+    <estimate type="integer">5</estimate>
+    <current_state>unstarted</current_state>
+    <description></description>
+    <name>show tracker news</name>
+    <requested_by>Niels Linnemann</requested_by>
+    <created_at type="datetime">2009/09/22 14:56:36 UTC</created_at>
+    <labels>read</labels>
+  </story>
+  <story>
+    <id type="integer">1349285</id>
+    <story_type>feature</story_type>
+    <url>http://www.pivotaltracker.com/story/show/1349285</url>
+    <estimate type="integer">2</estimate>
+    <current_state>unstarted</current_state>
+    <description></description>
+    <name>show project details on special page</name>
+    <requested_by>Niels Linnemann</requested_by>
+    <created_at type="datetime">2009/09/23 18:37:27 UTC</created_at>
+    <labels>read,view</labels>
+  </story>
+  <story>
+    <id type="integer">1346510</id>
+    <story_type>feature</story_type>
+    <url>http://www.pivotaltracker.com/story/show/1346510</url>
+    <estimate type="integer">-1</estimate>
+    <current_state>unstarted</current_state>
+    <description>Velocity? Story counts?</description>
+    <name>show extra information in projects list</name>
+    <requested_by>Niels Linnemann</requested_by>
+    <created_at type="datetime">2009/09/23 11:49:22 UTC</created_at>
+  </story>
+  <story>
+    <id type="integer">1349374</id>
+    <story_type>bug</story_type>
+    <url>http://www.pivotaltracker.com/story/show/1349374</url>
+    <current_state>unstarted</current_state>
+    <description></description>
+    <name>no highlighting in story list view on selection</name>
+    <requested_by>Niels Linnemann</requested_by>
+    <created_at type="datetime">2009/09/23 18:42:19 UTC</created_at>
+  </story>
+</stories>
+niels-linnemanns-imac:~ niels$ curl -H "X-TrackerToken: 01182603613106eee46c5c6b0edffd46 " -X GET http://www.pivotaltracker.com/services/v2/projects/18225/stories<?xml version="1.0" encoding="UTF-8"?>
+<stories type="array" count="22" total="22">
+  <story>
+    <id type="integer">777190</id>
+    <story_type>feature</story_type>
+    <url>http://www.pivotaltracker.com/story/show/777190</url>
+    <estimate type="integer">5</estimate>
+    <current_state>accepted</current_state>
+    <description></description>
+    <name>PO can update list of stories via pivotal API</name>
+    <requested_by>Niels Linnemann</requested_by>
+    <owned_by>Niels Linnemann</owned_by>
+    <created_at type="datetime">2009/06/07 11:52:35 UTC</created_at>
+    <accepted_at type="datetime">2009/06/07 12:13:35 UTC</accepted_at>
+    <labels>view</labels>
+  </story>
+  <story>
+    <id type="integer">777191</id>
+    <story_type>feature</story_type>
+    <url>http://www.pivotaltracker.com/story/show/777191</url>
+    <estimate type="integer">2</estimate>
+    <current_state>accepted</current_state>
+    <description></description>
+    <name>PO can search inside story texts</name>
+    <requested_by>Niels Linnemann</requested_by>
+    <owned_by>Niels Linnemann</owned_by>
+    <created_at type="datetime">2009/06/07 11:53:25 UTC</created_at>
+    <accepted_at type="datetime">2009/06/07 12:13:39 UTC</accepted_at>
+    <labels>view</labels>
+  </story>
+  <story>
+    <id type="integer">777189</id>
+    <story_type>feature</story_type>
+    <url>http://www.pivotaltracker.com/story/show/777189</url>
+    <estimate type="integer">5</estimate>
+    <current_state>accepted</current_state>
+    <description></description>
+    <name>PO can print out story cards</name>
+    <requested_by>Niels Linnemann</requested_by>
+    <owned_by>Niels Linnemann</owned_by>
+    <created_at type="datetime">2009/06/07 11:50:45 UTC</created_at>
+    <accepted_at type="datetime">2009/06/07 12:13:46 UTC</accepted_at>
+    <labels>report</labels>
+  </story>
+  <story>
+    <id type="integer">777192</id>
+    <story_type>feature</story_type>
+    <url>http://www.pivotaltracker.com/story/show/777192</url>
+    <estimate type="integer">2</estimate>
+    <current_state>accepted</current_state>
+    <description>* a readonly detail view with pivotals story attributes exist</description>
+    <name>PO can see project attributes</name>
+    <requested_by>Niels Linnemann</requested_by>
+    <owned_by>Niels Linnemann</owned_by>
+    <created_at type="datetime">2009/06/07 11:56:36 UTC</created_at>
+    <accepted_at type="datetime">2009/06/07 12:13:55 UTC</accepted_at>
+    <labels>view</labels>
+  </story>
+  <story>
+    <id type="integer">777199</id>
+    <story_type>chore</story_type>
+    <url>http://www.pivotaltracker.com/story/show/777199</url>
+    <current_state>accepted</current_state>
+    <description></description>
+    <name>refactor data model: iteration as entity</name>
+    <requested_by>Niels Linnemann</requested_by>
+    <owned_by>Niels Linnemann</owned_by>
+    <created_at type="datetime">2009/06/07 12:08:41 UTC</created_at>
+    <accepted_at type="datetime">2009/06/11 20:33:42 UTC</accepted_at>
+  </story>
+  <story>
+    <id type="integer">1332361</id>
+    <story_type>feature</story_type>
+    <url>http://www.pivotaltracker.com/story/show/1332361</url>
+    <estimate type="integer">2</estimate>
+    <current_state>accepted</current_state>
+    <description></description>
+    <name>white background styling of story listview</name>
+    <requested_by>Niels Linnemann</requested_by>
+    <owned_by>Niels Linnemann</owned_by>
+    <created_at type="datetime">2009/09/22 14:42:44 UTC</created_at>
+    <accepted_at type="datetime">2009/09/23 18:31:11 UTC</accepted_at>
+  </story>
+  <story>
+    <id type="integer">1332378</id>
+    <story_type>feature</story_type>
+    <url>http://www.pivotaltracker.com/story/show/1332378</url>
+    <estimate type="integer">1</estimate>
+    <current_state>accepted</current_state>
+    <description></description>
+    <name>white background styling of projects listview</name>
+    <requested_by>Niels Linnemann</requested_by>
+    <owned_by>Niels Linnemann</owned_by>
+    <created_at type="datetime">2009/09/22 14:44:11 UTC</created_at>
+    <accepted_at type="datetime">2009/09/23 18:31:11 UTC</accepted_at>
+  </story>
+  <story>
+    <id type="integer">1332423</id>
+    <story_type>feature</story_type>
+    <url>http://www.pivotaltracker.com/story/show/1332423</url>
+    <estimate type="integer">3</estimate>
+    <current_state>accepted</current_state>
+    <description>ptMobile should check on startup if there are updates available</description>
+    <name>check for updates feature</name>
+    <requested_by>Niels Linnemann</requested_by>
+    <owned_by>Niels Linnemann</owned_by>
+    <created_at type="datetime">2009/09/22 14:49:50 UTC</created_at>
+    <accepted_at type="datetime">2009/09/23 18:31:14 UTC</accepted_at>
+  </story>
+  <story>
+    <id type="integer">1332389</id>
+    <story_type>chore</story_type>
+    <url>http://www.pivotaltracker.com/story/show/1332389</url>
+    <current_state>accepted</current_state>
+    <description></description>
+    <name>testing on galaxy and google testphone</name>
+    <requested_by>Niels Linnemann</requested_by>
+    <owned_by>Niels Linnemann</owned_by>
+    <created_at type="datetime">2009/09/22 14:44:45 UTC</created_at>
+    <accepted_at type="datetime">2009/09/23 18:31:23 UTC</accepted_at>
+  </story>
+  <story>
+    <id type="integer">1332395</id>
+    <story_type>feature</story_type>
+    <url>http://www.pivotaltracker.com/story/show/1332395</url>
+    <estimate type="integer">3</estimate>
+    <current_state>accepted</current_state>
+    <description>* marketing texts
+* feature list</description>
+    <name>english marketing texts for android market</name>
+    <requested_by>Niels Linnemann</requested_by>
+    <owned_by>Niels Linnemann</owned_by>
+    <created_at type="datetime">2009/09/22 14:45:43 UTC</created_at>
+    <accepted_at type="datetime">2009/09/23 18:31:32 UTC</accepted_at>
+  </story>
+  <story>
+    <id type="integer">1332409</id>
+    <story_type>feature</story_type>
+    <url>http://www.pivotaltracker.com/story/show/1332409</url>
+    <estimate type="integer">2</estimate>
+    <current_state>accepted</current_state>
+    <description>* screenshots
+* description
+</description>
+    <name>create a webpage on linnemann.me/ptMobile</name>
+    <requested_by>Niels Linnemann</requested_by>
+    <owned_by>Niels Linnemann</owned_by>
+    <created_at type="datetime">2009/09/22 14:48:30 UTC</created_at>
+    <accepted_at type="datetime">2009/09/23 18:35:42 UTC</accepted_at>
+  </story>
+  <story>
+    <id type="integer">1332350</id>
+    <story_type>release</story_type>
+    <url>http://www.pivotaltracker.com/story/show/1332350</url>
+    <current_state>accepted</current_state>
+    <description></description>
+    <name>first version available on android market</name>
+    <requested_by>Niels Linnemann</requested_by>
+    <created_at type="datetime">2009/09/22 14:41:33 UTC</created_at>
+    <accepted_at type="datetime">2009/09/23 18:35:45 UTC</accepted_at>
+  </story>
+  <story>
+    <id type="integer">1332399</id>
+    <story_type>bug</story_type>
+    <url>http://www.pivotaltracker.com/story/show/1332399</url>
+    <current_state>started</current_state>
+    <description></description>
+    <name>testbug</name>
+    <requested_by>Niels Linnemann</requested_by>
+    <owned_by>Niels Linnemann</owned_by>
+    <created_at type="datetime">2009/09/22 14:46:19 UTC</created_at>
+    <labels>yoyo</labels>
+  </story>
+  <story>
+    <id type="integer">1332373</id>
+    <story_type>chore</story_type>
+    <url>http://www.pivotaltracker.com/story/show/1332373</url>
+    <current_state>started</current_state>
+    <description></description>
+    <name>test if current call to api works with commit mode</name>
+    <requested_by>Niels Linnemann</requested_by>
+    <owned_by>Niels Linnemann</owned_by>
+    <created_at type="datetime">2009/09/22 14:43:40 UTC</created_at>
+  </story>
+  <story>
+    <id type="integer">1332401</id>
+    <story_type>feature</story_type>
+    <url>http://www.pivotaltracker.com/story/show/1332401</url>
+    <estimate type="integer">1</estimate>
+    <current_state>finished</current_state>
+    <description></description>
+    <name>send email to pivotal team</name>
+    <requested_by>Niels Linnemann</requested_by>
+    <owned_by>Niels Linnemann</owned_by>
+    <created_at type="datetime">2009/09/22 14:47:26 UTC</created_at>
+  </story>
+  <story>
+    <id type="integer">1332525</id>
+    <story_type>feature</story_type>
+    <url>http://www.pivotaltracker.com/story/show/1332525</url>
+    <estimate type="integer">3</estimate>
+    <current_state>unstarted</current_state>
+    <description>seperators grouping stories in iterations, like on pt website</description>
+    <name>iteration separators in story listings</name>
+    <requested_by>Niels Linnemann</requested_by>
+    <created_at type="datetime">2009/09/22 14:54:22 UTC</created_at>
+    <labels>view</labels>
+  </story>
+  <story>
+    <id type="integer">1332507</id>
+    <story_type>feature</story_type>
+    <url>http://www.pivotaltracker.com/story/show/1332507</url>
+    <estimate type="integer">1</estimate>
+    <current_state>unstarted</current_state>
+    <description>* white background
+* use of icons</description>
+    <name>styling of story details view</name>
+    <requested_by>Niels Linnemann</requested_by>
+    <created_at type="datetime">2009/09/22 14:52:37 UTC</created_at>
+    <labels>view</labels>
+  </story>
+  <story>
+    <id type="integer">1332549</id>
+    <story_type>feature</story_type>
+    <url>http://www.pivotaltracker.com/story/show/1332549</url>
+    <estimate type="integer">5</estimate>
+    <current_state>unstarted</current_state>
+    <description></description>
+    <name>show story comments in story details view</name>
+    <requested_by>Niels Linnemann</requested_by>
+    <created_at type="datetime">2009/09/22 14:56:08 UTC</created_at>
+    <labels>read</labels>
+  </story>
+  <story>
+    <id type="integer">1332554</id>
+    <story_type>feature</story_type>
+    <url>http://www.pivotaltracker.com/story/show/1332554</url>
+    <estimate type="integer">5</estimate>
+    <current_state>unstarted</current_state>
+    <description></description>
+    <name>show tracker news</name>
+    <requested_by>Niels Linnemann</requested_by>
+    <created_at type="datetime">2009/09/22 14:56:36 UTC</created_at>
+    <labels>read</labels>
+  </story>
+  <story>
+    <id type="integer">1349285</id>
+    <story_type>feature</story_type>
+    <url>http://www.pivotaltracker.com/story/show/1349285</url>
+    <estimate type="integer">2</estimate>
+    <current_state>unstarted</current_state>
+    <description></description>
+    <name>show project details on special page</name>
+    <requested_by>Niels Linnemann</requested_by>
+    <created_at type="datetime">2009/09/23 18:37:27 UTC</created_at>
+    <labels>read,view</labels>
+  </story>
+  <story>
+    <id type="integer">1346510</id>
+    <story_type>feature</story_type>
+    <url>http://www.pivotaltracker.com/story/show/1346510</url>
+    <estimate type="integer">-1</estimate>
+    <current_state>unstarted</current_state>
+    <description>Velocity? Story counts?</description>
+    <name>show extra information in projects list</name>
+    <requested_by>Niels Linnemann</requested_by>
+    <created_at type="datetime">2009/09/23 11:49:22 UTC</created_at>
+  </story>
+  <story>
+    <id type="integer">1349374</id>
+    <story_type>bug</story_type>
+    <url>http://www.pivotaltracker.com/story/show/1349374</url>
+    <current_state>unstarted</current_state>
+    <description></description>
+    <name>no highlighting in story list view on selection</name>
+    <requested_by>Niels Linnemann</requested_by>
+    <created_at type="datetime">2009/09/23 18:42:19 UTC</created_at>
+  </story>
+</stories>
+niels-linnemanns-imac:~ niels$ cls
+-bash: cls: command not found
+niels-linnemanns-imac:~ niels$ clear
+
+niels-linnemanns-imac:~ niels$ curl -H "X-TrackerToken: 01182603613106eee46c5c6b0edffd46 " -X GET http://www.pivotaltracker.com/services/v2/projects/18225/stories<?xml version="1.0" encoding="UTF-8"?>
+<stories type="array" count="22" total="22">
+  <story>
+    <id type="integer">777190</id>
+    <story_type>feature</story_type>
+    <url>http://www.pivotaltracker.com/story/show/777190</url>
+    <estimate type="integer">5</estimate>
+    <current_state>accepted</current_state>
+    <description></description>
+    <name>PO can update list of stories via pivotal API</name>
+    <requested_by>Niels Linnemann</requested_by>
+    <owned_by>Niels Linnemann</owned_by>
+    <created_at type="datetime">2009/06/07 11:52:35 UTC</created_at>
+    <accepted_at type="datetime">2009/06/07 12:13:35 UTC</accepted_at>
+    <labels>view</labels>
+  </story>
+  <story>
+    <id type="integer">777191</id>
+    <story_type>feature</story_type>
+    <url>http://www.pivotaltracker.com/story/show/777191</url>
+    <estimate type="integer">2</estimate>
+    <current_state>accepted</current_state>
+    <description></description>
+    <name>PO can search inside story texts</name>
+    <requested_by>Niels Linnemann</requested_by>
+    <owned_by>Niels Linnemann</owned_by>
+    <created_at type="datetime">2009/06/07 11:53:25 UTC</created_at>
+    <accepted_at type="datetime">2009/06/07 12:13:39 UTC</accepted_at>
+    <labels>view</labels>
+  </story>
+  <story>
+    <id type="integer">777189</id>
+    <story_type>feature</story_type>
+    <url>http://www.pivotaltracker.com/story/show/777189</url>
+    <estimate type="integer">5</estimate>
+    <current_state>accepted</current_state>
+    <description></description>
+    <name>PO can print out story cards</name>
+    <requested_by>Niels Linnemann</requested_by>
+    <owned_by>Niels Linnemann</owned_by>
+    <created_at type="datetime">2009/06/07 11:50:45 UTC</created_at>
+    <accepted_at type="datetime">2009/06/07 12:13:46 UTC</accepted_at>
+    <labels>report</labels>
+  </story>
+  <story>
+    <id type="integer">777192</id>
+    <story_type>feature</story_type>
+    <url>http://www.pivotaltracker.com/story/show/777192</url>
+    <estimate type="integer">2</estimate>
+    <current_state>accepted</current_state>
+    <description>* a readonly detail view with pivotals story attributes exist</description>
+    <name>PO can see project attributes</name>
+    <requested_by>Niels Linnemann</requested_by>
+    <owned_by>Niels Linnemann</owned_by>
+    <created_at type="datetime">2009/06/07 11:56:36 UTC</created_at>
+    <accepted_at type="datetime">2009/06/07 12:13:55 UTC</accepted_at>
+    <labels>view</labels>
+  </story>
+  <story>
+    <id type="integer">777199</id>
+    <story_type>chore</story_type>
+    <url>http://www.pivotaltracker.com/story/show/777199</url>
+    <current_state>accepted</current_state>
+    <description></description>
+    <name>refactor data model: iteration as entity</name>
+    <requested_by>Niels Linnemann</requested_by>
+    <owned_by>Niels Linnemann</owned_by>
+    <created_at type="datetime">2009/06/07 12:08:41 UTC</created_at>
+    <accepted_at type="datetime">2009/06/11 20:33:42 UTC</accepted_at>
+  </story>
+  <story>
+    <id type="integer">1332361</id>
+    <story_type>feature</story_type>
+    <url>http://www.pivotaltracker.com/story/show/1332361</url>
+    <estimate type="integer">2</estimate>
+    <current_state>accepted</current_state>
+    <description></description>
+    <name>white background styling of story listview</name>
+    <requested_by>Niels Linnemann</requested_by>
+    <owned_by>Niels Linnemann</owned_by>
+    <created_at type="datetime">2009/09/22 14:42:44 UTC</created_at>
+    <accepted_at type="datetime">2009/09/23 18:31:11 UTC</accepted_at>
+  </story>
+  <story>
+    <id type="integer">1332378</id>
+    <story_type>feature</story_type>
+    <url>http://www.pivotaltracker.com/story/show/1332378</url>
+    <estimate type="integer">1</estimate>
+    <current_state>accepted</current_state>
+    <description></description>
+    <name>white background styling of projects listview</name>
+    <requested_by>Niels Linnemann</requested_by>
+    <owned_by>Niels Linnemann</owned_by>
+    <created_at type="datetime">2009/09/22 14:44:11 UTC</created_at>
+    <accepted_at type="datetime">2009/09/23 18:31:11 UTC</accepted_at>
+  </story>
+  <story>
+    <id type="integer">1332423</id>
+    <story_type>feature</story_type>
+    <url>http://www.pivotaltracker.com/story/show/1332423</url>
+    <estimate type="integer">3</estimate>
+    <current_state>accepted</current_state>
+    <description>ptMobile should check on startup if there are updates available</description>
+    <name>check for updates feature</name>
+    <requested_by>Niels Linnemann</requested_by>
+    <owned_by>Niels Linnemann</owned_by>
+    <created_at type="datetime">2009/09/22 14:49:50 UTC</created_at>
+    <accepted_at type="datetime">2009/09/23 18:31:14 UTC</accepted_at>
+  </story>
+  <story>
+    <id type="integer">1332389</id>
+    <story_type>chore</story_type>
+    <url>http://www.pivotaltracker.com/story/show/1332389</url>
+    <current_state>accepted</current_state>
+    <description></description>
+    <name>testing on galaxy and google testphone</name>
+    <requested_by>Niels Linnemann</requested_by>
+    <owned_by>Niels Linnemann</owned_by>
+    <created_at type="datetime">2009/09/22 14:44:45 UTC</created_at>
+    <accepted_at type="datetime">2009/09/23 18:31:23 UTC</accepted_at>
+  </story>
+  <story>
+    <id type="integer">1332395</id>
+    <story_type>feature</story_type>
+    <url>http://www.pivotaltracker.com/story/show/1332395</url>
+    <estimate type="integer">3</estimate>
+    <current_state>accepted</current_state>
+    <description>* marketing texts
+* feature list</description>
+    <name>english marketing texts for android market</name>
+    <requested_by>Niels Linnemann</requested_by>
+    <owned_by>Niels Linnemann</owned_by>
+    <created_at type="datetime">2009/09/22 14:45:43 UTC</created_at>
+    <accepted_at type="datetime">2009/09/23 18:31:32 UTC</accepted_at>
+  </story>
+  <story>
+    <id type="integer">1332409</id>
+    <story_type>feature</story_type>
+    <url>http://www.pivotaltracker.com/story/show/1332409</url>
+    <estimate type="integer">2</estimate>
+    <current_state>accepted</current_state>
+    <description>* screenshots
+* description
+</description>
+    <name>create a webpage on linnemann.me/ptMobile</name>
+    <requested_by>Niels Linnemann</requested_by>
+    <owned_by>Niels Linnemann</owned_by>
+    <created_at type="datetime">2009/09/22 14:48:30 UTC</created_at>
+    <accepted_at type="datetime">2009/09/23 18:35:42 UTC</accepted_at>
+  </story>
+  <story>
+    <id type="integer">1332350</id>
+    <story_type>release</story_type>
+    <url>http://www.pivotaltracker.com/story/show/1332350</url>
+    <current_state>accepted</current_state>
+    <description></description>
+    <name>first version available on android market</name>
+    <requested_by>Niels Linnemann</requested_by>
+    <created_at type="datetime">2009/09/22 14:41:33 UTC</created_at>
+    <accepted_at type="datetime">2009/09/23 18:35:45 UTC</accepted_at>
+  </story>
+  <story>
+    <id type="integer">1332399</id>
+    <story_type>bug</story_type>
+    <url>http://www.pivotaltracker.com/story/show/1332399</url>
+    <current_state>started</current_state>
+    <description></description>
+    <name>testbug</name>
+    <requested_by>Niels Linnemann</requested_by>
+    <owned_by>Niels Linnemann</owned_by>
+    <created_at type="datetime">2009/09/22 14:46:19 UTC</created_at>
+    <labels>yoyo</labels>
+  </story>
+  <story>
+    <id type="integer">1332373</id>
+    <story_type>chore</story_type>
+    <url>http://www.pivotaltracker.com/story/show/1332373</url>
+    <current_state>started</current_state>
+    <description></description>
+    <name>test if current call to api works with commit mode</name>
+    <requested_by>Niels Linnemann</requested_by>
+    <owned_by>Niels Linnemann</owned_by>
+    <created_at type="datetime">2009/09/22 14:43:40 UTC</created_at>
+  </story>
+  <story>
+    <id type="integer">1332401</id>
+    <story_type>feature</story_type>
+    <url>http://www.pivotaltracker.com/story/show/1332401</url>
+    <estimate type="integer">1</estimate>
+    <current_state>finished</current_state>
+    <description></description>
+    <name>send email to pivotal team</name>
+    <requested_by>Niels Linnemann</requested_by>
+    <owned_by>Niels Linnemann</owned_by>
+    <created_at type="datetime">2009/09/22 14:47:26 UTC</created_at>
+  </story>
+  <story>
+    <id type="integer">1332525</id>
+    <story_type>feature</story_type>
+    <url>http://www.pivotaltracker.com/story/show/1332525</url>
+    <estimate type="integer">3</estimate>
+    <current_state>unstarted</current_state>
+    <description>seperators grouping stories in iterations, like on pt website</description>
+    <name>iteration separators in story listings</name>
+    <requested_by>Niels Linnemann</requested_by>
+    <created_at type="datetime">2009/09/22 14:54:22 UTC</created_at>
+    <labels>view</labels>
+  </story>
+  <story>
+    <id type="integer">1332507</id>
+    <story_type>feature</story_type>
+    <url>http://www.pivotaltracker.com/story/show/1332507</url>
+    <estimate type="integer">1</estimate>
+    <current_state>unstarted</current_state>
+    <description>* white background
+* use of icons</description>
+    <name>styling of story details view</name>
+    <requested_by>Niels Linnemann</requested_by>
+    <created_at type="datetime">2009/09/22 14:52:37 UTC</created_at>
+    <labels>view</labels>
+  </story>
+  <story>
+    <id type="integer">1332549</id>
+    <story_type>feature</story_type>
+    <url>http://www.pivotaltracker.com/story/show/1332549</url>
+    <estimate type="integer">5</estimate>
+    <current_state>unstarted</current_state>
+    <description></description>
+    <name>show story comments in story details view</name>
+    <requested_by>Niels Linnemann</requested_by>
+    <created_at type="datetime">2009/09/22 14:56:08 UTC</created_at>
+    <labels>read</labels>
+  </story>
+  <story>
+    <id type="integer">1332554</id>
+    <story_type>feature</story_type>
+    <url>http://www.pivotaltracker.com/story/show/1332554</url>
+    <estimate type="integer">5</estimate>
+    <current_state>unstarted</current_state>
+    <description></description>
+    <name>show tracker news</name>
+    <requested_by>Niels Linnemann</requested_by>
+    <created_at type="datetime">2009/09/22 14:56:36 UTC</created_at>
+    <labels>read</labels>
+  </story>
+  <story>
+    <id type="integer">1349285</id>
+    <story_type>feature</story_type>
+    <url>http://www.pivotaltracker.com/story/show/1349285</url>
+    <estimate type="integer">2</estimate>
+    <current_state>unstarted</current_state>
+    <description></description>
+    <name>show project details on special page</name>
+    <requested_by>Niels Linnemann</requested_by>
+    <created_at type="datetime">2009/09/23 18:37:27 UTC</created_at>
+    <labels>read,view</labels>
+  </story>
+  <story>
+    <id type="integer">1346510</id>
+    <story_type>feature</story_type>
+    <url>http://www.pivotaltracker.com/story/show/1346510</url>
+    <estimate type="integer">-1</estimate>
+    <current_state>unstarted</current_state>
+    <description>Velocity? Story counts?</description>
+    <name>show extra information in projects list</name>
+    <requested_by>Niels Linnemann</requested_by>
+    <created_at type="datetime">2009/09/23 11:49:22 UTC</created_at>
+  </story>
+  <story>
+    <id type="integer">1349374</id>
+    <story_type>bug</story_type>
+    <url>http://www.pivotaltracker.com/story/show/1349374</url>
+    <current_state>unstarted</current_state>
+    <description></description>
+    <name>no highlighting in story list view on selection</name>
+    <requested_by>Niels Linnemann</requested_by>
+    <created_at type="datetime">2009/09/23 18:42:19 UTC</created_at>
+  </story>
+</stories>
+niels-linnemanns-imac:~ niels$ 
+niels-linnemanns-imac:~ niels$ clear
+
+niels-linnemanns-imac:~ niels$ curl -H "X-TrackerToken: 01182603613106eee46c5c6b0edffd46 " -X GET http://www.pivotaltracker.com/services/v2/projects/18225/stories<?xml version="1.0" encoding="UTF-8"?>
+<stories type="array" count="22" total="22">
+  <story>
+    <id type="integer">777190</id>
+    <story_type>feature</story_type>
+    <url>http://www.pivotaltracker.com/story/show/777190</url>
+    <estimate type="integer">5</estimate>
+    <current_state>accepted</current_state>
+    <description></description>
+    <name>PO can update list of stories via pivotal API</name>
+    <requested_by>Niels Linnemann</requested_by>
+    <owned_by>Niels Linnemann</owned_by>
+    <created_at type="datetime">2009/06/07 11:52:35 UTC</created_at>
+    <accepted_at type="datetime">2009/06/07 12:13:35 UTC</accepted_at>
+    <labels>view</labels>
+  </story>
+  <story>
+    <id type="integer">777191</id>
+    <story_type>feature</story_type>
+    <url>http://www.pivotaltracker.com/story/show/777191</url>
+    <estimate type="integer">2</estimate>
+    <current_state>accepted</current_state>
+    <description></description>
+    <name>PO can search inside story texts</name>
+    <requested_by>Niels Linnemann</requested_by>
+    <owned_by>Niels Linnemann</owned_by>
+    <created_at type="datetime">2009/06/07 11:53:25 UTC</created_at>
+    <accepted_at type="datetime">2009/06/07 12:13:39 UTC</accepted_at>
+    <labels>view</labels>
+  </story>
+  <story>
+    <id type="integer">777189</id>
+    <story_type>feature</story_type>
+    <url>http://www.pivotaltracker.com/story/show/777189</url>
+    <estimate type="integer">5</estimate>
+    <current_state>accepted</current_state>
+    <description></description>
+    <name>PO can print out story cards</name>
+    <requested_by>Niels Linnemann</requested_by>
+    <owned_by>Niels Linnemann</owned_by>
+    <created_at type="datetime">2009/06/07 11:50:45 UTC</created_at>
+    <accepted_at type="datetime">2009/06/07 12:13:46 UTC</accepted_at>
+    <labels>report</labels>
+  </story>
+  <story>
+    <id type="integer">777192</id>
+    <story_type>feature</story_type>
+    <url>http://www.pivotaltracker.com/story/show/777192</url>
+    <estimate type="integer">2</estimate>
+    <current_state>accepted</current_state>
+    <description>* a readonly detail view with pivotals story attributes exist</description>
+    <name>PO can see project attributes</name>
+    <requested_by>Niels Linnemann</requested_by>
+    <owned_by>Niels Linnemann</owned_by>
+    <created_at type="datetime">2009/06/07 11:56:36 UTC</created_at>
+    <accepted_at type="datetime">2009/06/07 12:13:55 UTC</accepted_at>
+    <labels>view</labels>
+  </story>
+  <story>
+    <id type="integer">777199</id>
+    <story_type>chore</story_type>
+    <url>http://www.pivotaltracker.com/story/show/777199</url>
+    <current_state>accepted</current_state>
+    <description></description>
+    <name>refactor data model: iteration as entity</name>
+    <requested_by>Niels Linnemann</requested_by>
+    <owned_by>Niels Linnemann</owned_by>
+    <created_at type="datetime">2009/06/07 12:08:41 UTC</created_at>
+    <accepted_at type="datetime">2009/06/11 20:33:42 UTC</accepted_at>
+  </story>
+  <story>
+    <id type="integer">1332361</id>
+    <story_type>feature</story_type>
+    <url>http://www.pivotaltracker.com/story/show/1332361</url>
+    <estimate type="integer">2</estimate>
+    <current_state>accepted</current_state>
+    <description></description>
+    <name>white background styling of story listview</name>
+    <requested_by>Niels Linnemann</requested_by>
+    <owned_by>Niels Linnemann</owned_by>
+    <created_at type="datetime">2009/09/22 14:42:44 UTC</created_at>
+    <accepted_at type="datetime">2009/09/23 18:31:11 UTC</accepted_at>
+  </story>
+  <story>
+    <id type="integer">1332378</id>
+    <story_type>feature</story_type>
+    <url>http://www.pivotaltracker.com/story/show/1332378</url>
+    <estimate type="integer">1</estimate>
+    <current_state>accepted</current_state>
+    <description></description>
+    <name>white background styling of projects listview</name>
+    <requested_by>Niels Linnemann</requested_by>
+    <owned_by>Niels Linnemann</owned_by>
+    <created_at type="datetime">2009/09/22 14:44:11 UTC</created_at>
+    <accepted_at type="datetime">2009/09/23 18:31:11 UTC</accepted_at>
+  </story>
+  <story>
+    <id type="integer">1332423</id>
+    <story_type>feature</story_type>
+    <url>http://www.pivotaltracker.com/story/show/1332423</url>
+    <estimate type="integer">3</estimate>
+    <current_state>accepted</current_state>
+    <description>ptMobile should check on startup if there are updates available</description>
+    <name>check for updates feature</name>
+    <requested_by>Niels Linnemann</requested_by>
+    <owned_by>Niels Linnemann</owned_by>
+    <created_at type="datetime">2009/09/22 14:49:50 UTC</created_at>
+    <accepted_at type="datetime">2009/09/23 18:31:14 UTC</accepted_at>
+  </story>
+  <story>
+    <id type="integer">1332389</id>
+    <story_type>chore</story_type>
+    <url>http://www.pivotaltracker.com/story/show/1332389</url>
+    <current_state>accepted</current_state>
+    <description></description>
+    <name>testing on galaxy and google testphone</name>
+    <requested_by>Niels Linnemann</requested_by>
+    <owned_by>Niels Linnemann</owned_by>
+    <created_at type="datetime">2009/09/22 14:44:45 UTC</created_at>
+    <accepted_at type="datetime">2009/09/23 18:31:23 UTC</accepted_at>
+  </story>
+  <story>
+    <id type="integer">1332395</id>
+    <story_type>feature</story_type>
+    <url>http://www.pivotaltracker.com/story/show/1332395</url>
+    <estimate type="integer">3</estimate>
+    <current_state>accepted</current_state>
+    <description>* marketing texts
+* feature list</description>
+    <name>english marketing texts for android market</name>
+    <requested_by>Niels Linnemann</requested_by>
+    <owned_by>Niels Linnemann</owned_by>
+    <created_at type="datetime">2009/09/22 14:45:43 UTC</created_at>
+    <accepted_at type="datetime">2009/09/23 18:31:32 UTC</accepted_at>
+  </story>
+  <story>
+    <id type="integer">1332409</id>
+    <story_type>feature</story_type>
+    <url>http://www.pivotaltracker.com/story/show/1332409</url>
+    <estimate type="integer">2</estimate>
+    <current_state>accepted</current_state>
+    <description>* screenshots
+* description
+</description>
+    <name>create a webpage on linnemann.me/ptMobile</name>
+    <requested_by>Niels Linnemann</requested_by>
+    <owned_by>Niels Linnemann</owned_by>
+    <created_at type="datetime">2009/09/22 14:48:30 UTC</created_at>
+    <accepted_at type="datetime">2009/09/23 18:35:42 UTC</accepted_at>
+  </story>
+  <story>
+    <id type="integer">1332350</id>
+    <story_type>release</story_type>
+    <url>http://www.pivotaltracker.com/story/show/1332350</url>
+    <current_state>accepted</current_state>
+    <description></description>
+    <name>first version available on android market</name>
+    <requested_by>Niels Linnemann</requested_by>
+    <created_at type="datetime">2009/09/22 14:41:33 UTC</created_at>
+    <accepted_at type="datetime">2009/09/23 18:35:45 UTC</accepted_at>
+  </story>
+  <story>
+    <id type="integer">1332399</id>
+    <story_type>bug</story_type>
+    <url>http://www.pivotaltracker.com/story/show/1332399</url>
+    <current_state>started</current_state>
+    <description></description>
+    <name>testbug</name>
+    <requested_by>Niels Linnemann</requested_by>
+    <owned_by>Niels Linnemann</owned_by>
+    <created_at type="datetime">2009/09/22 14:46:19 UTC</created_at>
+    <labels>yoyo</labels>
+  </story>
+  <story>
+    <id type="integer">1332373</id>
+    <story_type>chore</story_type>
+    <url>http://www.pivotaltracker.com/story/show/1332373</url>
+    <current_state>started</current_state>
+    <description></description>
+    <name>test if current call to api works with commit mode</name>
+    <requested_by>Niels Linnemann</requested_by>
+    <owned_by>Niels Linnemann</owned_by>
+    <created_at type="datetime">2009/09/22 14:43:40 UTC</created_at>
+  </story>
+  <story>
+    <id type="integer">1332401</id>
+    <story_type>feature</story_type>
+    <url>http://www.pivotaltracker.com/story/show/1332401</url>
+    <estimate type="integer">1</estimate>
+    <current_state>delivered</current_state>
+    <description></description>
+    <name>send email to pivotal team</name>
+    <requested_by>Niels Linnemann</requested_by>
+    <owned_by>Niels Linnemann</owned_by>
+    <created_at type="datetime">2009/09/22 14:47:26 UTC</created_at>
+  </story>
+  <story>
+    <id type="integer">1332525</id>
+    <story_type>feature</story_type>
+    <url>http://www.pivotaltracker.com/story/show/1332525</url>
+    <estimate type="integer">3</estimate>
+    <current_state>unstarted</current_state>
+    <description>seperators grouping stories in iterations, like on pt website</description>
+    <name>iteration separators in story listings</name>
+    <requested_by>Niels Linnemann</requested_by>
+    <created_at type="datetime">2009/09/22 14:54:22 UTC</created_at>
+    <labels>view</labels>
+  </story>
+  <story>
+    <id type="integer">1332507</id>
+    <story_type>feature</story_type>
+    <url>http://www.pivotaltracker.com/story/show/1332507</url>
+    <estimate type="integer">1</estimate>
+    <current_state>unstarted</current_state>
+    <description>* white background
+* use of icons</description>
+    <name>styling of story details view</name>
+    <requested_by>Niels Linnemann</requested_by>
+    <created_at type="datetime">2009/09/22 14:52:37 UTC</created_at>
+    <labels>view</labels>
+  </story>
+  <story>
+    <id type="integer">1332549</id>
+    <story_type>feature</story_type>
+    <url>http://www.pivotaltracker.com/story/show/1332549</url>
+    <estimate type="integer">5</estimate>
+    <current_state>unstarted</current_state>
+    <description></description>
+    <name>show story comments in story details view</name>
+    <requested_by>Niels Linnemann</requested_by>
+    <created_at type="datetime">2009/09/22 14:56:08 UTC</created_at>
+    <labels>read</labels>
+  </story>
+  <story>
+    <id type="integer">1332554</id>
+    <story_type>feature</story_type>
+    <url>http://www.pivotaltracker.com/story/show/1332554</url>
+    <estimate type="integer">5</estimate>
+    <current_state>unstarted</current_state>
+    <description></description>
+    <name>show tracker news</name>
+    <requested_by>Niels Linnemann</requested_by>
+    <created_at type="datetime">2009/09/22 14:56:36 UTC</created_at>
+    <labels>read</labels>
+  </story>
+  <story>
+    <id type="integer">1349285</id>
+    <story_type>feature</story_type>
+    <url>http://www.pivotaltracker.com/story/show/1349285</url>
+    <estimate type="integer">2</estimate>
+    <current_state>unstarted</current_state>
+    <description></description>
+    <name>show project details on special page</name>
+    <requested_by>Niels Linnemann</requested_by>
+    <created_at type="datetime">2009/09/23 18:37:27 UTC</created_at>
+    <labels>read,view</labels>
+  </story>
+  <story>
+    <id type="integer">1346510</id>
+    <story_type>feature</story_type>
+    <url>http://www.pivotaltracker.com/story/show/1346510</url>
+    <estimate type="integer">-1</estimate>
+    <current_state>unstarted</current_state>
+    <description>Velocity? Story counts?</description>
+    <name>show extra information in projects list</name>
+    <requested_by>Niels Linnemann</requested_by>
+    <created_at type="datetime">2009/09/23 11:49:22 UTC</created_at>
+  </story>
+  <story>
+    <id type="integer">1349374</id>
+    <story_type>bug</story_type>
+    <url>http://www.pivotaltracker.com/story/show/1349374</url>
+    <current_state>unstarted</current_state>
+    <description></description>
+    <name>no highlighting in story list view on selection</name>
+    <requested_by>Niels Linnemann</requested_by>
+    <created_at type="datetime">2009/09/23 18:42:19 UTC</created_at>
+  </story>
+</stories>
+niels-linnemanns-imac:~ niels$ 

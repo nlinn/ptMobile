@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+     
+<resources>   
+    <!-- Used in app/menu examples -->
+    <string-array name="storyupdate_list_preference">
+        <item>never (manual refresh)</item>
+        <item>30 minutes</item>
+        <item>1 hour</item>
+        <item>2 hours</item>
+        <item>6 hours</item>
+        <item>1 day</item>
+    </string-array>
+
+    <!-- Used in app/menu examples -->
+    <string-array name="storyupdate_list_preference_values">
+        <item>-1</item>
+        <item>1800000</item>
+        <item>3600000</item>
+        <item>7200000</item>
+        <item>21600000</item>
+        <item>86400000</item>  
+    </string-array>
+    
+    
+    <!-- Used in app/menu examples -->
+    <string-array name="activityupdate_list_preference">
+        <item>never (manual refresh)</item>
+        <item>1 minute</item>
+        <item>5 minutes</item>
+        <item>30 minutes</item>
+        <item>1 hour</item>
+    </string-array>
+
+    <!-- Used in app/menu examples -->
+    <string-array name="activityupdate_list_preference_values">
+        <item>-1</item>
+        <item>60000</item>
+        <item>300000</item>
+        <item>1800000</item>
+        <item>3600000</item>
+        <item>86400000</item>  
+    </string-array>
+    
+</resources>

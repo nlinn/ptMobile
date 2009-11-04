@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView android:layout_width="fill_parent"
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_height="fill_parent">
+
+	<LinearLayout android:layout_width="fill_parent"
+		android:layout_height="fill_parent" android:orientation="vertical"
+		android:padding="5dip">
+
+
+
+		<TextView
+			android:text="Make sure API access is enabled in your pivotaltracker preferences."
+			android:id="@+id/TextView02" android:layout_width="fill_parent"
+			android:layout_height="wrap_content"></TextView>
+
+		<TextView android:text="Username:" android:layout_marginTop="20px"
+			android:layout_width="wrap_content" android:layout_height="wrap_content">
+		</TextView>
+
+		<EditText android:text="" android:id="@+id/EditTextUsername"
+			android:layout_width="fill_parent" android:layout_height="wrap_content"></EditText>
+
+		<TextView android:text="Password:" android:layout_width="wrap_content"
+			android:layout_height="wrap_content"></TextView>
+		<EditText android:text="" android:id="@+id/EditTextPassword"
+			android:password="true" android:layout_width="fill_parent"
+			android:layout_height="wrap_content"></EditText>
+		<Button android:text="Fetch API Key" android:id="@+id/ButtonFetch"
+			android:layout_width="fill_parent" android:layout_height="wrap_content"></Button>
+
+
+		<TextView android:text="PivotalTracker API Key:"
+			android:layout_marginTop="20px" android:layout_width="wrap_content"
+			android:layout_height="wrap_content"></TextView>
+		<EditText android:text="" android:id="@+id/EditTextAPIKey"
+			android:layout_width="fill_parent" android:layout_height="wrap_content"></EditText>
+		<Button android:text="Save" android:id="@+id/ButtonSave"
+			android:layout_width="fill_parent" android:layout_height="wrap_content"></Button>
+
+
+	</LinearLayout>
+</ScrollView>

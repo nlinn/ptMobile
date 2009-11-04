@@ -1,0 +1,76 @@
+package me.linnemann.ptmobile;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+
+import android.util.Log;
+
+import me.linnemann.ptmobile.cursor.ProjectsCursor;
+import me.linnemann.ptmobile.cursor.StoriesCursor;
+
+public class OutputStyler {
+
+	private static SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	private static SimpleDateFormat out = new SimpleDateFormat("dd MMM");
+
+
+
+	public static String getIterationAsText(StoriesCursor c) {
+		StringBuilder s = new StringBuilder(c.getIterationNumber());
+		s.append(" |  ");
+		try {
+			s.append(out.format(sdf.parse(c.getIterationStart())));
+			s.append(" - ");
+			s.append(out.format(sdf.parse(c.getIterationFinish())));		
+		} catch (ParseException e) {
+			Log.e("OutputStyler",e.getMessage());
+		}
+
+		return s.toString();
+	}
+
+	public static String getEstimateAsText(StoriesCursor c) {
+
+		String s = "";
+
+		if (c.hasEstimate()) {
+			if (c.getEstimate().equals("1")) {
+				s= c.getEstimate()+" point";
+			} else {
+				s= c.getEstimate()+" points";
+			}
+		} else if (c.getStoryType().equalsIgnoreCase("feature")) {
+			s= "unestimated";
+		}
+
+		return s;
+	}
+
+	public static String getIterationLengthAsText(ProjectsCursor c) {
+
+		String s = "";
+
+		if (c.getIterationLength().equals("1")) {
+			s= c.getIterationLength()+" week";
+		} else {
+			s= c.getIterationLength()+" weeks";
+		}
+
+		return s;
+	}
+
+	public static String getVelocityAsText(int v) {
+
+		String s = "Velocity: ";
+
+		if (v < 1) {
+			s= s+" n/a";
+		} else if (v == 1) {
+			s= s+"1 point";
+		} else {
+			s= s+v+" points";
+		}
+
+		return s;
+	}
+}

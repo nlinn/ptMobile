@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:background="@color/color_background"
+	android:layout_width="fill_parent" 
+    android:layout_height="wrap_content"
+    
+	>
+
+	<!-- Icon Type -->
+	<ImageView android:layout_width="wrap_content"
+		android:layout_height="wrap_content" android:id="@+id/imageTypeStory"
+		android:padding="5dip" android:src="@drawable/feature" />
+
+	<!-- Icon HasDescription -->
+	<ImageView android:layout_width="wrap_content" android:layout_below="@id/imageTypeStory"
+		android:padding="5dip" android:layout_height="wrap_content"
+		android:id="@+id/imageInfosStory" android:src="@drawable/story_flyover_icon" />
+
+	<!-- Icon Labels -->
+	<TextView android:text="akthist,s" android:layout_height="wrap_content" android:layout_toRightOf="@id/imageTypeStory"
+		android:id="@+id/textLabelsStory" android:textSize="12dip" 
+		android:textColor="@color/color_labels" android:paddingTop="4dip"
+		android:layout_alignTop="@id/imageTypeStory"
+		android:layout_width="wrap_content" />
+
+	<!-- Story Name -->
+	<TextView android:text="This is a nice story... once upon a time" android:layout_below="@id/textLabelsStory"
+		android:layout_height="wrap_content" android:id="@+id/textNameStory" 
+		android:textColor="#222" android:textSize="16dip" android:paddingTop="3dip"
+		android:layout_alignLeft="@id/textLabelsStory"
+		android:layout_width="wrap_content" android:paddingBottom="5dip" />
+
+	<!-- Story Points -->
+	<TextView android:text="points: 13" android:layout_height="wrap_content"
+		android:textColor="#222" android:paddingBottom="5dip" android:layout_below="@id/textNameStory"
+		android:id="@+id/textEstimateStory" android:textSize="12dip"
+		android:layout_alignLeft="@id/textNameStory"
+		android:layout_width="wrap_content" />
+
+
+</RelativeLayout>

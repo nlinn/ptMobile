@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent" android:layout_height="fill_parent"
+	android:orientation="vertical" android:background="@drawable/list_view_selector_feature">
+	
+	<TextView android:id="@+id/textProjectAL"
+		android:layout_height="wrap_content" android:text="DELME"
+		android:textColor="#222" android:textSize="14dip"
+		android:paddingLeft="14dip"
+		android:paddingTop="6dip"
+		android:paddingBottom="0dip"
+	 android:layout_width="fill_parent" />
+	
+	<TextView android:id="@+id/textDescriptionAL" android:layout_height="wrap_content"
+		android:text="Niels delivered xyz story" android:textColor="#222"
+		android:textSize="14dip"
+		android:textStyle="bold"
+		android:paddingLeft="14dip"
+		android:paddingTop="2dip"
+		android:paddingBottom="0dip"
+		android:layout_width="fill_parent" />
+	
+	<TextView android:id="@+id/textWhenAL"
+		android:layout_height="wrap_content" android:text="12.12.2009"
+		android:textColor="#222" android:textSize="14dip"
+		android:paddingLeft="14dip"
+		android:paddingTop="2dip"
+		android:paddingBottom="8dip"
+	 android:layout_width="fill_parent" />
+</LinearLayout>    

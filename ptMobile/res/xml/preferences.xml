@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+	<PreferenceScreen android:title="Pivotaltracker API key"
+		android:summary="Fetch key with Username/Password">
+
+		<intent android:action="me.linnemann.ptmobile.APIKeyPrefs" />
+	</PreferenceScreen>
+
+		<ListPreference android:key="story_refresh_interval"
+			android:title="Story Refresh Interval" android:summary="Set or disable automatic refresh interval"
+			android:entries="@array/storyupdate_list_preference" 
+			android:entryValues="@array/storyupdate_list_preference_values"
+			android:dialogTitle="Story Refresh Interval" />
+
+	<ListPreference android:key="project_refresh_interval"
+			android:title="Project Refresh Interval" android:summary="Set or disable automatic refresh interval"
+			android:entries="@array/storyupdate_list_preference" 
+			android:entryValues="@array/storyupdate_list_preference_values"
+			android:dialogTitle="Project Refresh Interval" />
+			
+	<ListPreference android:key="activity_refresh_interval"
+			android:title="Activity Refresh Interval" android:summary="Set or disable automatic refresh interval"
+			android:entries="@array/activityupdate_list_preference" 
+			android:entryValues="@array/activityupdate_list_preference_values"
+			android:dialogTitle="Activity Refresh Interval" />			
+
+</PreferenceScreen>
+        
