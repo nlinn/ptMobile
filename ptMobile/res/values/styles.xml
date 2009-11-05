@@ -9,5 +9,6 @@
      <color name="color_iteration_bg">#AAA</color>
 	<color name="color_iteration">#fff</color>
 	<color name="color_selector">#ff8000</color>
+	 <color name="color_buttonbar_bg">#AAA</color>
 	
 </resources>

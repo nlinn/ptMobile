@@ -13,6 +13,13 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+/**
+ * StoriesCursorAdapter populates ListView with views per row
+ * Views are filled with data from StoriesCursor
+ * 
+ * @author nlinn
+ *
+ */
 public class StoriesCursorAdapter extends CursorAdapter {
 
 	public StoriesCursorAdapter(Context context, StoriesCursor c) {
@@ -21,7 +28,6 @@ public class StoriesCursorAdapter extends CursorAdapter {
 
 	@Override
 	public void bindView(View view, Context ctx, Cursor c) {
-
 		if (view instanceof RelativeLayout) {
 			setName(view, ctx, (StoriesCursor) c);
 			setLabels(view, ctx, (StoriesCursor) c);
@@ -35,7 +41,6 @@ public class StoriesCursorAdapter extends CursorAdapter {
 
 
 	private void setIteration(View view, Context ctx, StoriesCursor c) {
-
 		TextView tv = (TextView) view.findViewById(R.id.textIterationStory);
 
 		if (c.isIterationStarter()) {

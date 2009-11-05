@@ -1,12 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView android:layout_width="fill_parent"
-	xmlns:android="http://schemas.android.com/apk/res/android"
-	android:layout_height="fill_parent" android:background="@color/color_started"
-	
-	>
-	
-	
+<LinearLayout 
+        android:orientation="vertical"
+        android:layout_height="fill_parent"
+        android:layout_width="fill_parent" xmlns:android="http://schemas.android.com/apk/res/android">
 
+
+<ScrollView android:layout_width="fill_parent"	
+    android:layout_weight="1" 
+    android:layout_height="0px" 
+	android:background="@color/color_started">
+	
+	
 	<RelativeLayout
 		android:layout_width="fill_parent" android:layout_height="wrap_content">
 
@@ -89,7 +93,6 @@
 			android:text="lasdf aksdjf lk asdkfj laksdjf lkas dlfk l jksdfj lkjsadf
 		asdfasd asdf asdf a
 		asdfa  asdfa a dfas dfa asdfa adf
-		asdf adsa dsfasdfsdf adsfasdf
 		asdf asd asdfadsa asdf "
 		android:paddingLeft="10dip"
 			android:layout_height="wrap_content" android:textColor="@color/color_text"
@@ -123,3 +126,10 @@
 			 />
 	</RelativeLayout>
 </ScrollView>
+
+<LinearLayout android:orientation="horizontal" android:background="@color/color_buttonbar_bg" android:layout_width="fill_parent" android:layout_height="wrap_content">
+<Button android:text="start" android:id="@+id/Button01" android:layout_width="fill_parent" android:layout_height="wrap_content"></Button>
+</LinearLayout>
+
+</LinearLayout>
+
