@@ -4,6 +4,7 @@
      <color name="color_text">#222</color>
      <color name="color_background">#fff</color>
      <color name="color_started">#fff8dc</color>
+     <color name="color_accepted">#d4ffd3</color>
      <color name="color_release">#aed9ff</color>
      <color name="color_labels">#005e04</color>
      <color name="color_iteration_bg">#AAA</color>

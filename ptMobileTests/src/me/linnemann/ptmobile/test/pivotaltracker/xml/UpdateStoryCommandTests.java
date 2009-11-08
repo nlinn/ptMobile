@@ -4,7 +4,7 @@ import java.net.URL;
 
 import me.linnemann.ptmobile.pivotaltracker.Story;
 import me.linnemann.ptmobile.pivotaltracker.StoryImpl;
-import me.linnemann.ptmobile.pivotaltracker.fields.StoryField;
+import me.linnemann.ptmobile.pivotaltracker.fields.StoryData;
 import me.linnemann.ptmobile.pivotaltracker.xml.UpdateStoryCommand;
 import android.test.AndroidTestCase;
 import android.util.Log;
@@ -15,8 +15,8 @@ public class UpdateStoryCommandTests extends AndroidTestCase {
 	
 	public void testGenerateCorrectURL() {
 		Story story = new StoryImpl();
-		story.setData(StoryField.PROJECT_ID,"1111");
-		story.setData(StoryField.ID,"222222");
+		story.setData(StoryData.PROJECT_ID,"1111");
+		story.setData(StoryData.ID,"222222");
 		UpdateStoryCommand usc = new UpdateStoryCommand(story);
 		
 		URL url = usc.getURL();
@@ -28,10 +28,10 @@ public class UpdateStoryCommandTests extends AndroidTestCase {
 		String expectedXML = "<story><labels>label1,label2</labels></story>";
 		
 		Story story = new StoryImpl();
-		story.setData(StoryField.PROJECT_ID,"1111");
-		story.setData(StoryField.ID,"222222");
-		story.setData(StoryField.LABELS,"label123,label456");
-		story.setData(StoryField.LABELS,"label1,label2"); // 2nd set is expected to override labels
+		story.setData(StoryData.PROJECT_ID,"1111");
+		story.setData(StoryData.ID,"222222");
+		story.setData(StoryData.LABELS,"label123,label456");
+		story.setData(StoryData.LABELS,"label1,label2"); // 2nd set is expected to override labels
 		
 		UpdateStoryCommand usc = new UpdateStoryCommand(story);
 		
@@ -42,11 +42,11 @@ public class UpdateStoryCommandTests extends AndroidTestCase {
 		String expectedXML = "<story><current_state>started</current_state></story>";
 
 		Story story = new StoryImpl();
-		story.setData(StoryField.PROJECT_ID,"1111");
-		story.setData(StoryField.ID,"222222");
-		story.setData(StoryField.PROJECT_ID,"1111");
-		story.setData(StoryField.ID,"222222");
-		story.setData(StoryField.CURRENT_STATE,"started");
+		story.setData(StoryData.PROJECT_ID,"1111");
+		story.setData(StoryData.ID,"222222");
+		
+		story.setData(StoryData.STORY_TYPE, "bug");
+		story.setData(StoryData.CURRENT_STATE,"started");
 		
 		UpdateStoryCommand usc = new UpdateStoryCommand(story);
 		

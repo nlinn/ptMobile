@@ -1,6 +1,6 @@
 package me.linnemann.ptmobile.cursor;
 
-import me.linnemann.ptmobile.pivotaltracker.fields.ProjectField;
+import me.linnemann.ptmobile.pivotaltracker.fields.ProjectData;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteCursor;
 import android.database.sqlite.SQLiteCursorDriver;
@@ -75,26 +75,26 @@ public class ProjectsCursor extends SQLiteCursor {
 	}
 
 	public String getName() {
-		return getByField(ProjectField.NAME);
+		return getByField(ProjectData.NAME);
 	}
 
 	public String getIterationLength() {
-		return getByField(ProjectField.ITERATION_LENGTH);
+		return getByField(ProjectData.ITERATION_LENGTH);
 	}
 
 	public String getPointScale() {
-		return getByField(ProjectField.POINT_SCALE);
+		return getByField(ProjectData.POINT_SCALE);
 	}
 
 	public String getWeekStartDay() {
-		return getByField(ProjectField.WEEK_START_DAY);
+		return getByField(ProjectData.WEEK_START_DAY);
 	}
 
 	public String getId() {
-		return getByField(ProjectField.ID);
+		return getByField(ProjectData.ID);
 	}
 
-	private String getByField(ProjectField field) {
+	private String getByField(ProjectData field) {
 		return getString(getColumnIndexOrThrow(field.getDBFieldName()));
 	}
 }

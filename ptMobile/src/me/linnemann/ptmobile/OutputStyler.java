@@ -34,7 +34,7 @@ public class OutputStyler {
 		String s = "";
 
 		if (c.hasEstimate()) {
-			if (c.getEstimate().equals("1")) {
+			if (c.getEstimate().equals(new Integer(1))) {
 				s= c.getEstimate()+" point";
 			} else {
 				s= c.getEstimate()+" points";
@@ -59,6 +59,11 @@ public class OutputStyler {
 		return s;
 	}
 
+	public static String getTransitionContextLabel(String transitionName) {
+		return transitionName.substring(0, 1).toUpperCase() +
+		transitionName.substring(1) + " Story";
+	}
+	
 	public static String getVelocityAsText(int v) {
 
 		String s = "Velocity: ";

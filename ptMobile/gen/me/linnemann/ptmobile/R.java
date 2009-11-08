@@ -25,12 +25,14 @@ public final class R {
     public static final class attr {
     }
     public static final class color {
+        public static final int color_accepted=0x7f070003;
         public static final int color_background=0x7f070001;
-        public static final int color_iteration=0x7f070006;
-        public static final int color_iteration_bg=0x7f070005;
-        public static final int color_labels=0x7f070004;
-        public static final int color_release=0x7f070003;
-        public static final int color_selector=0x7f070007;
+        public static final int color_buttonbar_bg=0x7f070009;
+        public static final int color_iteration=0x7f070007;
+        public static final int color_iteration_bg=0x7f070006;
+        public static final int color_labels=0x7f070005;
+        public static final int color_release=0x7f070004;
+        public static final int color_selector=0x7f070008;
         public static final int color_started=0x7f070002;
         public static final int color_text=0x7f070000;
     }
@@ -41,16 +43,18 @@ public final class R {
         public static final int feature=0x7f020003;
         public static final int icon=0x7f020004;
         public static final int list_view_selector_feature=0x7f020005;
-        public static final int list_view_selector_feature_started=0x7f020006;
-        public static final int list_view_selector_release=0x7f020007;
-        public static final int list_view_selector_shape_longpress=0x7f020008;
-        public static final int list_view_selector_shape_tr=0x7f020009;
-        public static final int lv_selector_shape=0x7f02000a;
-        public static final int lv_selector_shape_release=0x7f02000b;
-        public static final int release_icon=0x7f02000c;
-        public static final int story_flyover_icon=0x7f02000d;
+        public static final int list_view_selector_feature_accepted=0x7f020006;
+        public static final int list_view_selector_feature_started=0x7f020007;
+        public static final int list_view_selector_release=0x7f020008;
+        public static final int list_view_selector_shape_longpress=0x7f020009;
+        public static final int list_view_selector_shape_tr=0x7f02000a;
+        public static final int lv_selector_shape=0x7f02000b;
+        public static final int lv_selector_shape_release=0x7f02000c;
+        public static final int release_icon=0x7f02000d;
+        public static final int story_flyover_icon=0x7f02000e;
     }
     public static final class id {
+        public static final int Button01=0x7f080029;
         public static final int ButtonFetch=0x7f080007;
         public static final int ButtonSave=0x7f080009;
         public static final int EditTextAPIKey=0x7f080008;

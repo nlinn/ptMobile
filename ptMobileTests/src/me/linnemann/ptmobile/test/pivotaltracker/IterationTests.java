@@ -25,7 +25,6 @@ public class IterationTests extends AndroidTestCase {
 
     // Test createNote
     public void testCreateNote() {
-
         assertTrue("default failure", 0 == 0);
     }
 	

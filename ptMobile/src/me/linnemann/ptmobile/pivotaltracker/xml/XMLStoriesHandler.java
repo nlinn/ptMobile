@@ -4,7 +4,7 @@ import me.linnemann.ptmobile.pivotaltracker.DBAdapter;
 import me.linnemann.ptmobile.pivotaltracker.IncomingData;
 import me.linnemann.ptmobile.pivotaltracker.IncomingStory;
 import me.linnemann.ptmobile.pivotaltracker.Iteration;
-import me.linnemann.ptmobile.pivotaltracker.fields.StoryField;
+import me.linnemann.ptmobile.pivotaltracker.fields.StoryData;
 
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
@@ -76,18 +76,18 @@ public class XMLStoriesHandler extends XMLBaseHandler {
 		String chars = (new String(ch).substring(start, start + length));
 
 		if ((isStory) && (story != null)) {
-			if (checkAndFillString(story, currentElementName, StoryField.NAME, chars)) return;
-			if (checkAndFillString(story, currentElementName, StoryField.ID, chars)) return;
-			if (checkAndFillString(story, currentElementName, StoryField.ESTIMATE, chars)) return;
-			if (checkAndFillString(story, currentElementName, StoryField.STORY_TYPE, chars)) return;
-			if (checkAndFillString(story, currentElementName, StoryField.LABELS, chars)) return;
-			if (checkAndFillString(story, currentElementName, StoryField.DESCRIPTION, chars)) return;
-			if (checkAndFillString(story, currentElementName, StoryField.CURRENT_STATE, chars)) return;
-			if (checkAndFillString(story, currentElementName, StoryField.ACCEPTED_AT, chars)) return;
-			if (checkAndFillString(story, currentElementName, StoryField.CREATED_AT, chars)) return;
-			if (checkAndFillString(story, currentElementName, StoryField.REQUESTED_BY, chars)) return;
-			if (checkAndFillString(story, currentElementName, StoryField.OWNED_BY, chars)) return;
-			if (checkAndFillString(story, currentElementName, StoryField.DEADLINE, chars)) return;
+			if (checkAndFillString(story, currentElementName, StoryData.NAME, chars)) return;
+			if (checkAndFillString(story, currentElementName, StoryData.ID, chars)) return;
+			if (checkAndFillString(story, currentElementName, StoryData.ESTIMATE, chars)) return;
+			if (checkAndFillString(story, currentElementName, StoryData.STORY_TYPE, chars)) return;
+			if (checkAndFillString(story, currentElementName, StoryData.LABELS, chars)) return;
+			if (checkAndFillString(story, currentElementName, StoryData.DESCRIPTION, chars)) return;
+			if (checkAndFillString(story, currentElementName, StoryData.CURRENT_STATE, chars)) return;
+			if (checkAndFillString(story, currentElementName, StoryData.ACCEPTED_AT, chars)) return;
+			if (checkAndFillString(story, currentElementName, StoryData.CREATED_AT, chars)) return;
+			if (checkAndFillString(story, currentElementName, StoryData.REQUESTED_BY, chars)) return;
+			if (checkAndFillString(story, currentElementName, StoryData.OWNED_BY, chars)) return;
+			if (checkAndFillString(story, currentElementName, StoryData.DEADLINE, chars)) return;
 		}
 
 		if ((isIteration) && (iteration != null)) {

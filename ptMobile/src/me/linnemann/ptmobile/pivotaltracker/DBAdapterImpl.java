@@ -146,6 +146,12 @@ public class DBAdapterImpl implements DBAdapter {
 	public long insertStory(ContentValues cv) {
 		return db.insert("stories", null, cv);
 	}
+	
+	public long updateStory(ContentValues cv) {
+		Log.d(TAG, "updating story: "+cv.toString());
+		return db.update("stories", cv, "id=?", new String[]{cv.getAsString("id")});
+	}
+
 
 	/* (non-Javadoc)
 	 * @see me.linnemann.ptmobile.pivotaltracker.IDBAdapter#insertIteration(me.linnemann.ptmobile.pivotaltracker.Iteration)

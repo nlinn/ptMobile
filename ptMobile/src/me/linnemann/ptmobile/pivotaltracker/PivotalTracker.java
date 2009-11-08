@@ -98,6 +98,11 @@ public class PivotalTracker {
 	public String getProjectIdByName(String project_name) {
 		return db.getProjectIdByName(project_name);
 	}
+	
+	public void commitChanges(Story story) {
+		db.updateStory(story.getDataAsContentValues());
+		api.editStory(story);
+	}
 
 	public void flush() {
 		db.flush();

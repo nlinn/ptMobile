@@ -3,27 +3,27 @@ package me.linnemann.ptmobile.pivotaltracker;
 import java.util.HashMap;
 import java.util.Map;
 
-import me.linnemann.ptmobile.pivotaltracker.fields.ProjectField;
+import me.linnemann.ptmobile.pivotaltracker.fields.ProjectData;
 
 import android.content.ContentValues;
 
 public class IncomingProject implements IncomingData {
 
-	private Map<ProjectField,String> stringData;
+	private Map<ProjectData,String> stringData;
 	private DBAdapter db;	
 	
 	public IncomingProject (DBAdapter db) {
 		this.db = db;
-		stringData = new HashMap<ProjectField,String>();
+		stringData = new HashMap<ProjectData,String>();
 	}
 	
 	public void addDataForKey(Object key, String value) {
 		
 		if (!stringData.containsKey(key)) {
-			stringData.put((ProjectField) key, value); // add
+			stringData.put((ProjectData) key, value); // add
 		} else {
 			String tmp = stringData.get(key);
-			stringData.put((ProjectField) key, tmp+value);
+			stringData.put((ProjectData) key, tmp+value);
 		}
 	}
 	
@@ -35,7 +35,7 @@ public class IncomingProject implements IncomingData {
 	private ContentValues getDataAsContentValues() {
 		ContentValues v = new ContentValues();
 		
-		for (ProjectField f : stringData.keySet()) {
+		for (ProjectData f : stringData.keySet()) {
 			// --- note: db field name is lowercase!
 			v.put(f.getDBFieldName(), stringData.get(f));
 		}

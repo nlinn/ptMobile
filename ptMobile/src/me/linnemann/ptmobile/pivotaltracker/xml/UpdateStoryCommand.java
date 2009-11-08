@@ -6,7 +6,7 @@ import java.net.URL;
 import android.util.Log;
 
 import me.linnemann.ptmobile.pivotaltracker.Story;
-import me.linnemann.ptmobile.pivotaltracker.fields.StoryField;
+import me.linnemann.ptmobile.pivotaltracker.fields.StoryData;
 
 public class UpdateStoryCommand {
 
@@ -19,8 +19,8 @@ public class UpdateStoryCommand {
 	}
 	
 	public URL getURL() {
-		String url = URL.replaceAll("PROJECT_ID", story.getData(StoryField.PROJECT_ID))
-					.replaceAll("STORY_ID", story.getData(StoryField.ID));
+		String url = URL.replaceAll("PROJECT_ID", story.getData(StoryData.PROJECT_ID))
+					.replaceAll("STORY_ID", story.getData(StoryData.ID));
 		
 		try {
 			return new URL(url);
@@ -35,15 +35,15 @@ public class UpdateStoryCommand {
 		
 		StringBuilder xml = new StringBuilder("<story>");
 		
-		if (story.getModifiedFields().contains(StoryField.LABELS)) {
+		if (story.getModifiedFields().contains(StoryData.LABELS)) {
 			xml.append("<labels>");
-			xml.append(story.getData(StoryField.LABELS));
+			xml.append(story.getData(StoryData.LABELS));
 			xml.append("</labels>");
 		}
 
-		if (story.getModifiedFields().contains(StoryField.CURRENT_STATE)) {
+		if (story.getModifiedFields().contains(StoryData.CURRENT_STATE)) {
 			xml.append("<current_state>");
-			xml.append(story.getData(StoryField.CURRENT_STATE));
+			xml.append(story.getData(StoryData.CURRENT_STATE));
 			xml.append("</current_state>");
 		}
 		

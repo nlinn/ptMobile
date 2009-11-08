@@ -2,7 +2,7 @@ package me.linnemann.ptmobile.pivotaltracker.xml;
 
 import me.linnemann.ptmobile.pivotaltracker.DBAdapter;
 import me.linnemann.ptmobile.pivotaltracker.IncomingActivity;
-import me.linnemann.ptmobile.pivotaltracker.fields.ActivityField;
+import me.linnemann.ptmobile.pivotaltracker.fields.ActivityData;
 
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
@@ -43,12 +43,12 @@ public class XMLActivitiesHandler extends XMLBaseHandler {
 		String chars = (new String(ch).substring(start, start + length));
 
 		if (isActivity) {
-			checkAndFillString(activity, currentElementName, ActivityField.ID, chars);
-			checkAndFillString(activity, currentElementName, ActivityField.PROJECT, chars);
-			checkAndFillString(activity, currentElementName, ActivityField.STORY, chars);
-			checkAndFillString(activity, currentElementName, ActivityField.DESCRIPTION, chars);
-			checkAndFillString(activity, currentElementName, ActivityField.AUTHOR, chars);
-			checkAndFillString(activity, currentElementName, ActivityField.WHEN, chars);
+			checkAndFillString(activity, currentElementName, ActivityData.ID, chars);
+			checkAndFillString(activity, currentElementName, ActivityData.PROJECT, chars);
+			checkAndFillString(activity, currentElementName, ActivityData.STORY, chars);
+			checkAndFillString(activity, currentElementName, ActivityData.DESCRIPTION, chars);
+			checkAndFillString(activity, currentElementName, ActivityData.AUTHOR, chars);
+			checkAndFillString(activity, currentElementName, ActivityData.WHEN, chars);
 		}
 	}
 }

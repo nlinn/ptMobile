@@ -3,7 +3,7 @@ package me.linnemann.ptmobile.pivotaltracker;
 import java.util.HashMap;
 import java.util.Map;
 
-import me.linnemann.ptmobile.pivotaltracker.fields.StoryField;
+import me.linnemann.ptmobile.pivotaltracker.fields.StoryData;
 
 import android.content.ContentValues;
 
@@ -15,24 +15,24 @@ import android.content.ContentValues;
  */
 public class IncomingStory implements IncomingData {
 
-	private Map<StoryField,String> stringData;
+	private Map<StoryData,String> stringData;
 	private DBAdapter db;	
 	
 	public IncomingStory(DBAdapter db, String project_id, String iteration_number) {
 		this.db = db;
 		
-		stringData = new HashMap<StoryField,String>(); // prepare map
-		addDataForKey(StoryField.PROJECT_ID, project_id);
-		addDataForKey(StoryField.ITERATION_NUMBER, iteration_number);
+		stringData = new HashMap<StoryData,String>(); // prepare map
+		addDataForKey(StoryData.PROJECT_ID, project_id);
+		addDataForKey(StoryData.ITERATION_NUMBER, iteration_number);
 	}
 	
 	public void addDataForKey(Object key, String value) {
 		
 		if (!stringData.containsKey(key)) {
-			stringData.put((StoryField) key, value); // add
+			stringData.put((StoryData) key, value); // add
 		} else {
 			String tmp = stringData.get(key);
-			stringData.put((StoryField) key, tmp+value);
+			stringData.put((StoryData) key, tmp+value);
 		}
 	}
 	
@@ -44,7 +44,7 @@ public class IncomingStory implements IncomingData {
 	private ContentValues getDataAsContentValues() {
 		ContentValues v = new ContentValues();
 		
-		for (StoryField f : stringData.keySet()) {
+		for (StoryData f : stringData.keySet()) {
 			// --- note: db field name is lowercase!
 			v.put(f.getDBFieldName(), stringData.get(f));
 		}

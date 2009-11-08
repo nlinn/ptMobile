@@ -5,7 +5,7 @@ import java.util.Set;
 
 import me.linnemann.ptmobile.pivotaltracker.Story;
 import me.linnemann.ptmobile.pivotaltracker.StoryImpl;
-import me.linnemann.ptmobile.pivotaltracker.fields.StoryField;
+import me.linnemann.ptmobile.pivotaltracker.fields.StoryData;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteCursor;
 import android.database.sqlite.SQLiteCursorDriver;
@@ -86,20 +86,20 @@ public class StoriesCursor extends SQLiteCursor {
 	}
 
 	public String getName() {
-		return getString(getColumnIndexOrThrow(StoryField.NAME.getDBFieldName()));
+		return getString(getColumnIndexOrThrow(StoryData.NAME.getDBFieldName()));
 	}
 
 	public String getId() {
-		return getString(getColumnIndexOrThrow(StoryField.ID.getDBFieldName()));
+		return getString(getColumnIndexOrThrow(StoryData.ID.getDBFieldName()));
 	}
 
 	public String getStoryType() {
-		return getString(getColumnIndexOrThrow(StoryField.STORY_TYPE.getDBFieldName()));
+		return getString(getColumnIndexOrThrow(StoryData.STORY_TYPE.getDBFieldName()));
 	}
 
 	public Integer getEstimate() {
 		
-		String est = getString(getColumnIndexOrThrow(StoryField.ESTIMATE.getDBFieldName()));
+		String est = getString(getColumnIndexOrThrow(StoryData.ESTIMATE.getDBFieldName()));
 		
 		if (est == null) {
 			return null;
@@ -109,35 +109,35 @@ public class StoriesCursor extends SQLiteCursor {
 	}
 
 	public String getLabels() {
-		return getString(getColumnIndexOrThrow(StoryField.LABELS.getDBFieldName()));
+		return getString(getColumnIndexOrThrow(StoryData.LABELS.getDBFieldName()));
 	}
 
 	public String getCurrentState() {
-		return getString(getColumnIndexOrThrow(StoryField.CURRENT_STATE.getDBFieldName()));
+		return getString(getColumnIndexOrThrow(StoryData.CURRENT_STATE.getDBFieldName()));
 	}
 
 	public String getDescription() {
-		return getString(getColumnIndexOrThrow(StoryField.DESCRIPTION.getDBFieldName()));
+		return getString(getColumnIndexOrThrow(StoryData.DESCRIPTION.getDBFieldName()));
 	}
 
 	public String getRequestedBy() {
-		return getString(getColumnIndexOrThrow(StoryField.REQUESTED_BY.getDBFieldName()));
+		return getString(getColumnIndexOrThrow(StoryData.REQUESTED_BY.getDBFieldName()));
 	}
 	
 	public String getOwnedBy() {
-		return getString(getColumnIndexOrThrow(StoryField.OWNED_BY.getDBFieldName()));
+		return getString(getColumnIndexOrThrow(StoryData.OWNED_BY.getDBFieldName()));
 	}
 	
 	public String getDeadline() {
-		return getString(getColumnIndexOrThrow(StoryField.DEADLINE.getDBFieldName()));
+		return getString(getColumnIndexOrThrow(StoryData.DEADLINE.getDBFieldName()));
 	}
 	
 	public String getIterationNumber() {
-		return getString(getColumnIndexOrThrow(StoryField.ITERATION_NUMBER.getDBFieldName()));
+		return getString(getColumnIndexOrThrow(StoryData.ITERATION_NUMBER.getDBFieldName()));
 	}
 	
 	public String getProjectId() {
-		return getString(getColumnIndexOrThrow(StoryField.PROJECT_ID.getDBFieldName()));
+		return getString(getColumnIndexOrThrow(StoryData.PROJECT_ID.getDBFieldName()));
 	}
 
 	public String getIterationStart() {
@@ -158,26 +158,26 @@ public class StoriesCursor extends SQLiteCursor {
 	// -----------------------------------------
 	
 	public boolean hasDescription() {
-		return hasField(StoryField.DESCRIPTION);
+		return hasField(StoryData.DESCRIPTION);
 	}
 
 	public boolean hasDeadline() {
-		return hasField(StoryField.DEADLINE);
+		return hasField(StoryData.DEADLINE);
 	}
 	
 	public boolean hasLabels() {
-		return hasField(StoryField.LABELS);
+		return hasField(StoryData.LABELS);
 	}
 
 	public boolean hasRequestedBy() {
-		return hasField(StoryField.REQUESTED_BY);
+		return hasField(StoryData.REQUESTED_BY);
 	}
 
 	public boolean hasOwnedBy() {
-		return hasField(StoryField.OWNED_BY);
+		return hasField(StoryData.OWNED_BY);
 	}
 	
-	private boolean hasField(StoryField field) {
+	private boolean hasField(StoryData field) {
 		String s = getString(getColumnIndexOrThrow(field.getDBFieldName()));
 
 		if ((s == null) || (s.length() < 1)) {

@@ -1,6 +1,6 @@
 package me.linnemann.ptmobile.cursor;
 
-import me.linnemann.ptmobile.pivotaltracker.fields.ActivityField;
+import me.linnemann.ptmobile.pivotaltracker.fields.ActivityData;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteCursor;
 import android.database.sqlite.SQLiteCursorDriver;
@@ -28,30 +28,30 @@ public class ActivitiesCursor extends SQLiteCursor {
 	}
 
 	public String getStory() {
-		return getByField(ActivityField.STORY);
+		return getByField(ActivityData.STORY);
 	}
 
 	public String getDescription() {
-		return getByField(ActivityField.DESCRIPTION);
+		return getByField(ActivityData.DESCRIPTION);
 	}
 
 	public String getProject() {
-		return getByField(ActivityField.PROJECT);
+		return getByField(ActivityData.PROJECT);
 	}
 
 	public String getAuthor() {
-		return getByField(ActivityField.AUTHOR);
+		return getByField(ActivityData.AUTHOR);
 	}
 
 	public String getWhen() {
-		return getByField(ActivityField.WHEN);
+		return getByField(ActivityData.WHEN);
 	}
 	
 	public String getId() {
-		return getByField(ActivityField.ID);
+		return getByField(ActivityData.ID);
 	}
 	
-	private String getByField(ActivityField field) {
+	private String getByField(ActivityData field) {
 		return getString(getColumnIndexOrThrow(field.getDBFieldName()));
 	}
 }

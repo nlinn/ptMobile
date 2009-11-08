@@ -2,7 +2,7 @@ package me.linnemann.ptmobile.pivotaltracker.xml;
 
 import me.linnemann.ptmobile.pivotaltracker.DBAdapter;
 import me.linnemann.ptmobile.pivotaltracker.IncomingProject;
-import me.linnemann.ptmobile.pivotaltracker.fields.ProjectField;
+import me.linnemann.ptmobile.pivotaltracker.fields.ProjectData;
 
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
@@ -48,11 +48,11 @@ public class XMLProjectsHandler extends XMLBaseHandler {
 		String chars = (new String(ch).substring(start, start + length));
 
 		if (isProject) {
-			checkAndFillString(project, currentElementName, ProjectField.ID, chars);
-			checkAndFillString(project, currentElementName, ProjectField.NAME, chars);
-			checkAndFillString(project, currentElementName, ProjectField.ITERATION_LENGTH, chars);
-			checkAndFillString(project, currentElementName, ProjectField.WEEK_START_DAY, chars);
-			checkAndFillString(project, currentElementName, ProjectField.POINT_SCALE, chars);
+			checkAndFillString(project, currentElementName, ProjectData.ID, chars);
+			checkAndFillString(project, currentElementName, ProjectData.NAME, chars);
+			checkAndFillString(project, currentElementName, ProjectData.ITERATION_LENGTH, chars);
+			checkAndFillString(project, currentElementName, ProjectData.WEEK_START_DAY, chars);
+			checkAndFillString(project, currentElementName, ProjectData.POINT_SCALE, chars);
 		}
 	}
 }

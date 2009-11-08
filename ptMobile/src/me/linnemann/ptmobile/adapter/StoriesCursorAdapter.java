@@ -79,6 +79,15 @@ public class StoriesCursorAdapter extends CursorAdapter {
 		if ("started".equalsIgnoreCase(state)) {
 			view.setBackgroundResource(R.drawable.list_view_selector_feature_started);
 		}
+		if ("finished".equalsIgnoreCase(state)) {
+			view.setBackgroundResource(R.drawable.list_view_selector_feature_started);
+		}
+		if ("delivered".equalsIgnoreCase(state)) {
+			view.setBackgroundResource(R.drawable.list_view_selector_feature_started);
+		}
+		if ("accepted".equalsIgnoreCase(state)) {
+			view.setBackgroundResource(R.drawable.list_view_selector_feature_accepted);
+		}
 	}
 
 	private void setEstimate(View view, Context ctx, StoriesCursor c) {

@@ -162,4 +162,9 @@ public class DBAdapterMock implements DBAdapter {
 		return false;
 	}
 
+	public long updateStory(ContentValues cv) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
 }

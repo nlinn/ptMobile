@@ -3,6 +3,8 @@ package me.linnemann.ptmobile;
 import me.linnemann.ptmobile.adapter.StoriesCursorAdapter;
 import me.linnemann.ptmobile.cursor.StoriesCursor;
 import me.linnemann.ptmobile.pivotaltracker.PivotalTracker;
+import me.linnemann.ptmobile.pivotaltracker.Story;
+import me.linnemann.ptmobile.pivotaltracker.state.Transition;
 import android.app.Dialog;
 import android.app.ListActivity;
 import android.app.ProgressDialog;
@@ -23,7 +25,9 @@ import android.widget.AdapterView.AdapterContextMenuInfo;
 public class Stories extends ListActivity {
 
 	private static final int STORYDETAILS_ID = Menu.FIRST + 5;
-	private static final int NEXTSTATE_ID = Menu.FIRST + 6;
+	
+	private static final int TRANS_1_ID = Menu.FIRST + 6;
+	private static final int TRANS_2_ID = Menu.FIRST + 7;
 	
 	private static final String TAG = "Stories";
 	
@@ -31,7 +35,9 @@ public class Stories extends ListActivity {
 	private StoriesCursor c;
 	private String project_id;
 	private Dialog dialog;
-
+	private Transition transition_1, transition_2;
+	private Story selectedStory;
+	
 	private Handler handler = new Handler() {
 		@Override
 		public void handleMessage(Message msg) {
@@ -126,8 +132,21 @@ public class Stories extends ListActivity {
 
         c.moveToPosition(info.position);
         
-		menu.add(0, NEXTSTATE_ID, 0, "Set "+c.getStory().getNextState());
+        selectedStory = c.getStory();
+        
+        if (selectedStory.getAvailableTransitions().size() > 0) {
+        	transition_1 = selectedStory.getAvailableTransitions().get(0);
+        	menu.add(0, TRANS_1_ID, 0, OutputStyler.getTransitionContextLabel(transition_1.getName()));
+        }
+        
+        if (selectedStory.getAvailableTransitions().size() > 1) {
+        	transition_2 = selectedStory.getAvailableTransitions().get(1);
+        	menu.add(0, TRANS_2_ID, 0, OutputStyler.getTransitionContextLabel(transition_2.getName()));
+        }
+        
+		// TODO add Menu-Items for lifecycle (transitions)
 	}
+	
 	
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
@@ -141,9 +160,15 @@ public class Stories extends ListActivity {
 			i.putExtra("story_id", c.getId());
 			startActivity(i);
 			return true;
-		case NEXTSTATE_ID:        	
+		case TRANS_1_ID:        	
 			c.moveToPosition((int) info.position);
-			
+			selectedStory.doTransition(transition_1);
+			tracker.commitChanges(selectedStory);
+			return true;
+		case TRANS_2_ID:        	
+			c.moveToPosition((int) info.position);
+			selectedStory.doTransition(transition_2);
+			tracker.commitChanges(selectedStory);
 			return true;
 		}
 

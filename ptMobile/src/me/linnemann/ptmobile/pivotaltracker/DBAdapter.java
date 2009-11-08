@@ -95,5 +95,7 @@ public interface DBAdapter {
 	public abstract boolean projectsNeedUpdate();
 
 	public abstract boolean activitiesNeedUpdate();
+	
+	public long updateStory(ContentValues cv);
 
 }
