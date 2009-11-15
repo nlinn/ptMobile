@@ -151,7 +151,7 @@ public class Activities extends ListActivity {
 
 	@Override
 	public void onDestroy() {
-		super.onStop();
+		super.onDestroy();
 		if (pc !=null) pc.close();
 		if (tracker != null) tracker.pause();
 	}

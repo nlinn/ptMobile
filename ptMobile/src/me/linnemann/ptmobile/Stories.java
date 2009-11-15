@@ -161,8 +161,8 @@ public class Stories extends ListActivity {
 			return true;
 		case TRANS_1_ID:        	
 			selectedStory.doTransition(transition_1);
-			updateList(project_id);
 			tracker.commitChanges(selectedStory);
+			updateList(project_id);
 			return true;
 		case TRANS_2_ID:        	
 			selectedStory.doTransition(transition_2);
@@ -191,7 +191,6 @@ public class Stories extends ListActivity {
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
-
 		if (c !=null) c.close();
 		if (tracker != null) tracker.pause();
 	}

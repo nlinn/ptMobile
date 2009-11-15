@@ -41,7 +41,7 @@ public class ProjectDetails extends Activity {
 	
 	@Override
 	public void onDestroy() {
-		super.onStop();
+		super.onDestroy();
 		if (c !=null) c.close();
 		if (this.tracker != null) this.tracker.pause();
 	}

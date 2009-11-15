@@ -73,7 +73,7 @@ public class Estimate extends Activity {
 	
 	@Override
 	public void onDestroy() {
-		super.onStop();
+		super.onDestroy();
 		if (sc !=null) sc.close();
 		if (pc !=null) pc.close();
 		if (this.tracker != null) this.tracker.pause();

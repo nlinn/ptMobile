@@ -1,6 +1,5 @@
 package me.linnemann.ptmobile;
 
-import me.linnemann.ptmobile.pivotaltracker.PivotalTracker;
 import android.app.TabActivity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,7 +9,6 @@ import android.widget.TabHost;
 
 public class StoriesInTabs extends TabActivity {
 
-	private PivotalTracker tracker;
 	private String project_id;
 	private TabHost tabHost;
 
@@ -26,19 +24,16 @@ public class StoriesInTabs extends TabActivity {
 	public void onStop() {
 		super.onStop();
 		setProgressBarIndeterminateVisibility(false);
-		if (this.tracker != null) this.tracker.pause();
 	}
 
 	@Override
 	public void onResume() {
 		super.onResume();
-		tracker = new PivotalTracker(this);
 	}
 	
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
-		if (this.tracker != null) this.tracker.pause();
 	}
 
 	private void setupTabs() {
