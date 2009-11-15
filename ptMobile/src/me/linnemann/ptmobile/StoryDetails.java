@@ -1,16 +1,25 @@
 package me.linnemann.ptmobile;
 
+import java.util.List;
+
 import me.linnemann.ptmobile.cursor.StoriesCursor;
 import me.linnemann.ptmobile.pivotaltracker.PivotalTracker;
+import me.linnemann.ptmobile.pivotaltracker.Story;
+import me.linnemann.ptmobile.pivotaltracker.state.Transition;
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 public class StoryDetails extends Activity {
 
+	private static final String TAG = "StoryDetails";
+	
 	private TextView name;
 	private TextView type;
 	private TextView estimate;
@@ -26,6 +35,7 @@ public class StoryDetails extends Activity {
 	
 	private StoriesCursor c;
 	private PivotalTracker tracker;
+	private String story_id;
 	
 	/** Called when the activity is first created. */
 	@Override
@@ -47,10 +57,10 @@ public class StoryDetails extends Activity {
 		image = (ImageView) this.findViewById(R.id.imageTypeStoryDetails);
 		iteration = (TextView) this.findViewById(R.id.textIterationStoryDetails);
 		
-		String story_id = getIntent().getExtras().getString("story_id");
-		Log.i("StoryDetails","called for story: "+story_id);
-		
-		tracker = new PivotalTracker(this);
+		story_id = getIntent().getExtras().getString("story_id");
+	}
+	
+	private void updateView() {
 		
 		c = tracker.getStory(story_id);
 		
@@ -105,6 +115,61 @@ public class StoryDetails extends Activity {
 		}
 		
 		iteration.setText(OutputStyler.getIterationAsText(c));
+		setUpButtons();
+	}
+	
+	private void setUpButtons() {
+		
+		Button btn1,btn2,btn3;
+		btn1 = (Button) findViewById(R.id.btn1SD);
+		btn2 = (Button) findViewById(R.id.btn2SD);
+		btn3 = (Button) findViewById(R.id.btn3SD);
+		btn1.setVisibility(View.INVISIBLE);
+		btn2.setVisibility(View.INVISIBLE);
+		btn3.setVisibility(View.INVISIBLE);
+		
+		final Story s = c.getStory();
+		final List<Transition> trans = s.getAvailableTransitions();
+		
+		if (s.needsEstimate()) {
+			btn1.setText("Estimate");
+			btn1.setOnClickListener(new OnClickListener() {
+				public void onClick(View v) {  
+					showEstimateActivity();
+				}  
+			});
+			btn1.setVisibility(View.VISIBLE);
+		}
+		
+		if (trans.size() > 0) {
+			btn1.setText(trans.get(0).getName());
+			btn1.setOnClickListener(new OnClickListener() {
+				public void onClick(View v) {  
+					s.doTransition(trans.get(0));
+					tracker.commitChanges(s);
+					updateView();
+				}  
+			});
+			btn1.setVisibility(View.VISIBLE);
+		}
+		
+		if (trans.size() > 1) {
+			btn2.setText(trans.get(1).getName());
+			btn2.setOnClickListener(new OnClickListener() {
+				public void onClick(View v) {  
+					s.doTransition(trans.get(1));
+					tracker.commitChanges(s);
+					updateView();
+				}  
+			});
+			btn2.setVisibility(View.VISIBLE);
+		}
+	}
+	
+	private void showEstimateActivity() {
+		Intent i = new Intent(this,Estimate.class);
+		i.putExtra("story_id", c.getId());
+		startActivity(i);
 	}
 	
 	@Override
@@ -120,4 +185,12 @@ public class StoryDetails extends Activity {
 		if (c !=null) c.close();
 		if (this.tracker != null) this.tracker.pause();
 	}
+	
+	@Override
+	public void onResume() {
+		super.onResume();
+		tracker = new PivotalTracker(this);
+		updateView();
+	}
+
 }

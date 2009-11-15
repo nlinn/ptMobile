@@ -55,5 +55,11 @@ public interface Story {
 	
 	public ContentValues getDataAsContentValues();
 
-
+	public Integer getEstimate();
+	
+	/**
+	 * Features are supposed to get estimated before they get started
+	 * @return
+	 */
+	public boolean needsEstimate();
 }

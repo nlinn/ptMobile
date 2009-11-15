@@ -51,7 +51,7 @@ public class DBAdapterMock implements DBAdapter {
 		return false;
 	}
 
-	public boolean deleteStoriesInProject(String projectId) {
+	public boolean deleteStoriesInProject(String projectId, long timestamp) {
 		// TODO Auto-generated method stub
 		return false;
 	}

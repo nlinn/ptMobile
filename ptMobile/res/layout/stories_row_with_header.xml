@@ -21,7 +21,7 @@
 	<ImageView android:layout_width="wrap_content" android:layout_below="@id/textIterationStory"
 		android:layout_height="wrap_content" android:id="@+id/imageTypeStory"
 		android:paddingLeft="8dip" 
-		android:paddingTop="12dip"
+		android:paddingTop="10dip"
 		android:paddingRight="7dip"
 		android:paddingBottom="5dip"
 		android:src="@drawable/feature" />
@@ -29,64 +29,65 @@
 	<!-- Icon HasDescription -->
 	<ImageView android:layout_width="wrap_content" android:layout_below="@id/imageTypeStory"
 		android:paddingLeft="8dip" 
-		android:paddingTop="5dip"
+		android:paddingTop="3dip"
 		android:paddingRight="7dip"
 		android:paddingBottom="5dip" 
 		
 		android:layout_height="wrap_content"
 		android:id="@+id/imageInfosStory" android:src="@drawable/story_flyover_icon" />
 
-	
+	<!-- Icon Story Points -->
+	<ImageView android:layout_width="wrap_content" android:layout_below="@id/imageInfosStory"
+		android:paddingLeft="9dip" 
+		android:paddingTop="0dip"
+		android:paddingRight="6dip"
+		android:paddingBottom="10dip" 
+		
+		android:layout_height="wrap_content"
+		android:id="@+id/imagePointsStory" android:src="@drawable/points8" />
+
+<TextView android:text="akthist,s" android:layout_height="wrap_content" 
+		android:layout_below="@id/textIterationStory"
+		android:layout_toRightOf="@id/imageTypeStory"
+		
+		android:id="@+id/textLabelsStory" android:textSize="12dip" 
+		android:textColor="@color/color_labels" 
+		android:textStyle="bold"
+		android:paddingTop="11dip" 
+		android:paddingRight="15dip" 
+		android:paddingBottom="3dip" 
+		android:paddingLeft="5dip"
+		android:layout_width="wrap_content" />
+
+		
+	<ImageView android:layout_width="wrap_content" android:layout_height="wrap_content"
+		android:paddingTop="12dip" 
+		android:paddingRight="15dip" 
+		android:paddingBottom="8dip" 
+		android:paddingLeft="5dip"
+ 		android:layout_below="@id/textIterationStory"	
+		android:layout_alignParentRight="true"
+		android:id="@+id/imageNextStory" android:src="@drawable/finish" />
 
 	<!-- Story Name -->
 	<TextView 
 		android:text="This is a nice story... once upon a time in a land far far away"
 		android:id="@+id/textNameStory"
 		
-		android:layout_below="@id/textIterationStory"
-		
+		android:layout_below="@id/textLabelsStory"
 		android:layout_toRightOf="@id/imageTypeStory"
+		
 		
 		android:layout_height="wrap_content" 
 		android:textColor="#222" android:textSize="14dip" 
-		android:paddingTop="10dip"
-		android:paddingBottom="5dip"
+		android:paddingTop="0dip"
+		android:paddingBottom="10dip"
 		android:paddingLeft="5dip"
 		android:paddingRight="10dip"
 		android:layout_width="wrap_content" />
 
-	<!-- Labels -->
-	<TextView android:text="akthist,s" android:layout_height="wrap_content" 
-		android:layout_below="@id/textNameStory"
-		android:layout_alignLeft="@id/textNameStory"
-		
-		android:id="@+id/textLabelsStory" android:textSize="12dip" 
-		android:textColor="@color/color_labels" 
-		android:textStyle="bold"
-		android:paddingTop="5dip" 
-		android:paddingRight="15dip" 
-		android:paddingBottom="8dip" 
-		android:paddingLeft="5dip"
-		android:layout_width="wrap_content" />
-
+	
 	<!-- Story Points -->
-	<TextView android:text="points: 13" android:layout_height="wrap_content"
-		android:textColor="#222" 
-		
-		android:paddingTop="5dip" 
-		android:paddingRight="20dip" 
-		android:paddingBottom="8dip" 
-		android:paddingLeft="5dip"
- 
-		
-		
-		android:layout_below="@id/textNameStory"
-		
-		
-		android:id="@+id/textEstimateStory" android:textSize="12dip"
-		
-		android:layout_alignParentRight="true"
-		android:layout_width="wrap_content" />
 
 
 

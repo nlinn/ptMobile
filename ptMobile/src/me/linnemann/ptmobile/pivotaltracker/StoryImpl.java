@@ -77,10 +77,9 @@ public class StoryImpl implements Story {
 
 	public List<Transition> getAvailableTransitions() {
 
-		// --- special treatment: block transitions if feature is noch estimated
-	 	if ( ("feature".equals(data.get(StoryData.STORY_TYPE))) &&
-	 		("unstarted".equals(data.get(StoryData.CURRENT_STATE))) &&
-	 			(data.get(StoryData.ESTIMATE) == null) ) {
+		// --- special treatment: block transitions if feature is not yet estimated
+	 	if ( ("unstarted".equals(data.get(StoryData.CURRENT_STATE))) &&
+	 			(needsEstimate())) {
 	 		return new ArrayList<Transition>(); // empty list
  		} else {
 			return currentState.getTransitions();
@@ -124,7 +123,7 @@ public class StoryImpl implements Story {
 	}
 	
 	public String getData(StoryData field) {
-		return (String) data.get(field);
+		return data.get(field).toString();
 	}
 	
 	/**
@@ -149,6 +148,18 @@ public class StoryImpl implements Story {
 		return currentState;
 	}
 
+	public Integer getEstimate() {
+		return (Integer) data.get(StoryData.ESTIMATE);
+	}
+
+	/**
+	 * Features are supposed to get estimated before they get started
+	 * @return
+	 */
+	public boolean needsEstimate() {
+		return ("feature".equals(data.get(StoryData.STORY_TYPE)) && ((getEstimate() == null) || (getEstimate() < 0)));
+	}
+	
 	/**
 	 * prepares the _remaining_ lifecycle of your story
 	 * starts with stories current state (thus its the remaining lifecycle)

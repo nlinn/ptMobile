@@ -38,6 +38,20 @@ public class UpdateStoryCommandTests extends AndroidTestCase {
 		assertEquals(expectedXML, usc.getXMLString());
 	}
 	
+	public void testUpdateEstimate() {
+		String expectedXML = "<story><estimate type=\"integer\">8</estimate></story>";
+		
+		Story story = new StoryImpl();
+		story.setData(StoryData.PROJECT_ID,"1111");
+		story.setData(StoryData.ID,"222222");
+		story.setEstimate(new Integer(8));
+		
+		UpdateStoryCommand usc = new UpdateStoryCommand(story);
+		
+		assertEquals(expectedXML, usc.getXMLString());
+	}
+	
+	
 	public void testUpdateState() {
 		String expectedXML = "<story><current_state>started</current_state></story>";
 

@@ -5,7 +5,6 @@ import me.linnemann.ptmobile.cursor.ProjectsCursor;
 import me.linnemann.ptmobile.pivotaltracker.PivotalTracker;
 import android.app.AlertDialog;
 import android.app.ListActivity;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -21,6 +20,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.ListView;
+import android.widget.Toast;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 
 public class Projects extends ListActivity {
@@ -33,7 +33,6 @@ public class Projects extends ListActivity {
 
 	private ProjectsCursor pc;
 	private PivotalTracker tracker;
-	private ProgressDialog dialog;
 	private Context ctx;
 	private boolean alreadyCheckedForUpdates;
 	
@@ -41,7 +40,7 @@ public class Projects extends ListActivity {
 		@Override
 		public void handleMessage(Message msg) {
 
-			dialog.dismiss();
+			getParent().setProgressBarIndeterminateVisibility(false);
 
 			// --- >0 rc is failure
 			if (msg.what > 0) {
@@ -54,6 +53,9 @@ public class Projects extends ListActivity {
 				});
 				AlertDialog alert = builder.create();
 				alert.show();
+			} else {
+				Toast toast = Toast.makeText(getApplicationContext(), "update complete", Toast.LENGTH_SHORT);
+				toast.show();	
 			}
 
 			fillData();
@@ -72,9 +74,7 @@ public class Projects extends ListActivity {
 		this.getListView().setDivider(this.getResources().getDrawable(R.drawable.darkgray1x1));// .getDivider().
 
 		registerForContextMenu(getListView());
-
 		setTitle("Projects");
-
 		Log.i("me.linnemann.ptmobile","onCreate finished");
 	}
 
@@ -82,9 +82,7 @@ public class Projects extends ListActivity {
 		public void onCreateContextMenu(ContextMenu menu, View v,
 				ContextMenuInfo menuInfo) {
 			super.onCreateContextMenu(menu, v, menuInfo);
-			
 			menu.setHeaderTitle("Project");
-	        
 			menu.add(0, STORIES_ID, 0, R.string.menu_showstories);
 	        menu.add(0, PROJECT_DETAILS_ID, 0, R.string.menu_showprojectdetails);
 		}
@@ -225,9 +223,7 @@ public class Projects extends ListActivity {
 
 		// --- try if API-Token is set
 		if (settings.getString(APIKeyPrefs.PREFS_KEY_TOKEN, "").length() > 4) {
-
-			dialog = ProgressDialog.show(this, "","Updating. Please wait...", true);
-
+			getParent().setProgressBarIndeterminateVisibility(true);
 			new Thread() { 
 				public void run() { 
 					if (tracker.updateProjects()) {

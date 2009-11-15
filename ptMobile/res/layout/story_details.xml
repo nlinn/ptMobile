@@ -127,9 +127,20 @@
 	</RelativeLayout>
 </ScrollView>
 
-<LinearLayout android:orientation="horizontal" android:background="@color/color_buttonbar_bg" android:layout_width="fill_parent" android:layout_height="wrap_content">
-<Button android:text="start" android:id="@+id/Button01" android:layout_width="fill_parent" android:layout_height="wrap_content"></Button>
-</LinearLayout>
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:padding = "3px"
+    android:background="@color/color_iteration_bg"
+   >
+
+    <TableRow>
+<Button android:text="start" android:id="@+id/btn1SD" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_weight="1"></Button>
+<Button android:text="start" android:id="@+id/btn2SD" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_weight="1"></Button>
+<Button android:text="start" android:id="@+id/btn3SD" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_weight="1"></Button>
+
+    </TableRow>
+</TableLayout>
 
 </LinearLayout>
 

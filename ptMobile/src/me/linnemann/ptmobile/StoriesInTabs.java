@@ -5,6 +5,7 @@ import android.app.TabActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Window;
 import android.widget.TabHost;
 
 public class StoriesInTabs extends TabActivity {
@@ -15,6 +16,7 @@ public class StoriesInTabs extends TabActivity {
 
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
 		tabHost = getTabHost();
 		LayoutInflater.from(this).inflate(R.layout.storytabs, tabHost.getTabContentView());
 		setupTabs();
@@ -23,6 +25,7 @@ public class StoriesInTabs extends TabActivity {
 	@Override
 	public void onStop() {
 		super.onStop();
+		setProgressBarIndeterminateVisibility(false);
 		if (this.tracker != null) this.tracker.pause();
 	}
 

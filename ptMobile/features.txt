@@ -1,0 +1,15 @@
+Todo:
+- Comments
+- "restart" in lifecycle"
+- Velocity/Sum in iterations
+
+
+0.5beta
+- State lifecycle,cool state badges
+- Estimate Activity
+- non-blocking updates
+
+
+0.4beta
+- bugfix: strange projekt listing
+- Activities Tab added

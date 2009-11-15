@@ -125,14 +125,16 @@ public class APIAdapter {
 		boolean successful=false;
 
 		Log.i("me.linnemann.ptmobile","udpateStoriesInProject "+project_id);
-		db.deleteStoriesInProject(project_id);
 
 		String url = URL_ITERATIONS.replaceAll("PROJECT_ID", project_id); // create project specific url
-		Log.i(APIAdapter.class.toString(),url);
+		Log.i(TAG,url);
 
+		long timestamp = System.currentTimeMillis();
+		
 		try {
 			new XMLStoriesHandler(db, project_id).go(loadURL(url));
 			db.saveStoriesUpdatedTimestamp(project_id);
+			db.deleteStoriesInProject(project_id, timestamp);
 			successful=true;	
 		} catch (IOException e) {
 			Log.e(APIAdapter.class.getSimpleName(),"updateStoriesInProject, IO: "+e.getMessage());
@@ -141,7 +143,6 @@ public class APIAdapter {
 		} catch (SAXException e) {
 			Log.e(APIAdapter.class.getSimpleName(),"updateStoriesInProject, SAX: "+e.getMessage());
 		}
-
 		return successful;
 	}
 

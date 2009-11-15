@@ -49,6 +49,8 @@ public class IncomingStory implements IncomingData {
 			v.put(f.getDBFieldName(), stringData.get(f));
 		}
 		
+		v.put("updatetimestamp", Long.toString(System.currentTimeMillis()));	// TODO constant/enum?
+		
 	    return v;
 	}
 

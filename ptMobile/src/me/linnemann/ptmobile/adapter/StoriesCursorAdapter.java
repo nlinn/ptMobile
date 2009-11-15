@@ -3,8 +3,10 @@ package me.linnemann.ptmobile.adapter;
 import me.linnemann.ptmobile.OutputStyler;
 import me.linnemann.ptmobile.R;
 import me.linnemann.ptmobile.cursor.StoriesCursor;
+import me.linnemann.ptmobile.pivotaltracker.Story;
 import android.content.Context;
 import android.database.Cursor;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,6 +38,7 @@ public class StoriesCursorAdapter extends CursorAdapter {
 			setDescriptionImage(view,ctx,(StoriesCursor) c);
 			setState(view,ctx,(StoriesCursor) c);
 			setIteration(view, ctx, (StoriesCursor) c);
+			setNextTag(view, ctx, (StoriesCursor) c);
 		}
 	}
 
@@ -91,9 +94,56 @@ public class StoriesCursorAdapter extends CursorAdapter {
 	}
 
 	private void setEstimate(View view, Context ctx, StoriesCursor c) {
-		TextView tv = (TextView) view.findViewById(R.id.textEstimateStory);
-		tv.setText(OutputStyler.getEstimateAsText(c));
+		//	TextView tv = (TextView) view.findViewById(R.id.textEstimateStory);
+		//	tv.setText(OutputStyler.getEstimateAsText(c));
+
+		ImageView iv = (ImageView) view.findViewById(R.id.imagePointsStory);
+		if ((c.getEstimate() != null) && (c.getEstimate() > -2)) {
+			iv.setVisibility(View.VISIBLE);
+			Drawable d = ctx.getResources().getDrawable(R.drawable.pointsnoestimate);
+			if (c.getEstimate() == 0) d = ctx.getResources().getDrawable(R.drawable.points0);
+			if (c.getEstimate() == 1) d = ctx.getResources().getDrawable(R.drawable.points1);
+			if (c.getEstimate() == 2) d = ctx.getResources().getDrawable(R.drawable.points2);
+			if (c.getEstimate() == 3) d = ctx.getResources().getDrawable(R.drawable.points3);
+			if (c.getEstimate() == 4) d = ctx.getResources().getDrawable(R.drawable.points4);
+			if (c.getEstimate() == 5) d = ctx.getResources().getDrawable(R.drawable.points5);
+			if (c.getEstimate() == 8) d = ctx.getResources().getDrawable(R.drawable.points8);
+			iv.setImageDrawable(d);
+		} else {		
+			iv.setVisibility(View.GONE);
+		}
 	}
+
+	private void setNextTag(View view, Context ctx, StoriesCursor c) {
+
+		ImageView iv = (ImageView) view.findViewById(R.id.imageNextStory);
+
+		Story s = c.getStory();
+
+		if (s.getAvailableTransitions().size() > 0){
+			iv.setVisibility(View.VISIBLE);
+
+			if (s.getAvailableTransitions().get(0).getName().equals("start")) {
+				iv.setImageDrawable(ctx.getResources().getDrawable(R.drawable.start));
+			}
+
+			if (s.getAvailableTransitions().get(0).getName().equals("finish")) {
+				iv.setImageDrawable(ctx.getResources().getDrawable(R.drawable.finish));
+			}
+
+			if (s.getAvailableTransitions().get(0).getName().equals("deliver")) {
+				iv.setImageDrawable(ctx.getResources().getDrawable(R.drawable.deliver));
+			}
+
+			if (s.getAvailableTransitions().get(0).getName().equals("accept")) {
+				iv.setImageDrawable(ctx.getResources().getDrawable(R.drawable.acceptreject));
+			} 
+
+		}else {
+			iv.setVisibility(View.INVISIBLE);
+		}
+	}
+
 
 	private void setTypeImage(View view, Context ctx, StoriesCursor c) {
 		ImageView iv = (ImageView) view.findViewById(R.id.imageTypeStory);

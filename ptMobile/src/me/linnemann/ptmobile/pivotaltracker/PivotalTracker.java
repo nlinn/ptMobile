@@ -9,7 +9,7 @@ import android.content.Context;
  * PivotalTracker is coping with the pivotal API and storage, so
  * that you don't have to.
  * 
- * @author niels
+ * @author nlinn
  *
  */
 public class PivotalTracker {

@@ -2,7 +2,6 @@ package me.linnemann.ptmobile.test.pivotaltracker;
 
 import java.util.List;
 
-import me.linnemann.ptmobile.pivotaltracker.APIAdapter;
 import me.linnemann.ptmobile.pivotaltracker.fields.ActivityData;
 import me.linnemann.ptmobile.pivotaltracker.xml.XMLActivitiesHandler;
 import android.content.ContentValues;

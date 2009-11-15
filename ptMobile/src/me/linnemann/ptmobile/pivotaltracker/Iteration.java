@@ -83,6 +83,7 @@ public class Iteration {
 	    v.put("start", getStart().replaceAll("/", "-").replaceAll(" UTC",""));
 	    v.put("finish", getFinish().replaceAll("/", "-").replaceAll(" UTC",""));
 	    v.put("project_id", getProject_id());
+	    v.put("updatetimestamp", Long.toString(System.currentTimeMillis()));
 	    return v;
 	}
 	

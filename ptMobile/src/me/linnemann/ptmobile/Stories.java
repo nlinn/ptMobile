@@ -5,9 +5,7 @@ import me.linnemann.ptmobile.cursor.StoriesCursor;
 import me.linnemann.ptmobile.pivotaltracker.PivotalTracker;
 import me.linnemann.ptmobile.pivotaltracker.Story;
 import me.linnemann.ptmobile.pivotaltracker.state.Transition;
-import android.app.Dialog;
 import android.app.ListActivity;
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -20,28 +18,30 @@ import android.view.View;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 
 public class Stories extends ListActivity {
 
 	private static final int STORYDETAILS_ID = Menu.FIRST + 5;
-	
 	private static final int TRANS_1_ID = Menu.FIRST + 6;
 	private static final int TRANS_2_ID = Menu.FIRST + 7;
+	private static final int ESTIMATE_ID = Menu.FIRST + 8;
 	
 	private static final String TAG = "Stories";
 	
 	private PivotalTracker tracker;
 	private StoriesCursor c;
 	private String project_id;
-	private Dialog dialog;
 	private Transition transition_1, transition_2;
 	private Story selectedStory;
 	
 	private Handler handler = new Handler() {
 		@Override
 		public void handleMessage(Message msg) {
-			dialog.dismiss();
+			getParent().setProgressBarIndeterminateVisibility(false);
+			Toast toast = Toast.makeText(getApplicationContext(), "update complete", Toast.LENGTH_SHORT);
+			toast.show();	
 			updateList(project_id);
 		}
 	};
@@ -50,10 +50,8 @@ public class Stories extends ListActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		// setTheme(R.style.ptMobileDefault);
 		setContentView(R.layout.stories_list);
 		registerForContextMenu(getListView());
-		//this.getListView().setBackgroundResource(android.R.color.white);
 		this.getListView().setCacheColorHint(0);
 		this.getListView().setDivider(this.getResources().getDrawable(R.drawable.darkgray1x1));// .getDivider().
 
@@ -62,12 +60,12 @@ public class Stories extends ListActivity {
 
 		Bundle extras = getIntent().getExtras();
 		if (extras != null) {
-			Log.i(Stories.class.toString(),"Project ID from Extras: "+extras.getString("project_id"));
+			Log.i(TAG,"Project ID from Extras: "+extras.getString("project_id"));
 
 			setTitle("Project "+extras.getString("project_name"));
 			project_id=extras.getString("project_id");
 		}
-		Log.i(Stories.class.toString(),"onCreate finished");
+		Log.i(TAG,"onCreate finished");
 	}
 
 	@Override
@@ -83,7 +81,7 @@ public class Stories extends ListActivity {
 	}
 
 	private void updateList(String project_id) {
-		Log.i(Stories.class.toString(),"fillData2 called: "+project_id);
+		Log.i(TAG,"update list: "+project_id);
 
 		if (getIntent().getExtras().getString("filter").equalsIgnoreCase("done")) {
 			c = tracker.getStoriesCursorDone(project_id);
@@ -144,43 +142,47 @@ public class Stories extends ListActivity {
         	menu.add(0, TRANS_2_ID, 0, OutputStyler.getTransitionContextLabel(transition_2.getName()));
         }
         
-		// TODO add Menu-Items for lifecycle (transitions)
+        if (selectedStory.needsEstimate()) {
+        	menu.add(0, ESTIMATE_ID, 0, "Estimate Story");
+        }
 	}
 	
 	
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
-
+		Intent i;
 		AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
-
+		c.moveToPosition((int) info.position);
 		switch(item.getItemId()) {
 		case STORYDETAILS_ID:        	
-			c.moveToPosition((int) info.position);
-			Intent i = new Intent(this, StoryDetails.class);
+			i = new Intent(this, StoryDetails.class);
 			i.putExtra("story_id", c.getId());
 			startActivity(i);
 			return true;
 		case TRANS_1_ID:        	
-			c.moveToPosition((int) info.position);
 			selectedStory.doTransition(transition_1);
+			updateList(project_id);
 			tracker.commitChanges(selectedStory);
 			return true;
 		case TRANS_2_ID:        	
-			c.moveToPosition((int) info.position);
 			selectedStory.doTransition(transition_2);
 			tracker.commitChanges(selectedStory);
+			updateList(project_id);
+			return true;
+		case ESTIMATE_ID: 
+			i = new Intent(this, Estimate.class);
+			i.putExtra("story_id", c.getId());
+			startActivity(i);
 			return true;
 		}
-
 		return super.onContextItemSelected(item);
 	}
-	// -------------------------------------------
+
 	@Override
 	public void onResume() {
 		super.onResume();
 		tracker = new PivotalTracker(this);
-
-		updateList(project_id);	// load stories
+		updateList(project_id);
 		if (tracker.storiesNeedUpdate(project_id)) {
 			updateFromTracker();
 		}
@@ -202,11 +204,12 @@ public class Stories extends ListActivity {
 	}
 
 	private void updateFromTracker() {
-		dialog = ProgressDialog.show(this, "", 
-				"Updating. Please wait...", true);
+		Log.i(TAG,"update progress bar");
+		getParent().setProgressBarIndeterminateVisibility(true);
 		new Thread() { 
 			public void run() { 
 				try{ 
+					getParent().setProgressBarIndeterminateVisibility(true);
 					tracker.updateStoriesForProject(project_id);
 					handler.sendEmptyMessage(1);
 				} catch (Exception e) {

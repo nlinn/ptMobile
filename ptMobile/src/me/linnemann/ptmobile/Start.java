@@ -28,6 +28,7 @@ public class Start extends TabActivity {
 	@Override
 	public void onStop() {
 		super.onStop();
+		setProgressBarIndeterminateVisibility(false);
 	}
 
 	@Override

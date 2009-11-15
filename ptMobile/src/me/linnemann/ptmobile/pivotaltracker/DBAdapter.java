@@ -60,7 +60,7 @@ public interface DBAdapter {
 
 	public abstract boolean deleteAllActivities();
 
-	public abstract boolean deleteStoriesInProject(String project_id);
+	public abstract boolean deleteStoriesInProject(String project_id, long timestamp);
 
 	public abstract Cursor fetchStoriesAll(String project_id);
 

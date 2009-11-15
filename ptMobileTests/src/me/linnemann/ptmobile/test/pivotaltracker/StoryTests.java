@@ -29,6 +29,27 @@ public class StoryTests extends AndroidTestCase {
 		assertTrue(s.getModifiedFields().isEmpty());
 	}
 	
+	public void testNeedsEstimate() {
+		StoryImpl s = new StoryImpl();
+		// --- chore
+		s.setData(StoryData.STORY_TYPE, "chore");
+		assertFalse(s.needsEstimate()); // never needs to be estimated
+
+		// --- bug
+		s.setData(StoryData.STORY_TYPE, "bug");
+		assertFalse(s.needsEstimate()); // never needs to be estimated
+
+		// --- release
+		s.setData(StoryData.STORY_TYPE, "release");
+		assertFalse(s.needsEstimate()); // never needs to be estimated
+
+		// --- feature
+		s.setData(StoryData.STORY_TYPE, "feature");
+		assertTrue(s.needsEstimate()); // Feature needs estimate
+		s.setEstimate(new Integer(0)); // estimating
+		assertFalse(s.needsEstimate()); // now it should not need estimate
+	}
+	
 	public void testLifecycleConstructionRelease() {
 		StoryImpl s = new StoryImpl();
 		s.setData(StoryData.STORY_TYPE, "release");

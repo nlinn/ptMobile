@@ -47,6 +47,12 @@ public class UpdateStoryCommand {
 			xml.append("</current_state>");
 		}
 		
+		if (story.getModifiedFields().contains(StoryData.ESTIMATE)) {
+			xml.append("<estimate type=\"integer\">");
+			xml.append(story.getData(StoryData.ESTIMATE));
+			xml.append("</estimate>");
+		}
+		
 		xml.append("</story>");
 		
 		return xml.toString();

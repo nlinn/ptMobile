@@ -18,6 +18,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
+import android.widget.Toast;
 
 /**
  * Activity showing a ListView with the latest new from pivotaltracker
@@ -41,7 +42,6 @@ public class Activities extends ListActivity {
 		public void handleMessage(Message msg) {
 
 			getParent().setProgressBarIndeterminateVisibility(false);
-			//dialog.dismiss();
 
 			// --- >0 rc is failure
 			if (msg.what > 0) {
@@ -54,6 +54,9 @@ public class Activities extends ListActivity {
 				});
 				AlertDialog alert = builder.create();
 				alert.show();
+			} else {
+				Toast toast = Toast.makeText(getApplicationContext(), "update complete", Toast.LENGTH_SHORT);
+				toast.show();	
 			}
 
 			fillData();
@@ -168,13 +171,8 @@ public class Activities extends ListActivity {
 	 * @param pc
 	 */
 	private void startStoriesActivity(ActivitiesCursor c) {
-
 		Log.i("pos stories","pos: "+pc.getPosition());
-		
 		Intent i = new Intent(this, StoriesInTabs.class);
-		
-
-		
 		i.putExtra("project_id", tracker.getProjectIdByName(c.getProject()));
 		i.putExtra("project_name", c.getProject());
 

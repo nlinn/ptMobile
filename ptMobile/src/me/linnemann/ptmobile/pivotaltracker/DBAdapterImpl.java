@@ -20,12 +20,12 @@ import android.util.Log;
  */
 public class DBAdapterImpl implements DBAdapter {
 
-	private static final String TAG = "NotesDbAdapter";
+	private static final String TAG = "DBAdapterImpl";
 	private DatabaseHelper dbHelper;
 	private SQLiteDatabase db;
 
 	private static final String DATABASE_NAME = "data";
-	private static final int DATABASE_VERSION = 25;
+	private static final int DATABASE_VERSION = 26;
 
 	private final Context ctx;
 
@@ -61,6 +61,7 @@ public class DBAdapterImpl implements DBAdapter {
 					+ "owned_by text, "
 					+ "created_at text, "
 					+ "accepted_at text, "
+					+ "updatetimestamp integer, "
 					+ "name text not null);");
 
 			// --- ITERATIONS
@@ -69,6 +70,7 @@ public class DBAdapterImpl implements DBAdapter {
 					+ "number integer not null, "
 					+ "start date not null, "
 					+ "finish date not null, "
+					+ "updatetimestamp integer, "
 					+ "project_id text not null);");
 			
 			// --- ACTIVITIES
@@ -177,11 +179,10 @@ public class DBAdapterImpl implements DBAdapter {
 	/* (non-Javadoc)
 	 * @see me.linnemann.ptmobile.pivotaltracker.IDBAdapter#deleteStoriesInProject(java.lang.String)
 	 */
-	public boolean deleteStoriesInProject(String project_id) {
-
-		db.delete("stories", "project_id='" + project_id+"'", null);
-		db.delete("iterations", "project_id='" + project_id+"'", null);
-
+	public boolean deleteStoriesInProject(String project_id, long timestamp) {
+		Log.i(TAG, "deleting stories in project "+project_id+" older than "+timestamp);
+		db.delete("stories", "project_id=? AND updatetimestamp < ?", new String[]{project_id, Long.toString(timestamp)});
+		db.delete("iterations", "project_id=? AND updatetimestamp < ?", new String[]{project_id, Long.toString(timestamp)});
 		return true;
 	}
 
@@ -189,7 +190,6 @@ public class DBAdapterImpl implements DBAdapter {
 	 * @see me.linnemann.ptmobile.pivotaltracker.IDBAdapter#fetchStoriesAll(java.lang.String)
 	 */
 	public Cursor fetchStoriesAll(String project_id) {
-
 		return db.query("stories", new String[] {"_id", "name", "iteration_number"}, "project_id='" + project_id+"'", null, null, null, null);
 	}
 
