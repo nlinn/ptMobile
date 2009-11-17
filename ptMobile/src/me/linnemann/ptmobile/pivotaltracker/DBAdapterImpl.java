@@ -25,7 +25,7 @@ public class DBAdapterImpl implements DBAdapter {
 	private SQLiteDatabase db;
 
 	private static final String DATABASE_NAME = "data";
-	private static final int DATABASE_VERSION = 26;
+	private static final int DATABASE_VERSION = 27;
 
 	private final Context ctx;
 
@@ -62,6 +62,7 @@ public class DBAdapterImpl implements DBAdapter {
 					+ "created_at text, "
 					+ "accepted_at text, "
 					+ "updatetimestamp integer, "
+					+ "iteration_group text, "
 					+ "name text not null);");
 
 			// --- ITERATIONS
@@ -71,6 +72,7 @@ public class DBAdapterImpl implements DBAdapter {
 					+ "start date not null, "
 					+ "finish date not null, "
 					+ "updatetimestamp integer, "
+					+ "iteration_group text, "
 					+ "project_id text not null);");
 			
 			// --- ACTIVITIES
@@ -179,10 +181,10 @@ public class DBAdapterImpl implements DBAdapter {
 	/* (non-Javadoc)
 	 * @see me.linnemann.ptmobile.pivotaltracker.IDBAdapter#deleteStoriesInProject(java.lang.String)
 	 */
-	public boolean deleteStoriesInProject(String project_id, long timestamp) {
-		Log.i(TAG, "deleting stories in project "+project_id+" older than "+timestamp);
-		db.delete("stories", "project_id=? AND updatetimestamp < ?", new String[]{project_id, Long.toString(timestamp)});
-		db.delete("iterations", "project_id=? AND updatetimestamp < ?", new String[]{project_id, Long.toString(timestamp)});
+	public boolean deleteStoriesInProject(String project_id, long timestamp, String iteration_group) {
+		Log.i(TAG, "deleting stories in project "+project_id+" group "+iteration_group+" older than "+timestamp);
+		db.delete("stories", "project_id=? AND iteration_group=? AND updatetimestamp < ?", new String[]{project_id, iteration_group, Long.toString(timestamp)});
+		db.delete("iterations", "project_id=? AND iteration_group=? AND updatetimestamp < ?", new String[]{project_id, iteration_group, Long.toString(timestamp)});
 		return true;
 	}
 
@@ -293,8 +295,8 @@ public class DBAdapterImpl implements DBAdapter {
 	/* (non-Javadoc)
 	 * @see me.linnemann.ptmobile.pivotaltracker.IDBAdapter#saveStoriesUpdatedTimestamp(java.lang.String)
 	 */
-	public void saveStoriesUpdatedTimestamp(String project_id) {
-		saveUpdatedTimestamp("project"+project_id);
+	public void saveStoriesUpdatedTimestamp(String project_id, String iteration_group) {
+		saveUpdatedTimestamp("project"+project_id+iteration_group);
 	}
 
 	/* (non-Javadoc)
@@ -325,14 +327,14 @@ public class DBAdapterImpl implements DBAdapter {
 	/* (non-Javadoc)
 	 * @see me.linnemann.ptmobile.pivotaltracker.IDBAdapter#storiesNeedUpdate(java.lang.String)
 	 */
-	public boolean storiesNeedUpdate(String project_id) {
+	public boolean storiesNeedUpdate(String project_id, String iteration_group) {
 
 		Long interval = new Long(PreferenceManager.getDefaultSharedPreferences(ctx).getString("story_refresh_interval", "-5"));
 
 		Log.i("update interval","found: "+interval);
 
 		if (interval > 0) {
-			return needsUpdate("SELECT eventtime FROM timestamps WHERE key='project"+project_id+"'",interval);
+			return needsUpdate("SELECT eventtime FROM timestamps WHERE key='project"+project_id+iteration_group+"'",interval);
 		} else {
 			return false;
 		}

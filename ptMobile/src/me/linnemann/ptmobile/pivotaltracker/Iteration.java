@@ -13,18 +13,20 @@ public class Iteration {
 	private StringBuilder start;
 	private StringBuilder finish;
 	private String project_id; // belongs to project
+	private String iteration_group;
 
-	public Iteration(String project_id) {
+	public Iteration(String project_id, String iteration_group) {
 		id = new StringBuilder();
 		number = new StringBuilder();
 		start = new StringBuilder();
 		finish = new StringBuilder();
 		this.project_id = project_id;
+		this.iteration_group = iteration_group;
 	}
 	
-	public String getId() {
-		return id.toString();
-	}
+	//public String getId() {
+	//	return id.toString();
+	//}
 
 	public void addId(String ptId) {
 		id.append(ptId);
@@ -46,16 +48,16 @@ public class Iteration {
 		this.finish.append(finish);
 	}
 
-	public String getProject_id() {
-		return project_id.toString();
-	}
+	//public String getProject_id() {
+	//	return project_id.toString();
+	//}
 
-	public String getStart() {
-		return start.toString();
-	}
-	public String getFinish() {
-		return finish.toString();
-	}
+	//public String getStart() {
+	//	return start.toString();
+	//}
+	//public String getFinish() {
+	//	return finish.toString();
+	//}
 
 	/**
 	 * This Value is meant to be filled value by value, isDataComplete indicates whether all fields
@@ -78,11 +80,12 @@ public class Iteration {
 	 */
 	public ContentValues getDataAsContentValues() {
 		ContentValues v = new ContentValues();
-	    v.put("id", getId());
-	    v.put("number", getNumber());
-	    v.put("start", getStart().replaceAll("/", "-").replaceAll(" UTC",""));
-	    v.put("finish", getFinish().replaceAll("/", "-").replaceAll(" UTC",""));
-	    v.put("project_id", getProject_id());
+	    v.put("id", id.toString());
+	    v.put("number", number.toString());
+	    v.put("start", start.toString().replaceAll("/", "-").replaceAll(" UTC",""));
+	    v.put("finish", finish.toString().replaceAll("/", "-").replaceAll(" UTC",""));
+	    v.put("project_id", project_id.toString());
+	    v.put("iteration_group", iteration_group);
 	    v.put("updatetimestamp", Long.toString(System.currentTimeMillis()));
 	    return v;
 	}

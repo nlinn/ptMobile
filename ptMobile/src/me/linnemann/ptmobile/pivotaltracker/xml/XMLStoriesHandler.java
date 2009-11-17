@@ -19,11 +19,12 @@ public class XMLStoriesHandler extends XMLBaseHandler {
 
 	private boolean isIteration;
 	private boolean isStory;
+	private String iteration_group;
 
-
-	public XMLStoriesHandler(DBAdapter db, String project_id) {
+	public XMLStoriesHandler(DBAdapter db, String project_id, String iteration_group) {
 		super(db);
 		this.project_id = project_id;
+		this.iteration_group = iteration_group;
 	}
 
 
@@ -33,13 +34,13 @@ public class XMLStoriesHandler extends XMLBaseHandler {
 		if (name.equalsIgnoreCase("iteration")) {
 			isIteration = true;
 			isStory = false;
-			iteration = new Iteration(project_id);
+			iteration = new Iteration(project_id, iteration_group);
 		}
 
 		if (name.equalsIgnoreCase("story")) {
 			isIteration = false;
 			isStory = true;
-			story = new IncomingStory(db, project_id, currentIteration);
+			story = new IncomingStory(db, project_id, currentIteration, iteration_group);
 		}
 
 		if (name.equalsIgnoreCase("notes")) {

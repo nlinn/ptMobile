@@ -60,7 +60,7 @@ public interface DBAdapter {
 
 	public abstract boolean deleteAllActivities();
 
-	public abstract boolean deleteStoriesInProject(String project_id, long timestamp);
+	public abstract boolean deleteStoriesInProject(String project_id, long timestamp, String iteration_group);
 
 	public abstract Cursor fetchStoriesAll(String project_id);
 
@@ -84,13 +84,13 @@ public interface DBAdapter {
 
 	public abstract void flush();
 
-	public abstract void saveStoriesUpdatedTimestamp(String project_id);
+	public abstract void saveStoriesUpdatedTimestamp(String project_id, String iteration_group);
 
 	public abstract void saveProjectsUpdatedTimestamp();
 
 	public abstract void saveActivitiesUpdatedTimestamp();
 
-	public abstract boolean storiesNeedUpdate(String project_id);
+	public abstract boolean storiesNeedUpdate(String project_id, String iteration_group);
 
 	public abstract boolean projectsNeedUpdate();
 

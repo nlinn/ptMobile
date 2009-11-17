@@ -39,6 +39,9 @@ public class APIAdapter {
 	private static final String URL_ACTIVITIES ="http://www.pivotaltracker.com/services/v2/activities";
 	//private static final String URL_STORIES ="http://www.pivotaltracker.com/services/v2/projects/PROJECT_ID/stories";
 	private static final String URL_ITERATIONS ="http://www.pivotaltracker.com/services/v2/projects/PROJECT_ID/iterations";
+	private static final String URL_ITERATIONS_CURRENT ="http://www.pivotaltracker.com/services/v2/projects/PROJECT_ID/iterations/current";
+	private static final String URL_ITERATIONS_DONE ="http://www.pivotaltracker.com/services/v2/projects/PROJECT_ID/iterations/done?offset=-3";
+	private static final String URL_ITERATIONS_BACKLOG ="http://www.pivotaltracker.com/services/v2/projects/PROJECT_ID/iterations/backlog";
 	private static final String URL_TOKEN ="https://www.pivotaltracker.com/services/tokens/active";
 
 	private String apikey;
@@ -121,20 +124,37 @@ public class APIAdapter {
 		return successful;
 	}
 
-	public boolean updateStoriesInProject(String project_id) {
+	/**
+	 * 
+	 * @param project_id
+	 * @param iteration_group current, backlog, done
+	 * @return
+	 */
+	public boolean updateStoriesForProject(String project_id, String iteration_group) {
 		boolean successful=false;
 
-		Log.i("me.linnemann.ptmobile","udpateStoriesInProject "+project_id);
+		Log.i(TAG,"udpateStoriesInProject "+project_id);
 
-		String url = URL_ITERATIONS.replaceAll("PROJECT_ID", project_id); // create project specific url
+		String url="";
+		
+		if (iteration_group.equalsIgnoreCase("current")) {
+			url = URL_ITERATIONS_CURRENT.replaceAll("PROJECT_ID", project_id); // create project specific url
+		}
+		if (iteration_group.equalsIgnoreCase("done")) {
+			url = URL_ITERATIONS_DONE.replaceAll("PROJECT_ID", project_id); // create project specific url
+		}
+		if (iteration_group.equalsIgnoreCase("backlog")) {
+			url = URL_ITERATIONS_BACKLOG.replaceAll("PROJECT_ID", project_id); // create project specific url
+		}
+		
 		Log.i(TAG,url);
 
 		long timestamp = System.currentTimeMillis();
 		
 		try {
-			new XMLStoriesHandler(db, project_id).go(loadURL(url));
-			db.saveStoriesUpdatedTimestamp(project_id);
-			db.deleteStoriesInProject(project_id, timestamp);
+			new XMLStoriesHandler(db, project_id, iteration_group).go(loadURL(url));
+			db.saveStoriesUpdatedTimestamp(project_id, iteration_group);
+			db.deleteStoriesInProject(project_id, timestamp, iteration_group);
 			successful=true;	
 		} catch (IOException e) {
 			Log.e(APIAdapter.class.getSimpleName(),"updateStoriesInProject, IO: "+e.getMessage());

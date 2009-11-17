@@ -39,8 +39,7 @@ public class StoriesCursor extends SQLiteCursor {
 		"from stories s " +
 		"left join iterations i on s.iteration_number=i.number " +
 		"where " +
-		"i.finish > datetime('now','-1 day') and " +
-		"i.start < datetime('now') and " +
+		"i.iteration_group='current' and " +
 		"s.project_id='" + project_id+"' and i.project_id='" + project_id+"'";
 	}
 
@@ -52,7 +51,8 @@ public class StoriesCursor extends SQLiteCursor {
 		"i.start, i.finish " +
 		"from stories s " +
 		"left join iterations i on s.iteration_number=i.number " +
-		"where i.start > datetime('now') " +
+		"where " +
+		"i.iteration_group='backlog' " +
 		"and s.project_id='" + project_id+"' and i.project_id='" + project_id+"'";
 	}
 
@@ -64,8 +64,9 @@ public class StoriesCursor extends SQLiteCursor {
 		"i.start, i.finish " +
 		"from stories s " +
 		"left join iterations i on s.iteration_number=i.number " +
-		"where finish < datetime('now') and s.project_id='" + project_id+"' " +
-		"and i.project_id='" + project_id+"' order by s._id desc";
+		"where " +
+		"i.iteration_group='done' " +
+		"and i.project_id='" + project_id+"' and s.project_id='"+ project_id+"' order by s._id desc";
 	}
 
 	public StoriesCursor(SQLiteDatabase db, SQLiteCursorDriver driver,

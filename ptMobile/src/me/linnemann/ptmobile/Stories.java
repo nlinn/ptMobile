@@ -35,6 +35,7 @@ public class Stories extends ListActivity {
 	private String project_id;
 	private Transition transition_1, transition_2;
 	private Story selectedStory;
+	private String iteration_group;
 	
 	private Handler handler = new Handler() {
 		@Override
@@ -64,6 +65,7 @@ public class Stories extends ListActivity {
 
 			setTitle("Project "+extras.getString("project_name"));
 			project_id=extras.getString("project_id");
+			iteration_group=extras.getString("filter");
 		}
 		Log.i(TAG,"onCreate finished");
 	}
@@ -83,11 +85,11 @@ public class Stories extends ListActivity {
 	private void updateList(String project_id) {
 		Log.i(TAG,"update list: "+project_id);
 
-		if (getIntent().getExtras().getString("filter").equalsIgnoreCase("done")) {
+		if (iteration_group.equalsIgnoreCase("done")) {
 			c = tracker.getStoriesCursorDone(project_id);
-		} else if (getIntent().getExtras().getString("filter").equalsIgnoreCase("current")) {
+		} else if (iteration_group.equalsIgnoreCase("current")) {
 			c = tracker.getStoriesCursorCurrent(project_id);
-		} else if (getIntent().getExtras().getString("filter").equalsIgnoreCase("backlog")) {
+		} else if (iteration_group.equalsIgnoreCase("backlog")) {
 			c = tracker.getStoriesCursorBacklog(project_id);
 		} 
 
@@ -183,7 +185,7 @@ public class Stories extends ListActivity {
 		super.onResume();
 		tracker = new PivotalTracker(this);
 		updateList(project_id);
-		if (tracker.storiesNeedUpdate(project_id)) {
+		if (tracker.storiesNeedUpdate(project_id, iteration_group)) {
 			updateFromTracker();
 		}
 	}
@@ -209,7 +211,7 @@ public class Stories extends ListActivity {
 			public void run() { 
 				try{ 
 					getParent().setProgressBarIndeterminateVisibility(true);
-					tracker.updateStoriesForProject(project_id);
+					tracker.updateStoriesForProject(project_id, iteration_group);
 					handler.sendEmptyMessage(1);
 				} catch (Exception e) {
 				} 

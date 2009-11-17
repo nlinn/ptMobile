@@ -17,13 +17,15 @@ public class IncomingStory implements IncomingData {
 
 	private Map<StoryData,String> stringData;
 	private DBAdapter db;	
+	private String iteration_group;
 	
-	public IncomingStory(DBAdapter db, String project_id, String iteration_number) {
+	public IncomingStory(DBAdapter db, String project_id, String iteration_number, String iteration_group) {
 		this.db = db;
 		
 		stringData = new HashMap<StoryData,String>(); // prepare map
 		addDataForKey(StoryData.PROJECT_ID, project_id);
 		addDataForKey(StoryData.ITERATION_NUMBER, iteration_number);
+		this.iteration_group = iteration_group;
 	}
 	
 	public void addDataForKey(Object key, String value) {
@@ -50,7 +52,7 @@ public class IncomingStory implements IncomingData {
 		}
 		
 		v.put("updatetimestamp", Long.toString(System.currentTimeMillis()));	// TODO constant/enum?
-		
+		v.put("iteration_group", iteration_group);
 	    return v;
 	}
 

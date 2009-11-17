@@ -109,7 +109,7 @@ public class Projects extends ListActivity {
 		boolean result = super.onCreateOptionsMenu(menu);
 		menu.add(0, REFRESH, 0, R.string.menu_refesh).setIcon(android.R.drawable.ic_menu_upload);
 		menu.add(0, PREFERENCES_ID, 0, R.string.menu_prefs).setIcon(android.R.drawable.ic_menu_preferences);
-		menu.add(0, FLUSH_ID, 0, "debug: flush local data");
+		// TODO: remove permanently? -> menu.add(0, FLUSH_ID, 0, "debug: flush local data");
 		menu.add(0, ABOUT_ID, 0, "About").setIcon(android.R.drawable.ic_menu_help);
 		return result;
 	}

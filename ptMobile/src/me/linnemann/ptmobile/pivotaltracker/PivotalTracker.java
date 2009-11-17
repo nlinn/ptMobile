@@ -71,12 +71,12 @@ public class PivotalTracker {
 		return db.getVelocityForProject(project_id);
 	}
 	
-	public void updateStoriesForProject(String project_id) {
-		api.updateStoriesInProject(project_id);
+	public void updateStoriesForProject(String project_id, String iteration_group) {
+		api.updateStoriesForProject(project_id, iteration_group);
 	}
 	
-	public boolean storiesNeedUpdate(String project_id) {
-		return db.storiesNeedUpdate(project_id);
+	public boolean storiesNeedUpdate(String project_id, String iteration_group) {
+		return db.storiesNeedUpdate(project_id, iteration_group);
 	}
 	
 	public boolean projectsNeedUpdate() {
