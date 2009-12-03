@@ -12,7 +12,6 @@ import me.linnemann.ptmobile.cursor.IterationCursor;
 import me.linnemann.ptmobile.cursor.ProjectsCursor;
 import me.linnemann.ptmobile.cursor.StoriesCursor;
 import me.linnemann.ptmobile.pivotaltracker.DBAdapter;
-import me.linnemann.ptmobile.pivotaltracker.Iteration;
 
 public class DBAdapterMock implements DBAdapter {
 
@@ -115,11 +114,6 @@ public class DBAdapterMock implements DBAdapter {
 	public long insertActivity(ContentValues cv) {
 		Log.d(TAG, "insertActivity");
 		this.cvlist.add(cv);
-		return 0;
-	}
-
-	public long insertIteration(Iteration iteration) {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 

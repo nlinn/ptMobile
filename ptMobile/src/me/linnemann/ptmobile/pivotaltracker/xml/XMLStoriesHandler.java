@@ -4,7 +4,6 @@ import me.linnemann.ptmobile.pivotaltracker.DBAdapter;
 import me.linnemann.ptmobile.pivotaltracker.IncomingData;
 import me.linnemann.ptmobile.pivotaltracker.IncomingIteration;
 import me.linnemann.ptmobile.pivotaltracker.IncomingStory;
-import me.linnemann.ptmobile.pivotaltracker.Iteration;
 import me.linnemann.ptmobile.pivotaltracker.fields.IterationData;
 import me.linnemann.ptmobile.pivotaltracker.fields.StoryData;
 
