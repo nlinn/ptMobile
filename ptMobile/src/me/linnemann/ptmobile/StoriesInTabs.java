@@ -9,7 +9,6 @@ import android.widget.TabHost;
 
 public class StoriesInTabs extends TabActivity {
 
-	private String project_id;
 	private TabHost tabHost;
 
 	protected void onCreate(Bundle savedInstanceState) {
@@ -34,43 +33,43 @@ public class StoriesInTabs extends TabActivity {
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
+		setProgressBarIndeterminateVisibility(false);
 	}
 
 	private void setupTabs() {
+		
 		Intent done = new Intent(this, Stories.class);
 		Intent current = new Intent(this, Stories.class);
-		Intent backlog = new Intent(this, Stories.class);		
+		Intent backlog = new Intent(this, Stories.class);
+		Intent icebox = new Intent(this, Stories.class);
 
 		Bundle extras = getIntent().getExtras();
 		if (extras != null) {
-
-			project_id = extras.getString("project_id");
 			setTitle("Project "+extras.getString("project_name"));
-
-			done.putExtra("project_id", project_id);
-			done.putExtra("filter", "done");
-
-			current.putExtra("project_id", project_id);
-			current.putExtra("filter", "current");
-
-			backlog.putExtra("project_id", project_id);
-			backlog.putExtra("filter", "backlog");
+			// --- delegate extras to tabs	
+			setExtras(extras, done, "done");
+			setExtras(extras, backlog, "backlog");
+			setExtras(extras, current, "current");
+			setExtras(extras, icebox, "icebox");
 		}
 
 		tabHost.clearAllTabs();
-
 		tabHost.addTab(tabHost.newTabSpec("tab_current")
 				.setIndicator("current")
 				.setContent(current));
-
 		tabHost.addTab(tabHost.newTabSpec("tab_backlog")
 				.setIndicator("backlog")
 				.setContent(backlog));
-
 		tabHost.addTab(tabHost.newTabSpec("tab_done")
 				.setIndicator("done")
 				.setContent(done));
-
+		tabHost.addTab(tabHost.newTabSpec("tab_icebox")
+				.setIndicator("icebox")
+				.setContent(icebox));
 	}
-
+	
+	private void setExtras(Bundle extras, Intent intent, String iteration_group) {
+		intent.putExtras(extras);
+		intent.putExtra("filter", iteration_group);
+	}	
 }

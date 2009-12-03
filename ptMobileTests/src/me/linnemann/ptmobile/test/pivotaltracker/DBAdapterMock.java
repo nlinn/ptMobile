@@ -8,6 +8,7 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.util.Log;
 import me.linnemann.ptmobile.cursor.ActivitiesCursor;
+import me.linnemann.ptmobile.cursor.IterationCursor;
 import me.linnemann.ptmobile.cursor.ProjectsCursor;
 import me.linnemann.ptmobile.cursor.StoriesCursor;
 import me.linnemann.ptmobile.pivotaltracker.DBAdapter;
@@ -165,6 +166,38 @@ public class DBAdapterMock implements DBAdapter {
 	public long updateStory(ContentValues cv) {
 		// TODO Auto-generated method stub
 		return 0;
+	}
+
+	public boolean deleteStoriesInProject(String projectId, long timestamp,
+			String iterationGroup) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	public IterationCursor getIteration(String projectId, String number) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public StoriesCursor getStoriesCursor(String projectId, String filter) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public long insertIteration(ContentValues cv) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	public void saveStoriesUpdatedTimestamp(String projectId,
+			String iterationGroup) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public boolean storiesNeedUpdate(String projectId, String iterationGroup) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }

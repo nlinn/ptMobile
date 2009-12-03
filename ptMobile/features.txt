@@ -2,7 +2,16 @@ Todo:
 - Comments
 - "restart" in lifecycle"
 - Velocity/Sum in iterations
+- "more"-btn in done
 
+0.6beta
+- icebox
+- refresh icon
+? icebox->lifecycle mit unscheduled
+? lifecycle mit "restart"
+? Preferences: Tabs konfigurieren
+? Project ->option "update velocity"
+? Prefs "update vel. when updating stories"
 
 0.5beta
 - State lifecycle,cool state badges

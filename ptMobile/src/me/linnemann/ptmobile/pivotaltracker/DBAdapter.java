@@ -1,6 +1,7 @@
 package me.linnemann.ptmobile.pivotaltracker;
 
 import me.linnemann.ptmobile.cursor.ActivitiesCursor;
+import me.linnemann.ptmobile.cursor.IterationCursor;
 import me.linnemann.ptmobile.cursor.ProjectsCursor;
 import me.linnemann.ptmobile.cursor.StoriesCursor;
 import android.content.ContentValues;
@@ -54,7 +55,7 @@ public interface DBAdapter {
 	 * 
 	 * @return rowId or -1 if failed
 	 */
-	public abstract long insertIteration(Iteration iteration);
+	public abstract long insertIteration(ContentValues cv);
 
 	public abstract boolean deleteAllProjects();
 
@@ -74,14 +75,12 @@ public interface DBAdapter {
 
 	public abstract int getVelocityForProject(String project_id);
 
-	public abstract StoriesCursor getStoriesCursorBacklog(String project_id);
-
-	public abstract StoriesCursor getStoriesCursorCurrent(String project_id);
-
-	public abstract StoriesCursor getStoriesCursorDone(String project_id);
-
+	public abstract StoriesCursor getStoriesCursor(String project_id, String filter);
+		
 	public abstract StoriesCursor getStory(String story_id);
 
+	public abstract IterationCursor getIteration(String project_id, String number);
+	
 	public abstract void flush();
 
 	public abstract void saveStoriesUpdatedTimestamp(String project_id, String iteration_group);

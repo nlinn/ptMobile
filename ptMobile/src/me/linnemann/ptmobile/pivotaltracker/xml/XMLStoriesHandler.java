@@ -2,8 +2,10 @@ package me.linnemann.ptmobile.pivotaltracker.xml;
 
 import me.linnemann.ptmobile.pivotaltracker.DBAdapter;
 import me.linnemann.ptmobile.pivotaltracker.IncomingData;
+import me.linnemann.ptmobile.pivotaltracker.IncomingIteration;
 import me.linnemann.ptmobile.pivotaltracker.IncomingStory;
 import me.linnemann.ptmobile.pivotaltracker.Iteration;
+import me.linnemann.ptmobile.pivotaltracker.fields.IterationData;
 import me.linnemann.ptmobile.pivotaltracker.fields.StoryData;
 
 import org.xml.sax.Attributes;
@@ -11,16 +13,19 @@ import org.xml.sax.SAXException;
 
 public class XMLStoriesHandler extends XMLBaseHandler {
 
+	private static final int STORY = 1;
+	private static final int ITERATION = 2;
+	private static final int NOTE = 3;
+	
 	private String project_id;
 
 	private IncomingData story;
-	private Iteration iteration;
-	private String currentIteration;
+	private IncomingIteration iteration;
 
-	private boolean isIteration;
-	private boolean isStory;
+
 	private String iteration_group;
-
+	private int parseWhat;
+	
 	public XMLStoriesHandler(DBAdapter db, String project_id, String iteration_group) {
 		super(db);
 		this.project_id = project_id;
@@ -32,51 +37,45 @@ public class XMLStoriesHandler extends XMLBaseHandler {
 		super.startElement(uri, name, qName, attr);
 
 		if (name.equalsIgnoreCase("iteration")) {
-			isIteration = true;
-			isStory = false;
-			iteration = new Iteration(project_id, iteration_group);
+			parseWhat = ITERATION;
+			iteration = new IncomingIteration(db, project_id, iteration_group);
 		}
 
 		if (name.equalsIgnoreCase("story")) {
-			isIteration = false;
-			isStory = true;
-			story = new IncomingStory(db, project_id, currentIteration, iteration_group);
+			parseWhat = STORY;
+			
+			String itnumber = null;
+			if (iteration != null) {
+				itnumber = iteration.getIterationNumber();
+			}
+			
+			story = new IncomingStory(db, project_id, itnumber, iteration_group);
 		}
 
-		if (name.equalsIgnoreCase("notes")) {
-			isIteration = false;
-			isStory = false;
+		if (name.equalsIgnoreCase("note")) {
+			parseWhat = NOTE;
 		}
-
 	}
 
 	public void endElement(String uri, String name, String qName) throws SAXException {
-
+		super.endElement(uri, name, qName);
+		
 		if (name.equalsIgnoreCase("iteration")) {
-			isIteration = false;
+			iteration.save();
+			iteration = null;
 		}
 
 		if (name.equalsIgnoreCase("story")) {
 			story.save();
 			story = null;
-
-			isStory = false;
 		}
-
-		if ((iteration !=null) && (iteration.isDataComplete())) {
-			db.insertIteration(iteration);
-			currentIteration = iteration.getNumber();
-			iteration = null;
-		}
-
-		currentElementName = "";
 	}
 
 	public void characters(char ch[], int start, int length) {
 
 		String chars = (new String(ch).substring(start, start + length));
 
-		if ((isStory) && (story != null)) {
+		if (parseWhat == STORY) {
 			if (checkAndFillString(story, currentElementName, StoryData.NAME, chars)) return;
 			if (checkAndFillString(story, currentElementName, StoryData.ID, chars)) return;
 			if (checkAndFillString(story, currentElementName, StoryData.ESTIMATE, chars)) return;
@@ -91,31 +90,11 @@ public class XMLStoriesHandler extends XMLBaseHandler {
 			if (checkAndFillString(story, currentElementName, StoryData.DEADLINE, chars)) return;
 		}
 
-		if ((isIteration) && (iteration != null)) {
-			//<id type="integer">1</id>
-			//<number type="integer">1</number>
-			//<start type="datetime">2009/03/16 00:00:00 UTC</start>
-			//<finish type="datetime">2009/03/23 00:00:00 UTC</finish>
-
-			if (currentElementName.equalsIgnoreCase("number")) {
-				// Log.e("name",chars);
-				iteration.addNumber(chars);
-			}
-
-			if (currentElementName.equalsIgnoreCase("id")) {
-				// Log.e("id",chars);
-				iteration.addId(chars);
-			}
-
-			if (currentElementName.equalsIgnoreCase("start")) {
-				// Log.e("id",chars);
-				iteration.addStart(chars);
-			}
-
-			if (currentElementName.equalsIgnoreCase("finish")) {
-				// Log.e("id",chars);
-				iteration.addFinish(chars);
-			}
+		if (parseWhat == ITERATION) {
+			if (checkAndFillString(iteration, currentElementName, IterationData.NUMBER, chars)) return;
+			if (checkAndFillString(iteration, currentElementName, IterationData.ID, chars)) return;
+			if (checkAndFillString(iteration, currentElementName, IterationData.START, chars)) return;
+			if (checkAndFillString(iteration, currentElementName, IterationData.FINISH, chars)) return;
 		}
 	}
 }

@@ -2,6 +2,7 @@ package me.linnemann.ptmobile;
 
 import java.util.List;
 
+import me.linnemann.ptmobile.cursor.IterationCursor;
 import me.linnemann.ptmobile.cursor.StoriesCursor;
 import me.linnemann.ptmobile.pivotaltracker.PivotalTracker;
 import me.linnemann.ptmobile.pivotaltracker.Story;
@@ -113,7 +114,14 @@ public class StoryDetails extends Activity {
 			owner.setVisibility(View.INVISIBLE);
 		}
 		
-		iteration.setText(OutputStyler.getIterationAsText(c));
+		if (c.getIterationNumber() != null) {
+			IterationCursor ic = tracker.getIterationCursor(c.getProjectId(), c.getIterationNumber());
+			iteration.setText(OutputStyler.getIterationAsText(ic));		
+		} else {
+			iteration.setVisibility(View.GONE);
+		}
+		
+
 		setUpButtons();
 	}
 	

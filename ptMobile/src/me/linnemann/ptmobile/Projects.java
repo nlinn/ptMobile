@@ -58,7 +58,7 @@ public class Projects extends ListActivity {
 				toast.show();	
 			}
 
-			fillData();
+			populateList();
 		}
 	};
 
@@ -90,7 +90,7 @@ public class Projects extends ListActivity {
 	public void onResume() {
 		super.onResume();
 		tracker = new PivotalTracker(this);
-		fillData(); // show projects
+		populateList(); // show projects
 		Log.i("Projects","needs update?");
 		// --- refresh if update timestamp is too old (or never set)
 		if(tracker.projectsNeedUpdate()) {
@@ -107,14 +107,13 @@ public class Projects extends ListActivity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		boolean result = super.onCreateOptionsMenu(menu);
-		menu.add(0, REFRESH, 0, R.string.menu_refesh).setIcon(android.R.drawable.ic_menu_upload);
+		menu.add(0, REFRESH, 0, R.string.menu_refesh).setIcon(R.drawable.ic_menu_refresh);
 		menu.add(0, PREFERENCES_ID, 0, R.string.menu_prefs).setIcon(android.R.drawable.ic_menu_preferences);
 		// TODO: remove permanently? -> menu.add(0, FLUSH_ID, 0, "debug: flush local data");
 		menu.add(0, ABOUT_ID, 0, "About").setIcon(android.R.drawable.ic_menu_help);
+		
 		return result;
 	}
-
-
 	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
@@ -127,7 +126,7 @@ public class Projects extends ListActivity {
 			return true;
 		case FLUSH_ID:
 			tracker.flush();
-			fillData();
+			populateList();
 			return true;
 		case ABOUT_ID:
 			startActivity(new Intent(this,About.class));
@@ -178,7 +177,7 @@ public class Projects extends ListActivity {
 		if (tracker != null) tracker.pause();
 	}
 
-	private void fillData() {
+	private void populateList() {
 		pc = tracker.getProjectsCursor();
 		startManagingCursor(pc);
 		ProjectsCursorAdapter pa = new ProjectsCursorAdapter(this, pc);

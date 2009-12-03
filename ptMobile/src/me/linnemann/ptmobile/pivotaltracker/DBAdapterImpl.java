@@ -1,6 +1,7 @@
 package me.linnemann.ptmobile.pivotaltracker;
 
 import me.linnemann.ptmobile.cursor.ActivitiesCursor;
+import me.linnemann.ptmobile.cursor.IterationCursor;
 import me.linnemann.ptmobile.cursor.ProjectsCursor;
 import me.linnemann.ptmobile.cursor.StoriesCursor;
 import android.content.ContentValues;
@@ -25,7 +26,7 @@ public class DBAdapterImpl implements DBAdapter {
 	private SQLiteDatabase db;
 
 	private static final String DATABASE_NAME = "data";
-	private static final int DATABASE_VERSION = 27;
+	private static final int DATABASE_VERSION = 29;
 
 	private final Context ctx;
 
@@ -71,7 +72,7 @@ public class DBAdapterImpl implements DBAdapter {
 					+ "number integer not null, "
 					+ "start date not null, "
 					+ "finish date not null, "
-					+ "updatetimestamp integer, "
+					+ "updatetimestamp integer not null, "
 					+ "iteration_group text, "
 					+ "project_id text not null);");
 			
@@ -88,6 +89,14 @@ public class DBAdapterImpl implements DBAdapter {
 			db.execSQL("create table timestamps (_id integer primary key autoincrement, "
 					+ "key text not null, "
 					+ "eventtime integer not null)");
+			
+			// --- NOTES
+			db.execSQL("create table notes (_id integer primary key autoincrement, "
+					+ "id text not null, "
+					+ "story_id text not null, "
+					+ "author text not null, "
+					+ "updatetimestamp integer, "
+					+ "noted_at integer not null)");
 		}
 
 		@Override
@@ -99,6 +108,7 @@ public class DBAdapterImpl implements DBAdapter {
 			db.execSQL("DROP TABLE IF EXISTS iterations");
 			db.execSQL("DROP TABLE IF EXISTS activities");
 			db.execSQL("DROP TABLE IF EXISTS timestamps");
+			db.execSQL("DROP TABLE IF EXISTS notes");
 			onCreate(db);
 		}
 	}
@@ -148,7 +158,9 @@ public class DBAdapterImpl implements DBAdapter {
 	 * @see me.linnemann.ptmobile.pivotaltracker.IDBAdapter#insertStory(android.content.ContentValues)
 	 */
 	public long insertStory(ContentValues cv) {
-		return db.insert("stories", null, cv);
+		long result = db.insert("stories", null, cv);
+		Log.i("DB","insert: "+result);
+		return result;
 	}
 	
 	public long updateStory(ContentValues cv) {
@@ -156,13 +168,16 @@ public class DBAdapterImpl implements DBAdapter {
 		return db.update("stories", cv, "id=?", new String[]{cv.getAsString("id")});
 	}
 
+	public long insertIteration(ContentValues cv) {
+		return db.insert("iterations", null, cv);
+	}
 
 	/* (non-Javadoc)
 	 * @see me.linnemann.ptmobile.pivotaltracker.IDBAdapter#insertIteration(me.linnemann.ptmobile.pivotaltracker.Iteration)
 	 */
-	public long insertIteration(Iteration iteration) {
-		return db.insert("iterations", null, iteration.getDataAsContentValues());
-	}
+	//public long insertIteration(Iteration iteration) {
+	//	return db.insert("iterations", null, iteration.getDataAsContentValues());
+	//}
 
 	/* (non-Javadoc)
 	 * @see me.linnemann.ptmobile.pivotaltracker.IDBAdapter#deleteAllProjects()
@@ -213,7 +228,6 @@ public class DBAdapterImpl implements DBAdapter {
 		return c;
 	}
 	
-	
 	/* (non-Javadoc)
 	 * @see me.linnemann.ptmobile.pivotaltracker.IDBAdapter#getProject(java.lang.String)
 	 */
@@ -223,6 +237,13 @@ public class DBAdapterImpl implements DBAdapter {
 		return c;
 	}
 
+	public IterationCursor getIteration(String project_id, String number) {
+		IterationCursor c = (IterationCursor) db.rawQueryWithFactory(new IterationCursor.Factory(), IterationCursor.sqlSingleIteration(number, project_id), null, null);
+		c.moveToFirst();
+		return c;
+	}
+
+	
 	/* (non-Javadoc)
 	 * @see me.linnemann.ptmobile.pivotaltracker.IDBAdapter#getProjectIdByName(java.lang.String)
 	 */
@@ -252,30 +273,25 @@ public class DBAdapterImpl implements DBAdapter {
 	/* (non-Javadoc)
 	 * @see me.linnemann.ptmobile.pivotaltracker.IDBAdapter#getStoriesCursorBacklog(java.lang.String)
 	 */
-	public StoriesCursor getStoriesCursorBacklog(String project_id) {
-		StoriesCursor c = (StoriesCursor) db.rawQueryWithFactory(new StoriesCursor.Factory(), StoriesCursor.sqlBacklog(project_id), null, null);
+	public StoriesCursor getStoriesCursor(String project_id, String filter) {
+		
+		String sql = "";
+		// --- TODO clean up this mess:
+		if (filter.equalsIgnoreCase("icebox")) {
+			sql = StoriesCursor.sqlIcebox(project_id);
+		} else if (filter.equalsIgnoreCase("done")) {
+			sql = StoriesCursor.sqlDone(project_id);
+		} else if (filter.equalsIgnoreCase("current")) {
+			sql = StoriesCursor.sqlCurrent(project_id);
+		} else if (filter.equalsIgnoreCase("backlog")) {
+			sql = StoriesCursor.sqlBacklog(project_id);
+		}
+		
+		StoriesCursor c = (StoriesCursor) db.rawQueryWithFactory(new StoriesCursor.Factory(), sql, null, null);
 		c.moveToFirst();
 		return c;
 	}
-
-	/* (non-Javadoc)
-	 * @see me.linnemann.ptmobile.pivotaltracker.IDBAdapter#getStoriesCursorCurrent(java.lang.String)
-	 */
-	public StoriesCursor getStoriesCursorCurrent(String project_id) {
-		StoriesCursor c = (StoriesCursor) db.rawQueryWithFactory(new StoriesCursor.Factory(), StoriesCursor.sqlCurrent(project_id), null, null);
-		c.moveToFirst();
-		return c;
-	}
-
-	/* (non-Javadoc)
-	 * @see me.linnemann.ptmobile.pivotaltracker.IDBAdapter#getStoriesCursorDone(java.lang.String)
-	 */
-	public StoriesCursor getStoriesCursorDone(String project_id) {
-		StoriesCursor c = (StoriesCursor) db.rawQueryWithFactory(new StoriesCursor.Factory(), StoriesCursor.sqlDone(project_id), null, null);
-		c.moveToFirst();
-		return c;
-	}
-
+	
 	/* (non-Javadoc)
 	 * @see me.linnemann.ptmobile.pivotaltracker.IDBAdapter#getStory(java.lang.String)
 	 */
@@ -329,7 +345,7 @@ public class DBAdapterImpl implements DBAdapter {
 	 */
 	public boolean storiesNeedUpdate(String project_id, String iteration_group) {
 
-		Long interval = new Long(PreferenceManager.getDefaultSharedPreferences(ctx).getString("story_refresh_interval", "-5"));
+		Long interval = new Long(PreferenceManager.getDefaultSharedPreferences(ctx).getString("story_refresh_interval", "60000"));
 
 		Log.i("update interval","found: "+interval);
 
@@ -346,7 +362,7 @@ public class DBAdapterImpl implements DBAdapter {
 	 */
 	public boolean projectsNeedUpdate() {
 
-		Long interval = new Long(PreferenceManager.getDefaultSharedPreferences(ctx).getString("project_refresh_interval", "-5"));
+		Long interval = new Long(PreferenceManager.getDefaultSharedPreferences(ctx).getString("project_refresh_interval", "60000"));
 
 		Log.i("update interval","found: "+interval);
 

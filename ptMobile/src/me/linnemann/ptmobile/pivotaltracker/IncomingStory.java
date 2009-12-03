@@ -6,6 +6,7 @@ import java.util.Map;
 import me.linnemann.ptmobile.pivotaltracker.fields.StoryData;
 
 import android.content.ContentValues;
+import android.util.Log;
 
 /**
  * Story Value
@@ -21,6 +22,8 @@ public class IncomingStory implements IncomingData {
 	
 	public IncomingStory(DBAdapter db, String project_id, String iteration_number, String iteration_group) {
 		this.db = db;
+		
+		Log.i("IncomingStory","new story");
 		
 		stringData = new HashMap<StoryData,String>(); // prepare map
 		addDataForKey(StoryData.PROJECT_ID, project_id);
@@ -60,6 +63,6 @@ public class IncomingStory implements IncomingData {
 	 * @see me.linnemann.ptmobile.pivotaltracker.IncomingData#save()
 	 */
 	public void save() {
-		this.db.insertStory(getDataAsContentValues());
+		db.insertStory(getDataAsContentValues());
 	}
 }

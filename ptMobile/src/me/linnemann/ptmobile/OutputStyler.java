@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 
 import android.util.Log;
 
+import me.linnemann.ptmobile.cursor.IterationCursor;
 import me.linnemann.ptmobile.cursor.ProjectsCursor;
 import me.linnemann.ptmobile.cursor.StoriesCursor;
 
@@ -16,6 +17,9 @@ public class OutputStyler {
 
 
 	public static String getIterationAsText(StoriesCursor c) {
+		
+		if (c.getIterationNumber() == null) return "";
+		
 		StringBuilder s = new StringBuilder(c.getIterationNumber());
 		s.append(" |  ");
 		try {
@@ -29,6 +33,24 @@ public class OutputStyler {
 		return s.toString();
 	}
 
+	// TODO code dupes!
+	public static String getIterationAsText(IterationCursor c) {
+		
+		if (c.getNumber() == null) return "";
+		
+		StringBuilder s = new StringBuilder(c.getNumber());
+		s.append(" |  ");
+		try {
+			s.append(out.format(sdf.parse(c.getStart())));
+			s.append(" - ");
+			s.append(out.format(sdf.parse(c.getFinish())));		
+		} catch (ParseException e) {
+			Log.e("OutputStyler",e.getMessage());
+		}
+
+		return s.toString();
+	}
+	
 	public static String getEstimateAsText(StoriesCursor c) {
 
 		String s = "";

@@ -1,6 +1,7 @@
 package me.linnemann.ptmobile.pivotaltracker;
 
 import me.linnemann.ptmobile.cursor.ActivitiesCursor;
+import me.linnemann.ptmobile.cursor.IterationCursor;
 import me.linnemann.ptmobile.cursor.ProjectsCursor;
 import me.linnemann.ptmobile.cursor.StoriesCursor;
 import android.content.Context;
@@ -47,18 +48,14 @@ public class PivotalTracker {
 		return db.getActivitiesCursor();
 	}
 	
-	public StoriesCursor getStoriesCursorBacklog(String project_id) {
-		return db.getStoriesCursorBacklog(project_id);
+	public IterationCursor getIterationCursor(String project_id, String number) {
+		return db.getIteration(project_id, number);
 	}
-
-	public StoriesCursor getStoriesCursorDone(String project_id) {
-		return db.getStoriesCursorDone(project_id);
+	
+	public StoriesCursor getStoriesCursor(String project_id, String filter) {
+		return db.getStoriesCursor(project_id, filter);
 	}
-
-	public StoriesCursor getStoriesCursorCurrent(String project_id) {
-		return db.getStoriesCursorCurrent(project_id);
-	}
-
+	
 	public StoriesCursor getStory(String story_id) {
 		return db.getStory(story_id);
 	}

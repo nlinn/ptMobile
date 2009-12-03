@@ -41,6 +41,7 @@ public class APIAdapter {
 	private static final String URL_ITERATIONS ="http://www.pivotaltracker.com/services/v2/projects/PROJECT_ID/iterations";
 	private static final String URL_ITERATIONS_CURRENT ="http://www.pivotaltracker.com/services/v2/projects/PROJECT_ID/iterations/current";
 	private static final String URL_ITERATIONS_DONE ="http://www.pivotaltracker.com/services/v2/projects/PROJECT_ID/iterations/done?offset=-3";
+	private static final String URL_ICEBOX ="http://www.pivotaltracker.com/services/v2/projects/PROJECT_ID/stories?filter=state%3Aunscheduled";
 	private static final String URL_ITERATIONS_BACKLOG ="http://www.pivotaltracker.com/services/v2/projects/PROJECT_ID/iterations/backlog";
 	private static final String URL_TOKEN ="https://www.pivotaltracker.com/services/tokens/active";
 
@@ -133,7 +134,7 @@ public class APIAdapter {
 	public boolean updateStoriesForProject(String project_id, String iteration_group) {
 		boolean successful=false;
 
-		Log.i(TAG,"udpateStoriesInProject "+project_id);
+		Log.i(TAG,"udpateStoriesInProject "+project_id + " group "+iteration_group);
 
 		String url="";
 		
@@ -145,6 +146,9 @@ public class APIAdapter {
 		}
 		if (iteration_group.equalsIgnoreCase("backlog")) {
 			url = URL_ITERATIONS_BACKLOG.replaceAll("PROJECT_ID", project_id); // create project specific url
+		}
+		if (iteration_group.equalsIgnoreCase("icebox")) {
+			url = URL_ICEBOX.replaceAll("PROJECT_ID", project_id); // create project specific url
 		}
 		
 		Log.i(TAG,url);

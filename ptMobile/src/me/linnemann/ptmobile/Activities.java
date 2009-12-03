@@ -104,7 +104,7 @@ public class Activities extends ListActivity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		boolean result = super.onCreateOptionsMenu(menu);
-		menu.add(0, MENU_REFRESH, 0, R.string.menu_refesh).setIcon(android.R.drawable.ic_menu_upload);
+		menu.add(0, MENU_REFRESH, 0, R.string.menu_refesh).setIcon(R.drawable.ic_menu_refresh);
 		menu.add(0, MENU_PREFERENCES, 0, R.string.menu_prefs).setIcon(android.R.drawable.ic_menu_preferences);
 		menu.add(0, MENU_FLUSH, 0, "debug: flush local data");
 		menu.add(0, MENU_ABOUT, 0, "About").setIcon(android.R.drawable.ic_menu_help);

@@ -81,6 +81,9 @@ public class StoryImpl implements Story {
 	 	if ( ("unstarted".equals(data.get(StoryData.CURRENT_STATE))) &&
 	 			(needsEstimate())) {
 	 		return new ArrayList<Transition>(); // empty list
+ 		} else if ( ("unscheduled".equals(data.get(StoryData.CURRENT_STATE))) &&
+	 			(needsEstimate())) {
+	 		return new ArrayList<Transition>(); // empty list
  		} else {
 			return currentState.getTransitions();
 	 	}

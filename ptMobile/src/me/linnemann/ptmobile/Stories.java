@@ -28,6 +28,9 @@ public class Stories extends ListActivity {
 	private static final int TRANS_2_ID = Menu.FIRST + 7;
 	private static final int ESTIMATE_ID = Menu.FIRST + 8;
 	
+	private static final int ICEBOX_ID = Menu.FIRST + 9;
+	private static final int REFRESH_ID = Menu.FIRST + 10;
+	
 	private static final String TAG = "Stories";
 	
 	private PivotalTracker tracker;
@@ -40,7 +43,9 @@ public class Stories extends ListActivity {
 	private Handler handler = new Handler() {
 		@Override
 		public void handleMessage(Message msg) {
-			getParent().setProgressBarIndeterminateVisibility(false);
+			if (getParent() != null) {
+				getParent().setProgressBarIndeterminateVisibility(false);
+			}
 			Toast toast = Toast.makeText(getApplicationContext(), "update complete", Toast.LENGTH_SHORT);
 			toast.show();	
 			updateList(project_id);
@@ -62,10 +67,10 @@ public class Stories extends ListActivity {
 		Bundle extras = getIntent().getExtras();
 		if (extras != null) {
 			Log.i(TAG,"Project ID from Extras: "+extras.getString("project_id"));
-
-			setTitle("Project "+extras.getString("project_name"));
+			
 			project_id=extras.getString("project_id");
 			iteration_group=extras.getString("filter");
+			setTitle("Project "+extras.getString("project_name") + " "+iteration_group);
 		}
 		Log.i(TAG,"onCreate finished");
 	}
@@ -83,16 +88,8 @@ public class Stories extends ListActivity {
 	}
 
 	private void updateList(String project_id) {
-		Log.i(TAG,"update list: "+project_id);
-
-		if (iteration_group.equalsIgnoreCase("done")) {
-			c = tracker.getStoriesCursorDone(project_id);
-		} else if (iteration_group.equalsIgnoreCase("current")) {
-			c = tracker.getStoriesCursorCurrent(project_id);
-		} else if (iteration_group.equalsIgnoreCase("backlog")) {
-			c = tracker.getStoriesCursorBacklog(project_id);
-		} 
-
+		Log.i(TAG,"update list for project: "+project_id);
+		c = tracker.getStoriesCursor(project_id,iteration_group);
 		startManagingCursor(c);
 		StoriesCursorAdapter sa = new StoriesCursorAdapter(this, c);
 		setListAdapter(sa);
@@ -101,14 +98,28 @@ public class Stories extends ListActivity {
 	// --- OPTIONS ------------------------------------------
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		updateFromTracker();
-		return true;
+		
+		switch (item.getItemId()) {
+		case REFRESH_ID:
+			updateFromTracker();
+			return true;
+		case ICEBOX_ID:
+			Intent icebox = new Intent(this,Stories.class);
+			icebox.putExtra("project_id", project_id);
+			//icebox.putExtra("project_id", project_id);
+			icebox.putExtra("filter", "icebox");
+			startActivity(icebox);
+			return true;
+		}
+
+		return super.onOptionsItemSelected(item);
 	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		boolean result = super.onCreateOptionsMenu(menu);
-		menu.add(0, 0, 0, R.string.menu_refesh).setIcon(android.R.drawable.ic_menu_upload);
+		menu.add(0, REFRESH_ID, 0, R.string.menu_refesh).setIcon(R.drawable.ic_menu_refresh);
+		menu.add(0, ICEBOX_ID, 0, "icebox");
 		return result;
 	}
 	
@@ -206,11 +217,17 @@ public class Stories extends ListActivity {
 
 	private void updateFromTracker() {
 		Log.i(TAG,"update progress bar");
-		getParent().setProgressBarIndeterminateVisibility(true);
+		
+		if (getParent() != null) {
+			getParent().setProgressBarIndeterminateVisibility(true);
+		}
+		
 		new Thread() { 
 			public void run() { 
 				try{ 
-					getParent().setProgressBarIndeterminateVisibility(true);
+					if (getParent() != null) {
+						getParent().setProgressBarIndeterminateVisibility(true);
+					}
 					tracker.updateStoriesForProject(project_id, iteration_group);
 					handler.sendEmptyMessage(1);
 				} catch (Exception e) {
