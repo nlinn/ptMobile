@@ -9,6 +9,7 @@ import java.util.Map;
 
 import javax.xml.parsers.ParserConfigurationException;
 
+import me.linnemann.ptmobile.pivotaltracker.xml.AddCommentCommand;
 import me.linnemann.ptmobile.pivotaltracker.xml.UpdateStoryCommand;
 import me.linnemann.ptmobile.pivotaltracker.xml.XMLActivitiesHandler;
 import me.linnemann.ptmobile.pivotaltracker.xml.XMLProjectsHandler;
@@ -38,7 +39,7 @@ public class APIAdapter {
 	private static final String URL_PROJECTS ="http://www.pivotaltracker.com/services/v2/projects";
 	private static final String URL_ACTIVITIES ="http://www.pivotaltracker.com/services/v2/activities";
 	//private static final String URL_STORIES ="http://www.pivotaltracker.com/services/v2/projects/PROJECT_ID/stories";
-	private static final String URL_ITERATIONS ="http://www.pivotaltracker.com/services/v2/projects/PROJECT_ID/iterations";
+	//private static final String URL_ITERATIONS ="http://www.pivotaltracker.com/services/v2/projects/PROJECT_ID/iterations";
 	private static final String URL_ITERATIONS_CURRENT ="http://www.pivotaltracker.com/services/v2/projects/PROJECT_ID/iterations/current";
 	private static final String URL_ITERATIONS_DONE ="http://www.pivotaltracker.com/services/v2/projects/PROJECT_ID/iterations/done?offset=-3";
 	private static final String URL_ICEBOX ="http://www.pivotaltracker.com/services/v2/projects/PROJECT_ID/stories?filter=state%3Aunscheduled";
@@ -188,6 +189,27 @@ public class APIAdapter {
 		} catch (IOException e) {
 			Log.e(TAG,"editStory, IO: "+e.getMessage());
 		}
+	}
+	
+	public void addComment(Story story, String comment) {
+		
+		AddCommentCommand acc = new AddCommentCommand(story, comment);
+
+		Map<String,String> properties = new HashMap<String,String>();
+		properties.put(TRACKER_TOKEN_NAME,apikey);
+		properties.put("Content-type","application/xml");
+
+		try {
+			ByteArrayInputStream body = new ByteArrayInputStream(acc.getXMLBytes());
+
+			InputStream is = rest.doPOST(acc.getURL(), properties, body);
+			Log.d(TAG,"RESP: "+rest.textFromURL(is));
+
+			is.close();
+		} catch (IOException e) {
+			Log.e(TAG,"addComment, IO: "+e.getMessage());
+		}
+
 	}
 	
 	private InputStream loadToken(final String username,final String password) throws IOException {

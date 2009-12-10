@@ -23,10 +23,10 @@ public class DBAdapterImpl implements DBAdapter {
 
 	private static final String TAG = "DBAdapterImpl";
 	private DatabaseHelper dbHelper;
-	private SQLiteDatabase db;
+	SQLiteDatabase db;
 
 	private static final String DATABASE_NAME = "data";
-	private static final int DATABASE_VERSION = 29;
+	private static final int DATABASE_VERSION = 31;
 
 	private final Context ctx;
 
@@ -94,9 +94,11 @@ public class DBAdapterImpl implements DBAdapter {
 			db.execSQL("create table notes (_id integer primary key autoincrement, "
 					+ "id text not null, "
 					+ "story_id text not null, "
+					+ "project_id text not null, "
+					+ "_text text not null, "
 					+ "author text not null, "
 					+ "updatetimestamp integer, "
-					+ "noted_at integer not null)");
+					+ "noted_at date not null)");
 		}
 
 		@Override
@@ -163,6 +165,15 @@ public class DBAdapterImpl implements DBAdapter {
 		return result;
 	}
 	
+	/* (non-Javadoc)
+	 * @see me.linnemann.ptmobile.pivotaltracker.IDBAdapter#insertNote(android.content.ContentValues)
+	 */
+	public long insertNote(ContentValues cv) {
+		long result = db.insert("notes", null, cv);
+		Log.i("DB","insert: "+result);
+		return result;
+	}
+	
 	public long updateStory(ContentValues cv) {
 		Log.d(TAG, "updating story: "+cv.toString());
 		return db.update("stories", cv, "id=?", new String[]{cv.getAsString("id")});
@@ -200,6 +211,7 @@ public class DBAdapterImpl implements DBAdapter {
 		Log.i(TAG, "deleting stories in project "+project_id+" group "+iteration_group+" older than "+timestamp);
 		db.delete("stories", "project_id=? AND iteration_group=? AND updatetimestamp < ?", new String[]{project_id, iteration_group, Long.toString(timestamp)});
 		db.delete("iterations", "project_id=? AND iteration_group=? AND updatetimestamp < ?", new String[]{project_id, iteration_group, Long.toString(timestamp)});
+		db.delete("notes", "project_id=? AND updatetimestamp < ?", new String[]{project_id, Long.toString(timestamp)});
 		return true;
 	}
 
@@ -389,9 +401,42 @@ public class DBAdapterImpl implements DBAdapter {
 		}
 	}
 
-	
-	
+	public String getCommentsAsString(String story_id) {
+		StringBuilder comments = new StringBuilder();
+		
+		try { 
+			Cursor c = db.rawQuery("Select _text, author, noted_at from notes where story_id='"+story_id+"'",null);
 
+			if (c.moveToFirst()) {
+				comments.append(c.getString(0));
+				comments.append("\n");
+				comments.append(c.getString(1));
+				comments.append(", ");
+				comments.append(c.getString(2));
+				comments.append("\n\n");
+			}
+			
+			while (c.moveToNext()) { 
+				comments.append(c.getString(0));
+				comments.append("\n");
+				comments.append(c.getString(1));
+				comments.append(", ");
+				comments.append(c.getString(2));
+				comments.append("\n\n");
+			}
+			c.close();
+		} catch (SQLException e) { 
+			Log.e("DBAdapter", e.toString()); 
+		}
+		
+		if (comments.length() < 1) {
+			comments.append("(no comments)");
+		}
+		
+		return comments.toString();
+		
+	}
+	
 	private boolean needsUpdate(String sql, long updateIterval) {
 		boolean needsUpdate = true; // default if cursor is empty
 

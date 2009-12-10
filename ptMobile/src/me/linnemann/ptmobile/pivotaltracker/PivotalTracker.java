@@ -100,9 +100,17 @@ public class PivotalTracker {
 		db.updateStory(story.getDataAsContentValues());
 		api.editStory(story);
 	}
+	
+	public void addComment(Story story, String comment) {
+		api.addComment(story, comment);
+	}
 
 	public void flush() {
 		db.flush();
+	}
+	
+	public String getCommentsAsString(String story_id) {
+		return db.getCommentsAsString(story_id);
 	}
 	
 }

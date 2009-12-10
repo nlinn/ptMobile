@@ -2,18 +2,25 @@ package me.linnemann.ptmobile;
 
 import java.util.List;
 
+
 import me.linnemann.ptmobile.cursor.IterationCursor;
 import me.linnemann.ptmobile.cursor.StoriesCursor;
 import me.linnemann.ptmobile.pivotaltracker.PivotalTracker;
 import me.linnemann.ptmobile.pivotaltracker.Story;
 import me.linnemann.ptmobile.pivotaltracker.state.Transition;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 public class StoryDetails extends Activity {
@@ -31,6 +38,7 @@ public class StoryDetails extends Activity {
 	private TextView state;
 	private TextView iteration;
 	private ImageView image;
+	private TextView comments;
 	
 	
 	private StoriesCursor c;
@@ -56,6 +64,7 @@ public class StoryDetails extends Activity {
 		state = (TextView) this.findViewById(R.id.textStateStoryDetails);
 		image = (ImageView) this.findViewById(R.id.imageTypeStoryDetails);
 		iteration = (TextView) this.findViewById(R.id.textIterationStoryDetails);
+		comments = (TextView) this.findViewById(R.id.textCommentsSD);
 		
 		story_id = getIntent().getExtras().getString("story_id");
 	}
@@ -121,8 +130,13 @@ public class StoryDetails extends Activity {
 			iteration.setVisibility(View.GONE);
 		}
 		
-
+		setComments();
 		setUpButtons();
+	}
+	
+	private void setComments() {
+
+		comments.setText(tracker.getCommentsAsString(story_id));
 	}
 	
 	private void setUpButtons() {
@@ -171,6 +185,14 @@ public class StoryDetails extends Activity {
 			});
 			btn2.setVisibility(View.VISIBLE);
 		}
+		
+		btn3.setText("comment");
+		btn3.setOnClickListener(new OnClickListener() {
+			public void onClick(View v) {  
+				showDialog(1);
+			}  
+		});
+		btn3.setVisibility(View.VISIBLE);
 	}
 	
 	private void showEstimateActivity() {
@@ -200,4 +222,31 @@ public class StoryDetails extends Activity {
 		updateView();
 	}
 
+	protected Dialog onCreateDialog(int id) {
+		LayoutInflater factory = LayoutInflater.from(this);
+        final View textEntryView = factory.inflate(R.layout.dialog_comment, null);
+        return new AlertDialog.Builder(StoryDetails.this)
+        	.setIcon(null)
+            .setTitle("Comments")
+            .setView(textEntryView)
+            .setPositiveButton("save", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int whichButton) {
+                	
+                	EditText edit = (EditText) findViewById(R.id.commentEdit);
+                	// TODO edit throws NP... fix it!
+                	if (edit.getText().length() > 0) {
+                		tracker.addComment(c.getStory(), edit.getText().toString());
+                	}
+                	
+                }
+            })
+            .setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int whichButton) {
+                    // --- do nothing
+                }
+            })
+            .create();
+	}
+	
+	
 }

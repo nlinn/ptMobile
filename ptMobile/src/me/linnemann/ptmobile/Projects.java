@@ -30,6 +30,7 @@ public class Projects extends ListActivity {
 	private static final int ABOUT_ID = Menu.FIRST + 5;
 	private static final int PROJECT_DETAILS_ID = Menu.FIRST + 6;
 	private static final int STORIES_ID = Menu.FIRST + 7;
+	private static final int UPDATE_VELOCITY_ID = Menu.FIRST + 8;
 
 	private ProjectsCursor pc;
 	private PivotalTracker tracker;
@@ -85,6 +86,7 @@ public class Projects extends ListActivity {
 			menu.setHeaderTitle("Project");
 			menu.add(0, STORIES_ID, 0, R.string.menu_showstories);
 	        menu.add(0, PROJECT_DETAILS_ID, 0, R.string.menu_showprojectdetails);
+	        menu.add(0, UPDATE_VELOCITY_ID, 0, "Refresh Velocity");
 		}
 	
 	public void onResume() {
@@ -149,6 +151,12 @@ public class Projects extends ListActivity {
 		case PROJECT_DETAILS_ID:        	
 			pc.moveToPosition((int) info.position);
 			startProjectDetailsActivity(pc);
+			return true;
+		case UPDATE_VELOCITY_ID:        	
+			pc.moveToPosition((int) info.position);
+			pc.getId();
+			tracker.updateStoriesForProject(pc.getId(), "done");
+			refresh();
 			return true;
 		}
 

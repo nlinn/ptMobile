@@ -23,8 +23,6 @@ public class IncomingStory implements IncomingData {
 	public IncomingStory(DBAdapter db, String project_id, String iteration_number, String iteration_group) {
 		this.db = db;
 		
-		Log.i("IncomingStory","new story");
-		
 		stringData = new HashMap<StoryData,String>(); // prepare map
 		addDataForKey(StoryData.PROJECT_ID, project_id);
 		addDataForKey(StoryData.ITERATION_NUMBER, iteration_number);
@@ -39,6 +37,10 @@ public class IncomingStory implements IncomingData {
 			String tmp = stringData.get(key);
 			stringData.put((StoryData) key, tmp+value);
 		}
+	}
+	
+	public String getProjectId() {
+		return stringData.get(StoryData.ID);
 	}
 	
 	/**

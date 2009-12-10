@@ -26,10 +26,14 @@ public class ProjectDetails extends Activity {
 		tracker = new PivotalTracker(this);
 		c = tracker.getProject(project_id);
 		
+		tracker.updateStoriesForProject(project_id, "done"); // --- update done stories for velocity
+		
+
 		findTextView(R.id.textNamePD).setText(c.getName());
 		findTextView(R.id.textIterationLengthPD).setText(OutputStyler.getIterationLengthAsText(c));
 		findTextView(R.id.textWeekStartDayPD).setText(c.getWeekStartDay());
 		findTextView(R.id.textPointScalePD).setText(c.getPointScale());
+		findTextView(R.id.textVelocityPD).setText(OutputStyler.getVelocityAsText(tracker.getVelocityForProject(project_id)));
 	}
 	
 	@Override

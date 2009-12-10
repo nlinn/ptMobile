@@ -1,10 +1,11 @@
 package me.linnemann.ptmobile.pivotaltracker.xml;
 
 import me.linnemann.ptmobile.pivotaltracker.DBAdapter;
-import me.linnemann.ptmobile.pivotaltracker.IncomingData;
 import me.linnemann.ptmobile.pivotaltracker.IncomingIteration;
+import me.linnemann.ptmobile.pivotaltracker.IncomingNote;
 import me.linnemann.ptmobile.pivotaltracker.IncomingStory;
 import me.linnemann.ptmobile.pivotaltracker.fields.IterationData;
+import me.linnemann.ptmobile.pivotaltracker.fields.NoteData;
 import me.linnemann.ptmobile.pivotaltracker.fields.StoryData;
 
 import org.xml.sax.Attributes;
@@ -12,14 +13,17 @@ import org.xml.sax.SAXException;
 
 public class XMLStoriesHandler extends XMLBaseHandler {
 
+	private static final String TAG="XMLStoriesHandler";
+	
 	private static final int STORY = 1;
 	private static final int ITERATION = 2;
 	private static final int NOTE = 3;
 	
 	private String project_id;
 
-	private IncomingData story;
+	private IncomingStory story;
 	private IncomingIteration iteration;
+	private IncomingNote note;
 
 
 	private String iteration_group;
@@ -53,6 +57,7 @@ public class XMLStoriesHandler extends XMLBaseHandler {
 
 		if (name.equalsIgnoreCase("note")) {
 			parseWhat = NOTE;
+			note = new IncomingNote(db, project_id, story.getProjectId());
 		}
 	}
 
@@ -67,6 +72,11 @@ public class XMLStoriesHandler extends XMLBaseHandler {
 		if (name.equalsIgnoreCase("story")) {
 			story.save();
 			story = null;
+		}
+		
+		if (name.equalsIgnoreCase("note")) {
+			note.save();
+			note = null;
 		}
 	}
 
@@ -94,6 +104,13 @@ public class XMLStoriesHandler extends XMLBaseHandler {
 			if (checkAndFillString(iteration, currentElementName, IterationData.ID, chars)) return;
 			if (checkAndFillString(iteration, currentElementName, IterationData.START, chars)) return;
 			if (checkAndFillString(iteration, currentElementName, IterationData.FINISH, chars)) return;
+		}
+		
+		if (parseWhat == NOTE) {
+			if (checkAndFillString(note, currentElementName, NoteData.ID, chars)) return;
+			if (checkAndFillString(note, currentElementName, NoteData.TEXT, chars)) return;
+			if (checkAndFillString(note, currentElementName, NoteData.AUTHOR, chars)) return;
+			if (checkAndFillString(note, currentElementName, NoteData.NOTED_AT, chars)) return;
 		}
 	}
 }

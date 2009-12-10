@@ -42,6 +42,9 @@ public class RESTSupport {
 		return doRequest("PUT",url, requestProperties, null, null, body);
 	}
 	
+	public InputStream doPOST(URL url, Map<String, String> requestProperties, InputStream body) throws IOException {
+		return doRequest("POST",url, requestProperties, null, null, body);
+	}
 	
 	/**
 	 * 

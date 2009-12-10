@@ -73,7 +73,6 @@
 			android:layout_height="wrap_content" android:textColor="@color/color_text"
 			android:textSize="12dip" android:paddingTop="18dip" android:layout_width="wrap_content"
 			android:textStyle="bold"
-			
 			android:layout_below="@id/textWeekStartDayPD"
 			 />
 			 
@@ -84,6 +83,24 @@
 			android:id="@+id/textPointScalePD" android:textSize="12dip"
 			android:paddingTop="2dip" android:paddingBottom="10dip" android:layout_width="wrap_content" 
 			android:layout_below="@id/textPointScaleLabelPD"
+			/>
+
+	<!--  VELOCITY -->
+		<TextView android:text="Velocity (3 iteration average)" android:id="@+id/textVelocityLabelPD"
+		android:paddingLeft="10dip"
+			android:layout_height="wrap_content" android:textColor="@color/color_text"
+			android:textSize="12dip" android:paddingTop="18dip" android:layout_width="wrap_content"
+			android:textStyle="bold"
+			android:layout_below="@id/textPointScalePD"
+			 />
+			 
+		<TextView
+			android:text="7 points"
+		android:paddingLeft="10dip"
+			android:layout_height="wrap_content" android:textColor="@color/color_text"
+			android:id="@+id/textVelocityPD" android:textSize="12dip"
+			android:paddingTop="2dip" android:paddingBottom="10dip" android:layout_width="wrap_content" 
+			android:layout_below="@id/textVelocityLabelPD"
 			/>
 
 

@@ -88,7 +88,7 @@ public class OutputStyler {
 	
 	public static String getVelocityAsText(int v) {
 
-		String s = "Velocity: ";
+		String s = "";
 
 		if (v < 1) {
 			s= s+" n/a";

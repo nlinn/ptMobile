@@ -28,7 +28,7 @@ public class ProjectsCursorAdapter extends CursorAdapter {
 			PivotalTracker tracker = new PivotalTracker(context);
 			int vel = tracker.getVelocityForProject(((ProjectsCursor) cursor).getId());
 			tracker.pause();
-			((TextView) view.findViewById(R.id.textVelocityPL)).setText(OutputStyler.getVelocityAsText(vel));
+			((TextView) view.findViewById(R.id.textVelocityPL)).setText("Velocity: "+OutputStyler.getVelocityAsText(vel));
 		}
 
 		  

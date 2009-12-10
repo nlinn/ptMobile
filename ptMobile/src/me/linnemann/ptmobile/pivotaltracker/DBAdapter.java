@@ -7,6 +7,7 @@ import me.linnemann.ptmobile.cursor.StoriesCursor;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.SQLException;
+import android.util.Log;
 
 public interface DBAdapter {
 
@@ -39,6 +40,14 @@ public interface DBAdapter {
 	 */
 	public abstract long insertActivity(ContentValues cv);
 
+	/**
+	 * Create a new note
+	 * 
+	 * @return rowId or -1 if failed
+	 */
+	public abstract long insertNote(ContentValues cv);
+
+	
 	/**
 	 * Create a new story. if the story is
 	 * successfully created return the new rowId for that note, otherwise return
@@ -96,5 +105,7 @@ public interface DBAdapter {
 	public abstract boolean activitiesNeedUpdate();
 	
 	public long updateStory(ContentValues cv);
+
+	public String getCommentsAsString(String project_id);
 
 }

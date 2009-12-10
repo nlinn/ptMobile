@@ -194,4 +194,8 @@ public class DBAdapterMock implements DBAdapter {
 		return false;
 	}
 
+	public String getCommentsAsString() {
+		return null;
+	}
+
 }
