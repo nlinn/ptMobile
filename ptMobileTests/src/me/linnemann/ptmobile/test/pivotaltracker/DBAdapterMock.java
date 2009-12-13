@@ -86,21 +86,6 @@ public class DBAdapterMock implements DBAdapter {
 		return null;
 	}
 
-	public StoriesCursor getStoriesCursorBacklog(String projectId) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public StoriesCursor getStoriesCursorCurrent(String projectId) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public StoriesCursor getStoriesCursorDone(String projectId) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 	public StoriesCursor getStory(String storyId) {
 		// TODO Auto-generated method stub
 		return null;
@@ -196,6 +181,16 @@ public class DBAdapterMock implements DBAdapter {
 
 	public String getCommentsAsString() {
 		return null;
+	}
+
+	public String getCommentsAsString(String projectId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public long insertNote(ContentValues cv) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 }

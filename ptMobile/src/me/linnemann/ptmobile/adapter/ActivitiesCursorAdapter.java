@@ -1,5 +1,6 @@
 package me.linnemann.ptmobile.adapter;
 
+import me.linnemann.ptmobile.OutputStyler;
 import me.linnemann.ptmobile.R;
 import me.linnemann.ptmobile.cursor.ActivitiesCursor;
 import android.content.Context;
@@ -23,7 +24,10 @@ public class ActivitiesCursorAdapter extends CursorAdapter {
 		if (view instanceof LinearLayout) {
 			((TextView) view.findViewById(R.id.textProjectAL)).setText( ((ActivitiesCursor) cursor).getProject());
 			((TextView) view.findViewById(R.id.textDescriptionAL)).setText( ((ActivitiesCursor) cursor).getDescription());
-			((TextView) view.findViewById(R.id.textWhenAL)).setText( ((ActivitiesCursor) cursor).getWhen());
+			
+			String acttimestamp = ((ActivitiesCursor) cursor).getWhen();
+			
+			((TextView) view.findViewById(R.id.textWhenAL)).setText( OutputStyler.getDateWithTimeForActivity(acttimestamp));
 		}
 	}
 

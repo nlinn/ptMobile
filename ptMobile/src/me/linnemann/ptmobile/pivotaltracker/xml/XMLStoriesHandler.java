@@ -12,7 +12,7 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 
 public class XMLStoriesHandler extends XMLBaseHandler {
-
+	// --- TODO: code duplication: check how to use XMLNotesHandler for notes
 	private static final String TAG="XMLStoriesHandler";
 	
 	private static final int STORY = 1;
@@ -20,12 +20,9 @@ public class XMLStoriesHandler extends XMLBaseHandler {
 	private static final int NOTE = 3;
 	
 	private String project_id;
-
 	private IncomingStory story;
 	private IncomingIteration iteration;
 	private IncomingNote note;
-
-
 	private String iteration_group;
 	private int parseWhat;
 	
@@ -34,7 +31,6 @@ public class XMLStoriesHandler extends XMLBaseHandler {
 		this.project_id = project_id;
 		this.iteration_group = iteration_group;
 	}
-
 
 	public void startElement(String uri, String name, String qName, Attributes attr) {
 		super.startElement(uri, name, qName, attr);
@@ -57,7 +53,7 @@ public class XMLStoriesHandler extends XMLBaseHandler {
 
 		if (name.equalsIgnoreCase("note")) {
 			parseWhat = NOTE;
-			note = new IncomingNote(db, project_id, story.getProjectId());
+			note = new IncomingNote(db, project_id, story.getStoryId());
 		}
 	}
 

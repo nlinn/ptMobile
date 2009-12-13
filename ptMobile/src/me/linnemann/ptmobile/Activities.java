@@ -27,10 +27,9 @@ import android.widget.Toast;
  */
 public class Activities extends ListActivity {
 	
-	public static final int MENU_REFRESH = Menu.FIRST;
-	private static final int MENU_PREFERENCES = Menu.FIRST + 3;
-	private static final int MENU_FLUSH = Menu.FIRST + 4;
-	private static final int MENU_ABOUT = Menu.FIRST + 5;
+	public static final int REFRESH_ID = Menu.FIRST;
+	private static final int PREFERENCES_ID = Menu.FIRST + 3;
+	private static final int ABOUT_ID = Menu.FIRST + 5;
 
 	private ActivitiesCursor pc;
 	private PivotalTracker tracker;
@@ -104,29 +103,23 @@ public class Activities extends ListActivity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		boolean result = super.onCreateOptionsMenu(menu);
-		menu.add(0, MENU_REFRESH, 0, R.string.menu_refesh).setIcon(R.drawable.ic_menu_refresh);
-		menu.add(0, MENU_PREFERENCES, 0, R.string.menu_prefs).setIcon(android.R.drawable.ic_menu_preferences);
-		menu.add(0, MENU_FLUSH, 0, "debug: flush local data");
-		menu.add(0, MENU_ABOUT, 0, "About").setIcon(android.R.drawable.ic_menu_help);
+		menu.add(0, REFRESH_ID, 0, R.string.menu_refesh).setIcon(R.drawable.ic_menu_refresh);
+		menu.add(0, PREFERENCES_ID, 0, R.string.menu_prefs).setIcon(android.R.drawable.ic_menu_preferences);
+		menu.add(0, ABOUT_ID, 0, "About").setIcon(android.R.drawable.ic_menu_help);
+		
 		return result;
 	}
-
-
 	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-		case MENU_REFRESH:
+		case REFRESH_ID:
 			refresh();
 			return true;
-		case MENU_PREFERENCES:
+		case PREFERENCES_ID:
 			startActivity(new Intent(this,Preferences.class));
 			return true;
-		case MENU_FLUSH:
-			tracker.flush();
-			fillData();
-			return true;
-		case MENU_ABOUT:
+		case ABOUT_ID:
 			startActivity(new Intent(this,About.class));
 			return true;
 		}

@@ -13,6 +13,6 @@
         android:padding="5dip"
         android:background="@color/color_background"
         android:textColor="@color/color_text"
-        android:text="@string/welcome" android:layout_width="fill_parent"/>
+        android:text="@string/empty_list" android:layout_width="fill_parent"/>
         
 </LinearLayout>

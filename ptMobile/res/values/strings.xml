@@ -17,7 +17,7 @@
 	</string>
 
 	<string name="about">
-		ptMobile is a simple pivotaltracker client for android.\n\nSince this is an early release, ptMobile is lacking
+		ptMobile is a simple pivotaltracker client for android.\n\nSince this is a beta release, ptMobile is lacking
 		some important features at the moment.\n\nFeedback, bug reports, feature requests are always welcome.\n\nYours\nNiels\n\nVisit me on www.linnemann.me/ptMobile
 	</string>
 	<string name="thanks">Thanks to:\n- pivotallabs for constantly improving pivotaltracker\n- Dennis Pollack, who created the ptMobile Logo

@@ -24,7 +24,7 @@ import android.widget.Toast;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 
 public class Projects extends ListActivity {
-	public static final int REFRESH = Menu.FIRST;
+	public static final int REFRESH_ID = Menu.FIRST;
 	private static final int PREFERENCES_ID = Menu.FIRST + 3;
 	private static final int FLUSH_ID = Menu.FIRST + 4;
 	private static final int ABOUT_ID = Menu.FIRST + 5;
@@ -93,25 +93,25 @@ public class Projects extends ListActivity {
 		super.onResume();
 		tracker = new PivotalTracker(this);
 		populateList(); // show projects
-		Log.i("Projects","needs update?");
+		
+		if (!alreadyCheckedForUpdates) { // TODO maybe better to store a timestamp in prefs? am i checking too often?
+			Log.i("Projects","checking for updates");
+			alreadyCheckedForUpdates = true;
+			new UpdateHelper(this);				
+		}
+		
 		// --- refresh if update timestamp is too old (or never set)
 		if(tracker.projectsNeedUpdate()) {
 			Log.i("Projects","needs update!");
 			refresh();
-		} else {
-			if (!alreadyCheckedForUpdates) {
-				alreadyCheckedForUpdates = true;
-				new UpdateHelper(this);				
-			}
 		}
 	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		boolean result = super.onCreateOptionsMenu(menu);
-		menu.add(0, REFRESH, 0, R.string.menu_refesh).setIcon(R.drawable.ic_menu_refresh);
+		menu.add(0, REFRESH_ID, 0, R.string.menu_refesh).setIcon(R.drawable.ic_menu_refresh);
 		menu.add(0, PREFERENCES_ID, 0, R.string.menu_prefs).setIcon(android.R.drawable.ic_menu_preferences);
-		// TODO: remove permanently? -> menu.add(0, FLUSH_ID, 0, "debug: flush local data");
 		menu.add(0, ABOUT_ID, 0, "About").setIcon(android.R.drawable.ic_menu_help);
 		
 		return result;
@@ -120,15 +120,11 @@ public class Projects extends ListActivity {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-		case REFRESH:
+		case REFRESH_ID:
 			refresh();
 			return true;
 		case PREFERENCES_ID:
 			startActivity(new Intent(this,Preferences.class));
-			return true;
-		case FLUSH_ID:
-			tracker.flush();
-			populateList();
 			return true;
 		case ABOUT_ID:
 			startActivity(new Intent(this,About.class));

@@ -5,6 +5,9 @@
 
 		<intent android:action="me.linnemann.ptmobile.APIKeyPrefs" />
 	</PreferenceScreen>
+	
+	    <PreferenceCategory
+            android:title="Refresh Intervals" />
 
 		<ListPreference android:key="story_refresh_interval"
 			android:title="Story Refresh Interval" android:summary="Set or disable automatic refresh interval"
@@ -23,6 +26,14 @@
 			android:entries="@array/activityupdate_list_preference" 
 			android:entryValues="@array/activityupdate_list_preference_values"
 			android:dialogTitle="Activity Refresh Interval" />			
+
+  	<PreferenceCategory
+            android:title="Misc" />
+            
+             <CheckBoxPreference
+                android:key="auto_update_velocity"
+                android:title="Auto Update Velocity"
+                android:summary="Update velocity when refreshing project list" />
 
 </PreferenceScreen>
         

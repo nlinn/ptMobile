@@ -106,7 +106,7 @@ public class StoryDetails extends Activity {
 		}
 		
 		if (c.hasDeadline()) {
-			deadline.setText("Deadline: "+c.getDeadline());
+			deadline.setText("Deadline: "+OutputStyler.getShortDate(c.getDeadline()));
 		} else {
 			deadline.setVisibility(View.INVISIBLE);
 		}
@@ -125,18 +125,14 @@ public class StoryDetails extends Activity {
 		
 		if (c.getIterationNumber() != null) {
 			IterationCursor ic = tracker.getIterationCursor(c.getProjectId(), c.getIterationNumber());
-			iteration.setText(OutputStyler.getIterationAsText(ic));		
+			iteration.setText(OutputStyler.getIterationAsText(ic));	
+			ic.close();
 		} else {
 			iteration.setVisibility(View.GONE);
 		}
 		
-		setComments();
-		setUpButtons();
-	}
-	
-	private void setComments() {
-
 		comments.setText(tracker.getCommentsAsString(story_id));
+		setUpButtons();
 	}
 	
 	private void setUpButtons() {
@@ -231,13 +227,13 @@ public class StoryDetails extends Activity {
             .setView(textEntryView)
             .setPositiveButton("save", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int whichButton) {
+                	EditText edit = (EditText) ((AlertDialog) dialog).findViewById(R.id.commentEdit);
                 	
-                	EditText edit = (EditText) findViewById(R.id.commentEdit);
-                	// TODO edit throws NP... fix it!
                 	if (edit.getText().length() > 0) {
+                		// TODO: response may be "unsuccessful", error msg?
                 		tracker.addComment(c.getStory(), edit.getText().toString());
+                		updateView();
                 	}
-                	
                 }
             })
             .setNegativeButton("cancel", new DialogInterface.OnClickListener() {

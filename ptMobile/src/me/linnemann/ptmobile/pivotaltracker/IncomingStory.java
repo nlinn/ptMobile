@@ -3,6 +3,7 @@ package me.linnemann.ptmobile.pivotaltracker;
 import java.util.HashMap;
 import java.util.Map;
 
+import me.linnemann.ptmobile.pivotaltracker.fields.NoteData;
 import me.linnemann.ptmobile.pivotaltracker.fields.StoryData;
 
 import android.content.ContentValues;
@@ -39,7 +40,7 @@ public class IncomingStory implements IncomingData {
 		}
 	}
 	
-	public String getProjectId() {
+	public String getStoryId() {
 		return stringData.get(StoryData.ID);
 	}
 	
@@ -52,8 +53,12 @@ public class IncomingStory implements IncomingData {
 		ContentValues v = new ContentValues();
 		
 		for (StoryData f : stringData.keySet()) {
-			// --- note: db field name is lowercase!
-			v.put(f.getDBFieldName(), stringData.get(f));
+			
+			if (f.equals(StoryData.DEADLINE) || f.equals(StoryData.CREATED_AT) || f.equals(StoryData.ACCEPTED_AT)) {
+				v.put(f.getDBFieldName(), stringData.get(f).replaceAll("/", "-").replaceAll(" UTC",""));
+			} else {
+				v.put(f.getDBFieldName(), stringData.get(f));
+			}
 		}
 		
 		v.put("updatetimestamp", Long.toString(System.currentTimeMillis()));	// TODO constant/enum?

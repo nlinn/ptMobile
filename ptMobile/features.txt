@@ -7,10 +7,12 @@ Todo:
 0.6beta
 - icebox
 - refresh icon
+- local timezone, comments/activities
+- velocity info in project details
 ? icebox->lifecycle mit unscheduled
 ? lifecycle mit "restart"
-? Preferences: Tabs konfigurieren
-? Project ->option "update velocity"
+
+- Project ->option "update velocity"
 ? Prefs "update vel. when updating stories"
 
 0.5beta

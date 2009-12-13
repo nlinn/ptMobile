@@ -28,8 +28,9 @@ public class Stories extends ListActivity {
 	private static final int TRANS_2_ID = Menu.FIRST + 7;
 	private static final int ESTIMATE_ID = Menu.FIRST + 8;
 	
-	private static final int ICEBOX_ID = Menu.FIRST + 9;
 	private static final int REFRESH_ID = Menu.FIRST + 10;
+	private static final int PREFERENCES_ID = Menu.FIRST + 11;
+	private static final int ABOUT_ID = Menu.FIRST + 12;
 	
 	private static final String TAG = "Stories";
 	
@@ -97,30 +98,30 @@ public class Stories extends ListActivity {
 
 	// --- OPTIONS ------------------------------------------
 	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
+	public boolean onCreateOptionsMenu(Menu menu) {
+		boolean result = super.onCreateOptionsMenu(menu);
+		menu.add(0, REFRESH_ID, 0, R.string.menu_refesh).setIcon(R.drawable.ic_menu_refresh);
+		menu.add(0, PREFERENCES_ID, 0, R.string.menu_prefs).setIcon(android.R.drawable.ic_menu_preferences);
+		menu.add(0, ABOUT_ID, 0, "About").setIcon(android.R.drawable.ic_menu_help);
 		
+		return result;
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case REFRESH_ID:
-			updateFromTracker();
+			refresh();
 			return true;
-		case ICEBOX_ID:
-			Intent icebox = new Intent(this,Stories.class);
-			icebox.putExtra("project_id", project_id);
-			//icebox.putExtra("project_id", project_id);
-			icebox.putExtra("filter", "icebox");
-			startActivity(icebox);
+		case PREFERENCES_ID:
+			startActivity(new Intent(this,Preferences.class));
+			return true;
+		case ABOUT_ID:
+			startActivity(new Intent(this,About.class));
 			return true;
 		}
 
 		return super.onOptionsItemSelected(item);
-	}
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		boolean result = super.onCreateOptionsMenu(menu);
-		menu.add(0, REFRESH_ID, 0, R.string.menu_refesh).setIcon(R.drawable.ic_menu_refresh);
-		menu.add(0, ICEBOX_ID, 0, "icebox");
-		return result;
 	}
 	
 	// --- CONTEXT MENU ----------------------------------------	
@@ -197,7 +198,7 @@ public class Stories extends ListActivity {
 		tracker = new PivotalTracker(this);
 		updateList(project_id);
 		if (tracker.storiesNeedUpdate(project_id, iteration_group)) {
-			updateFromTracker();
+			refresh();
 		}
 	}
 
@@ -214,8 +215,8 @@ public class Stories extends ListActivity {
 		if (c !=null) c.close();
 		if (tracker != null) tracker.pause();
 	}
-
-	private void updateFromTracker() {
+	
+	private void refresh() {
 		Log.i(TAG,"update progress bar");
 		
 		if (getParent() != null) {

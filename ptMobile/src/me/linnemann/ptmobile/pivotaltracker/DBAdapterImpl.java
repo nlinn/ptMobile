@@ -1,5 +1,6 @@
 package me.linnemann.ptmobile.pivotaltracker;
 
+import me.linnemann.ptmobile.OutputStyler;
 import me.linnemann.ptmobile.cursor.ActivitiesCursor;
 import me.linnemann.ptmobile.cursor.IterationCursor;
 import me.linnemann.ptmobile.cursor.ProjectsCursor;
@@ -26,7 +27,7 @@ public class DBAdapterImpl implements DBAdapter {
 	SQLiteDatabase db;
 
 	private static final String DATABASE_NAME = "data";
-	private static final int DATABASE_VERSION = 31;
+	private static final int DATABASE_VERSION = 32;
 
 	private final Context ctx;
 
@@ -57,11 +58,11 @@ public class DBAdapterImpl implements DBAdapter {
 					+ "labels text, "
 					+ "current_state text, "
 					+ "description text, "
-					+ "deadline text, "
+					+ "deadline date, "
 					+ "requested_by text, "
 					+ "owned_by text, "
-					+ "created_at text, "
-					+ "accepted_at text, "
+					+ "created_at date, "
+					+ "accepted_at date, "
 					+ "updatetimestamp integer, "
 					+ "iteration_group text, "
 					+ "name text not null);");
@@ -75,7 +76,7 @@ public class DBAdapterImpl implements DBAdapter {
 					+ "updatetimestamp integer not null, "
 					+ "iteration_group text, "
 					+ "project_id text not null);");
-			
+
 			// --- ACTIVITIES
 			db.execSQL("create table activities (_id integer primary key autoincrement, "
 					+ "id text not null, "
@@ -83,13 +84,13 @@ public class DBAdapterImpl implements DBAdapter {
 					+ "story text, "
 					+ "description text, "
 					+ "author text, "
-					+ "_when text not null);");
+					+ "_when date not null);");
 
 			// --- TIMESTAMPS
 			db.execSQL("create table timestamps (_id integer primary key autoincrement, "
 					+ "key text not null, "
 					+ "eventtime integer not null)");
-			
+
 			// --- NOTES
 			db.execSQL("create table notes (_id integer primary key autoincrement, "
 					+ "id text not null, "
@@ -155,7 +156,7 @@ public class DBAdapterImpl implements DBAdapter {
 	public long insertActivity(ContentValues cv) {
 		return db.insert("activities", null, cv);
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see me.linnemann.ptmobile.pivotaltracker.IDBAdapter#insertStory(android.content.ContentValues)
 	 */
@@ -164,7 +165,7 @@ public class DBAdapterImpl implements DBAdapter {
 		Log.i("DB","insert: "+result);
 		return result;
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see me.linnemann.ptmobile.pivotaltracker.IDBAdapter#insertNote(android.content.ContentValues)
 	 */
@@ -173,7 +174,7 @@ public class DBAdapterImpl implements DBAdapter {
 		Log.i("DB","insert: "+result);
 		return result;
 	}
-	
+
 	public long updateStory(ContentValues cv) {
 		Log.d(TAG, "updating story: "+cv.toString());
 		return db.update("stories", cv, "id=?", new String[]{cv.getAsString("id")});
@@ -203,7 +204,7 @@ public class DBAdapterImpl implements DBAdapter {
 	public boolean deleteAllActivities() {
 		return db.delete("activities", null, null) > 0;
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see me.linnemann.ptmobile.pivotaltracker.IDBAdapter#deleteStoriesInProject(java.lang.String)
 	 */
@@ -239,7 +240,7 @@ public class DBAdapterImpl implements DBAdapter {
 		c.moveToFirst();
 		return c;
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see me.linnemann.ptmobile.pivotaltracker.IDBAdapter#getProject(java.lang.String)
 	 */
@@ -255,20 +256,20 @@ public class DBAdapterImpl implements DBAdapter {
 		return c;
 	}
 
-	
+
 	/* (non-Javadoc)
 	 * @see me.linnemann.ptmobile.pivotaltracker.IDBAdapter#getProjectIdByName(java.lang.String)
 	 */
 	public String getProjectIdByName(String project_name) {
 		ProjectsCursor c = (ProjectsCursor) db.rawQueryWithFactory(new ProjectsCursor.Factory(), ProjectsCursor.getProjectByName(project_name), null, null);
 		c.moveToFirst();
-		
+
 		String id = c.getId();
 		c.close();
 		return id;
 	}
 
-	
+
 	/* (non-Javadoc)
 	 * @see me.linnemann.ptmobile.pivotaltracker.IDBAdapter#getVelocityForProject(java.lang.String)
 	 */
@@ -286,7 +287,7 @@ public class DBAdapterImpl implements DBAdapter {
 	 * @see me.linnemann.ptmobile.pivotaltracker.IDBAdapter#getStoriesCursorBacklog(java.lang.String)
 	 */
 	public StoriesCursor getStoriesCursor(String project_id, String filter) {
-		
+
 		String sql = "";
 		// --- TODO clean up this mess:
 		if (filter.equalsIgnoreCase("icebox")) {
@@ -298,12 +299,12 @@ public class DBAdapterImpl implements DBAdapter {
 		} else if (filter.equalsIgnoreCase("backlog")) {
 			sql = StoriesCursor.sqlBacklog(project_id);
 		}
-		
+
 		StoriesCursor c = (StoriesCursor) db.rawQueryWithFactory(new StoriesCursor.Factory(), sql, null, null);
 		c.moveToFirst();
 		return c;
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see me.linnemann.ptmobile.pivotaltracker.IDBAdapter#getStory(java.lang.String)
 	 */
@@ -333,7 +334,7 @@ public class DBAdapterImpl implements DBAdapter {
 	public void saveProjectsUpdatedTimestamp() {
 		saveUpdatedTimestamp("projects");
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see me.linnemann.ptmobile.pivotaltracker.IDBAdapter#saveActivitiesUpdatedTimestamp()
 	 */
@@ -350,7 +351,7 @@ public class DBAdapterImpl implements DBAdapter {
 			Log.e("DBAdapter", e.toString()); 
 		}
 	}
-	
+
 
 	/* (non-Javadoc)
 	 * @see me.linnemann.ptmobile.pivotaltracker.IDBAdapter#storiesNeedUpdate(java.lang.String)
@@ -403,53 +404,46 @@ public class DBAdapterImpl implements DBAdapter {
 
 	public String getCommentsAsString(String story_id) {
 		StringBuilder comments = new StringBuilder();
-		
+
+		Cursor c=null;
 		try { 
-			Cursor c = db.rawQuery("Select _text, author, noted_at from notes where story_id='"+story_id+"'",null);
+			c = db.rawQuery("Select _text, author, noted_at from notes where story_id='"+story_id+"'",null);
 
 			if (c.moveToFirst()) {
-				comments.append(c.getString(0));
-				comments.append("\n");
-				comments.append(c.getString(1));
-				comments.append(", ");
-				comments.append(c.getString(2));
-				comments.append("\n\n");
+				do {
+					comments.append(OutputStyler.getCommentAsText(c.getString(0), c.getString(1), c.getString(2)));
+					comments.append("\n\n");
+				} while (c.moveToNext());
 			}
-			
-			while (c.moveToNext()) { 
-				comments.append(c.getString(0));
-				comments.append("\n");
-				comments.append(c.getString(1));
-				comments.append(", ");
-				comments.append(c.getString(2));
-				comments.append("\n\n");
-			}
-			c.close();
 		} catch (SQLException e) { 
 			Log.e("DBAdapter", e.toString()); 
+		} finally {
+			c.close();
 		}
-		
+
 		if (comments.length() < 1) {
 			comments.append("(no comments)");
 		}
-		
+
 		return comments.toString();
-		
+
 	}
-	
+
 	private boolean needsUpdate(String sql, long updateIterval) {
 		boolean needsUpdate = true; // default if cursor is empty
 
+		Cursor c=null;
 		try { 
-			Cursor c = db.rawQuery(sql,null);
+			c = db.rawQuery(sql,null);
 
 			if (c.moveToFirst()) { 
 				long ts = c.getLong(0);
 				needsUpdate = ((System.currentTimeMillis() - ts) > updateIterval);
 			} 
-			c.close();
 		} catch (SQLException e) { 
 			Log.e("DBAdapter", e.toString()); 
+		} finally {
+			c.close();
 		}
 
 		return needsUpdate;

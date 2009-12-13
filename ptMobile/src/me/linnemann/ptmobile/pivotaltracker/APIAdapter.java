@@ -9,9 +9,11 @@ import java.util.Map;
 
 import javax.xml.parsers.ParserConfigurationException;
 
-import me.linnemann.ptmobile.pivotaltracker.xml.AddCommentCommand;
+import me.linnemann.ptmobile.pivotaltracker.fields.StoryData;
+import me.linnemann.ptmobile.pivotaltracker.xml.CreateCommentCommand;
 import me.linnemann.ptmobile.pivotaltracker.xml.UpdateStoryCommand;
 import me.linnemann.ptmobile.pivotaltracker.xml.XMLActivitiesHandler;
+import me.linnemann.ptmobile.pivotaltracker.xml.XMLNotesHandler;
 import me.linnemann.ptmobile.pivotaltracker.xml.XMLProjectsHandler;
 import me.linnemann.ptmobile.pivotaltracker.xml.XMLStoriesHandler;
 import me.linnemann.ptmobile.pivotaltracker.xml.XMLTokenHandler;
@@ -25,9 +27,15 @@ import android.util.Log;
 
 /**
  * APIAdapter is connecting to pivotaltracker.com to load/save data. The adapter is interfacing with
- * the local db, it is not meant to serve data a UI
+ * the local db, it is not meant to serve data directly to UI
  * 
- * @author niels
+ * method names follow CRUD scheme:
+ * 
+ * read... = retrieve (get) data from tracker
+ * update... = update (put) existing elements
+ * create... = add (post) new elements to tracker
+ * 
+ * @author nlinn
  *
  */
 public class APIAdapter {
@@ -67,46 +75,45 @@ public class APIAdapter {
 	 * @param password
 	 * @return token or null if unsuccessful
 	 */
-	public String getAPIToken(String username, String password) {
+	public String readAPIToken(String username, String password) {
 
 		String token=null;
 
 		try {
 			token = new XMLTokenHandler().getToken(loadToken(username, password));
-			//token = new XMLTokenHandler().getToken(inputStreamWithToken(username, password));
 			Log.i(APIAdapter.class.toString(),"token: "+token);
 		} catch (IOException e) {
-			Log.e(APIAdapter.class.getSimpleName(),"getAPIToken failed, IO: "+e.getMessage());
+			Log.e(APIAdapter.class.getSimpleName(),"readAPIToken failed, IO: "+e.getMessage());
 		} catch (ParserConfigurationException e) {
-			Log.e(APIAdapter.class.getSimpleName(),"getAPIToken failed, ParserConfig: "+e.getMessage());
+			Log.e(APIAdapter.class.getSimpleName(),"readAPIToken failed, ParserConfig: "+e.getMessage());
 		} catch (SAXException e) {
-			Log.e(APIAdapter.class.getSimpleName(),"getAPIToken failed, SAX: "+e.getMessage());
+			Log.e(APIAdapter.class.getSimpleName(),"readAPIToken failed, SAX: "+e.getMessage());
 		}
 
 		return token;
 	}
 
-	public boolean updateProjects() {
+	public boolean readProjects() {
 		boolean successful=false;
 
-		db.deleteAllProjects();	// Todo: bad boy! make sure to delete only if API update is successful!
+		db.deleteAllProjects();	// TODO: bad boy! make sure to delete only if API update is successful!
 
 		try {
 			new XMLProjectsHandler(db).go(loadURL(URL_PROJECTS));
 			db.saveProjectsUpdatedTimestamp();
 			successful = true;
 		} catch (IOException e) {
-			Log.e(APIAdapter.class.getSimpleName(),"updateProjects, IO: "+e.getMessage());
+			Log.e(APIAdapter.class.getSimpleName(),"readProjects, IO: "+e.getMessage());
 		} catch (ParserConfigurationException e) {
-			Log.e(APIAdapter.class.getSimpleName(),"updateProjects, ParserConfig: "+e.getMessage());
+			Log.e(APIAdapter.class.getSimpleName(),"readProjects, ParserConfig: "+e.getMessage());
 		} catch (SAXException e) {
-			Log.e(APIAdapter.class.getSimpleName(),"updateProjects, SAX: "+e.getMessage());
+			Log.e(APIAdapter.class.getSimpleName(),"readProjects, SAX: "+e.getMessage());
 		}
 
 		return successful;
 	}
 
-	public boolean updateActivities() {
+	public boolean readActivities() {
 		boolean successful=false;
 
 		db.deleteAllActivities();	// Todo: bad boy! make sure to delete only if API update is successful!
@@ -116,11 +123,11 @@ public class APIAdapter {
 			db.saveActivitiesUpdatedTimestamp();
 			successful = true;
 		} catch (IOException e) {
-			Log.e(APIAdapter.class.getSimpleName(),"updateActivities, IO: "+e.getMessage());
+			Log.e(APIAdapter.class.getSimpleName(),"readActivities, IO: "+e.getMessage());
 		} catch (ParserConfigurationException e) {
-			Log.e(APIAdapter.class.getSimpleName(),"updateActivities, ParserConfig: "+e.getMessage());
+			Log.e(APIAdapter.class.getSimpleName(),"readActivities, ParserConfig: "+e.getMessage());
 		} catch (SAXException e) {
-			Log.e(APIAdapter.class.getSimpleName(),"updateActivities, SAX: "+e.getMessage());
+			Log.e(APIAdapter.class.getSimpleName(),"readActivities, SAX: "+e.getMessage());
 		}
 
 		return successful;
@@ -132,10 +139,10 @@ public class APIAdapter {
 	 * @param iteration_group current, backlog, done
 	 * @return
 	 */
-	public boolean updateStoriesForProject(String project_id, String iteration_group) {
+	public boolean readStories(String project_id, String iteration_group) {
 		boolean successful=false;
 
-		Log.i(TAG,"udpateStoriesInProject "+project_id + " group "+iteration_group);
+		Log.i(TAG,"readStories "+project_id + " group "+iteration_group);
 
 		String url="";
 		
@@ -162,16 +169,16 @@ public class APIAdapter {
 			db.deleteStoriesInProject(project_id, timestamp, iteration_group);
 			successful=true;	
 		} catch (IOException e) {
-			Log.e(APIAdapter.class.getSimpleName(),"updateStoriesInProject, IO: "+e.getMessage());
+			Log.e(APIAdapter.class.getSimpleName(),"readStories, IO: "+e.getMessage());
 		} catch (ParserConfigurationException e) {
-			Log.e(APIAdapter.class.getSimpleName(),"updateStoriesInProject, ParserConfig: "+e.getMessage());
+			Log.e(APIAdapter.class.getSimpleName(),"readStories, ParserConfig: "+e.getMessage());
 		} catch (SAXException e) {
-			Log.e(APIAdapter.class.getSimpleName(),"updateStoriesInProject, SAX: "+e.getMessage());
+			Log.e(APIAdapter.class.getSimpleName(),"readStories, SAX: "+e.getMessage());
 		}
 		return successful;
 	}
 
-	public void editStory(Story story) {
+	public void updateStory(Story story) {
 		
 		UpdateStoryCommand usc = new UpdateStoryCommand(story);
 
@@ -191,9 +198,17 @@ public class APIAdapter {
 		}
 	}
 	
-	public void addComment(Story story, String comment) {
-		
-		AddCommentCommand acc = new AddCommentCommand(story, comment);
+	/**
+	 * creates a comment via api, parses response to store 
+	 * details to db.
+	 * 
+	 * @param story Story to add comment to
+	 * @param comment comment text
+	 * @return successful true/false
+	 */
+	public boolean createComment(Story story, String comment) {
+		boolean successful = false;
+		CreateCommentCommand acc = new CreateCommentCommand(story, comment);
 
 		Map<String,String> properties = new HashMap<String,String>();
 		properties.put(TRACKER_TOKEN_NAME,apikey);
@@ -201,15 +216,19 @@ public class APIAdapter {
 
 		try {
 			ByteArrayInputStream body = new ByteArrayInputStream(acc.getXMLBytes());
-
 			InputStream is = rest.doPOST(acc.getURL(), properties, body);
-			Log.d(TAG,"RESP: "+rest.textFromURL(is));
-
+			new XMLNotesHandler(db,story.getData(StoryData.PROJECT_ID), story.getData(StoryData.ID)).go(is);
 			is.close();
+			successful = true;
 		} catch (IOException e) {
 			Log.e(TAG,"addComment, IO: "+e.getMessage());
+		} catch (ParserConfigurationException e) {
+			Log.e(TAG,"addComment, ParserConfig: "+e.getMessage());
+		} catch (SAXException e) {
+			Log.e(TAG,"addComment, SAX: "+e.getMessage());
 		}
-
+		
+		return successful;
 	}
 	
 	private InputStream loadToken(final String username,final String password) throws IOException {
@@ -221,5 +240,4 @@ public class APIAdapter {
 		properties.put(TRACKER_TOKEN_NAME,apikey);
 		return rest.doGET(new URL(urlString), properties);
 	}
-
 }
