@@ -24,3 +24,16 @@ Todo:
 0.4beta
 - bugfix: strange projekt listing
 - Activities Tab added
+
+-------
+market text
+
+ptMobile is a pivotaltracker client for android.
+
+This is a beta release with a basic feature set:
+
+- lists projects, stories, activities
+- shows project and story details
+- supports estimate and story lifecycle
+- supports commenting stories
+- retrieves API key by username and password
