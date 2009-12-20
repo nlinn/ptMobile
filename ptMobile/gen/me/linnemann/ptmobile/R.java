@@ -147,17 +147,18 @@ public final class R {
         public static final int storytabs=0x7f03000e;
     }
     public static final class string {
-        public static final int about=0x7f060002;
+        public static final int about=0x7f060003;
+        public static final int about_headline=0x7f060002;
         public static final int app_name=0x7f060000;
-        public static final int empty_list=0x7f060004;
-        public static final int menu_header_project=0x7f06000a;
-        public static final int menu_prefs=0x7f06000b;
-        public static final int menu_refesh=0x7f060005;
-        public static final int menu_showprojectdetails=0x7f060007;
-        public static final int menu_showstories=0x7f060006;
-        public static final int menu_showstorydetails=0x7f060008;
-        public static final int menu_storynextstate=0x7f060009;
-        public static final int thanks=0x7f060003;
+        public static final int empty_list=0x7f060005;
+        public static final int menu_header_project=0x7f06000b;
+        public static final int menu_prefs=0x7f06000c;
+        public static final int menu_refesh=0x7f060006;
+        public static final int menu_showprojectdetails=0x7f060008;
+        public static final int menu_showstories=0x7f060007;
+        public static final int menu_showstorydetails=0x7f060009;
+        public static final int menu_storynextstate=0x7f06000a;
+        public static final int thanks=0x7f060004;
         public static final int welcome=0x7f060001;
     }
     public static final class xml {

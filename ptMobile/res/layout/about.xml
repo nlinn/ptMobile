@@ -7,7 +7,7 @@
 		<ImageView
 			android:layout_width="wrap_content" android:layout_height="wrap_content"
 			android:src="@drawable/icon" />
-		<TextView android:text="ptMobile v$VERSION$" android:id="@+id/textVersionAbout"
+		<TextView android:text="@string/about_headline" android:id="@+id/textVersionAbout"
 			android:layout_width="wrap_content" android:layout_height="fill_parent"
 			android:textSize="20dip" android:textStyle="bold" android:paddingTop="14dip"></TextView>
 	</LinearLayout>

@@ -9,35 +9,50 @@ import android.util.Log;
 import android.widget.TextView;
 
 /**
- * About Activity: window showing my about text with version info
+ * activity showing my about text with version info in headline
  * @author nlinn
  */
 public class About extends Activity {
 
 	private static final String TAG = "About";
-	
-	/** Called when the activity is first created. */
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		setTitleAndLayout();
+		setAboutTextHeadline();
+	}
 
+	private void setTitleAndLayout() {
 		setTitle("About ptMobile");
 		setContentView(R.layout.about);
+	}
 
-		TextView tv = (TextView) this.findViewById(R.id.textVersionAbout);
-		PackageManager manager = this.getPackageManager();
-		PackageInfo info;
-		String newText = "";
+	private void setAboutTextHeadline() {
+		TextView aboutHeadlineWidget = findAboutHeadlineWidget();
+		String aboutHeadline = getAboutHeadlineWithCurrentVersion();
+		aboutHeadlineWidget.setText(aboutHeadline);
+	}
+
+	private TextView findAboutHeadlineWidget() {
+		return (TextView) this.findViewById(R.id.textVersionAbout);
+	}
+
+	private String getAboutHeadlineWithCurrentVersion() {
+		String aboutHeadline =  getResources().getString(R.string.about_headline);  
+		String appVersionName = getAppVersionName();
+		return aboutHeadline.replaceAll("\\$VERSION\\$", appVersionName);
+	}
+
+	private String getAppVersionName() {
 		try {
-			Log.i(TAG, "trying");
-			info = manager.getPackageInfo(this.getPackageName(), 0);
-			newText = tv.getText().toString().replaceAll("\\$VERSION\\$", info.versionName);
-			Log.i(TAG, newText);
+			PackageManager manager = this.getPackageManager();
+			PackageInfo info = manager.getPackageInfo(getPackageName(), 0);
+			return info.versionName;
 		} catch (NameNotFoundException e) {
-			newText = tv.getText().toString().replaceAll("\\$VERSION\\$", "");
-			e.printStackTrace();
+			Log.w(TAG, "Exception while retrieving version name.",e);
+			return "";
 		}
-
-		tv.setText(newText);
 	}
 }
+

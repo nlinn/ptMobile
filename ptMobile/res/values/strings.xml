@@ -16,6 +16,10 @@
 		username and password.\n\nHave fun.
 	</string>
 
+	<string name="about_headline">
+		ptMobile v$VERSION$
+	</string>
+
 	<string name="about">
 		ptMobile is a simple pivotaltracker client for android.\n\nSince this is a beta release, ptMobile is lacking
 		some important features at the moment.\n\nFeedback, bug reports, feature requests are always welcome.\n\nYours\nNiels\n\nVisit me on www.linnemann.me/ptMobile
