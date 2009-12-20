@@ -5,7 +5,7 @@ import me.linnemann.ptmobile.cursor.StoriesCursor;
 import me.linnemann.ptmobile.pivotaltracker.PivotalTracker;
 import me.linnemann.ptmobile.pivotaltracker.Story;
 import me.linnemann.ptmobile.pivotaltracker.state.Transition;
-import android.app.ListActivity;
+import me.linnemann.ptmobile.ui.RefreshableListActivityWithMainMenu;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -21,16 +21,12 @@ import android.widget.ListView;
 import android.widget.Toast;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 
-public class Stories extends ListActivity {
+public class Stories extends RefreshableListActivityWithMainMenu {
 
 	private static final int STORYDETAILS_ID = Menu.FIRST + 5;
 	private static final int TRANS_1_ID = Menu.FIRST + 6;
 	private static final int TRANS_2_ID = Menu.FIRST + 7;
 	private static final int ESTIMATE_ID = Menu.FIRST + 8;
-	
-	private static final int REFRESH_ID = Menu.FIRST + 10;
-	private static final int PREFERENCES_ID = Menu.FIRST + 11;
-	private static final int ABOUT_ID = Menu.FIRST + 12;
 	
 	private static final String TAG = "Stories";
 	
@@ -94,34 +90,6 @@ public class Stories extends ListActivity {
 		startManagingCursor(c);
 		StoriesCursorAdapter sa = new StoriesCursorAdapter(this, c);
 		setListAdapter(sa);
-	}
-
-	// --- OPTIONS ------------------------------------------
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		boolean result = super.onCreateOptionsMenu(menu);
-		menu.add(0, REFRESH_ID, 0, R.string.menu_refesh).setIcon(R.drawable.ic_menu_refresh);
-		menu.add(0, PREFERENCES_ID, 0, R.string.menu_prefs).setIcon(android.R.drawable.ic_menu_preferences);
-		menu.add(0, ABOUT_ID, 0, "About").setIcon(android.R.drawable.ic_menu_help);
-		
-		return result;
-	}
-	
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-		case REFRESH_ID:
-			refresh();
-			return true;
-		case PREFERENCES_ID:
-			startActivity(new Intent(this,Preferences.class));
-			return true;
-		case ABOUT_ID:
-			startActivity(new Intent(this,About.class));
-			return true;
-		}
-
-		return super.onOptionsItemSelected(item);
 	}
 	
 	// --- CONTEXT MENU ----------------------------------------	
@@ -216,7 +184,7 @@ public class Stories extends ListActivity {
 		if (tracker != null) tracker.pause();
 	}
 	
-	private void refresh() {
+	public void refresh() {
 		Log.i(TAG,"update progress bar");
 		
 		if (getParent() != null) {

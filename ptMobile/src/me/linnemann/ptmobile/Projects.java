@@ -3,6 +3,7 @@ package me.linnemann.ptmobile;
 import me.linnemann.ptmobile.adapter.ProjectsCursorAdapter;
 import me.linnemann.ptmobile.cursor.ProjectsCursor;
 import me.linnemann.ptmobile.pivotaltracker.PivotalTracker;
+import me.linnemann.ptmobile.ui.RefreshableListActivityWithMainMenu;
 import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.content.Context;
@@ -23,7 +24,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 
-public class Projects extends ListActivity {
+public class Projects extends RefreshableListActivityWithMainMenu {
 	public static final int REFRESH_ID = Menu.FIRST;
 	private static final int PREFERENCES_ID = Menu.FIRST + 3;
 	private static final int FLUSH_ID = Menu.FIRST + 4;
@@ -105,33 +106,6 @@ public class Projects extends ListActivity {
 			Log.i("Projects","needs update!");
 			refresh();
 		}
-	}
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		boolean result = super.onCreateOptionsMenu(menu);
-		menu.add(0, REFRESH_ID, 0, R.string.menu_refesh).setIcon(R.drawable.ic_menu_refresh);
-		menu.add(0, PREFERENCES_ID, 0, R.string.menu_prefs).setIcon(android.R.drawable.ic_menu_preferences);
-		menu.add(0, ABOUT_ID, 0, "About").setIcon(android.R.drawable.ic_menu_help);
-		
-		return result;
-	}
-	
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-		case REFRESH_ID:
-			refresh();
-			return true;
-		case PREFERENCES_ID:
-			startActivity(new Intent(this,Preferences.class));
-			return true;
-		case ABOUT_ID:
-			startActivity(new Intent(this,About.class));
-			return true;
-		}
-
-		return super.onOptionsItemSelected(item);
 	}
 
 	@Override
@@ -220,7 +194,7 @@ public class Projects extends ListActivity {
 		startActivity(i);
 	}
 	
-	private void refresh() {
+	public void refresh() {
 
 		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(ctx);
 
