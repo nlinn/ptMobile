@@ -7,7 +7,8 @@ import me.linnemann.ptmobile.cursor.IterationCursor;
 import me.linnemann.ptmobile.cursor.StoriesCursor;
 import me.linnemann.ptmobile.pivotaltracker.PivotalTracker;
 import me.linnemann.ptmobile.pivotaltracker.Story;
-import me.linnemann.ptmobile.pivotaltracker.state.Transition;
+import me.linnemann.ptmobile.pivotaltracker.lifecycle.Transition;
+import me.linnemann.ptmobile.ui.OutputStyler;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -20,11 +21,11 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 
 public class StoryDetails extends Activity {
 
+	@SuppressWarnings("unused")
 	private static final String TAG = "StoryDetails";
 	
 	private TextView name;
@@ -45,7 +46,6 @@ public class StoryDetails extends Activity {
 	private PivotalTracker tracker;
 	private String story_id;
 	
-	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -146,7 +146,7 @@ public class StoryDetails extends Activity {
 		btn3.setVisibility(View.INVISIBLE);
 		
 		final Story s = c.getStory();
-		final List<Transition> trans = s.getAvailableTransitions();
+		final List<Transition> trans = s.getLifecycle().getAvailableTransitions();
 		
 		if (s.needsEstimate()) {
 			btn1.setText("Estimate");
@@ -162,7 +162,7 @@ public class StoryDetails extends Activity {
 			btn1.setText(trans.get(0).getName());
 			btn1.setOnClickListener(new OnClickListener() {
 				public void onClick(View v) {  
-					s.doTransition(trans.get(0));
+					s.getLifecycle().doTransition(trans.get(0));
 					tracker.commitChanges(s);
 					updateView();
 				}  
@@ -174,7 +174,7 @@ public class StoryDetails extends Activity {
 			btn2.setText(trans.get(1).getName());
 			btn2.setOnClickListener(new OnClickListener() {
 				public void onClick(View v) {  
-					s.doTransition(trans.get(1));
+					s.getLifecycle().doTransition(trans.get(1));
 					tracker.commitChanges(s);
 					updateView();
 				}  

@@ -4,7 +4,9 @@ import me.linnemann.ptmobile.adapter.StoriesCursorAdapter;
 import me.linnemann.ptmobile.cursor.StoriesCursor;
 import me.linnemann.ptmobile.pivotaltracker.PivotalTracker;
 import me.linnemann.ptmobile.pivotaltracker.Story;
-import me.linnemann.ptmobile.pivotaltracker.state.Transition;
+import me.linnemann.ptmobile.pivotaltracker.lifecycle.Lifecycle;
+import me.linnemann.ptmobile.pivotaltracker.lifecycle.Transition;
+import me.linnemann.ptmobile.ui.OutputStyler;
 import me.linnemann.ptmobile.ui.RefreshableListActivityWithMainMenu;
 import android.content.Intent;
 import android.os.Bundle;
@@ -113,14 +115,15 @@ public class Stories extends RefreshableListActivityWithMainMenu {
         c.moveToPosition(info.position);
         
         selectedStory = c.getStory();
+        Lifecycle lifecycle = selectedStory.getLifecycle();
         
-        if (selectedStory.getAvailableTransitions().size() > 0) {
-        	transition_1 = selectedStory.getAvailableTransitions().get(0);
+        if (lifecycle.getAvailableTransitions().size() > 0) {
+        	transition_1 = lifecycle.getAvailableTransitions().get(0);
         	menu.add(0, TRANS_1_ID, 0, OutputStyler.getTransitionContextLabel(transition_1.getName()));
         }
         
-        if (selectedStory.getAvailableTransitions().size() > 1) {
-        	transition_2 = selectedStory.getAvailableTransitions().get(1);
+        if (lifecycle.getAvailableTransitions().size() > 1) {
+        	transition_2 = lifecycle.getAvailableTransitions().get(1);
         	menu.add(0, TRANS_2_ID, 0, OutputStyler.getTransitionContextLabel(transition_2.getName()));
         }
         
@@ -142,12 +145,12 @@ public class Stories extends RefreshableListActivityWithMainMenu {
 			startActivity(i);
 			return true;
 		case TRANS_1_ID:        	
-			selectedStory.doTransition(transition_1);
+			selectedStory.getLifecycle().doTransition(transition_1);
 			tracker.commitChanges(selectedStory);
 			updateList(project_id);
 			return true;
 		case TRANS_2_ID:        	
-			selectedStory.doTransition(transition_2);
+			selectedStory.getLifecycle().doTransition(transition_2);
 			tracker.commitChanges(selectedStory);
 			updateList(project_id);
 			return true;

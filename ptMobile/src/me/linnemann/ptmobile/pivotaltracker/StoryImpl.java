@@ -1,158 +1,141 @@
 package me.linnemann.ptmobile.pivotaltracker;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
-import me.linnemann.ptmobile.cursor.StoriesCursor;
 import me.linnemann.ptmobile.pivotaltracker.fields.StoryData;
-import me.linnemann.ptmobile.pivotaltracker.state.State;
-import me.linnemann.ptmobile.pivotaltracker.state.Transition;
-import android.content.ContentValues;
-import android.util.Log;
+import me.linnemann.ptmobile.pivotaltracker.lifecycle.Lifecycle;
+import me.linnemann.ptmobile.pivotaltracker.lifecycle.LifecycleFactoryImpl;
+import me.linnemann.ptmobile.pivotaltracker.lifecycle.State;
 
 public class StoryImpl implements Story {
 
+	@SuppressWarnings("unused")
 	private static final String TAG = "StoryImpl";
 
 	private Set<StoryData> modifiedFields;
-	private Map<StoryData,Object> data;
-	private State currentState;
-
+	private State initialState;
+	private StoryType type;
+	private Lifecycle lifecycle;
+	private Integer estimate;
+	private String name;
+	private Integer id;
+	private Integer projectId;
+	private String description;
+	private String labels;
+	private String acceptedAt;
+	private String createdAt;
+	private String ownedBy;
+	private String requestedBy;
+	private String deadline;
+	private Integer iterationNumber;
+	private String iterationGroup;
+	
+	public static StoryImpl buildInstance(StoryBuilder builder) {
+		builder.construct();
+		return builder.getStory();
+	}
+	
 	public StoryImpl() {
+		this(StoryType.UNKNOWN);
+	}
+	
+	public StoryImpl(StoryType type) {
+		this.type = type;
+		initialState = State.UNSTARTED;
 		modifiedFields = new HashSet<StoryData>();
-		data = new HashMap<StoryData, Object>();
-		data.put(StoryData.CURRENT_STATE, "unstarted");
+	}
+	
+	public StoryType getStoryType() {
+		return type;
+	}
+	
+	public void changeStoryType(StoryType type) {
+		this.type = type;
+		modifiedFields.add(StoryData.STORY_TYPE);
+	}
+	
+	public void changeInitialState(State state) {
+		this.initialState = state;
+		modifiedFields.add(StoryData.CURRENT_STATE);
+	}
+	
+	public void changeName(String name) {
+		this.name = name;
+		modifiedFields.add(StoryData.NAME);
 	}
 
-	public void initFromCursor(StoriesCursor c) {
-		data.put(StoryData.ID,c.getId());
-		data.put(StoryData.NAME,c.getName());
-		data.put(StoryData.ESTIMATE,c.getEstimate());
-		data.put(StoryData.CURRENT_STATE,c.getCurrentState());
-		data.put(StoryData.STORY_TYPE,c.getStoryType());
-		data.put(StoryData.LABELS,c.getLabels());
-		data.put(StoryData.DESCRIPTION,c.getDescription());
-		//data.put(StoryData.REQUESTED_BY,c.getRequestedBy());
-	//	data.put(StoryData.OWNED_BY,c.getOwnedBy());
-//		data.put(StoryData.CREATED_AT,c.getCr());
-//		data.put(StoryData.ACCEPTED_AT,c.get());
-		data.put(StoryData.PROJECT_ID,c.getProjectId());
-		
-		
-
-//		CREATED_AT, ACCEPTED_AT, DEADLINE, ITERATION_NUMBER, PROJECT_ID;
-
-		
-
-		// TODO implement missing fields
-		prepareLifecycle();
+	public String getName() {
+		return name;
+	}
+	
+	public void changeDescription(String description) {
+		this.description = description;
+		modifiedFields.add(StoryData.DESCRIPTION);
 	}
 
-	/* (non-Javadoc)
-	 * @see me.linnemann.ptmobile.pivotaltracker.Story#getModifiedFields()
-	 */
+	public String getDescription() {
+		return description;
+	}
+	
+	public void changeLabels(String labels) {
+		this.labels = labels;
+		modifiedFields.add(StoryData.LABELS);
+	}
+
+	public String getLabels() {
+		return labels;
+	}
+	
+	public Lifecycle getLifecycle() {
+		if (lifecycle == null)
+			lifecycle = new LifecycleFactoryImpl().getRemainingLifecycle(type, initialState);
+		return lifecycle;
+	}
+	
 	public Set<StoryData> getModifiedFields() {
 		return modifiedFields;
 	}
 
-	/* (non-Javadoc)
-	 * @see me.linnemann.ptmobile.pivotaltracker.Story#resetModifiedFieldsTracking()
-	 */
 	public void resetModifiedFieldsTracking() {
 		modifiedFields.clear();
 	}
 
-
-	/* (non-Javadoc)
-	 * @see me.linnemann.ptmobile.pivotaltracker.Story#setEstimate(java.lang.Integer)
-	 */
-	public void setEstimate(Integer estimate) {
-		data.put(StoryData.ESTIMATE, estimate);
+	public void changeEstimate(Integer estimate) {
+		this.estimate = estimate;
 		modifiedFields.add(StoryData.ESTIMATE);
-	}
-
-	public List<Transition> getAvailableTransitions() {
-
-		// --- special treatment: block transitions if feature is not yet estimated
-	 	if ( ("unstarted".equals(data.get(StoryData.CURRENT_STATE))) &&
-	 			(needsEstimate())) {
-	 		return new ArrayList<Transition>(); // empty list
- 		} else if ( ("unscheduled".equals(data.get(StoryData.CURRENT_STATE))) &&
-	 			(needsEstimate())) {
-	 		return new ArrayList<Transition>(); // empty list
- 		} else {
-			return currentState.getTransitions();
-	 	}
-	}
-
-	public boolean doTransition(Transition trans) {
-		if (getAvailableTransitions().contains(trans)) {
-			Log.d(TAG,"applying transition: "+trans.getName());
-			currentState = trans.resultingState();
-			Log.d(TAG,"current state is now: "+currentState.getName());
-			setData(StoryData.CURRENT_STATE, currentState.getName());
-			return true;
-		} else {
-			Log.e(TAG,"transition not found: "+trans.getName());
-			return false;
-		}
-	}
-
-	public void setData(StoryData field, Object value) {
-		data.put(field, value);
-		modifiedFields.add(field);
-
-		if (field == StoryData.STORY_TYPE) {
-			prepareLifecycle();
-		}
-	}
-
-	private void prepareLifecycle() {
-		Log.d(TAG,"preparing lifecycle");
-		String type = getData(StoryData.STORY_TYPE);
-		if (type.equalsIgnoreCase("feature") || type.equalsIgnoreCase("bug")) {
-			this.currentState = prepareLifecycleBugFeature();
-		}
-		if (type.equalsIgnoreCase("chore")) {
-			this.currentState = prepareLifecycleChore();
-		}
-		if (type.equalsIgnoreCase("release")) {
-			this.currentState = prepareLifecycleRelease();
-		}
-	}
-	
-	public String getData(StoryData field) {
-		return data.get(field).toString();
-	}
-	
-	/**
-	 * Get data in a db friendly way
-	 * 
-	 * @return
-	 */
-	public ContentValues getDataAsContentValues() {
-		ContentValues v = new ContentValues();
-		
-		for (StoryData f : data.keySet()) {
-			// --- note: db field name is lowercase!
-			if (data.get(f) != null) {
-				v.put(f.getDBFieldName(), data.get(f).toString());
-			} 
-		}
-		
-	    return v;
-	}
-
-	public State getCurrentState() {
-		return currentState;
+		getLifecycle().unblockStartTransition();
 	}
 
 	public Integer getEstimate() {
-		return (Integer) data.get(StoryData.ESTIMATE);
+		return estimate;
+	}
+
+	public void changeId(Integer id) {
+		this.id = id;
+		modifiedFields.add(StoryData.ID);
+	}
+	
+	public Integer getId() {
+		return id;
+	}
+	
+	public void changeProjectId(Integer projectId) {
+		this.projectId = projectId;
+		modifiedFields.add(StoryData.PROJECT_ID);
+	}
+	
+	public Integer getProjectId() {
+		return projectId;
+	}
+	
+	public State getCurrentState() {
+		lifecycle = getLifecycle();
+		return lifecycle.getState();
+	}
+	
+	public State getInitialState() {
+		return initialState;
 	}
 
 	/**
@@ -160,81 +143,75 @@ public class StoryImpl implements Story {
 	 * @return
 	 */
 	public boolean needsEstimate() {
-		return ("feature".equals(data.get(StoryData.STORY_TYPE)) && ((getEstimate() == null) || (getEstimate() < 0)));
-	}
-	
-	/**
-	 * prepares the _remaining_ lifecycle of your story
-	 * starts with stories current state (thus its the remaining lifecycle)
-	 * 
-	 * @return current state in lifecycle
-	 */
-	private State prepareLifecycleChore() {
-		Log.d(TAG,"preparing lifecycle for chore");
-		String state = (String) data.get(StoryData.CURRENT_STATE);
-
-		State accepted = new State("accepted");
-		if (state.equalsIgnoreCase(accepted.getName())) return accepted;
-		Transition finish = new Transition("finish",accepted);
-		State started = new State("started",finish);
-		if (state.equalsIgnoreCase(started.getName())) return started;
-		Transition start = new Transition("start",started);
-		State unstarted = new State("unstarted",start);
-
-		return unstarted;
+		return (StoryType.FEATURE.equals(this.type) && ((getEstimate() == null) || (getEstimate() < 0)));
 	}
 
-	/**
-	 * prepares the _remaining_ lifecycle of your story
-	 * starts with stories current state (thus its the remaining lifecycle)
-	 * 
-	 * @return current state in lifecycle
-	 */
-	private State prepareLifecycleRelease() {
-		Log.d(TAG,"preparing lifecycle for release");
-		String state = (String) data.get(StoryData.CURRENT_STATE);
-
-		State accepted = new State("accepted");
-		if (state.equalsIgnoreCase(accepted.getName())) return accepted;
-		Transition finish = new Transition("finish",accepted);
-		State unstarted = new State("unstarted",finish);
-
-		return unstarted;
+	public void changeAcceptedAt(String acceptedAt) {
+		this.acceptedAt = acceptedAt;
+		modifiedFields.add(StoryData.ACCEPTED_AT);
 	}
 
-	/**
-	 * prepares the _remaining_ lifecycle of your story
-	 * starts with stories current state (thus its the remaining lifecycle)
-	 * 
-	 * @return current state in lifecycle
-	 */
-	private State prepareLifecycleBugFeature() {
-		Log.d(TAG,"preparing lifecycle for bug/feature");
-		String state = (String) data.get(StoryData.CURRENT_STATE);
-
-		State accepted = new State("accepted");
-		if (state.equalsIgnoreCase(accepted.getName())) return accepted;
-		State rejected = new State("rejected");
-		if (state.equalsIgnoreCase(rejected.getName())) return rejected;
-
-		List<Transition> acceptreject = new ArrayList<Transition>();
-		acceptreject.add(new Transition("accept", accepted));
-		acceptreject.add(new Transition("reject", rejected));
-
-		State delivered = new State("delivered",acceptreject);
-		if (state.equalsIgnoreCase(delivered.getName())) return delivered;
-		Transition deliver = new Transition("deliver",delivered);
-
-		State finished = new State("finished",deliver);
-		if (state.equalsIgnoreCase(finished.getName())) return finished;
-		Transition finish = new Transition("finish",finished);
-
-		State started = new State("started",finish);
-		if (state.equalsIgnoreCase(started.getName())) return started;
-		Transition start = new Transition("start",started);
-
-		State unstarted = new State("unstarted",start);
-	
-		return unstarted;
+	public void changeCreatedAt(String createdAt) {
+		this.createdAt = createdAt;
+		modifiedFields.add(StoryData.CREATED_AT);
 	}
+
+	public void changeCurrentState(State state) {
+		this.initialState = state;
+		lifecycle = null;	// wipe lifecycle, needs to be recreated
+		modifiedFields.add(StoryData.CURRENT_STATE);
+	}
+
+	public void changeDeadline(String deadline) {
+		this.deadline = deadline;
+		modifiedFields.add(StoryData.DEADLINE);
+	}
+
+	public void changeIterationGroup(String iterationGroup) {
+		this.iterationGroup = iterationGroup;
+		modifiedFields.add(StoryData.ITERATION_GROUP);		
+	}
+
+	public void changeIterationNumber(Integer iterationNumber) {
+		this.iterationNumber = iterationNumber;
+		modifiedFields.add(StoryData.ITERATION_NUMBER);
+	}
+
+	public void changeOwnedBy(String ownedBy) {
+		this.ownedBy = ownedBy;
+		modifiedFields.add(StoryData.OWNED_BY);
+	}
+
+	public void changeRequestedBy(String requestedBy) {
+		this.requestedBy = requestedBy;
+		modifiedFields.add(StoryData.REQUESTED_BY);
+	}
+
+	public String getAcceptedAt() {
+		return acceptedAt;
+	}
+
+	public String getCreatedAt() {
+		return createdAt;
+	}
+
+	public String getDeadline() {
+		return deadline;
+	}
+
+	public String getIterationGroup() {
+		return iterationGroup;
+	}
+
+	public Integer getIterationNumber() {
+		return iterationNumber;
+	}
+
+	public String getOwnedBy() {
+		return ownedBy;
+	}
+
+	public String getRequestedBy() {
+		return requestedBy;
+	}	
 }

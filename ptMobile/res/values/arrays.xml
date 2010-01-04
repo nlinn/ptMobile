@@ -41,4 +41,12 @@
         <item>86400000</item>  
     </string-array>
     
+    <!-- Used in app/menu examples -->
+    <string-array name="storytypes">
+        <item>Feature</item>
+        <item>Bug</item>
+        <item>Chore</item>
+        <item>Release</item>
+    </string-array>
+    
 </resources>

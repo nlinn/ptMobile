@@ -1,13 +1,12 @@
 package me.linnemann.ptmobile.ui;
 
-import android.app.Activity;
-import android.content.Context;
-import android.content.Intent;
-import android.view.Menu;
-import android.view.MenuItem;
 import me.linnemann.ptmobile.About;
 import me.linnemann.ptmobile.Preferences;
 import me.linnemann.ptmobile.R;
+import android.app.Activity;
+import android.content.Intent;
+import android.view.Menu;
+import android.view.MenuItem;
 
 public class MainMenu {
 
@@ -20,12 +19,10 @@ public class MainMenu {
 	private static final int MENU_PREFERENCES = 10000124;
 	private static final int MENU_ABOUT = 10000125;
 
-	private RefreshableActivity activity;
-	private Context context;
+	private RefreshableListActivityWithMainMenu activity;
 
-	public MainMenu(RefreshableActivity activity, Context context) {
+	public MainMenu(RefreshableListActivityWithMainMenu activity) {
 		this.activity = activity;
-		this.context = context;
 	}
 
 	public void addMenuItemsToMenu(Menu menu) {
@@ -71,6 +68,6 @@ public class MainMenu {
 	}
 
 	private void showActivityFromClass(Class<? extends Activity> activityToStart) {
-		activity.startActivity(new Intent(context, activityToStart));
+		activity.startActivity(new Intent(activity, activityToStart));
 	}
 }

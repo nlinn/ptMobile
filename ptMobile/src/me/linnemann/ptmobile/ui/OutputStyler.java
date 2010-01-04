@@ -1,8 +1,9 @@
-package me.linnemann.ptmobile;
+package me.linnemann.ptmobile.ui;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Locale;
 import java.util.TimeZone;
 
 import android.util.Log;
@@ -15,7 +16,7 @@ public class OutputStyler {
 
 	private static SimpleDateFormat from_db = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	//12/12/2009 03:09 PM
-	private static SimpleDateFormat from_db_activity = new SimpleDateFormat("MM/dd/yyyy KK:mm a");
+	private static SimpleDateFormat from_db_activity = new SimpleDateFormat("MM/dd/yyyy hh:mm a", Locale.US);
 	private static SimpleDateFormat out_w_time = new SimpleDateFormat("dd MMM yyyy, HH:mm");
 	private static SimpleDateFormat out = new SimpleDateFormat("dd MMM yyyy");
 

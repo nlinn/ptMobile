@@ -209,7 +209,7 @@ public class Estimate extends Activity {
 		Log.i(TAG,"setting estimate: "+estimate);
 		setProgressBarIndeterminateVisibility(true);
 		Story s = sc.getStory();
-		s.setEstimate(estimate);
+		s.changeEstimate(estimate);
 		tracker.commitChanges(s);
 		setProgressBarIndeterminateVisibility(false);
 		Toast toast = Toast.makeText(getApplicationContext(), "estimate saved", Toast.LENGTH_SHORT);

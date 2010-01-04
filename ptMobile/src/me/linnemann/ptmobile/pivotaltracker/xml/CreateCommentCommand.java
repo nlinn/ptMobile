@@ -4,11 +4,10 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 import me.linnemann.ptmobile.pivotaltracker.Story;
-import me.linnemann.ptmobile.pivotaltracker.fields.StoryData;
-import android.util.Log;
 
-public class CreateCommentCommand {
-	private static final String URL="http://www.pivotaltracker.com/services/v2/projects/PROJECT_ID/stories/STORY_ID/notes";
+public class CreateCommentCommand extends RESTXMLCommand {
+	
+	protected static String URL="http://www.pivotaltracker.com/services/v2/projects/PROJECT_ID/stories/STORY_ID/notes";
 
 	private Story story;
 	private String comment;
@@ -19,16 +18,17 @@ public class CreateCommentCommand {
 	}
 	
 	public URL getURL() {
-		String url = URL.replaceAll("PROJECT_ID", story.getData(StoryData.PROJECT_ID))
-					.replaceAll("STORY_ID", story.getData(StoryData.ID));
-		
 		try {
-			return new URL(url);
+			return new URL(compiledURLString());
 		} catch (MalformedURLException e) {
-			Log.e("UpdateStoryCommand","Bad URL: "+e.getMessage());
-			e.printStackTrace();
-			return null;
+			throw new RuntimeException("Unexpected: "+e.getMessage(),e);
 		}
+	}
+	
+	private String compiledURLString() {
+		String url = URL.replaceAll("PROJECT_ID", story.getProjectId().toString())
+		.replaceAll("STORY_ID", story.getId().toString());
+		return url;
 	}
 	
 	public String getXMLString() {
@@ -38,9 +38,5 @@ public class CreateCommentCommand {
 		xml.append("</text></note>");
 		
 		return xml.toString();
-	}
-	
-	public byte[] getXMLBytes() {
-		return getXMLString().getBytes();
 	}
 }

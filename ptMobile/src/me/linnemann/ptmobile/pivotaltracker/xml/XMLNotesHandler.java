@@ -5,6 +5,7 @@ import org.xml.sax.SAXException;
 
 import me.linnemann.ptmobile.pivotaltracker.DBAdapter;
 import me.linnemann.ptmobile.pivotaltracker.IncomingNote;
+import me.linnemann.ptmobile.pivotaltracker.Story;
 import me.linnemann.ptmobile.pivotaltracker.fields.NoteData;
 
 /**
@@ -15,20 +16,20 @@ import me.linnemann.ptmobile.pivotaltracker.fields.NoteData;
 public class XMLNotesHandler extends XMLBaseHandler {
 
 	private IncomingNote note;
-	private String story_id;
-	private String project_id;
+	private Integer story_id;
+	private Integer project_id;
 	
-	public XMLNotesHandler(final DBAdapter db, final String project_id, final String story_id) {
+	public XMLNotesHandler(final DBAdapter db, final Story story) {
 		super(db);
-		this.story_id = story_id;
-		this.project_id = project_id;
+		this.story_id = story.getId();
+		this.project_id = story.getProjectId();
 	}
 
 	public void startElement(String uri, String name, String qName, Attributes attr) {
 		super.startElement(uri, name, qName, attr);
 		
 		if (name.equalsIgnoreCase("note")) {
-			note = new IncomingNote(db, project_id, story_id);
+			note = new IncomingNote(db, project_id.toString(), story_id.toString()); // TODO refactore toString stuff
 		}
 	}
 

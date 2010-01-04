@@ -12,7 +12,7 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 
 public class XMLStoriesHandler extends XMLBaseHandler {
-	// --- TODO: code duplication: check how to use XMLNotesHandler for notes
+	@SuppressWarnings("unused")
 	private static final String TAG="XMLStoriesHandler";
 	
 	private static final int STORY = 1;

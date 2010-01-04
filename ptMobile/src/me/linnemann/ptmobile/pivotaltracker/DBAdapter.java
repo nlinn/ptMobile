@@ -7,7 +7,6 @@ import me.linnemann.ptmobile.cursor.StoriesCursor;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.SQLException;
-import android.util.Log;
 
 public interface DBAdapter {
 

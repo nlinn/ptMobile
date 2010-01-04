@@ -4,6 +4,7 @@ import me.linnemann.ptmobile.cursor.ActivitiesCursor;
 import me.linnemann.ptmobile.cursor.IterationCursor;
 import me.linnemann.ptmobile.cursor.ProjectsCursor;
 import me.linnemann.ptmobile.cursor.StoriesCursor;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
@@ -119,7 +120,10 @@ public class PivotalTracker {
 	}
 
 	public void commitChanges(Story story) {
-		db.updateStory(story.getDataAsContentValues());
+		ContentValueProvider provider = new ContentValueProvider(story);
+		provider.fill();
+		ContentValues values = provider.getValues();
+		db.updateStory(values);
 		api.updateStory(story);
 	}
 

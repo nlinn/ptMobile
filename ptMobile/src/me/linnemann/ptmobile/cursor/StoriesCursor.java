@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import me.linnemann.ptmobile.pivotaltracker.Story;
+import me.linnemann.ptmobile.pivotaltracker.StoryFromCursorBuilder;
 import me.linnemann.ptmobile.pivotaltracker.StoryImpl;
 import me.linnemann.ptmobile.pivotaltracker.fields.StoryData;
 import android.database.Cursor;
@@ -174,9 +175,7 @@ public class StoriesCursor extends SQLiteCursor {
 	}
 
 	public Story getStory() {
-		StoryImpl s = new StoryImpl();
-		s.initFromCursor(this);
-
+		StoryImpl s = StoryImpl.buildInstance(new StoryFromCursorBuilder(this));
 		return s;
 	}
 

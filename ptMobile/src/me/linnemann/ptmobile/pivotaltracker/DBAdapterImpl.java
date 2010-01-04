@@ -1,10 +1,10 @@
 package me.linnemann.ptmobile.pivotaltracker;
 
-import me.linnemann.ptmobile.OutputStyler;
 import me.linnemann.ptmobile.cursor.ActivitiesCursor;
 import me.linnemann.ptmobile.cursor.IterationCursor;
 import me.linnemann.ptmobile.cursor.ProjectsCursor;
 import me.linnemann.ptmobile.cursor.StoriesCursor;
+import me.linnemann.ptmobile.ui.OutputStyler;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;

@@ -9,7 +9,6 @@ import java.util.Map;
 
 import javax.xml.parsers.ParserConfigurationException;
 
-import me.linnemann.ptmobile.pivotaltracker.fields.StoryData;
 import me.linnemann.ptmobile.pivotaltracker.xml.CreateCommentCommand;
 import me.linnemann.ptmobile.pivotaltracker.xml.UpdateStoryCommand;
 import me.linnemann.ptmobile.pivotaltracker.xml.XMLActivitiesHandler;
@@ -217,15 +216,15 @@ public class APIAdapter {
 		try {
 			ByteArrayInputStream body = new ByteArrayInputStream(acc.getXMLBytes());
 			InputStream is = rest.doPOST(acc.getURL(), properties, body);
-			new XMLNotesHandler(db,story.getData(StoryData.PROJECT_ID), story.getData(StoryData.ID)).go(is);
+			new XMLNotesHandler(db,story).go(is);
 			is.close();
 			successful = true;
 		} catch (IOException e) {
-			Log.e(TAG,"addComment, IO: "+e.getMessage());
+			Log.e(TAG,"createComment, IO: "+e.getMessage());
 		} catch (ParserConfigurationException e) {
-			Log.e(TAG,"addComment, ParserConfig: "+e.getMessage());
+			Log.e(TAG,"createComment, ParserConfig: "+e.getMessage());
 		} catch (SAXException e) {
-			Log.e(TAG,"addComment, SAX: "+e.getMessage());
+			Log.e(TAG,"createComment, SAX: "+e.getMessage());
 		}
 		
 		return successful;

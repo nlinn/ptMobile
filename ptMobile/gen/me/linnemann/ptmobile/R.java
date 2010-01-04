@@ -17,6 +17,9 @@ public final class R {
         public static final int activityupdate_list_preference_values=0x7f050003;
         /**  Used in app/menu examples 
          */
+        public static final int storytypes=0x7f050004;
+        /**  Used in app/menu examples 
+         */
         public static final int storyupdate_list_preference=0x7f050000;
         /**  Used in app/menu examples 
          */
@@ -75,13 +78,19 @@ public final class R {
         public static final int ButtonEstimate5=0x7f08000e;
         public static final int ButtonFetch=0x7f080012;
         public static final int ButtonSave=0x7f080014;
+        public static final int EditText01=0x7f08003d;
+        public static final int EditText02=0x7f080040;
         public static final int EditTextAPIKey=0x7f080013;
         public static final int EditTextPassword=0x7f080011;
         public static final int EditTextUsername=0x7f080010;
+        public static final int Spinner02=0x7f08003f;
         public static final int TextView02=0x7f08000f;
         public static final int btn1SD=0x7f08003a;
+        public static final int btn1SE=0x7f080041;
         public static final int btn2SD=0x7f08003b;
+        public static final int btn2SE=0x7f080042;
         public static final int btn3SD=0x7f08003c;
+        public static final int btn3SE=0x7f080043;
         public static final int commentEdit=0x7f080005;
         public static final int commentLabel=0x7f080004;
         public static final int imageDecriptionStoryDetails=0x7f080033;
@@ -91,6 +100,7 @@ public final class R {
         public static final int imageTypeStory=0x7f080021;
         public static final int imageTypeStoryDetails=0x7f08002c;
         public static final int layoutIteration=0x7f080026;
+        public static final int spnTypeSE=0x7f08003e;
         public static final int textCommentsLabelSD=0x7f080035;
         public static final int textCommentsSD=0x7f080036;
         public static final int textDeadlineStoryDetails=0x7f080039;
@@ -144,7 +154,8 @@ public final class R {
         public static final int stories_row_bak=0x7f03000b;
         public static final int stories_row_with_header=0x7f03000c;
         public static final int story_details=0x7f03000d;
-        public static final int storytabs=0x7f03000e;
+        public static final int story_edit=0x7f03000e;
+        public static final int storytabs=0x7f03000f;
     }
     public static final class string {
         public static final int about=0x7f060003;

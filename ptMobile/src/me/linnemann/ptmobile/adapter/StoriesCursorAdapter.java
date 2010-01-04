@@ -1,9 +1,10 @@
 package me.linnemann.ptmobile.adapter;
 
-import me.linnemann.ptmobile.OutputStyler;
 import me.linnemann.ptmobile.R;
 import me.linnemann.ptmobile.cursor.StoriesCursor;
 import me.linnemann.ptmobile.pivotaltracker.Story;
+import me.linnemann.ptmobile.pivotaltracker.lifecycle.Lifecycle;
+import me.linnemann.ptmobile.ui.OutputStyler;
 import android.content.Context;
 import android.database.Cursor;
 import android.graphics.drawable.Drawable;
@@ -119,23 +120,24 @@ public class StoriesCursorAdapter extends CursorAdapter {
 		ImageView iv = (ImageView) view.findViewById(R.id.imageNextStory);
 
 		Story s = c.getStory();
+		Lifecycle lifecycle = s.getLifecycle();
 
-		if (s.getAvailableTransitions().size() > 0){
+		if (lifecycle.getAvailableTransitions().size() > 0){
 			iv.setVisibility(View.VISIBLE);
 
-			if (s.getAvailableTransitions().get(0).getName().equals("start")) {
+			if (lifecycle.getAvailableTransitions().get(0).getName().equals("start")) {
 				iv.setImageDrawable(ctx.getResources().getDrawable(R.drawable.start));
 			}
 
-			if (s.getAvailableTransitions().get(0).getName().equals("finish")) {
+			if (lifecycle.getAvailableTransitions().get(0).getName().equals("finish")) {
 				iv.setImageDrawable(ctx.getResources().getDrawable(R.drawable.finish));
 			}
 
-			if (s.getAvailableTransitions().get(0).getName().equals("deliver")) {
+			if (lifecycle.getAvailableTransitions().get(0).getName().equals("deliver")) {
 				iv.setImageDrawable(ctx.getResources().getDrawable(R.drawable.deliver));
 			}
 
-			if (s.getAvailableTransitions().get(0).getName().equals("accept")) {
+			if (lifecycle.getAvailableTransitions().get(0).getName().equals("accept")) {
 				iv.setImageDrawable(ctx.getResources().getDrawable(R.drawable.acceptreject));
 			} 
 

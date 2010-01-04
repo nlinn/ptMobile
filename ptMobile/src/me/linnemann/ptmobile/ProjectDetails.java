@@ -2,6 +2,7 @@ package me.linnemann.ptmobile;
 
 import me.linnemann.ptmobile.cursor.ProjectsCursor;
 import me.linnemann.ptmobile.pivotaltracker.PivotalTracker;
+import me.linnemann.ptmobile.ui.OutputStyler;
 import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical"
+	android:layout_height="fill_parent" android:layout_width="fill_parent"
+	xmlns:android="http://schemas.android.com/apk/res/android">
+
+	<ScrollView android:layout_width="fill_parent"
+		android:layout_weight="1" android:layout_height="0px"
+		android:background="@color/color_started">
+
+		<RelativeLayout android:layout_width="fill_parent"
+			android:layout_height="wrap_content" android:padding="5px">
+
+			<EditText android:text="Enter new story title here" android:id="@+id/EditText01" android:layout_width="fill_parent" android:layout_height="wrap_content">
+			</EditText>
+
+
+
+			<Spinner android:layout_height="wrap_content" 
+			android:layout_below="@+id/EditText01" 
+			android:layout_width="fill_parent" 
+			android:id="@+id/spnTypeSE" />
+
+			<Spinner android:layout_height="wrap_content"
+			 android:layout_below="@id/spnTypeSE"
+			 android:layout_width="fill_parent"
+			 android:id="@+id/Spinner02" />
+			 
+	<EditText android:text="Description" 
+	android:id="@+id/EditText02" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_below="@id/Spinner02" android:inputType="textLongMessage">
+			</EditText>
+
+
+</RelativeLayout>
+
+	
+</ScrollView>
+
+	<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+		android:layout_width="fill_parent" android:layout_height="wrap_content"
+		android:padding="3px" android:background="@color/color_iteration_bg">
+
+		<TableRow>
+			<Button android:text="start" android:id="@+id/btn1SE"
+				android:layout_width="fill_parent" android:layout_height="wrap_content"
+				android:layout_weight="1"></Button>
+			<Button android:text="start" android:id="@+id/btn2SE"
+				android:layout_width="fill_parent" android:layout_height="wrap_content"
+				android:layout_weight="1"></Button>
+			<Button android:text="start" android:id="@+id/btn3SE"
+				android:layout_width="fill_parent" android:layout_height="wrap_content"
+				android:layout_weight="1"></Button>
+
+		</TableRow>
+	</TableLayout>
+
+</LinearLayout>
+

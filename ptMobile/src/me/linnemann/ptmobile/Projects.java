@@ -5,7 +5,6 @@ import me.linnemann.ptmobile.cursor.ProjectsCursor;
 import me.linnemann.ptmobile.pivotaltracker.PivotalTracker;
 import me.linnemann.ptmobile.ui.RefreshableListActivityWithMainMenu;
 import android.app.AlertDialog;
-import android.app.ListActivity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -25,10 +24,7 @@ import android.widget.Toast;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 
 public class Projects extends RefreshableListActivityWithMainMenu {
-	public static final int REFRESH_ID = Menu.FIRST;
-	private static final int PREFERENCES_ID = Menu.FIRST + 3;
-	private static final int FLUSH_ID = Menu.FIRST + 4;
-	private static final int ABOUT_ID = Menu.FIRST + 5;
+
 	private static final int PROJECT_DETAILS_ID = Menu.FIRST + 6;
 	private static final int STORIES_ID = Menu.FIRST + 7;
 	private static final int UPDATE_VELOCITY_ID = Menu.FIRST + 8;

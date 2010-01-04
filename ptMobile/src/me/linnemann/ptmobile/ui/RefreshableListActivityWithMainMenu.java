@@ -10,7 +10,7 @@ public abstract class RefreshableListActivityWithMainMenu extends ListActivity i
 	
 	public RefreshableListActivityWithMainMenu() {
 		super();
-		mainMenu = new MainMenu(this, this);
+		mainMenu = new MainMenu(this);
 	}
 	
 	@Override

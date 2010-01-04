@@ -3,11 +3,8 @@ package me.linnemann.ptmobile.pivotaltracker;
 import java.util.HashMap;
 import java.util.Map;
 
-import me.linnemann.ptmobile.pivotaltracker.fields.NoteData;
 import me.linnemann.ptmobile.pivotaltracker.fields.StoryData;
-
 import android.content.ContentValues;
-import android.util.Log;
 
 /**
  * Story Value
