@@ -2,6 +2,7 @@ package me.linnemann.ptmobile.adapter;
 
 import me.linnemann.ptmobile.R;
 import me.linnemann.ptmobile.cursor.StoriesCursor;
+import me.linnemann.ptmobile.cursor.StoriesCursorImpl;
 import me.linnemann.ptmobile.pivotaltracker.Story;
 import me.linnemann.ptmobile.pivotaltracker.lifecycle.Lifecycle;
 import me.linnemann.ptmobile.ui.OutputStyler;
@@ -25,7 +26,7 @@ import android.widget.TextView;
  */
 public class StoriesCursorAdapter extends CursorAdapter {
 
-	public StoriesCursorAdapter(Context context, StoriesCursor c) {
+	public StoriesCursorAdapter(Context context, StoriesCursorImpl c) {
 		super(context, c);
 	}
 

@@ -4,9 +4,10 @@ import java.util.List;
 
 
 import me.linnemann.ptmobile.cursor.IterationCursor;
-import me.linnemann.ptmobile.cursor.StoriesCursor;
+import me.linnemann.ptmobile.cursor.StoriesCursorImpl;
 import me.linnemann.ptmobile.pivotaltracker.PivotalTracker;
 import me.linnemann.ptmobile.pivotaltracker.Story;
+import me.linnemann.ptmobile.pivotaltracker.StoryType;
 import me.linnemann.ptmobile.pivotaltracker.lifecycle.Transition;
 import me.linnemann.ptmobile.ui.OutputStyler;
 import android.app.Activity;
@@ -42,9 +43,9 @@ public class StoryDetails extends Activity {
 	private TextView comments;
 	
 	
-	private StoriesCursor c;
+	private Story story;
 	private PivotalTracker tracker;
-	private String story_id;
+	private Integer story_id;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -66,65 +67,61 @@ public class StoryDetails extends Activity {
 		iteration = (TextView) this.findViewById(R.id.textIterationStoryDetails);
 		comments = (TextView) this.findViewById(R.id.textCommentsSD);
 		
-		story_id = getIntent().getExtras().getString("story_id");
+		story_id = getIntent().getExtras().getInt("story_id");
 	}
 	
 	private void updateView() {
 		
-		c = tracker.getStory(story_id);
+		story = tracker.getStory(story_id);
 		
-		name.setText(c.getName());
+		name.setText(story.getName());
 		
-		type.setText(c.getStoryType());
-		if (c.getStoryType().equalsIgnoreCase("feature")) {
+		type.setText(story.getStoryType().toString());
+		if (StoryType.FEATURE.equals(story.getStoryType())) {
 			image.setImageDrawable(getResources().getDrawable(R.drawable.feature));
 		}
-		if (c.getStoryType().equalsIgnoreCase("chore")) {
+		if (StoryType.CHORE.equals(story.getStoryType())) {
 			image.setImageDrawable(getResources().getDrawable(R.drawable.chore_icon));
 		}
-		if (c.getStoryType().equalsIgnoreCase("release")) {
+		if (StoryType.RELEASE.equals(story.getStoryType())) {
 			image.setImageDrawable(getResources().getDrawable(R.drawable.release_icon));
 		}
-		if (c.getStoryType().equalsIgnoreCase("bug")) {
+		if (StoryType.BUG.equals(story.getStoryType())) {
 			image.setImageDrawable(getResources().getDrawable(R.drawable.bug_icon));
 		}
 		
-		if (c.hasDescription()) {
-			description.setText(c.getDescription());
-		} else {
-			description.setText("(no description)");
-		}
+		description.setText(OutputStyler.getDescriptionText(story));
 		
-		state.setText(c.getCurrentState());
-		estimate.setText(OutputStyler.getEstimateAsText(c));
+		state.setText(story.getCurrentState().toString());
+		estimate.setText(OutputStyler.getEstimateText(story));
 		
 		
-		if (c.hasLabels()) {
-			labels.setText(c.getLabels());
+		if (hasLabels(story)) {
+			labels.setText(story.getLabels());
 		} else {
 			labels.setVisibility(View.INVISIBLE);
 		}
 		
-		if (c.hasDeadline()) {
-			deadline.setText("Deadline: "+OutputStyler.getShortDate(c.getDeadline()));
+		if (hasDeadline(story)) {
+			deadline.setText("Deadline: "+OutputStyler.getShortDate(story.getDeadline()));
 		} else {
 			deadline.setVisibility(View.INVISIBLE);
 		}
 		
-		if (c.hasRequestedBy()) {
-			requested.setText("Requested by "+c.getRequestedBy());
+		if (hasRequestedBy(story)) {
+			requested.setText("Requested by "+story.getRequestedBy());
 		} else {
 			requested.setVisibility(View.INVISIBLE);
 		}
 		
-		if (c.hasOwnedBy()) {
-			owner.setText("Owned by "+c.getOwnedBy());
+		if (hasOwnedBy(story)) {
+			owner.setText("Owned by "+story.getOwnedBy());
 		} else {
 			owner.setVisibility(View.INVISIBLE);
 		}
 		
-		if (c.getIterationNumber() != null) {
-			IterationCursor ic = tracker.getIterationCursor(c.getProjectId(), c.getIterationNumber());
+		if (story.getIterationNumber() != null) {
+			IterationCursor ic = tracker.getIterationCursor(story.getProjectId(), story.getIterationNumber());
 			iteration.setText(OutputStyler.getIterationAsText(ic));	
 			ic.close();
 		} else {
@@ -133,6 +130,30 @@ public class StoryDetails extends Activity {
 		
 		comments.setText(tracker.getCommentsAsString(story_id));
 		setUpButtons();
+	}
+	
+	private boolean hasLabels(Story story) {
+		String labels = story.getLabels();
+		return notEmpty(labels);
+	}
+
+	private boolean hasDeadline(Story story) {
+		String deadline = story.getDeadline();
+		return notEmpty(deadline);
+	}
+	
+	private boolean hasRequestedBy(Story story) {
+		String requestedBy = story.getRequestedBy();
+		return notEmpty(requestedBy);
+	}
+	
+	private boolean hasOwnedBy(Story story) {
+		String ownedBy = story.getOwnedBy();
+		return notEmpty(ownedBy);
+	}
+	
+	private boolean notEmpty(String value) {
+		return ((value != null) && (value.length() > 0));
 	}
 	
 	private void setUpButtons() {
@@ -145,10 +166,10 @@ public class StoryDetails extends Activity {
 		btn2.setVisibility(View.INVISIBLE);
 		btn3.setVisibility(View.INVISIBLE);
 		
-		final Story s = c.getStory();
-		final List<Transition> trans = s.getLifecycle().getAvailableTransitions();
+		//final Story s = c.getStory();
+		final List<Transition> trans = story.getLifecycle().getAvailableTransitions();
 		
-		if (s.needsEstimate()) {
+		if (story.needsEstimate()) {
 			btn1.setText("Estimate");
 			btn1.setOnClickListener(new OnClickListener() {
 				public void onClick(View v) {  
@@ -162,8 +183,8 @@ public class StoryDetails extends Activity {
 			btn1.setText(trans.get(0).getName());
 			btn1.setOnClickListener(new OnClickListener() {
 				public void onClick(View v) {  
-					s.getLifecycle().doTransition(trans.get(0));
-					tracker.commitChanges(s);
+					story.getLifecycle().doTransition(trans.get(0));
+					tracker.commitChanges(story);
 					updateView();
 				}  
 			});
@@ -174,8 +195,8 @@ public class StoryDetails extends Activity {
 			btn2.setText(trans.get(1).getName());
 			btn2.setOnClickListener(new OnClickListener() {
 				public void onClick(View v) {  
-					s.getLifecycle().doTransition(trans.get(1));
-					tracker.commitChanges(s);
+					story.getLifecycle().doTransition(trans.get(1));
+					tracker.commitChanges(story);
 					updateView();
 				}  
 			});
@@ -193,21 +214,19 @@ public class StoryDetails extends Activity {
 	
 	private void showEstimateActivity() {
 		Intent i = new Intent(this,Estimate.class);
-		i.putExtra("story_id", c.getId());
+		i.putExtra("story_id", story.getId());
 		startActivity(i);
 	}
 	
 	@Override
 	public void onStop() {
 		super.onStop();
-		if (c !=null) c.close();
 		if (this.tracker != null) this.tracker.pause();
 	}
 	
 	@Override
 	public void onDestroy() {
 		super.onStop();
-		if (c !=null) c.close();
 		if (this.tracker != null) this.tracker.pause();
 	}
 	
@@ -231,7 +250,7 @@ public class StoryDetails extends Activity {
                 	
                 	if (edit.getText().length() > 0) {
                 		// TODO: response may be "unsuccessful", error msg?
-                		tracker.addComment(c.getStory(), edit.getText().toString());
+                		tracker.addComment(story, edit.getText().toString());
                 		updateView();
                 	}
                 }
@@ -243,6 +262,4 @@ public class StoryDetails extends Activity {
             })
             .create();
 	}
-	
-	
 }

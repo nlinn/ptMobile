@@ -1,7 +1,7 @@
 package me.linnemann.ptmobile;
 
 import me.linnemann.ptmobile.adapter.StoriesCursorAdapter;
-import me.linnemann.ptmobile.cursor.StoriesCursor;
+import me.linnemann.ptmobile.cursor.StoriesCursorImpl;
 import me.linnemann.ptmobile.pivotaltracker.PivotalTracker;
 import me.linnemann.ptmobile.pivotaltracker.Story;
 import me.linnemann.ptmobile.pivotaltracker.lifecycle.Lifecycle;
@@ -33,8 +33,8 @@ public class Stories extends RefreshableListActivityWithMainMenu {
 	private static final String TAG = "Stories";
 	
 	private PivotalTracker tracker;
-	private StoriesCursor c;
-	private String project_id;
+	private StoriesCursorImpl c;
+	private Integer project_id;
 	private Transition transition_1, transition_2;
 	private Story selectedStory;
 	private String iteration_group;
@@ -67,7 +67,7 @@ public class Stories extends RefreshableListActivityWithMainMenu {
 		if (extras != null) {
 			Log.i(TAG,"Project ID from Extras: "+extras.getString("project_id"));
 			
-			project_id=extras.getString("project_id");
+			project_id=extras.getInt("project_id");
 			iteration_group=extras.getString("filter");
 			setTitle("Project "+extras.getString("project_name") + " "+iteration_group);
 		}
@@ -86,7 +86,7 @@ public class Stories extends RefreshableListActivityWithMainMenu {
 		startActivity(i);
 	}
 
-	private void updateList(String project_id) {
+	private void updateList(Integer project_id) {
 		Log.i(TAG,"update list for project: "+project_id);
 		c = tracker.getStoriesCursor(project_id,iteration_group);
 		startManagingCursor(c);

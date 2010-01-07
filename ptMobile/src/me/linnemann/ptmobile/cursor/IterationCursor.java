@@ -9,7 +9,7 @@ import android.database.sqlite.SQLiteQuery;
 
 public class IterationCursor extends SQLiteCursor {
 
-	public static String sqlSingleIteration(String number, String project_id) {
+	public static String sqlSingleIteration(Integer number, Integer project_id) {
 		return "select " +
 		"i._id, i.id, i.number, i.iteration_group, i.project_id, " +
 		"i.start, i.finish " +

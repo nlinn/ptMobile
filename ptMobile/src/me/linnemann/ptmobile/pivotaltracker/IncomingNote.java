@@ -11,11 +11,11 @@ public class IncomingNote implements IncomingData {
 	private Map<NoteData,String> data;
 	private DBAdapter db;	
 
-	public IncomingNote(DBAdapter db, String project_id, String story_id) {
+	public IncomingNote(DBAdapter db, Integer project_id, Integer story_id) {
 		this.db = db;
 		data = new HashMap<NoteData,String>();
-		data.put(NoteData.STORY_ID, story_id);
-		data.put(NoteData.PROJECT_ID, project_id);
+		data.put(NoteData.STORY_ID, story_id.toString());
+		data.put(NoteData.PROJECT_ID, project_id.toString());
 	}
 
 	public void addDataForKey(Object key, String value) {

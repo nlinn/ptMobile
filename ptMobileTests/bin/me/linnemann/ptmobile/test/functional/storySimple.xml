@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<stories type="array" count="1" total="1">
+  <story>
+    <id type="integer">777190</id>
+    <story_type>feature</story_type>
+    <url>http://www.pivotaltracker.com/story/show/777190</url>
+    <estimate type="integer">5</estimate>
+    <current_state>accepted</current_state>
+    <description></description>
+    <name>PO can update list of stories via pivotal API</name>
+    <requested_by>Niels Linnemann</requested_by>
+    <owned_by>Niels Linnemann</owned_by>
+    <created_at type="datetime">2009/06/07 11:52:35 UTC</created_at>
+    <accepted_at type="datetime">2009/06/07 12:13:35 UTC</accepted_at>
+    <labels>view</labels>
+  </story>
+</stories>

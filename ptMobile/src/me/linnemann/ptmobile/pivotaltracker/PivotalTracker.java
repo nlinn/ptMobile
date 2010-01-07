@@ -3,7 +3,7 @@ package me.linnemann.ptmobile.pivotaltracker;
 import me.linnemann.ptmobile.cursor.ActivitiesCursor;
 import me.linnemann.ptmobile.cursor.IterationCursor;
 import me.linnemann.ptmobile.cursor.ProjectsCursor;
-import me.linnemann.ptmobile.cursor.StoriesCursor;
+import me.linnemann.ptmobile.cursor.StoriesCursorImpl;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -53,31 +53,31 @@ public class PivotalTracker {
 		return db.getActivitiesCursor();
 	}
 
-	public IterationCursor getIterationCursor(String project_id, String number) {
+	public IterationCursor getIterationCursor(Integer project_id, Integer number) {
 		return db.getIteration(project_id, number);
 	}
 
-	public StoriesCursor getStoriesCursor(String project_id, String filter) {
+	public StoriesCursorImpl getStoriesCursor(Integer project_id, String filter) {
 		return db.getStoriesCursor(project_id, filter);
 	}
 
-	public StoriesCursor getStory(String story_id) {
+	public Story getStory(Integer story_id) {
 		return db.getStory(story_id);
 	}
 
-	public ProjectsCursor getProject(String project_id) {
+	public ProjectsCursor getProject(Integer project_id) {
 		return db.getProject(project_id);
 	}
 
-	public int getVelocityForProject(String project_id) {
+	public int getVelocityForProject(Integer project_id) {
 		return db.getVelocityForProject(project_id);
 	}
 
-	public void updateStoriesForProject(String project_id, String iteration_group) {
+	public void updateStoriesForProject(Integer project_id, String iteration_group) {
 		api.readStories(project_id, iteration_group);
 	}
 
-	public boolean storiesNeedUpdate(String project_id, String iteration_group) {
+	public boolean storiesNeedUpdate(Integer project_id, String iteration_group) {
 		return db.storiesNeedUpdate(project_id, iteration_group);
 	}
 
@@ -115,7 +115,7 @@ public class PivotalTracker {
 		return api.readActivities();
 	}
 
-	public String getProjectIdByName(String project_name) {
+	public Integer getProjectIdByName(String project_name) {
 		return db.getProjectIdByName(project_name);
 	}
 
@@ -135,7 +135,7 @@ public class PivotalTracker {
 		db.flush();
 	}
 
-	public String getCommentsAsString(String story_id) {
+	public String getCommentsAsString(Integer story_id) {
 		return db.getCommentsAsString(story_id);
 	}
 

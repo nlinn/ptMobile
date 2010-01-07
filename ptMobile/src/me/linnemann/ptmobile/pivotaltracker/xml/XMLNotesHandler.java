@@ -29,7 +29,7 @@ public class XMLNotesHandler extends XMLBaseHandler {
 		super.startElement(uri, name, qName, attr);
 		
 		if (name.equalsIgnoreCase("note")) {
-			note = new IncomingNote(db, project_id.toString(), story_id.toString()); // TODO refactore toString stuff
+			note = new IncomingNote(db, project_id, story_id);
 		}
 	}
 

@@ -45,7 +45,7 @@ public class ContentValueProvider {
 		putStoryDataIfModified(StoryData.STORY_TYPE, story.getStoryType());
 		putStoryDataIfModified(StoryData.ITERATION_GROUP, story.getIterationGroup());
 		putStoryDataIfModified(StoryData.ITERATION_NUMBER, story.getIterationNumber());
-		addUpdateTimestamp();
+		addUpdateTimestampIfNotEmpty();
 	}
 	
 	private void putStoryDataIfModified(StoryData key, Object value) {
@@ -57,7 +57,8 @@ public class ContentValueProvider {
 		values.put(key.getDBFieldName(), value.toString());
 	}
 	
-	private void addUpdateTimestamp() {
-		values.put(UPDATETIMESTAMP_KEY, Long.toString(System.currentTimeMillis()));
+	private void addUpdateTimestampIfNotEmpty() {
+		if (values.size() > 0)
+			values.put(UPDATETIMESTAMP_KEY, Long.toString(System.currentTimeMillis()));
 	}
 }

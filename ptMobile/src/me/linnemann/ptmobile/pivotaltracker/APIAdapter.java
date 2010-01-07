@@ -138,7 +138,7 @@ public class APIAdapter {
 	 * @param iteration_group current, backlog, done
 	 * @return
 	 */
-	public boolean readStories(String project_id, String iteration_group) {
+	public boolean readStories(Integer project_id, String iteration_group) {
 		boolean successful=false;
 
 		Log.i(TAG,"readStories "+project_id + " group "+iteration_group);
@@ -146,16 +146,16 @@ public class APIAdapter {
 		String url="";
 		
 		if (iteration_group.equalsIgnoreCase("current")) {
-			url = URL_ITERATIONS_CURRENT.replaceAll("PROJECT_ID", project_id); // create project specific url
+			url = URL_ITERATIONS_CURRENT.replaceAll("PROJECT_ID", project_id.toString()); // create project specific url
 		}
 		if (iteration_group.equalsIgnoreCase("done")) {
-			url = URL_ITERATIONS_DONE.replaceAll("PROJECT_ID", project_id); // create project specific url
+			url = URL_ITERATIONS_DONE.replaceAll("PROJECT_ID", project_id.toString()); // create project specific url
 		}
 		if (iteration_group.equalsIgnoreCase("backlog")) {
-			url = URL_ITERATIONS_BACKLOG.replaceAll("PROJECT_ID", project_id); // create project specific url
+			url = URL_ITERATIONS_BACKLOG.replaceAll("PROJECT_ID", project_id.toString()); // create project specific url
 		}
 		if (iteration_group.equalsIgnoreCase("icebox")) {
-			url = URL_ICEBOX.replaceAll("PROJECT_ID", project_id); // create project specific url
+			url = URL_ICEBOX.replaceAll("PROJECT_ID", project_id.toString()); // create project specific url
 		}
 		
 		Log.i(TAG,url);

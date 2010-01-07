@@ -13,7 +13,7 @@ public class ProjectsCursor extends SQLiteCursor {
 		return "SELECT _id, id, name FROM projects";
 	}
 
-	public static String getProjectById(String project_id) {
+	public static String getProjectById(Integer project_id) {
 		return "SELECT _id, id, name, iteration_length, point_scale, week_start_day FROM projects WHERE id="+project_id;
 	}
 
@@ -21,7 +21,7 @@ public class ProjectsCursor extends SQLiteCursor {
 		return "SELECT _id, id, name, iteration_length, point_scale, week_start_day FROM projects WHERE name='"+project_name+"'";
 	}
 	
-	public static String getVelocity(String project_id) {
+	public static String getVelocity(Integer project_id) {
 		return "select sum(s.estimate), s.iteration_number  " +
 		"from stories s " +
 		"left join iterations i on s.iteration_number=i.number " +
@@ -90,8 +90,8 @@ public class ProjectsCursor extends SQLiteCursor {
 		return getByField(ProjectData.WEEK_START_DAY);
 	}
 
-	public String getId() {
-		return getByField(ProjectData.ID);
+	public Integer getId() {
+		return new Integer(getByField(ProjectData.ID));
 	}
 
 	private String getByField(ProjectData field) {

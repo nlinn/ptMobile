@@ -11,6 +11,7 @@ import android.util.Log;
 import me.linnemann.ptmobile.cursor.IterationCursor;
 import me.linnemann.ptmobile.cursor.ProjectsCursor;
 import me.linnemann.ptmobile.cursor.StoriesCursor;
+import me.linnemann.ptmobile.pivotaltracker.Story;
 
 public class OutputStyler {
 
@@ -63,6 +64,21 @@ public class OutputStyler {
 		return s.toString();
 	}
 	
+	public static String getEstimateText(Story story) {
+		Integer estimate = story.getEstimate();
+
+		if ((estimate == null) || (estimate < 0)) {
+			return "unestimated";
+		}
+		
+		if (estimate == 1) {
+			return "1 point";
+		} else {
+			return estimate + " points";
+		}
+	}
+	
+	
 	public static String getEstimateAsText(StoriesCursor c) {
 
 		String s = "";
@@ -96,6 +112,16 @@ public class OutputStyler {
 	public static String getTransitionContextLabel(String transitionName) {
 		return transitionName.substring(0, 1).toUpperCase() +
 		transitionName.substring(1) + " Story";
+	}
+	
+	public static String getDescriptionText(Story story) {
+		String description = story.getDescription();
+		
+		if ((description == null) || (description.length() < 1)) {
+			return "(no description)";
+		} else {
+			return description;
+		}
 	}
 	
 	public static String getVelocityAsText(int v) {

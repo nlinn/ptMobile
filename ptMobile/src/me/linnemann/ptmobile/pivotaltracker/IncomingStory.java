@@ -6,23 +6,17 @@ import java.util.Map;
 import me.linnemann.ptmobile.pivotaltracker.fields.StoryData;
 import android.content.ContentValues;
 
-/**
- * Story Value
- * 
- * @author niels
- *
- */
 public class IncomingStory implements IncomingData {
 
 	private Map<StoryData,String> stringData;
 	private DBAdapter db;	
 	private String iteration_group;
 	
-	public IncomingStory(DBAdapter db, String project_id, String iteration_number, String iteration_group) {
+	public IncomingStory(DBAdapter db, Integer project_id, String iteration_number, String iteration_group) {
 		this.db = db;
 		
-		stringData = new HashMap<StoryData,String>(); // prepare map
-		addDataForKey(StoryData.PROJECT_ID, project_id);
+		stringData = new HashMap<StoryData,String>(); 
+		addDataForKey(StoryData.PROJECT_ID, project_id.toString());
 		addDataForKey(StoryData.ITERATION_NUMBER, iteration_number);
 		this.iteration_group = iteration_group;
 	}
@@ -30,15 +24,15 @@ public class IncomingStory implements IncomingData {
 	public void addDataForKey(Object key, String value) {
 		
 		if (!stringData.containsKey(key)) {
-			stringData.put((StoryData) key, value); // add
+			stringData.put((StoryData) key, value);
 		} else {
 			String tmp = stringData.get(key);
 			stringData.put((StoryData) key, tmp+value);
 		}
 	}
 	
-	public String getStoryId() {
-		return stringData.get(StoryData.ID);
+	public Integer getStoryId() {
+		return new Integer(stringData.get(StoryData.ID));
 	}
 	
 	/**

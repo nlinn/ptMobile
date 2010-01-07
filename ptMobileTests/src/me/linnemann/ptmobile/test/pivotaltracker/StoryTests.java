@@ -7,8 +7,6 @@ import android.test.AndroidTestCase;
 
 public class StoryTests extends AndroidTestCase {
 
-	private static final Integer ANY_ESTIMATE = 8; 
-	private static final String ANY_NAME = "yo mama"; 
 	
 	@SuppressWarnings("unused")
 	private static final String TAG = "StoryTests";
@@ -28,8 +26,8 @@ public class StoryTests extends AndroidTestCase {
 	}
 	
 	public void test_resetModifiedFields_works() {
-		story.changeEstimate(ANY_ESTIMATE);
-		story.changeName(ANY_NAME);
+		story.changeEstimate(TestData.ANY_ESTIMATE);
+		story.changeName(TestData.ANY_NAME);
 		story.resetModifiedFieldsTracking();
 		assertTrue(story.getModifiedFields().isEmpty());
 	}
@@ -56,7 +54,7 @@ public class StoryTests extends AndroidTestCase {
 	
 	public void test_feature_needsNoEstimateAfterEstimating() {
 		story.changeStoryType(StoryType.FEATURE);
-		story.changeEstimate(ANY_ESTIMATE);
+		story.changeEstimate(TestData.ANY_ESTIMATE);
 		assertFalse(story.needsEstimate());
 	}
 }

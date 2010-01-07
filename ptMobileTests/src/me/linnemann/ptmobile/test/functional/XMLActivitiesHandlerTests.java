@@ -1,9 +1,10 @@
-package me.linnemann.ptmobile.test.pivotaltracker;
+package me.linnemann.ptmobile.test.functional;
 
 import java.util.List;
 
 import me.linnemann.ptmobile.pivotaltracker.fields.ActivityData;
 import me.linnemann.ptmobile.pivotaltracker.xml.XMLActivitiesHandler;
+import me.linnemann.ptmobile.test.pivotaltracker.DBAdapterMock;
 import android.content.ContentValues;
 import android.test.AndroidTestCase;
 import android.util.Log;
@@ -18,19 +19,14 @@ public class XMLActivitiesHandlerTests extends AndroidTestCase {
 	@Override
     protected void setUp() throws Exception {
         super.setUp();
-
-        // Do some initial setup here
-        Log.d(TAG, "In setUp");
         db = new DBAdapterMock();
         xah = new XMLActivitiesHandler(db);
     }
 
     @Override
     protected void tearDown() throws Exception {
-        super.tearDown();
-
-        // Do some clean up here
-        Log.d(TAG, "In tearDown");
+       super.tearDown();
+       Log.d(TAG, "In tearDown");
     }
 
     // Test createNote

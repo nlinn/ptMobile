@@ -3,7 +3,7 @@ package me.linnemann.ptmobile.pivotaltracker;
 import me.linnemann.ptmobile.cursor.ActivitiesCursor;
 import me.linnemann.ptmobile.cursor.IterationCursor;
 import me.linnemann.ptmobile.cursor.ProjectsCursor;
-import me.linnemann.ptmobile.cursor.StoriesCursor;
+import me.linnemann.ptmobile.cursor.StoriesCursorImpl;
 import me.linnemann.ptmobile.ui.OutputStyler;
 import android.content.ContentValues;
 import android.content.Context;
@@ -27,7 +27,7 @@ public class DBAdapterImpl implements DBAdapter {
 	SQLiteDatabase db;
 
 	private static final String DATABASE_NAME = "data";
-	private static final int DATABASE_VERSION = 32;
+	private static final int DATABASE_VERSION = 33;
 
 	private final Context ctx;
 
@@ -50,9 +50,9 @@ public class DBAdapterImpl implements DBAdapter {
 
 			// --- STORIES
 			db.execSQL("create table stories (_id integer primary key autoincrement, "
-					+ "id text not null, "
+					+ "id integer not null, "
 					+ "iteration_number integer, "
-					+ "project_id text not null, "
+					+ "project_id integer not null, "
 					+ "estimate integer, "
 					+ "story_type text not null, "
 					+ "labels text, "
@@ -208,18 +208,18 @@ public class DBAdapterImpl implements DBAdapter {
 	/* (non-Javadoc)
 	 * @see me.linnemann.ptmobile.pivotaltracker.IDBAdapter#deleteStoriesInProject(java.lang.String)
 	 */
-	public boolean deleteStoriesInProject(String project_id, long timestamp, String iteration_group) {
+	public boolean deleteStoriesInProject(Integer project_id, long timestamp, String iteration_group) {
 		Log.i(TAG, "deleting stories in project "+project_id+" group "+iteration_group+" older than "+timestamp);
-		db.delete("stories", "project_id=? AND iteration_group=? AND updatetimestamp < ?", new String[]{project_id, iteration_group, Long.toString(timestamp)});
-		db.delete("iterations", "project_id=? AND iteration_group=? AND updatetimestamp < ?", new String[]{project_id, iteration_group, Long.toString(timestamp)});
-		db.delete("notes", "project_id=? AND updatetimestamp < ?", new String[]{project_id, Long.toString(timestamp)});
+		db.delete("stories", "project_id=? AND iteration_group=? AND updatetimestamp < ?", new String[]{project_id.toString(), iteration_group, Long.toString(timestamp)});
+		db.delete("iterations", "project_id=? AND iteration_group=? AND updatetimestamp < ?", new String[]{project_id.toString(), iteration_group, Long.toString(timestamp)});
+		db.delete("notes", "project_id=? AND updatetimestamp < ?", new String[]{project_id.toString(), Long.toString(timestamp)});
 		return true;
 	}
 
 	/* (non-Javadoc)
 	 * @see me.linnemann.ptmobile.pivotaltracker.IDBAdapter#fetchStoriesAll(java.lang.String)
 	 */
-	public Cursor fetchStoriesAll(String project_id) {
+	public Cursor fetchStoriesAll(Integer project_id) {
 		return db.query("stories", new String[] {"_id", "name", "iteration_number"}, "project_id='" + project_id+"'", null, null, null, null);
 	}
 
@@ -244,13 +244,13 @@ public class DBAdapterImpl implements DBAdapter {
 	/* (non-Javadoc)
 	 * @see me.linnemann.ptmobile.pivotaltracker.IDBAdapter#getProject(java.lang.String)
 	 */
-	public ProjectsCursor getProject(String project_id) {
+	public ProjectsCursor getProject(Integer project_id) {
 		ProjectsCursor c = (ProjectsCursor) db.rawQueryWithFactory(new ProjectsCursor.Factory(), ProjectsCursor.getProjectById(project_id), null, null);
 		c.moveToFirst();
 		return c;
 	}
 
-	public IterationCursor getIteration(String project_id, String number) {
+	public IterationCursor getIteration(Integer project_id, Integer number) {
 		IterationCursor c = (IterationCursor) db.rawQueryWithFactory(new IterationCursor.Factory(), IterationCursor.sqlSingleIteration(number, project_id), null, null);
 		c.moveToFirst();
 		return c;
@@ -260,20 +260,20 @@ public class DBAdapterImpl implements DBAdapter {
 	/* (non-Javadoc)
 	 * @see me.linnemann.ptmobile.pivotaltracker.IDBAdapter#getProjectIdByName(java.lang.String)
 	 */
-	public String getProjectIdByName(String project_name) {
+	public Integer getProjectIdByName(String project_name) {
 		ProjectsCursor c = (ProjectsCursor) db.rawQueryWithFactory(new ProjectsCursor.Factory(), ProjectsCursor.getProjectByName(project_name), null, null);
 		c.moveToFirst();
 
-		String id = c.getId();
+		Integer project_id = c.getId();
 		c.close();
-		return id;
+		return project_id;
 	}
 
 
 	/* (non-Javadoc)
 	 * @see me.linnemann.ptmobile.pivotaltracker.IDBAdapter#getVelocityForProject(java.lang.String)
 	 */
-	public int getVelocityForProject(String project_id) {
+	public int getVelocityForProject(Integer project_id) {
 		int vel = 0;
 
 		ProjectsCursor c1 = (ProjectsCursor) db.rawQueryWithFactory(new ProjectsCursor.Factory(), ProjectsCursor.getVelocity(project_id), null, null);
@@ -286,21 +286,21 @@ public class DBAdapterImpl implements DBAdapter {
 	/* (non-Javadoc)
 	 * @see me.linnemann.ptmobile.pivotaltracker.IDBAdapter#getStoriesCursorBacklog(java.lang.String)
 	 */
-	public StoriesCursor getStoriesCursor(String project_id, String filter) {
+	public StoriesCursorImpl getStoriesCursor(Integer project_id, String filter) {
 
 		String sql = "";
 		// --- TODO clean up this mess:
 		if (filter.equalsIgnoreCase("icebox")) {
-			sql = StoriesCursor.sqlIcebox(project_id);
+			sql = StoriesCursorImpl.sqlIcebox(project_id);
 		} else if (filter.equalsIgnoreCase("done")) {
-			sql = StoriesCursor.sqlDone(project_id);
+			sql = StoriesCursorImpl.sqlDone(project_id);
 		} else if (filter.equalsIgnoreCase("current")) {
-			sql = StoriesCursor.sqlCurrent(project_id);
+			sql = StoriesCursorImpl.sqlCurrent(project_id);
 		} else if (filter.equalsIgnoreCase("backlog")) {
-			sql = StoriesCursor.sqlBacklog(project_id);
+			sql = StoriesCursorImpl.sqlBacklog(project_id);
 		}
 
-		StoriesCursor c = (StoriesCursor) db.rawQueryWithFactory(new StoriesCursor.Factory(), sql, null, null);
+		StoriesCursorImpl c = (StoriesCursorImpl) db.rawQueryWithFactory(new StoriesCursorImpl.Factory(), sql, null, null);
 		c.moveToFirst();
 		return c;
 	}
@@ -308,10 +308,13 @@ public class DBAdapterImpl implements DBAdapter {
 	/* (non-Javadoc)
 	 * @see me.linnemann.ptmobile.pivotaltracker.IDBAdapter#getStory(java.lang.String)
 	 */
-	public StoriesCursor getStory(String story_id) {
-		StoriesCursor c = (StoriesCursor) db.rawQueryWithFactory(new StoriesCursor.Factory(), StoriesCursor.sqlSingleStory(story_id), null, null);
+	public Story getStory(Integer story_id) {
+		StoriesCursorImpl c = (StoriesCursorImpl) db.rawQueryWithFactory(new StoriesCursorImpl.Factory(), StoriesCursorImpl.sqlSingleStory(story_id), null, null);
 		c.moveToFirst();
-		return c;
+		StoryFromCursorBuilder builder = new StoryFromCursorBuilder(c);
+		Story story = builder.getStory();
+		c.close();
+		return story;
 	}
 
 	/* (non-Javadoc)
@@ -324,7 +327,7 @@ public class DBAdapterImpl implements DBAdapter {
 	/* (non-Javadoc)
 	 * @see me.linnemann.ptmobile.pivotaltracker.IDBAdapter#saveStoriesUpdatedTimestamp(java.lang.String)
 	 */
-	public void saveStoriesUpdatedTimestamp(String project_id, String iteration_group) {
+	public void saveStoriesUpdatedTimestamp(Integer project_id, String iteration_group) {
 		saveUpdatedTimestamp("project"+project_id+iteration_group);
 	}
 
@@ -356,7 +359,7 @@ public class DBAdapterImpl implements DBAdapter {
 	/* (non-Javadoc)
 	 * @see me.linnemann.ptmobile.pivotaltracker.IDBAdapter#storiesNeedUpdate(java.lang.String)
 	 */
-	public boolean storiesNeedUpdate(String project_id, String iteration_group) {
+	public boolean storiesNeedUpdate(Integer project_id, String iteration_group) {
 
 		Long interval = new Long(PreferenceManager.getDefaultSharedPreferences(ctx).getString("story_refresh_interval", "60000"));
 
@@ -402,7 +405,7 @@ public class DBAdapterImpl implements DBAdapter {
 		}
 	}
 
-	public String getCommentsAsString(String story_id) {
+	public String getCommentsAsString(Integer story_id) {
 		StringBuilder comments = new StringBuilder();
 
 		Cursor c=null;
@@ -447,5 +450,11 @@ public class DBAdapterImpl implements DBAdapter {
 		}
 
 		return needsUpdate;
+	}
+
+	public void insertStory(Story story) {
+		ContentValueProvider provider = new ContentValueProvider(story);
+		provider.fill();
+		insertStory(provider.getValues());
 	}
 }

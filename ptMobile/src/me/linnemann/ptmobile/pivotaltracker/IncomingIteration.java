@@ -11,10 +11,10 @@ public class IncomingIteration implements IncomingData {
 	private Map<IterationData,String> stringData;
 	private DBAdapter db;	
 
-	public IncomingIteration (DBAdapter db, String project_id,  String iteration_group) {
+	public IncomingIteration (DBAdapter db, Integer project_id,  String iteration_group) {
 		this.db = db;
 		stringData = new HashMap<IterationData,String>();
-		stringData.put(IterationData.PROJECT_ID, project_id);
+		stringData.put(IterationData.PROJECT_ID, project_id.toString());
 		stringData.put(IterationData.ITERATION_GROUP, iteration_group);
 	}
 

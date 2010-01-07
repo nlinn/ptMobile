@@ -1,7 +1,6 @@
 package me.linnemann.ptmobile;
 
 import me.linnemann.ptmobile.cursor.ProjectsCursor;
-import me.linnemann.ptmobile.cursor.StoriesCursor;
 import me.linnemann.ptmobile.pivotaltracker.PivotalTracker;
 import me.linnemann.ptmobile.pivotaltracker.Story;
 import android.app.Activity;
@@ -17,13 +16,13 @@ import android.widget.Toast;
 public class Estimate extends Activity {
 
 	private static final String TAG="Estimate";
-	private String project_id;
-	private String story_id;
+	private Integer project_id;
+	private Integer story_id;
 
 	private Button b0,b1,b2,b3,b4,b5;
 	private TextView storyName, estimateLabel;
 
-	private StoriesCursor sc;
+	private Story story;
 	private ProjectsCursor pc;
 	private PivotalTracker tracker;
 
@@ -47,11 +46,11 @@ public class Estimate extends Activity {
 		if (extras != null) {
 			Log.i(Stories.class.toString(),"Project ID from Extras: "+extras.getString("project_id"));
 			setTitle("Estimate");
-			story_id=extras.getString("story_id");
+			story_id=new Integer(extras.getString("story_id"));
 			tracker = new PivotalTracker(this);
-			sc = tracker.getStory(story_id);
-			storyName.setText(sc.getName());
-			project_id = sc.getProjectId();
+			story = tracker.getStory(story_id);
+			storyName.setText(story.getName());
+			project_id = story.getProjectId();
 			pc = tracker.getProject(project_id);
 			String pointscale = pc.getPointScale();
 			if ("0,1,2,3".equals(pointscale)) setUpLinear();
@@ -66,7 +65,6 @@ public class Estimate extends Activity {
 	@Override
 	public void onStop() {
 		super.onStop();
-		if (sc !=null) sc.close();
 		if (pc !=null) pc.close();
 		if (this.tracker != null) this.tracker.pause();
 	}
@@ -74,7 +72,6 @@ public class Estimate extends Activity {
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
-		if (sc !=null) sc.close();
 		if (pc !=null) pc.close();
 		if (this.tracker != null) this.tracker.pause();
 	}
@@ -208,9 +205,8 @@ public class Estimate extends Activity {
 	private void setEstimate(Integer estimate) {
 		Log.i(TAG,"setting estimate: "+estimate);
 		setProgressBarIndeterminateVisibility(true);
-		Story s = sc.getStory();
-		s.changeEstimate(estimate);
-		tracker.commitChanges(s);
+		story.changeEstimate(estimate);
+		tracker.commitChanges(story);
 		setProgressBarIndeterminateVisibility(false);
 		Toast toast = Toast.makeText(getApplicationContext(), "estimate saved", Toast.LENGTH_SHORT);
 		toast.show();

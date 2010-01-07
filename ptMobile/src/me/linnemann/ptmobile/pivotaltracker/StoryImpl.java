@@ -31,8 +31,7 @@ public class StoryImpl implements Story {
 	private Integer iterationNumber;
 	private String iterationGroup;
 	
-	public static StoryImpl buildInstance(StoryBuilder builder) {
-		builder.construct();
+	public static Story buildInstance(StoryBuilder builder) {
 		return builder.getStory();
 	}
 	

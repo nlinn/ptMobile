@@ -21,7 +21,7 @@ public class ProjectDetails extends Activity {
 		setTitle("Project");
 		setContentView(R.layout.project_details);
 
-		String project_id = getIntent().getExtras().getString("project_id");
+		Integer project_id = getIntent().getExtras().getInt("project_id");
 		Log.i("ProjectDetails","called for project: "+project_id);
 		
 		tracker = new PivotalTracker(this);
