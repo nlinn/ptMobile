@@ -4,8 +4,10 @@ import java.net.URL;
 
 import me.linnemann.ptmobile.pivotaltracker.Story;
 import me.linnemann.ptmobile.pivotaltracker.StoryImpl;
-import me.linnemann.ptmobile.pivotaltracker.StoryType;
-import me.linnemann.ptmobile.pivotaltracker.lifecycle.State;
+import me.linnemann.ptmobile.pivotaltracker.lifecycle.StateWithTransitions;
+import me.linnemann.ptmobile.pivotaltracker.value.Estimate;
+import me.linnemann.ptmobile.pivotaltracker.value.State;
+import me.linnemann.ptmobile.pivotaltracker.value.StoryType;
 import me.linnemann.ptmobile.pivotaltracker.xml.UpdateStoryCommand;
 import android.test.AndroidTestCase;
 import android.util.Log;
@@ -39,8 +41,9 @@ public class UpdateStoryCommandTests extends AndroidTestCase {
 	
 	public void test_changedEstimate_resultsInXML() {
 		String expectedXML = "<story><estimate type=\"integer\">8</estimate></story>";
-		
-		story.changeEstimate(new Integer(8));
+		story.changeStoryType(StoryType.FEATURE);
+		story.resetModifiedFieldsTracking();
+		story.changeEstimate(Estimate.POINTS_8);
 		UpdateStoryCommand usc = new UpdateStoryCommand(story);
 		assertEquals(expectedXML, usc.getXMLString());
 	}

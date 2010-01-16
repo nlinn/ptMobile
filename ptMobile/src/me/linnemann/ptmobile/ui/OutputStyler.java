@@ -33,7 +33,8 @@ public class OutputStyler {
 		
 		if (c.getIterationNumber() == null) return "";
 		
-		StringBuilder s = new StringBuilder(c.getIterationNumber());
+		StringBuilder s = new StringBuilder();
+		s.append(c.getIterationNumber());
 		s.append(" |  ");
 		try {
 			s.append(out.format(from_db.parse(c.getIterationStart())));
@@ -46,6 +47,7 @@ public class OutputStyler {
 		return s.toString();
 	}
 
+	
 	// TODO code dupes!
 	public static String getIterationAsText(IterationCursor c) {
 		
@@ -64,38 +66,6 @@ public class OutputStyler {
 		return s.toString();
 	}
 	
-	public static String getEstimateText(Story story) {
-		Integer estimate = story.getEstimate();
-
-		if ((estimate == null) || (estimate < 0)) {
-			return "unestimated";
-		}
-		
-		if (estimate == 1) {
-			return "1 point";
-		} else {
-			return estimate + " points";
-		}
-	}
-	
-	
-	public static String getEstimateAsText(StoriesCursor c) {
-
-		String s = "";
-
-		if (c.hasEstimate()) {
-			if (c.getEstimate().equals(new Integer(1))) {
-				s= c.getEstimate()+" point";
-			} else {
-				s= c.getEstimate()+" points";
-			}
-		} else if (c.getStoryType().equalsIgnoreCase("feature")) {
-			s= "unestimated";
-		}
-
-		return s;
-	}
-
 	public static String getIterationLengthAsText(ProjectsCursor c) {
 
 		String s = "";
@@ -114,15 +84,6 @@ public class OutputStyler {
 		transitionName.substring(1) + " Story";
 	}
 	
-	public static String getDescriptionText(Story story) {
-		String description = story.getDescription();
-		
-		if ((description == null) || (description.length() < 1)) {
-			return "(no description)";
-		} else {
-			return description;
-		}
-	}
 	
 	public static String getVelocityAsText(int v) {
 

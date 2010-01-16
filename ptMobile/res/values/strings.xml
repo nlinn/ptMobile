@@ -31,7 +31,9 @@
 	
 	<string name="menu_refesh">Refresh</string>
 	<string name="menu_about">About</string>
+	<string name="menu_add_story">Add Story</string>
 	<string name="menu_showstories">Show Stories</string>
+	<string name="menu_editstory">Edit Story</string>
 	<string name="menu_showprojectdetails">Show Project Details</string>
 	<string name="menu_showstorydetails">Show Story Details</string>
 	<string name="menu_storynextstate">Next State</string>

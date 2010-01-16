@@ -23,48 +23,16 @@ public interface DBAdapter {
 
 	public abstract void close();
 
-	/**
-	 * Create a new project. if the project is
-	 * successfully created return the new rowId for that note, otherwise return
-	 * a -1 to indicate failure.
-	 * 
-	 * @return rowId or -1 if failed
-	 */
 	public abstract long insertProject(ContentValues cv);
 
-	/**
-	 * Create a new activity
-	 * 
-	 * @return rowId or -1 if failed
-	 */
 	public abstract long insertActivity(ContentValues cv);
 
-	/**
-	 * Create a new note
-	 * 
-	 * @return rowId or -1 if failed
-	 */
 	public abstract long insertNote(ContentValues cv);
 
-	
-	/**
-	 * Create a new story. if the story is
-	 * successfully created return the new rowId for that note, otherwise return
-	 * a -1 to indicate failure.
-	 * 
-	 * @return rowId or -1 if failed
-	 */
-	public abstract long insertStory(ContentValues cv);
+//	public abstract long insertStory(ContentValues cv);
 
 	public abstract void insertStory(Story story);
 	
-	/**
-	 * Create a new iteration. if the iteration is
-	 * successfully created return the new rowId for that note, otherwise return
-	 * a -1 to indicate failure.
-	 * 
-	 * @return rowId or -1 if failed
-	 */
 	public abstract long insertIteration(ContentValues cv);
 
 	public abstract boolean deleteAllProjects();
@@ -105,7 +73,7 @@ public interface DBAdapter {
 
 	public abstract boolean activitiesNeedUpdate();
 	
-	public long updateStory(ContentValues cv);
+	public void updateStory(Story story);
 
 	public String getCommentsAsString(Integer project_id);
 

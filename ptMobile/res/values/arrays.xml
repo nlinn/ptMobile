@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
      
 <resources>   
-    <!-- Used in app/menu examples -->
     <string-array name="storyupdate_list_preference">
         <item>never (manual refresh)</item>
         <item>30 minutes</item>
@@ -11,7 +10,7 @@
         <item>1 day</item>
     </string-array>
 
-    <!-- Used in app/menu examples -->
+
     <string-array name="storyupdate_list_preference_values">
         <item>-1</item>
         <item>1800000</item>
@@ -22,7 +21,7 @@
     </string-array>
     
     
-    <!-- Used in app/menu examples -->
+
     <string-array name="activityupdate_list_preference">
         <item>never (manual refresh)</item>
         <item>1 minute</item>
@@ -31,7 +30,7 @@
         <item>1 hour</item>
     </string-array>
 
-    <!-- Used in app/menu examples -->
+
     <string-array name="activityupdate_list_preference_values">
         <item>-1</item>
         <item>60000</item>
@@ -41,12 +40,76 @@
         <item>86400000</item>  
     </string-array>
     
-    <!-- Used in app/menu examples -->
+
     <string-array name="storytypes">
         <item>Feature</item>
         <item>Bug</item>
         <item>Chore</item>
         <item>Release</item>
+    </string-array>
+    
+    <string-array name="feature_states">
+    	<item>Not Yet Scheduled</item>
+        <item>Not Yet Started</item>
+        <item>Started</item>
+        <item>Finished</item>
+        <item>Delivered</item>
+        <item>Accepted</item>
+        <item>Rejected</item>
+    </string-array>
+    
+    <string-array name="bug_states">
+    <item>Not Yet Scheduled</item>
+        <item>Not Yet Started</item>
+        <item>Started</item>
+        <item>Finished</item>
+        <item>Delivered</item>
+        <item>Accepted</item>
+        <item>Rejected</item>
+    </string-array>
+    
+    <string-array name="chore_states">
+    <item>Not Yet Scheduled</item>
+        <item>Not Yet Started</item>
+        <item>Started</item>
+        <item>Accepted</item>
+    </string-array>
+    
+    <string-array name="release_states">
+    <item>Not Yet Scheduled</item>
+        <item>Not Yet Started</item>
+        <item>Accepted</item>
+    </string-array>
+    
+    <string-array name="points_linear">
+        <item>Unestimated</item>
+        <item>0 points</item>
+        <item>1 point</item>
+        <item>2 points</item>
+        <item>3 points</item>
+    </string-array>
+    
+     <string-array name="points_powerof2">
+        <item>Unestimated</item>
+        <item>0 points</item>
+        <item>1 point</item>
+        <item>2 points</item>
+        <item>4 points</item>
+        <item>8 points</item>
+    </string-array>
+    
+     <string-array name="points_fibonacci">
+        <item>Unestimated</item>
+        <item>0 points</item>
+        <item>1 point</item>
+        <item>2 points</item>
+        <item>3 points</item>
+        <item>5 points</item>
+        <item>8 points</item>
+    </string-array>
+    
+     <string-array name="points_empty">
+        <item>No estimate</item>
     </string-array>
     
 </resources>

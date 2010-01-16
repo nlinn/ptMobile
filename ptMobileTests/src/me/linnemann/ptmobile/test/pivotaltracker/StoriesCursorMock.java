@@ -2,11 +2,13 @@ package me.linnemann.ptmobile.test.pivotaltracker;
 
 import me.linnemann.ptmobile.cursor.StoriesCursor;
 import me.linnemann.ptmobile.pivotaltracker.Story;
+import me.linnemann.ptmobile.pivotaltracker.value.Estimate;
+import me.linnemann.ptmobile.pivotaltracker.value.State;
 
 public class StoriesCursorMock implements StoriesCursor {
 
-	public String getCurrentState() {
-		return TestData.ANY_STATE.toString(); // TODO remove string, State type
+	public State getCurrentState() {
+		return TestData.ANY_STATE;
 	}
 
 	public String getDeadline() {
@@ -17,7 +19,7 @@ public class StoriesCursorMock implements StoriesCursor {
 		return TestData.ANY_DESCRIPTION;
 	}
 
-	public Integer getEstimate() {
+	public Estimate getEstimate() {
 		return TestData.ANY_ESTIMATE;
 	}
 

@@ -4,7 +4,6 @@ import me.linnemann.ptmobile.adapter.StoriesCursorAdapter;
 import me.linnemann.ptmobile.cursor.StoriesCursorImpl;
 import me.linnemann.ptmobile.pivotaltracker.PivotalTracker;
 import me.linnemann.ptmobile.pivotaltracker.Story;
-import me.linnemann.ptmobile.pivotaltracker.lifecycle.Lifecycle;
 import me.linnemann.ptmobile.pivotaltracker.lifecycle.Transition;
 import me.linnemann.ptmobile.ui.OutputStyler;
 import me.linnemann.ptmobile.ui.RefreshableListActivityWithMainMenu;
@@ -29,6 +28,7 @@ public class Stories extends RefreshableListActivityWithMainMenu {
 	private static final int TRANS_1_ID = Menu.FIRST + 6;
 	private static final int TRANS_2_ID = Menu.FIRST + 7;
 	private static final int ESTIMATE_ID = Menu.FIRST + 8;
+	private static final int EDITSTORY_ID = Menu.FIRST + 9;
 	
 	private static final String TAG = "Stories";
 	
@@ -38,6 +38,10 @@ public class Stories extends RefreshableListActivityWithMainMenu {
 	private Transition transition_1, transition_2;
 	private Story selectedStory;
 	private String iteration_group;
+	
+	public Stories() {
+		super(RefreshableListActivityWithMainMenu.SHOW_ADD_MENU);
+	}
 	
 	private Handler handler = new Handler() {
 		@Override
@@ -65,7 +69,7 @@ public class Stories extends RefreshableListActivityWithMainMenu {
 
 		Bundle extras = getIntent().getExtras();
 		if (extras != null) {
-			Log.i(TAG,"Project ID from Extras: "+extras.getString("project_id"));
+			Log.i(TAG,"Project ID from Extras: "+extras.getInt("project_id"));
 			
 			project_id=extras.getInt("project_id");
 			iteration_group=extras.getString("filter");
@@ -103,6 +107,9 @@ public class Stories extends RefreshableListActivityWithMainMenu {
 		menu.setHeaderTitle("Story");
 
 		menu.add(0, STORYDETAILS_ID, 0, R.string.menu_showstorydetails);
+	
+		menu.add(0, EDITSTORY_ID, 0, R.string.menu_editstory);
+		
 		
 		AdapterView.AdapterContextMenuInfo info;
         try {
@@ -115,15 +122,14 @@ public class Stories extends RefreshableListActivityWithMainMenu {
         c.moveToPosition(info.position);
         
         selectedStory = c.getStory();
-        Lifecycle lifecycle = selectedStory.getLifecycle();
         
-        if (lifecycle.getAvailableTransitions().size() > 0) {
-        	transition_1 = lifecycle.getAvailableTransitions().get(0);
+        if (selectedStory.getTransitions().size() > 0) {
+        	transition_1 = selectedStory.getTransitions().get(0);
         	menu.add(0, TRANS_1_ID, 0, OutputStyler.getTransitionContextLabel(transition_1.getName()));
         }
         
-        if (lifecycle.getAvailableTransitions().size() > 1) {
-        	transition_2 = lifecycle.getAvailableTransitions().get(1);
+        if (selectedStory.getTransitions().size() > 1) {
+        	transition_2 = selectedStory.getTransitions().get(1);
         	menu.add(0, TRANS_2_ID, 0, OutputStyler.getTransitionContextLabel(transition_2.getName()));
         }
         
@@ -144,18 +150,23 @@ public class Stories extends RefreshableListActivityWithMainMenu {
 			i.putExtra("story_id", c.getId());
 			startActivity(i);
 			return true;
+		case EDITSTORY_ID:        	
+			i = new Intent(this, EditStory.class);
+			i.putExtra("story_id", c.getId());
+			startActivity(i);
+			return true;
 		case TRANS_1_ID:        	
-			selectedStory.getLifecycle().doTransition(transition_1);
+			selectedStory.applyTransition(transition_1);
 			tracker.commitChanges(selectedStory);
 			updateList(project_id);
 			return true;
 		case TRANS_2_ID:        	
-			selectedStory.getLifecycle().doTransition(transition_2);
+			selectedStory.applyTransition(transition_2);
 			tracker.commitChanges(selectedStory);
 			updateList(project_id);
 			return true;
 		case ESTIMATE_ID: 
-			i = new Intent(this, Estimate.class);
+			i = new Intent(this, ChangeEstimate.class);
 			i.putExtra("story_id", c.getId());
 			startActivity(i);
 			return true;
@@ -206,5 +217,12 @@ public class Stories extends RefreshableListActivityWithMainMenu {
 				} 
 			} 
 		}.start(); 
+	}
+
+	@Override
+	public void addStory() {
+		Intent i = new Intent(this, EditStory.class);
+		i.putExtra("project_id", project_id);
+		startActivity(i);
 	}
 }

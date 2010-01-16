@@ -4,11 +4,16 @@ import me.linnemann.ptmobile.R;
 import me.linnemann.ptmobile.cursor.StoriesCursor;
 import me.linnemann.ptmobile.cursor.StoriesCursorImpl;
 import me.linnemann.ptmobile.pivotaltracker.Story;
-import me.linnemann.ptmobile.pivotaltracker.lifecycle.Lifecycle;
+import me.linnemann.ptmobile.pivotaltracker.lifecycle.StateWithTransitions;
+import me.linnemann.ptmobile.pivotaltracker.value.Estimate;
+import me.linnemann.ptmobile.pivotaltracker.value.State;
+import me.linnemann.ptmobile.pivotaltracker.value.StoryType;
+import me.linnemann.ptmobile.pivotaltracker.value.StringValue;
 import me.linnemann.ptmobile.ui.OutputStyler;
 import android.content.Context;
 import android.database.Cursor;
 import android.graphics.drawable.Drawable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,30 +31,35 @@ import android.widget.TextView;
  */
 public class StoriesCursorAdapter extends CursorAdapter {
 
+	private static final String TAG = "StoriesCursorAdapter";
+	
 	public StoriesCursorAdapter(Context context, StoriesCursorImpl c) {
 		super(context, c);
 	}
 
 	@Override
 	public void bindView(View view, Context ctx, Cursor c) {
+		
+		Story story = ((StoriesCursor) c).getStory();
+		
 		if (view instanceof RelativeLayout) {
-			setName(view, ctx, (StoriesCursor) c);
-			setLabels(view, ctx, (StoriesCursor) c);
-			setTypeImage(view, ctx, (StoriesCursor) c);
-			setEstimate(view, ctx, (StoriesCursor) c);
-			setDescriptionImage(view,ctx,(StoriesCursor) c);
-			setState(view,ctx,(StoriesCursor) c);
-			setIteration(view, ctx, (StoriesCursor) c);
-			setNextTag(view, ctx, (StoriesCursor) c);
+			setName(view, ctx, story);
+			setLabels(view, ctx, story);
+			setTypeImage(view, ctx, story);
+			setEstimate(view, ctx, story);
+			setDescriptionImage(view,ctx, story);
+			setState(view,ctx, story);
+			setIteration(view, ctx, story, (StoriesCursor) c);
+			setNextTag(view, ctx, story);
 		}
 	}
 
 
-	private void setIteration(View view, Context ctx, StoriesCursor c) {
+	private void setIteration(View view, Context ctx, Story story, StoriesCursor c) {
 		TextView tv = (TextView) view.findViewById(R.id.textIterationStory);
-
-		if (c.isIterationStarter()) {
-
+	
+		if ((!story.getIterationGroup().getValue().equalsIgnoreCase("icebox")) &&
+		 (c.isIterationStarter())) {
 			if (tv != null) {
 				tv.setText(OutputStyler.getIterationAsText(c));				
 				tv.setVisibility(View.VISIBLE);
@@ -59,18 +69,17 @@ public class StoriesCursorAdapter extends CursorAdapter {
 		}
 	}
 
-	private void setName(View view, Context ctx, StoriesCursor c) {
+	private void setName(View view, Context ctx, Story story) {
 		TextView tv = (TextView) view.findViewById(R.id.textNameStory);
-		String name = c.getName();
-		tv.setText(name);
+		tv.setText(story.getName().getUIString());
 	}
 
-	private void setLabels(View view, Context ctx, StoriesCursor c) {
+	private void setLabels(View view, Context ctx, Story story) {
 		TextView tv = (TextView) view.findViewById(R.id.textLabelsStory);
-		String labels = c.getLabels();
+		StringValue labels = story.getLabels();
 
-		if ((labels != null)  && (labels.length() > 0)) {
-			tv.setText(labels);
+		if (!labels.isEmpty()) {
+			tv.setText(labels.getUIString());
 			tv.setVisibility(View.VISIBLE);
 		} else {
 			tv.setVisibility(View.INVISIBLE);
@@ -78,67 +87,64 @@ public class StoriesCursorAdapter extends CursorAdapter {
 	}
 
 
-	private void setState(View view, Context ctx, StoriesCursor c) {
-		String state = c.getCurrentState();
+	private void setState(View view, Context ctx, Story story) {
+		State state = story.getCurrentState();
 
-		if ("started".equalsIgnoreCase(state)) {
+		if (State.STARTED.equals(state)) {
 			view.setBackgroundResource(R.drawable.list_view_selector_feature_started);
 		}
-		if ("finished".equalsIgnoreCase(state)) {
+		if (State.FINISHED.equals(state)) {
 			view.setBackgroundResource(R.drawable.list_view_selector_feature_started);
 		}
-		if ("delivered".equalsIgnoreCase(state)) {
+		if (State.DELIVERED.equals(state)) {
 			view.setBackgroundResource(R.drawable.list_view_selector_feature_started);
 		}
-		if ("accepted".equalsIgnoreCase(state)) {
+		if (State.ACCEPTED.equals(state)) {
 			view.setBackgroundResource(R.drawable.list_view_selector_feature_accepted);
 		}
 	}
 
-	private void setEstimate(View view, Context ctx, StoriesCursor c) {
-		//	TextView tv = (TextView) view.findViewById(R.id.textEstimateStory);
-		//	tv.setText(OutputStyler.getEstimateAsText(c));
+	private void setEstimate(View view, Context ctx, Story story) {
 
+		Estimate estimate = story.getEstimate();
+		
 		ImageView iv = (ImageView) view.findViewById(R.id.imagePointsStory);
-		if ((c.getEstimate() != null) && (c.getEstimate() > -2)) {
+		if (!Estimate.NO_ESTIMATE.equals(estimate)) {
 			iv.setVisibility(View.VISIBLE);
 			Drawable d = ctx.getResources().getDrawable(R.drawable.pointsnoestimate);
-			if (c.getEstimate() == 0) d = ctx.getResources().getDrawable(R.drawable.points0);
-			if (c.getEstimate() == 1) d = ctx.getResources().getDrawable(R.drawable.points1);
-			if (c.getEstimate() == 2) d = ctx.getResources().getDrawable(R.drawable.points2);
-			if (c.getEstimate() == 3) d = ctx.getResources().getDrawable(R.drawable.points3);
-			if (c.getEstimate() == 4) d = ctx.getResources().getDrawable(R.drawable.points4);
-			if (c.getEstimate() == 5) d = ctx.getResources().getDrawable(R.drawable.points5);
-			if (c.getEstimate() == 8) d = ctx.getResources().getDrawable(R.drawable.points8);
+			if (Estimate.POINTS_0.equals(estimate)) d = ctx.getResources().getDrawable(R.drawable.points0);
+			if (Estimate.POINTS_1.equals(estimate)) d = ctx.getResources().getDrawable(R.drawable.points1);
+			if (Estimate.POINTS_2.equals(estimate)) d = ctx.getResources().getDrawable(R.drawable.points2);
+			if (Estimate.POINTS_3.equals(estimate)) d = ctx.getResources().getDrawable(R.drawable.points3);
+			if (Estimate.POINTS_4.equals(estimate)) d = ctx.getResources().getDrawable(R.drawable.points4);
+			if (Estimate.POINTS_5.equals(estimate)) d = ctx.getResources().getDrawable(R.drawable.points5);
+			if (Estimate.POINTS_8.equals(estimate)) d = ctx.getResources().getDrawable(R.drawable.points8);
 			iv.setImageDrawable(d);
 		} else {		
 			iv.setVisibility(View.GONE);
 		}
 	}
 
-	private void setNextTag(View view, Context ctx, StoriesCursor c) {
+	private void setNextTag(View view, Context ctx, Story story) {
 
 		ImageView iv = (ImageView) view.findViewById(R.id.imageNextStory);
-
-		Story s = c.getStory();
-		Lifecycle lifecycle = s.getLifecycle();
-
-		if (lifecycle.getAvailableTransitions().size() > 0){
+		
+		if (story.getTransitions().size() > 0){
 			iv.setVisibility(View.VISIBLE);
 
-			if (lifecycle.getAvailableTransitions().get(0).getName().equals("start")) {
+			if (story.getTransitions().get(0).getName().equals("start")) {
 				iv.setImageDrawable(ctx.getResources().getDrawable(R.drawable.start));
 			}
 
-			if (lifecycle.getAvailableTransitions().get(0).getName().equals("finish")) {
+			if (story.getTransitions().get(0).getName().equals("finish")) {
 				iv.setImageDrawable(ctx.getResources().getDrawable(R.drawable.finish));
 			}
 
-			if (lifecycle.getAvailableTransitions().get(0).getName().equals("deliver")) {
+			if (story.getTransitions().get(0).getName().equals("deliver")) {
 				iv.setImageDrawable(ctx.getResources().getDrawable(R.drawable.deliver));
 			}
 
-			if (lifecycle.getAvailableTransitions().get(0).getName().equals("accept")) {
+			if (story.getTransitions().get(0).getName().equals("accept")) {
 				iv.setImageDrawable(ctx.getResources().getDrawable(R.drawable.acceptreject));
 			} 
 
@@ -148,32 +154,33 @@ public class StoriesCursorAdapter extends CursorAdapter {
 	}
 
 
-	private void setTypeImage(View view, Context ctx, StoriesCursor c) {
+	private void setTypeImage(View view, Context ctx, Story story) {
 		ImageView iv = (ImageView) view.findViewById(R.id.imageTypeStory);
-		String type = c.getStoryType();
+		StoryType type = story.getStoryType();
 
-		if (type.equalsIgnoreCase("feature")) {
+		if (StoryType.FEATURE.equals(type)) {
 			iv.setImageDrawable(ctx.getResources().getDrawable(R.drawable.feature));
 			view.setBackgroundResource(R.drawable.list_view_selector_feature);
 		}
-		if (type.equalsIgnoreCase("chore")) {
+		if (StoryType.CHORE.equals(type)) {
 			iv.setImageDrawable(ctx.getResources().getDrawable(R.drawable.chore_icon));
 			view.setBackgroundResource(R.drawable.list_view_selector_feature);
 		}
-		if (type.equalsIgnoreCase("bug")) {
+		if (StoryType.BUG.equals(type)) {
 			iv.setImageDrawable(ctx.getResources().getDrawable(R.drawable.bug_icon));
 			view.setBackgroundResource(R.drawable.list_view_selector_feature);
 		}
-		if (type.equalsIgnoreCase("release")) {
+		if (StoryType.RELEASE.equals(type)) {
 			iv.setImageDrawable(ctx.getResources().getDrawable(R.drawable.release_icon));
 			view.setBackgroundResource(R.drawable.list_view_selector_release);
 		}
 	}
 
-	private void setDescriptionImage(View view, Context ctx, StoriesCursor c) {
+	private void setDescriptionImage(View view, Context ctx, Story story) {
 		ImageView iv = (ImageView) view.findViewById(R.id.imageInfosStory);
-
-		if (c.hasDescription()) {
+		StringValue description = story.getDescription();
+		
+		if (!description.isEmpty()) {
 			iv.setImageDrawable(ctx.getResources().getDrawable(R.drawable.story_flyover_icon));
 			iv.setVisibility(View.VISIBLE);
 		} else {

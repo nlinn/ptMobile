@@ -16,7 +16,7 @@
 
 
 		<activity android:name=".Projects"></activity>
-		<activity android:name=".Estimate"></activity>	
+		<activity android:name=".ChangeEstimate"></activity>	
 		<activity android:name=".Activities"></activity>
 		<activity android:name=".Stories"></activity>
 		<activity android:name=".StoriesInTabs"></activity>

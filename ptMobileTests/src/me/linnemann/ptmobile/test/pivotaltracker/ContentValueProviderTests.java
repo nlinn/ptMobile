@@ -4,6 +4,7 @@ import me.linnemann.ptmobile.pivotaltracker.ContentValueProvider;
 import me.linnemann.ptmobile.pivotaltracker.Story;
 import me.linnemann.ptmobile.pivotaltracker.StoryImpl;
 import me.linnemann.ptmobile.pivotaltracker.fields.StoryData;
+import me.linnemann.ptmobile.pivotaltracker.value.StoryType;
 import android.content.ContentValues;
 import android.test.AndroidTestCase;
 
@@ -14,16 +15,26 @@ public class ContentValueProviderTests extends AndroidTestCase {
 	private Story story;
 	
 	public void setUp() {
-		story = new StoryImpl();
+		story = new StoryImpl(StoryType.FEATURE);
+		story.changeId(TestData.ANY_ID);
+		story.resetModifiedFieldsTracking();
 		provider = new ContentValueProvider(story);
 	}
 	
 	public void test_storyContentValues_provideTimestamp() {
-		story.changeId(TestData.ANY_ID);
+		story.changeEstimate(TestData.ANY_ESTIMATE);
 		provider.fill();
 		ContentValues values = provider.getValues();
 		assertTrue(values.containsKey("updatetimestamp"));
 	}
+	
+	public void test_storyContentValues_provideIDevenWhenNotChanged() {
+		story.changeDescription(TestData.ANY_DESCRIPTION);
+		provider.fill();
+		ContentValues values = provider.getValues();
+		assertEquals(TestData.ANY_ID.toString(), values.get("id"));
+	}
+	
 	
 	public void test_storyWithMultipleChanges_providesMultipleValues() {
 		story.changeId(TestData.ANY_ID);
@@ -33,15 +44,7 @@ public class ContentValueProviderTests extends AndroidTestCase {
 		ContentValues values = provider.getValues();
 		assertEquals(3, values.size()); // expecting 2 values plus updatetimestamp
 	}
-	
-	public void test_storyChanged_providesUpdatetimestamp() {
-		story.changeId(TestData.ANY_ID);
-		provider = new ContentValueProvider(story);
-		provider.fill();
-		ContentValues values = provider.getValues();
-		assertTrue(values.containsKey("updatetimestamp"));
-	}
-	
+
 	public void test_storyWithMultipleChanges_providesCorrectValues() {
 		story.changeId(TestData.ANY_ID);
 		story.changeEstimate(TestData.ANY_ESTIMATE);
@@ -49,7 +52,7 @@ public class ContentValueProviderTests extends AndroidTestCase {
 		provider.fill();
 		
 		checkContentValue(StoryData.ID, TestData.ANY_ID.toString());
-		checkContentValue(StoryData.ESTIMATE, TestData.ANY_ESTIMATE.toString());
+		checkContentValue(StoryData.ESTIMATE, TestData.ANY_ESTIMATE.getValueAsString().toString());
 		checkContentValue(StoryData.DESCRIPTION, TestData.ANY_DESCRIPTION);
 	}
 	
@@ -62,11 +65,6 @@ public class ContentValueProviderTests extends AndroidTestCase {
 		provider.fill();
 		ContentValues values = provider.getValues();
 		assertEquals(0, values.size());
-	}
-	
-	public void test_storyId_providedWhenChanged() {
-		story.changeId(TestData.ANY_ID);
-		fillAndCheckContentValue(StoryData.ID, TestData.ANY_ID.toString());
 	}
 
 	private void fillAndCheckContentValue(StoryData storyData, String expectedValue) {
@@ -91,12 +89,12 @@ public class ContentValueProviderTests extends AndroidTestCase {
 
 	public void test_storyEstimate_providedWhenChanged() {
 		story.changeEstimate(TestData.ANY_ESTIMATE);
-		fillAndCheckContentValue(StoryData.ESTIMATE, TestData.ANY_ESTIMATE.toString());	
+		fillAndCheckContentValue(StoryData.ESTIMATE, TestData.ANY_ESTIMATE.getValueAsString());	
 	}
 	
 	public void test_storyType_providedWhenChanged() {
 		story.changeStoryType(TestData.ANY_STORYTYPE);
-		fillAndCheckContentValue(StoryData.STORY_TYPE, TestData.ANY_STORYTYPE.toString());	
+		fillAndCheckContentValue(StoryData.STORY_TYPE, TestData.ANY_STORYTYPE.getValueAsString());	
 	}
 
 	public void test_storyLabels_providedWhenChanged() {
@@ -106,7 +104,7 @@ public class ContentValueProviderTests extends AndroidTestCase {
 
 	public void test_storyCurrentState_providedWhenChanged() {
 		story.changeCurrentState(TestData.ANY_STATE);
-		fillAndCheckContentValue(StoryData.CURRENT_STATE, TestData.ANY_STATE.toString());	
+		fillAndCheckContentValue(StoryData.CURRENT_STATE, TestData.ANY_STATE.getValueAsString());	
 	}
 	
 	public void test_storyDescription_providedWhenChanged() {

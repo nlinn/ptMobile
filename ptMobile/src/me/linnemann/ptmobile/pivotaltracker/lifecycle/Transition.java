@@ -2,10 +2,10 @@ package me.linnemann.ptmobile.pivotaltracker.lifecycle;
 
 public class Transition {
 
-	private State resultingState;
+	private StateWithTransitions resultingState;
 	private String name;
 	
-	public Transition(String name, State resultingState) {
+	public Transition(String name, StateWithTransitions resultingState) {
 		this.name = name;
 		this.resultingState = resultingState;
 	}
@@ -18,7 +18,7 @@ public class Transition {
 		return getName();
 	}
 	
-	public State resultingState() {
+	public StateWithTransitions resultingState() {
 		return resultingState;
 	}
 

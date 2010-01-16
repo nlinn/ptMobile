@@ -1,13 +1,13 @@
 package me.linnemann.ptmobile.test.pivotaltracker;
 
 import me.linnemann.ptmobile.pivotaltracker.StoryImpl;
-import me.linnemann.ptmobile.pivotaltracker.StoryType;
-import me.linnemann.ptmobile.pivotaltracker.lifecycle.State;
+import me.linnemann.ptmobile.pivotaltracker.lifecycle.StateWithTransitions;
+import me.linnemann.ptmobile.pivotaltracker.value.State;
+import me.linnemann.ptmobile.pivotaltracker.value.StoryType;
 import android.test.AndroidTestCase;
 
 public class StoryTests extends AndroidTestCase {
 
-	
 	@SuppressWarnings("unused")
 	private static final String TAG = "StoryTests";
 	
@@ -56,6 +56,17 @@ public class StoryTests extends AndroidTestCase {
 		story.changeStoryType(StoryType.FEATURE);
 		story.changeEstimate(TestData.ANY_ESTIMATE);
 		assertFalse(story.needsEstimate());
+	}
+	
+	public void test_story_nameNotModifiedIfSameContentIsSet() {
+		
+		String sameNameTwice = TestData.ANY_NAME;
+		
+		story.changeName(sameNameTwice);
+		story.resetModifiedFieldsTracking();
+		story.changeName(sameNameTwice);
+		
+		assertEquals(0,story.getModifiedFields().size());
 	}
 }
 

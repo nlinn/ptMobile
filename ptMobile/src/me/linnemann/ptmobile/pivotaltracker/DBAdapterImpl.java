@@ -27,7 +27,7 @@ public class DBAdapterImpl implements DBAdapter {
 	SQLiteDatabase db;
 
 	private static final String DATABASE_NAME = "data";
-	private static final int DATABASE_VERSION = 33;
+	private static final int DATABASE_VERSION = 35;
 
 	private final Context ctx;
 
@@ -161,6 +161,7 @@ public class DBAdapterImpl implements DBAdapter {
 	 * @see me.linnemann.ptmobile.pivotaltracker.IDBAdapter#insertStory(android.content.ContentValues)
 	 */
 	public long insertStory(ContentValues cv) {
+		Log.i("DB","CV: "+cv);
 		long result = db.insert("stories", null, cv);
 		Log.i("DB","insert: "+result);
 		return result;
@@ -175,39 +176,28 @@ public class DBAdapterImpl implements DBAdapter {
 		return result;
 	}
 
-	public long updateStory(ContentValues cv) {
-		Log.d(TAG, "updating story: "+cv.toString());
-		return db.update("stories", cv, "id=?", new String[]{cv.getAsString("id")});
+	public void updateStory(Story story) {
+
+		ContentValueProvider provider = new ContentValueProvider(story);
+		provider.fill();
+		ContentValues values = provider.getValues();
+		
+		Log.d(TAG, "updating story: "+values.toString());
+		db.update("stories", values, "id=?", new String[]{values.getAsString("id")});
 	}
 
 	public long insertIteration(ContentValues cv) {
 		return db.insert("iterations", null, cv);
 	}
 
-	/* (non-Javadoc)
-	 * @see me.linnemann.ptmobile.pivotaltracker.IDBAdapter#insertIteration(me.linnemann.ptmobile.pivotaltracker.Iteration)
-	 */
-	//public long insertIteration(Iteration iteration) {
-	//	return db.insert("iterations", null, iteration.getDataAsContentValues());
-	//}
-
-	/* (non-Javadoc)
-	 * @see me.linnemann.ptmobile.pivotaltracker.IDBAdapter#deleteAllProjects()
-	 */
 	public boolean deleteAllProjects() {
 		return db.delete("projects", null, null) > 0;
 	}
 
-	/* (non-Javadoc)
-	 * @see me.linnemann.ptmobile.pivotaltracker.IDBAdapter#deleteAllActivities()
-	 */
 	public boolean deleteAllActivities() {
 		return db.delete("activities", null, null) > 0;
 	}
 
-	/* (non-Javadoc)
-	 * @see me.linnemann.ptmobile.pivotaltracker.IDBAdapter#deleteStoriesInProject(java.lang.String)
-	 */
 	public boolean deleteStoriesInProject(Integer project_id, long timestamp, String iteration_group) {
 		Log.i(TAG, "deleting stories in project "+project_id+" group "+iteration_group+" older than "+timestamp);
 		db.delete("stories", "project_id=? AND iteration_group=? AND updatetimestamp < ?", new String[]{project_id.toString(), iteration_group, Long.toString(timestamp)});
@@ -312,7 +302,7 @@ public class DBAdapterImpl implements DBAdapter {
 		StoriesCursorImpl c = (StoriesCursorImpl) db.rawQueryWithFactory(new StoriesCursorImpl.Factory(), StoriesCursorImpl.sqlSingleStory(story_id), null, null);
 		c.moveToFirst();
 		StoryFromCursorBuilder builder = new StoryFromCursorBuilder(c);
-		Story story = builder.getStory();
+		Story story = StoryImpl.buildInstance(builder);
 		c.close();
 		return story;
 	}

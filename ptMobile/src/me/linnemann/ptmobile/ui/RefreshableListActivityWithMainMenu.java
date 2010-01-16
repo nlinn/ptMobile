@@ -6,11 +6,13 @@ import android.view.MenuItem;
 
 public abstract class RefreshableListActivityWithMainMenu extends ListActivity implements RefreshableActivity {
 
+	public static final boolean SHOW_ADD_MENU = true;
+	public static final boolean HIDE_ADD_MENU = !SHOW_ADD_MENU;
 	private MainMenu mainMenu;
 	
-	public RefreshableListActivityWithMainMenu() {
+	public RefreshableListActivityWithMainMenu(boolean showAddMenu) {
 		super();
-		mainMenu = new MainMenu(this);
+		mainMenu = new MainMenu(this, showAddMenu);
 	}
 	
 	@Override
@@ -26,4 +28,5 @@ public abstract class RefreshableListActivityWithMainMenu extends ListActivity i
 	}
 	
 	public abstract void refresh();
+	public abstract void addStory();
 }

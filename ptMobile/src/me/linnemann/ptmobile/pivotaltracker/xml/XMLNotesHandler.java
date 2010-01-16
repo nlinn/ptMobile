@@ -21,8 +21,8 @@ public class XMLNotesHandler extends XMLBaseHandler {
 	
 	public XMLNotesHandler(final DBAdapter db, final Story story) {
 		super(db);
-		this.story_id = story.getId();
-		this.project_id = story.getProjectId();
+		this.story_id = story.getId().getValue();
+		this.project_id = story.getProjectId().getValue();
 	}
 
 	public void startElement(String uri, String name, String qName, Attributes attr) {

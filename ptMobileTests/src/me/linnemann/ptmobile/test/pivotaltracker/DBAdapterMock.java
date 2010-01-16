@@ -206,4 +206,9 @@ public class DBAdapterMock implements DBAdapter {
 		stories.add(story);
 	}
 
+	public void updateStory(Story story) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

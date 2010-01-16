@@ -3,7 +3,8 @@ package me.linnemann.ptmobile.pivotaltracker.lifecycle;
 import java.util.ArrayList;
 import java.util.List;
 
-import me.linnemann.ptmobile.pivotaltracker.StoryType;
+import me.linnemann.ptmobile.pivotaltracker.value.State;
+import me.linnemann.ptmobile.pivotaltracker.value.StoryType;
 import android.util.Log;
 
 /**
@@ -17,45 +18,56 @@ import android.util.Log;
 public class LifecycleFactoryImpl {
 
 	private static final String TAG = "LifecycleFactoryImpl";
+	private static LifecycleFactoryImpl factory = new LifecycleFactoryImpl();
 	
-	public Lifecycle getRemainingLifecycle(StoryType type, State startingState) {
-		LifecycleImpl lifecycle;
+	private Lifecycle featureBugLifeCycle;
+	private Lifecycle choreLifeCycle;
+	private Lifecycle releaseLifeCycle;
+	
+	public static Lifecycle getLifecycleForType(StoryType type) {
+		return factory.getLifecycle(type);
+	}
+	
+	public Lifecycle getLifecycle(StoryType type) {
+		Lifecycle lifecycle;
 		switch (type) {
 			case FEATURE:
-				lifecycle = prepareLifecycleBugFeature(startingState);
-				if (State.UNSTARTED.equals(lifecycle.getState()))
-					lifecycle.blockStartTransition();
+				if (featureBugLifeCycle == null)
+					featureBugLifeCycle = prepareLifecycleBugFeature();
+				lifecycle = featureBugLifeCycle;
 				break;
 			case BUG:
-				lifecycle = prepareLifecycleBugFeature(startingState);
+				if (featureBugLifeCycle == null)
+					featureBugLifeCycle = prepareLifecycleBugFeature();
+				lifecycle = featureBugLifeCycle;
 				break;
 			case RELEASE:
-				lifecycle = prepareLifecycleRelease(startingState);
+				if (releaseLifeCycle == null)
+					releaseLifeCycle = prepareLifecycleRelease();
+				lifecycle = releaseLifeCycle;
 				break;
 			case CHORE:
-				lifecycle = prepareLifecycleChore(startingState);
+				if (choreLifeCycle == null)
+					choreLifeCycle = prepareLifecycleChore();
+				lifecycle = choreLifeCycle;
 				break;
 			default:
-				lifecycle = new LifecycleImpl(startingState); // empty lifecycle
+				throw new RuntimeException("Lifecycle not found for type: "+type);
 		}
 		
 		return lifecycle;
 	}
 	
-	private LifecycleImpl prepareLifecycleChore(State startingState) {
+	private LifecycleImpl prepareLifecycleChore() {
 		Log.d(TAG,"preparing lifecycle for chore");
 
-		State accepted = new State("accepted");
-		if (accepted.equals(startingState))
-			return new LifecycleImpl(accepted);
+		StateWithTransitions accepted = new StateWithTransitions(State.ACCEPTED);
 		
 		Transition finish = new Transition("finish",accepted);
-		State started = new State("started",finish);
-		if (started.equals(startingState))
-			return new LifecycleImpl(started);
+		StateWithTransitions started = new StateWithTransitions(State.STARTED,finish);
 		
 		Transition start = new Transition("start",started);
-		State unstarted = new State("unstarted",start);
+		StateWithTransitions unstarted = new StateWithTransitions(State.UNSTARTED,start);
 		return new LifecycleImpl(unstarted);
 	}
 	
@@ -65,55 +77,35 @@ public class LifecycleFactoryImpl {
 	 * 
 	 * @return current state in lifecycle
 	 */
-	private LifecycleImpl prepareLifecycleRelease(State startingState) {
+	private LifecycleImpl prepareLifecycleRelease() {
 		Log.d(TAG,"preparing lifecycle for release");
 	
-		State accepted = new State("accepted");
-		if (accepted.equals(startingState)) 
-			return new LifecycleImpl(accepted);
-		
+		StateWithTransitions accepted = new StateWithTransitions(State.ACCEPTED);
 		Transition finish = new Transition("finish",accepted);
-		State unstarted = new State("unstarted",finish);
+		StateWithTransitions unstarted = new StateWithTransitions(State.UNSTARTED,finish);
 		return new LifecycleImpl(unstarted);
 	}
 	
-	/**
-	 * prepares the _remaining_ lifecycle of your story
-	 * starts with stories current state (thus its the remaining lifecycle)
-	 * 
-	 * @return current state in lifecycle
-	 */
-	private LifecycleImpl prepareLifecycleBugFeature(State startingState) {
+	private LifecycleImpl prepareLifecycleBugFeature() {
 		Log.d(TAG,"preparing lifecycle for bug/feature");
 
-		State accepted = new State("accepted");
-		if (accepted.equals(startingState))
-			return new LifecycleImpl(accepted);
-		
-		State rejected = new State("rejected");
-		if (rejected.equals(startingState))
-			return new LifecycleImpl(rejected);
+		StateWithTransitions accepted = new StateWithTransitions(State.ACCEPTED);
+		StateWithTransitions rejected = new StateWithTransitions(State.REJECTED);
 
 		List<Transition> acceptreject = new ArrayList<Transition>();
 		acceptreject.add(new Transition("accept", accepted));
 		acceptreject.add(new Transition("reject", rejected));
 
-		State delivered = new State("delivered",acceptreject);
-		if (delivered.equals(startingState))
-			return new LifecycleImpl(delivered);
+		StateWithTransitions delivered = new StateWithTransitions(State.DELIVERED, acceptreject);
 		
 		Transition deliver = new Transition("deliver",delivered);
-		State finished = new State("finished",deliver);
-		if (finished.equals(startingState)) 
-			return new LifecycleImpl(finished);
+		StateWithTransitions finished = new StateWithTransitions(State.FINISHED, deliver);
 		
 		Transition finish = new Transition("finish",finished);
-		State started = new State("started",finish);
-		if (started.equals(startingState))
-			return new LifecycleImpl(started);
+		StateWithTransitions started = new StateWithTransitions(State.STARTED, finish);
 		
 		Transition start = new Transition("start",started);
-		State unstarted = new State("unstarted",start);
+		StateWithTransitions unstarted = new StateWithTransitions(State.UNSTARTED, start);
 		return new LifecycleImpl(unstarted);
 	}
 }

@@ -10,6 +10,7 @@ import java.util.Map;
 import javax.xml.parsers.ParserConfigurationException;
 
 import me.linnemann.ptmobile.pivotaltracker.xml.CreateCommentCommand;
+import me.linnemann.ptmobile.pivotaltracker.xml.CreateStoryCommand;
 import me.linnemann.ptmobile.pivotaltracker.xml.UpdateStoryCommand;
 import me.linnemann.ptmobile.pivotaltracker.xml.XMLActivitiesHandler;
 import me.linnemann.ptmobile.pivotaltracker.xml.XMLNotesHandler;
@@ -179,16 +180,16 @@ public class APIAdapter {
 
 	public void updateStory(Story story) {
 		
-		UpdateStoryCommand usc = new UpdateStoryCommand(story);
+		UpdateStoryCommand command = new UpdateStoryCommand(story);
 
 		Map<String,String> properties = new HashMap<String,String>();
 		properties.put(TRACKER_TOKEN_NAME,apikey);
 		properties.put("Content-type","application/xml");
 
 		try {
-			ByteArrayInputStream body = new ByteArrayInputStream(usc.getXMLBytes());
+			ByteArrayInputStream body = new ByteArrayInputStream(command.getXMLBytes());
 
-			InputStream is = rest.doPUT(usc.getURL(), properties, body);
+			InputStream is = rest.doPUT(command.getURL(), properties, body);
 			Log.d(TAG,"RESP: "+rest.textFromURL(is));
 
 			is.close();
@@ -196,6 +197,27 @@ public class APIAdapter {
 			Log.e(TAG,"editStory, IO: "+e.getMessage());
 		}
 	}
+	
+	public void createStory(Story story) {
+		
+		CreateStoryCommand command = new CreateStoryCommand(story);
+
+		Map<String,String> properties = new HashMap<String,String>();
+		properties.put(TRACKER_TOKEN_NAME,apikey);
+		properties.put("Content-type","application/xml");
+
+		try {
+			ByteArrayInputStream body = new ByteArrayInputStream(command.getXMLBytes());
+
+			InputStream is = rest.doPOST(command.getURL(), properties, body);
+			Log.d(TAG,"RESP: "+rest.textFromURL(is));
+
+			is.close();
+		} catch (IOException e) {
+			Log.e(TAG,"createStory, IO: "+e.getMessage());
+		}
+	}
+	
 	
 	/**
 	 * creates a comment via api, parses response to store 

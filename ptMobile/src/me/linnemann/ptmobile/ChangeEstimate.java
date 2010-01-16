@@ -3,6 +3,7 @@ package me.linnemann.ptmobile;
 import me.linnemann.ptmobile.cursor.ProjectsCursor;
 import me.linnemann.ptmobile.pivotaltracker.PivotalTracker;
 import me.linnemann.ptmobile.pivotaltracker.Story;
+import me.linnemann.ptmobile.pivotaltracker.value.Estimate;
 import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
@@ -13,7 +14,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class Estimate extends Activity {
+public class ChangeEstimate extends Activity {
 
 	private static final String TAG="Estimate";
 	private Integer project_id;
@@ -44,13 +45,13 @@ public class Estimate extends Activity {
 		Bundle extras = getIntent().getExtras();
 
 		if (extras != null) {
-			Log.i(Stories.class.toString(),"Project ID from Extras: "+extras.getString("project_id"));
+			Log.i(TAG,"Project ID from Extras: "+extras.getInt("project_id"));
 			setTitle("Estimate");
-			story_id=new Integer(extras.getString("story_id"));
+			story_id=extras.getInt("story_id");
 			tracker = new PivotalTracker(this);
 			story = tracker.getStory(story_id);
-			storyName.setText(story.getName());
-			project_id = story.getProjectId();
+			storyName.setText(story.getName().getUIString());
+			project_id = story.getProjectId().getValue();
 			pc = tracker.getProject(project_id);
 			String pointscale = pc.getPointScale();
 			if ("0,1,2,3".equals(pointscale)) setUpLinear();
@@ -81,42 +82,42 @@ public class Estimate extends Activity {
 		b0.setText("0 points");
 		b0.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {  
-				setEstimate(0);
+				setEstimate(Estimate.POINTS_0);
 			}  
 		});
 		
 		b1.setText("1 point");
 		b1.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {  
-				setEstimate(1);
+				setEstimate(Estimate.POINTS_1);
 			}  
 		});
 		
 		b2.setText("2 points");
 		b2.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {  
-				setEstimate(2);
+				setEstimate(Estimate.POINTS_2);
 			}  
 		});
 		
 		b3.setText("3 points");
 		b3.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {  
-				setEstimate(3);
+				setEstimate(Estimate.POINTS_3);
 			}  
 		});
 		
 		b4.setText("5 points");
 		b4.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {  
-				setEstimate(5);
+				setEstimate(Estimate.POINTS_5);
 			}  
 		});
 		
 		b5.setText("8 points");
 		b5.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {  
-				setEstimate(8);
+				setEstimate(Estimate.POINTS_8);
 			}  
 		});
 		
@@ -133,28 +134,28 @@ public class Estimate extends Activity {
 		b0.setText("0 points");
 		b0.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {  
-				setEstimate(0);
+				setEstimate(Estimate.POINTS_0);
 			}  
 		});
 		
 		b1.setText("1 point");
 		b1.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {  
-				setEstimate(1);
+				setEstimate(Estimate.POINTS_1);
 			}  
 		});
 		
 		b2.setText("2 points");
 		b2.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {  
-				setEstimate(2);
+				setEstimate(Estimate.POINTS_2);
 			}  
 		});
 		
 		b3.setText("3 points");
 		b3.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {  
-				setEstimate(3);
+				setEstimate(Estimate.POINTS_3);
 			}  
 		});
 		
@@ -167,42 +168,42 @@ public class Estimate extends Activity {
 		b0.setText("0 points");
 		b0.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {  
-				setEstimate(0);
+				setEstimate(Estimate.POINTS_0);
 			}  
 		});
 		
 		b1.setText("1 point");
 		b1.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {  
-				setEstimate(1);
+				setEstimate(Estimate.POINTS_1);
 			}  
 		});
 		
 		b2.setText("2 points");
 		b2.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {  
-				setEstimate(2);
+				setEstimate(Estimate.POINTS_2);
 			}  
 		});
 		
 		b3.setText("4 points");
 		b3.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {  
-				setEstimate(4);
+				setEstimate(Estimate.POINTS_4);
 			}  
 		});
 		
 		b4.setText("8 points");
 		b4.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {  
-				setEstimate(8);
+				setEstimate(Estimate.POINTS_8);
 			}  
 		});
 		
 		b5.setVisibility(View.INVISIBLE);
 	}
 	
-	private void setEstimate(Integer estimate) {
+	private void setEstimate(Estimate estimate) {
 		Log.i(TAG,"setting estimate: "+estimate);
 		setProgressBarIndeterminateVisibility(true);
 		story.changeEstimate(estimate);

@@ -24,6 +24,6 @@
         android:textAppearance="?android:attr/textAppearanceMedium" 
         android:lines="4" 
         android:inputType="textMultiLine" 
-        android:layout_width="fill_parent"/>
+        android:layout_width="fill_parent" android:text="fdsf"/>
 
 </LinearLayout>

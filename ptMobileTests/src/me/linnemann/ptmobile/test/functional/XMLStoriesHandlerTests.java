@@ -4,8 +4,10 @@ import java.io.InputStream;
 import java.util.List;
 
 import me.linnemann.ptmobile.pivotaltracker.Story;
-import me.linnemann.ptmobile.pivotaltracker.StoryType;
-import me.linnemann.ptmobile.pivotaltracker.lifecycle.State;
+import me.linnemann.ptmobile.pivotaltracker.lifecycle.StateWithTransitions;
+import me.linnemann.ptmobile.pivotaltracker.value.Estimate;
+import me.linnemann.ptmobile.pivotaltracker.value.State;
+import me.linnemann.ptmobile.pivotaltracker.value.StoryType;
 import me.linnemann.ptmobile.pivotaltracker.xml.XMLStoriesHandler;
 import me.linnemann.ptmobile.test.pivotaltracker.DBAdapterMock;
 import me.linnemann.ptmobile.test.pivotaltracker.TestData;
@@ -40,7 +42,7 @@ public class XMLStoriesHandlerTests extends AndroidTestCase {
 	
 	public void test_simpleStoryExample_correctId() throws Exception {
 		Story story = getFirstStoryOfReceivedStories();
-		assertEquals(new Integer(777190), story.getId());
+		assertEquals(new Integer(777190), story.getId().getValue());
 	}
 
 	private Story getFirstStoryOfReceivedStories() throws Exception {
@@ -55,7 +57,7 @@ public class XMLStoriesHandlerTests extends AndroidTestCase {
 
 	public void test_simpleStoryExample_correctEstimate() throws Exception {
 		Story story = getFirstStoryOfReceivedStories();
-		assertEquals(new Integer(5), story.getEstimate());
+		assertEquals(Estimate.POINTS_5, story.getEstimate());
 	}
 	
 	public void test_simpleStoryExample_correctState() throws Exception {
@@ -65,52 +67,52 @@ public class XMLStoriesHandlerTests extends AndroidTestCase {
 
 	public void test_simpleStoryExample_correctDescription() throws Exception {
 		Story story = getFirstStoryOfReceivedStories();
-		assertEquals("", story.getDescription());
+		assertEquals("", story.getDescription().getValue());
 	}
 
 	public void test_simpleStoryExample_correctName() throws Exception {
 		Story story = getFirstStoryOfReceivedStories();
-		assertEquals("PO can update list of stories via pivotal API", story.getName());
+		assertEquals("PO can update list of stories via pivotal API", story.getName().getValue());
 	}
 
 	public void test_simpleStoryExample_correctRequestedBy() throws Exception {
 		Story story = getFirstStoryOfReceivedStories();
-		assertEquals("Niels Linnemann", story.getRequestedBy());
+		assertEquals("Niels Linnemann", story.getRequestedBy().getValue());
 	}
 
 	public void test_simpleStoryExample_correctOwnedBy() throws Exception {
 		Story story = getFirstStoryOfReceivedStories();
-		assertEquals("Niels Linnemann", story.getOwnedBy());
+		assertEquals("Niels Linnemann", story.getOwnedBy().getValue());
 	}
 
 	public void test_simpleStoryExample_correctLabels() throws Exception {
 		Story story = getFirstStoryOfReceivedStories();
-		assertEquals("view", story.getLabels());
+		assertEquals("view", story.getLabels().getValue());
 	}
 	
 	public void test_simpleStoryExample_correctProjectId() throws Exception {
 		Story story = getFirstStoryOfReceivedStories();
-		assertEquals(TestData.ANY_PROJECT_ID, story.getProjectId());
+		assertEquals(TestData.ANY_PROJECT_ID, story.getProjectId().getValue());
 	}
 	
 	public void test_simpleStoryExample_correctIterationGroup() throws Exception {
 		Story story = getFirstStoryOfReceivedStories();
-		assertEquals(TestData.ANY_ITERATIONGROUP, story.getIterationGroup());
+		assertEquals(TestData.ANY_ITERATIONGROUP, story.getIterationGroup().getValue());
 	}
 	
 	public void test_simpleStoryExample_correctIterationNumber() throws Exception {
 		Story story = getFirstStoryOfReceivedStories();
-		assertEquals(null, story.getIterationNumber());
+		assertTrue(null, story.getIterationNumber().isEmpty());
 	}
 	
 	public void test_simpleStoryExample_correctCreatedAt() throws Exception {
 		Story story = getFirstStoryOfReceivedStories();
-		assertEquals("2009-06-07 11:52:35", story.getCreatedAt());
+		assertEquals("2009-06-07 11:52:35", story.getCreatedAt().getValue());
 	}
 	
 	public void test_simpleStoryExample_correctAcceptedAt() throws Exception {
 		Story story = getFirstStoryOfReceivedStories();
-		assertEquals("2009-06-07 12:13:35", story.getAcceptedAt());
+		assertEquals("2009-06-07 12:13:35", story.getAcceptedAt().getValue());
 	}
 	// TODO: Missing fields acceptedAt, createdAt, URL
 

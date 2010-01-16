@@ -2,17 +2,18 @@ package me.linnemann.ptmobile;
 
 import java.util.List;
 
-
 import me.linnemann.ptmobile.cursor.IterationCursor;
-import me.linnemann.ptmobile.cursor.StoriesCursorImpl;
 import me.linnemann.ptmobile.pivotaltracker.PivotalTracker;
 import me.linnemann.ptmobile.pivotaltracker.Story;
-import me.linnemann.ptmobile.pivotaltracker.StoryType;
 import me.linnemann.ptmobile.pivotaltracker.lifecycle.Transition;
+import me.linnemann.ptmobile.pivotaltracker.value.Estimate;
+import me.linnemann.ptmobile.pivotaltracker.value.StoryType;
+import me.linnemann.ptmobile.pivotaltracker.value.StringValue;
 import me.linnemann.ptmobile.ui.OutputStyler;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -31,12 +32,12 @@ public class StoryDetails extends Activity {
 	
 	private TextView name;
 	private TextView type;
-	private TextView estimate;
-	private TextView description;
+	private TextView estimateWidget;
+	private TextView descriptionWidget;
 	private TextView labels;
 	private TextView owner;
 	private TextView requested;	
-	private TextView deadline;
+	private TextView deadlineWidget;
 	private TextView state;
 	private TextView iteration;
 	private ImageView image;
@@ -46,22 +47,25 @@ public class StoryDetails extends Activity {
 	private Story story;
 	private PivotalTracker tracker;
 	private Integer story_id;
+	private Context ctx;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
+		ctx = this;
+		
 		setTitle("Story");
 		setContentView(R.layout.story_details);
 
 		name = (TextView) this.findViewById(R.id.textNameStoryDetails);
 		type = (TextView) this.findViewById(R.id.textTypeStoryDetails);
 		labels = (TextView) this.findViewById(R.id.textLabelsStoryDetails);
-		estimate = (TextView) this.findViewById(R.id.textEstimateStoryDetails);
-		description = (TextView) this.findViewById(R.id.textDescriptionStoryDetails);
+		estimateWidget = (TextView) this.findViewById(R.id.textEstimateStoryDetails);
+		descriptionWidget = (TextView) this.findViewById(R.id.textDescriptionStoryDetails);
 		owner = (TextView) this.findViewById(R.id.textOwnedByStoryDetails);
 		requested = (TextView) this.findViewById(R.id.textRequestedByStoryDetails);
-		deadline = (TextView) this.findViewById(R.id.textDeadlineStoryDetails);
+		deadlineWidget = (TextView) this.findViewById(R.id.textDeadlineStoryDetails);
 		state = (TextView) this.findViewById(R.id.textStateStoryDetails);
 		image = (ImageView) this.findViewById(R.id.imageTypeStoryDetails);
 		iteration = (TextView) this.findViewById(R.id.textIterationStoryDetails);
@@ -74,9 +78,9 @@ public class StoryDetails extends Activity {
 		
 		story = tracker.getStory(story_id);
 		
-		name.setText(story.getName());
+		name.setText(story.getName().getUIString());
 		
-		type.setText(story.getStoryType().toString());
+		type.setText(story.getStoryType().getUIString());
 		if (StoryType.FEATURE.equals(story.getStoryType())) {
 			image.setImageDrawable(getResources().getDrawable(R.drawable.feature));
 		}
@@ -90,38 +94,35 @@ public class StoryDetails extends Activity {
 			image.setImageDrawable(getResources().getDrawable(R.drawable.bug_icon));
 		}
 		
-		description.setText(OutputStyler.getDescriptionText(story));
+		showDescription();
 		
-		state.setText(story.getCurrentState().toString());
-		estimate.setText(OutputStyler.getEstimateText(story));
+		state.setText(story.getCurrentState().getUIString());
+		
+		showEstimateIfNotEmpty();
 		
 		
-		if (hasLabels(story)) {
-			labels.setText(story.getLabels());
+		if (!story.getLabels().isEmpty()) {
+			labels.setText(story.getLabels().getUIString());
 		} else {
 			labels.setVisibility(View.INVISIBLE);
 		}
 		
-		if (hasDeadline(story)) {
-			deadline.setText("Deadline: "+OutputStyler.getShortDate(story.getDeadline()));
-		} else {
-			deadline.setVisibility(View.INVISIBLE);
-		}
+		showDeadlineIfNotEmpty();
 		
-		if (hasRequestedBy(story)) {
-			requested.setText("Requested by "+story.getRequestedBy());
+		if (!story.getRequestedBy().isEmpty()) {
+			requested.setText("Requested by "+story.getRequestedBy().getUIString());
 		} else {
 			requested.setVisibility(View.INVISIBLE);
 		}
 		
-		if (hasOwnedBy(story)) {
-			owner.setText("Owned by "+story.getOwnedBy());
+		if (!story.getOwnedBy().isEmpty()) {
+			owner.setText("Owned by "+story.getOwnedBy().getUIString());
 		} else {
 			owner.setVisibility(View.INVISIBLE);
 		}
 		
-		if (story.getIterationNumber() != null) {
-			IterationCursor ic = tracker.getIterationCursor(story.getProjectId(), story.getIterationNumber());
+		if (!story.getIterationNumber().isEmpty()) {
+			IterationCursor ic = tracker.getIterationCursor(story.getProjectId().getValue(), story.getIterationNumber().getValue());
 			iteration.setText(OutputStyler.getIterationAsText(ic));	
 			ic.close();
 		} else {
@@ -131,29 +132,32 @@ public class StoryDetails extends Activity {
 		comments.setText(tracker.getCommentsAsString(story_id));
 		setUpButtons();
 	}
-	
-	private boolean hasLabels(Story story) {
-		String labels = story.getLabels();
-		return notEmpty(labels);
+
+	private void showEstimateIfNotEmpty() {
+		Estimate estimate = story.getEstimate();
+		if (!estimate.isEmpty()) {
+			estimateWidget.setText(estimate.getUIString());
+		} else {
+			estimateWidget.setVisibility(View.INVISIBLE);
+		}
 	}
 
-	private boolean hasDeadline(Story story) {
-		String deadline = story.getDeadline();
-		return notEmpty(deadline);
+	private void showDeadlineIfNotEmpty() {
+		StringValue deadline = story.getDeadline();
+		if (!deadline.isEmpty()) {
+			deadlineWidget.setText("Deadline: "+OutputStyler.getShortDate(deadline.getUIString()));
+		} else {
+			deadlineWidget.setVisibility(View.INVISIBLE);
+		}
 	}
-	
-	private boolean hasRequestedBy(Story story) {
-		String requestedBy = story.getRequestedBy();
-		return notEmpty(requestedBy);
-	}
-	
-	private boolean hasOwnedBy(Story story) {
-		String ownedBy = story.getOwnedBy();
-		return notEmpty(ownedBy);
-	}
-	
-	private boolean notEmpty(String value) {
-		return ((value != null) && (value.length() > 0));
+
+	private void showDescription() {
+		StringValue description = story.getDescription();
+		if (!description.isEmpty()) {
+			descriptionWidget.setText(description.getUIString());
+		} else {
+			descriptionWidget.setText("(no description)");
+		}
 	}
 	
 	private void setUpButtons() {
@@ -166,8 +170,7 @@ public class StoryDetails extends Activity {
 		btn2.setVisibility(View.INVISIBLE);
 		btn3.setVisibility(View.INVISIBLE);
 		
-		//final Story s = c.getStory();
-		final List<Transition> trans = story.getLifecycle().getAvailableTransitions();
+		final List<Transition> trans = story.getTransitions();
 		
 		if (story.needsEstimate()) {
 			btn1.setText("Estimate");
@@ -183,7 +186,7 @@ public class StoryDetails extends Activity {
 			btn1.setText(trans.get(0).getName());
 			btn1.setOnClickListener(new OnClickListener() {
 				public void onClick(View v) {  
-					story.getLifecycle().doTransition(trans.get(0));
+					story.applyTransition(trans.get(0));
 					tracker.commitChanges(story);
 					updateView();
 				}  
@@ -195,9 +198,19 @@ public class StoryDetails extends Activity {
 			btn2.setText(trans.get(1).getName());
 			btn2.setOnClickListener(new OnClickListener() {
 				public void onClick(View v) {  
-					story.getLifecycle().doTransition(trans.get(1));
+					story.applyTransition(trans.get(1));
 					tracker.commitChanges(story);
 					updateView();
+				}  
+			});
+			btn2.setVisibility(View.VISIBLE);
+		} else {
+			btn2.setText("edit");
+			btn2.setOnClickListener(new OnClickListener() {
+				public void onClick(View v) {  
+					Intent i = new Intent(ctx, EditStory.class);
+					i.putExtra("story_id", story.getId().getValue());
+					startActivity(i);
 				}  
 			});
 			btn2.setVisibility(View.VISIBLE);
@@ -213,8 +226,8 @@ public class StoryDetails extends Activity {
 	}
 	
 	private void showEstimateActivity() {
-		Intent i = new Intent(this,Estimate.class);
-		i.putExtra("story_id", story.getId());
+		Intent i = new Intent(this,ChangeEstimate.class);
+		i.putExtra("story_id", story.getId().getValue());
 		startActivity(i);
 	}
 	

@@ -4,6 +4,8 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Set;
 
+import android.util.Log;
+
 import me.linnemann.ptmobile.pivotaltracker.Story;
 import me.linnemann.ptmobile.pivotaltracker.fields.StoryData;
 
@@ -30,8 +32,12 @@ public abstract class StoryCommand extends RESTXMLCommand {
 	}
 	
 	private String compiledURLString() {
-		String compiledUrl = url.replaceAll("PROJECT_ID", story.getProjectId().toString())
-		.replaceAll("STORY_ID", story.getId().toString());
+		String compiledUrl = url.replaceAll("PROJECT_ID", story.getProjectId().getValueAsString());
+		
+		if (!story.getId().isEmpty()) {
+			compiledUrl= compiledUrl.replaceAll("STORY_ID", story.getId().getValueAsString());	
+		}
+		
 		return compiledUrl;
 	}
 	
@@ -42,41 +48,44 @@ public abstract class StoryCommand extends RESTXMLCommand {
 		
 		if (modified.contains(StoryData.LABELS)) {
 			xml.append("<labels>");
-			xml.append(story.getLabels());
+			xml.append(story.getLabels().getValueAsString());
 			xml.append("</labels>");
 		}
 
 		if (modified.contains(StoryData.CURRENT_STATE)) {
 			xml.append("<current_state>");
-			xml.append(story.getCurrentState());
+			xml.append(story.getCurrentState().getValueAsString());
 			xml.append("</current_state>");
 		}
 		
 		if (modified.contains(StoryData.ESTIMATE)) {
 			xml.append("<estimate type=\"integer\">");
-			xml.append(story.getEstimate());
+			xml.append(story.getEstimate().getValueAsString());
 			xml.append("</estimate>");
 		}
 		
 		if (modified.contains(StoryData.NAME)) {
 			xml.append("<name>");
-			xml.append(story.getName());
+			xml.append(story.getName().getValueAsString());
 			xml.append("</name>");
 		}
 		
 		if (modified.contains(StoryData.DESCRIPTION)) {
 			xml.append("<description>");
-			xml.append(story.getDescription());
+			xml.append(story.getDescription().getValueAsString());
 			xml.append("</description>");
 		}
 		
 		if (modified.contains(StoryData.STORY_TYPE)) {
 			xml.append("<story_type>");
-			xml.append(story.getStoryType());
+			xml.append(story.getStoryType().getValueAsString());
 			xml.append("</story_type>");
 		}
 		
 		xml.append("</story>");
+		
+		Log.i("StoryCommand",xml.toString());
+		
 		return xml.toString();
 	}
 }

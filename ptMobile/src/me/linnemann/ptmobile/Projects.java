@@ -34,6 +34,10 @@ public class Projects extends RefreshableListActivityWithMainMenu {
 	private Context ctx;
 	private boolean alreadyCheckedForUpdates;
 	
+	public Projects() {
+		super(RefreshableListActivityWithMainMenu.HIDE_ADD_MENU);
+	}
+	
 	private Handler handler = new Handler() {
 		@Override
 		public void handleMessage(Message msg) {
@@ -209,5 +213,10 @@ public class Projects extends RefreshableListActivityWithMainMenu {
 		} else {
 			Log.i("Stories","update canceled, no valid APItoken");
 		}
+	}
+
+	@Override
+	public void addStory() {
+		// nothing
 	}
 }

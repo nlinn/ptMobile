@@ -3,7 +3,6 @@ package me.linnemann.ptmobile.pivotaltracker.xml;
 import me.linnemann.ptmobile.pivotaltracker.DBAdapter;
 import me.linnemann.ptmobile.pivotaltracker.IncomingIteration;
 import me.linnemann.ptmobile.pivotaltracker.IncomingNote;
-import me.linnemann.ptmobile.pivotaltracker.IncomingStory;
 import me.linnemann.ptmobile.pivotaltracker.StoryFromAPIBuilder;
 import me.linnemann.ptmobile.pivotaltracker.fields.IterationData;
 import me.linnemann.ptmobile.pivotaltracker.fields.NoteData;

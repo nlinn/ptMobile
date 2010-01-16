@@ -9,20 +9,18 @@ package me.linnemann.ptmobile;
 
 public final class R {
     public static final class array {
-        /**  Used in app/menu examples 
-         */
         public static final int activityupdate_list_preference=0x7f050002;
-        /**  Used in app/menu examples 
-         */
         public static final int activityupdate_list_preference_values=0x7f050003;
-        /**  Used in app/menu examples 
-         */
+        public static final int bug_states=0x7f050006;
+        public static final int chore_states=0x7f050007;
+        public static final int feature_states=0x7f050005;
+        public static final int points_empty=0x7f05000c;
+        public static final int points_fibonacci=0x7f05000b;
+        public static final int points_linear=0x7f050009;
+        public static final int points_powerof2=0x7f05000a;
+        public static final int release_states=0x7f050008;
         public static final int storytypes=0x7f050004;
-        /**  Used in app/menu examples 
-         */
         public static final int storyupdate_list_preference=0x7f050000;
-        /**  Used in app/menu examples 
-         */
         public static final int storyupdate_list_preference_values=0x7f050001;
     }
     public static final class attr {
@@ -78,28 +76,30 @@ public final class R {
         public static final int ButtonEstimate5=0x7f08000e;
         public static final int ButtonFetch=0x7f080012;
         public static final int ButtonSave=0x7f080014;
-        public static final int EditText01=0x7f08003d;
-        public static final int EditText02=0x7f080040;
         public static final int EditTextAPIKey=0x7f080013;
         public static final int EditTextPassword=0x7f080011;
         public static final int EditTextUsername=0x7f080010;
-        public static final int Spinner02=0x7f08003f;
         public static final int TextView02=0x7f08000f;
         public static final int btn1SD=0x7f08003a;
-        public static final int btn1SE=0x7f080041;
+        public static final int btn1SE=0x7f080043;
         public static final int btn2SD=0x7f08003b;
-        public static final int btn2SE=0x7f080042;
+        public static final int btn2SE=0x7f080044;
         public static final int btn3SD=0x7f08003c;
-        public static final int btn3SE=0x7f080043;
+        public static final int btn3SE=0x7f080045;
         public static final int commentEdit=0x7f080005;
         public static final int commentLabel=0x7f080004;
+        public static final int editDescriptionSE=0x7f080042;
+        public static final int editNameSE=0x7f08003d;
         public static final int imageDecriptionStoryDetails=0x7f080033;
         public static final int imageInfosStory=0x7f080022;
         public static final int imageNextStory=0x7f08002a;
         public static final int imagePointsStory=0x7f080029;
         public static final int imageTypeStory=0x7f080021;
         public static final int imageTypeStoryDetails=0x7f08002c;
+        public static final int labelDescSE=0x7f080041;
         public static final int layoutIteration=0x7f080026;
+        public static final int spnPointsSE=0x7f08003f;
+        public static final int spnStateSE=0x7f080040;
         public static final int spnTypeSE=0x7f08003e;
         public static final int textCommentsLabelSD=0x7f080035;
         public static final int textCommentsSD=0x7f080036;
@@ -163,13 +163,15 @@ public final class R {
         public static final int app_name=0x7f060000;
         public static final int empty_list=0x7f060005;
         public static final int menu_about=0x7f060007;
-        public static final int menu_header_project=0x7f06000c;
-        public static final int menu_prefs=0x7f06000d;
+        public static final int menu_add_story=0x7f060008;
+        public static final int menu_editstory=0x7f06000a;
+        public static final int menu_header_project=0x7f06000e;
+        public static final int menu_prefs=0x7f06000f;
         public static final int menu_refesh=0x7f060006;
-        public static final int menu_showprojectdetails=0x7f060009;
-        public static final int menu_showstories=0x7f060008;
-        public static final int menu_showstorydetails=0x7f06000a;
-        public static final int menu_storynextstate=0x7f06000b;
+        public static final int menu_showprojectdetails=0x7f06000b;
+        public static final int menu_showstories=0x7f060009;
+        public static final int menu_showstorydetails=0x7f06000c;
+        public static final int menu_storynextstate=0x7f06000d;
         public static final int thanks=0x7f060004;
         public static final int welcome=0x7f060001;
     }

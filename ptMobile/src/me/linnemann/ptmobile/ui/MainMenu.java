@@ -18,14 +18,20 @@ public class MainMenu {
 	private static final int MENU_REFRESH = 10000123;
 	private static final int MENU_PREFERENCES = 10000124;
 	private static final int MENU_ABOUT = 10000125;
+	private static final int MENU_ADD = 10000126;
 
 	private RefreshableListActivityWithMainMenu activity;
-
-	public MainMenu(RefreshableListActivityWithMainMenu activity) {
+	private boolean showAddMenu;
+	
+	public MainMenu(RefreshableListActivityWithMainMenu activity, boolean showAddMenu) {
 		this.activity = activity;
+		this.showAddMenu = showAddMenu;
 	}
 
 	public void addMenuItemsToMenu(Menu menu) {
+		if (showAddMenu)
+			addMenuItemWithIcon(menu, MENU_ADD, R.string.menu_add_story, android.R.drawable.ic_menu_add);
+		
 		addMenuItemWithIcon(menu, MENU_REFRESH, R.string.menu_refesh, R.drawable.ic_menu_refresh);
 		addMenuItemWithIcon(menu, MENU_PREFERENCES, R.string.menu_prefs, android.R.drawable.ic_menu_preferences);
 		addMenuItemWithIcon(menu, MENU_ABOUT, R.string.menu_about, android.R.drawable.ic_menu_help);
@@ -41,6 +47,9 @@ public class MainMenu {
 	
 	public void performMenuAction(MenuItem item) {
 		switch (item.getItemId()) {
+			case MENU_ADD:
+				executeAddStory();
+				break;
 			case MENU_REFRESH:
 				executeRefresh();
 				break;
@@ -57,6 +66,10 @@ public class MainMenu {
 
 	private void executeRefresh() {
 		activity.refresh();
+	}
+	
+	private void executeAddStory() {
+		activity.addStory();
 	}
 
 	private void showPreferences() {

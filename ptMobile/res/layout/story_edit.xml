@@ -10,24 +10,32 @@
 		<RelativeLayout android:layout_width="fill_parent"
 			android:layout_height="wrap_content" android:padding="5px">
 
-			<EditText android:text="Enter new story title here" android:id="@+id/EditText01" android:layout_width="fill_parent" android:layout_height="wrap_content">
+			<EditText android:text="Enter new story title here" android:id="@+id/editNameSE" android:layout_width="fill_parent" android:layout_height="wrap_content">
 			</EditText>
 
 
 
 			<Spinner android:layout_height="wrap_content" 
-			android:layout_below="@+id/EditText01" 
+			android:layout_below="@id/editNameSE" 
 			android:layout_width="fill_parent" 
 			android:id="@+id/spnTypeSE" />
 
 			<Spinner android:layout_height="wrap_content"
 			 android:layout_below="@id/spnTypeSE"
 			 android:layout_width="fill_parent"
-			 android:id="@+id/Spinner02" />
+			 android:id="@+id/spnPointsSE" />
+
+			<Spinner android:layout_height="wrap_content"
+			 android:layout_below="@id/spnPointsSE"
+			 android:layout_width="fill_parent"
+			 android:id="@+id/spnStateSE" android:layout_alignWithParentIfMissing="true"/>
+
+	<TextView android:layout_below="@id/spnStateSE" android:text="Description" android:id="@+id/labelDescSE" android:layout_height="wrap_content" android:layout_width="wrap_content" android:paddingTop="10dip" android:paddingBottom="5dip" android:paddingLeft="5dip" android:textColor="@color/color_text"></TextView>
 			 
-	<EditText android:text="Description" 
-	android:id="@+id/EditText02" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_below="@id/Spinner02" android:inputType="textLongMessage">
+	<EditText android:text="Description" android:textSize="14px" 
+	android:id="@+id/editDescriptionSE" android:layout_width="fill_parent" android:layout_below="@id/labelDescSE" android:inputType="textMultiLine|textLongMessage" android:layout_height="wrap_content" android:gravity="fill_horizontal" android:lines="5">
 			</EditText>
+
 
 
 </RelativeLayout>
@@ -40,15 +48,15 @@
 		android:padding="3px" android:background="@color/color_iteration_bg">
 
 		<TableRow>
-			<Button android:text="start" android:id="@+id/btn1SE"
+			<Button android:id="@+id/btn1SE"
 				android:layout_width="fill_parent" android:layout_height="wrap_content"
-				android:layout_weight="1"></Button>
+				android:layout_weight="1" android:visibility="invisible" android:text="save"></Button>
 			<Button android:text="start" android:id="@+id/btn2SE"
 				android:layout_width="fill_parent" android:layout_height="wrap_content"
-				android:layout_weight="1"></Button>
-			<Button android:text="start" android:id="@+id/btn3SE"
+				android:layout_weight="1" android:visibility="invisible"></Button>
+			<Button android:id="@+id/btn3SE"
 				android:layout_width="fill_parent" android:layout_height="wrap_content"
-				android:layout_weight="1"></Button>
+				android:layout_weight="1" android:text="save"></Button>
 
 		</TableRow>
 	</TableLayout>

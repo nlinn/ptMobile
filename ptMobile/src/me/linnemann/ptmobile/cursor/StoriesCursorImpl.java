@@ -7,6 +7,8 @@ import me.linnemann.ptmobile.pivotaltracker.Story;
 import me.linnemann.ptmobile.pivotaltracker.StoryFromCursorBuilder;
 import me.linnemann.ptmobile.pivotaltracker.StoryImpl;
 import me.linnemann.ptmobile.pivotaltracker.fields.StoryData;
+import me.linnemann.ptmobile.pivotaltracker.value.Estimate;
+import me.linnemann.ptmobile.pivotaltracker.value.State;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteCursor;
 import android.database.sqlite.SQLiteCursorDriver;
@@ -18,12 +20,14 @@ public class StoriesCursorImpl extends SQLiteCursor implements StoriesCursor {
 
 	private Set<Integer> iterationStarters;
 	
+	private static final String SQL_STORYFIELDS ="s._id, s.id, s.name, s.iteration_number, s.project_id, " +
+	"s.estimate, s.s.story_type, s.labels, s.deadline, " +
+	"s.description, s.current_state, s.requested_by, s.iteration_group, " +
+	"s.owned_by, s.created_at, s.accepted_at, s.iteration_number ";
+	
 	public static String sqlSingleStory(Integer story_id) {
 		return "select " +
-		"s._id, s.id, s.name, s.iteration_number, s.project_id, " +
-		"s.estimate, s.s.story_type, s.labels, s.deadline, " +
-		"s.description, s.current_state, s.requested_by, " +
-		"s.owned_by, s.created_at, s.accepted_at, s.iteration_number " +
+		SQL_STORYFIELDS +
 		"from stories s " +
 		"where " +
 		"s.id="+story_id;
@@ -32,10 +36,8 @@ public class StoriesCursorImpl extends SQLiteCursor implements StoriesCursor {
 	public static String sqlCurrent(Integer project_id) {
 
 		return "select " +
-		"s._id, s.id, s.name, s.iteration_number, s.project_id, " +
-		"s.estimate, s.s.story_type, s.labels, " +
-		"s.description, s.current_state, " +
-		"i.start, i.finish " +
+		"i.start, i.finish, " +
+		SQL_STORYFIELDS +
 		"from stories s " +
 		"left join iterations i on s.iteration_number=i.number " +
 		"where " +
@@ -45,10 +47,9 @@ public class StoriesCursorImpl extends SQLiteCursor implements StoriesCursor {
 
 	public static String sqlBacklog(Integer project_id) {
 
-		return "select s._id, s.id, s.name, s.iteration_number, s.project_id, " +
-		"s.estimate, s.story_type, " +
-		"s.description, s.labels, s.current_state, " +
-		"i.start, i.finish " +
+		return "select " +
+		"i.start, i.finish, " +
+		SQL_STORYFIELDS +
 		"from stories s " +
 		"left join iterations i on s.iteration_number=i.number " +
 		"where " +
@@ -58,10 +59,9 @@ public class StoriesCursorImpl extends SQLiteCursor implements StoriesCursor {
 
 	public static String sqlDone(Integer project_id) {
 
-		return "select s._id, s.id, s.name, s.iteration_number, s.project_id, " +
-		"s.estimate, s.s.story_type, s.labels, " +
-		"s.description, s.current_state, " +
-		"i.start, i.finish " +
+		return "select " +
+		"i.start, i.finish, " +
+		SQL_STORYFIELDS +
 		"from stories s " +
 		"left join iterations i on s.iteration_number=i.number " +
 		"where " +
@@ -71,15 +71,14 @@ public class StoriesCursorImpl extends SQLiteCursor implements StoriesCursor {
 
 	public static String sqlIcebox(Integer project_id) {
 
-		return "select s._id, s.id, s.name, s.iteration_number, s.project_id, " +
-		"s.estimate, s.s.story_type, s.labels, " +
-		"s.description, s.current_state " +
+		return "select " +
+		SQL_STORYFIELDS +
 		"from stories s " +
 		"where " +
 		"s.iteration_group='icebox' " +
 		"and s.project_id='"+project_id+"' order by s._id desc";
 	}
-
+	
 	public StoriesCursorImpl(SQLiteDatabase db, SQLiteCursorDriver driver,
 			String editTable, SQLiteQuery query) {
 		super(db, driver, editTable, query);
@@ -92,7 +91,9 @@ public class StoriesCursorImpl extends SQLiteCursor implements StoriesCursor {
 				SQLiteQuery query) {
 
 			StoriesCursorImpl sc = new StoriesCursorImpl(db, driver, editTable, query);
+			
 			sc.compileIterationStarters();
+			
 			return sc;
 		}
 	}
@@ -121,15 +122,10 @@ public class StoriesCursorImpl extends SQLiteCursor implements StoriesCursor {
 	/* (non-Javadoc)
 	 * @see me.linnemann.ptmobile.cursor.StoriesCursor#getEstimate()
 	 */
-	public Integer getEstimate() {
-
-		String est = getString(getColumnIndexOrThrow(StoryData.ESTIMATE.getDBFieldName()));
-
-		if (est == null) {
-			return null;
-		} else {
-			return new Integer(est);
-		}
+	public Estimate getEstimate() {
+		Integer estimateNumeric = getInt(getColumnIndexOrThrow(StoryData.ESTIMATE.getDBFieldName()));
+		Estimate estimate = Estimate.valueOfNumeric(estimateNumeric);
+		return estimate;
 	}
 
 	/* (non-Javadoc)
@@ -142,8 +138,9 @@ public class StoriesCursorImpl extends SQLiteCursor implements StoriesCursor {
 	/* (non-Javadoc)
 	 * @see me.linnemann.ptmobile.cursor.StoriesCursor#getCurrentState()
 	 */
-	public String getCurrentState() {
-		return getString(getColumnIndexOrThrow(StoryData.CURRENT_STATE.getDBFieldName()));
+	public State getCurrentState() {
+		String stateName = getString(getColumnIndexOrThrow(StoryData.CURRENT_STATE.getDBFieldName()));
+		return State.valueOf(stateName.toUpperCase());
 	}
 
 	/* (non-Javadoc)
@@ -174,11 +171,17 @@ public class StoriesCursorImpl extends SQLiteCursor implements StoriesCursor {
 		return getString(getColumnIndexOrThrow(StoryData.DEADLINE.getDBFieldName()));
 	}
 
-	/* (non-Javadoc)
-	 * @see me.linnemann.ptmobile.cursor.StoriesCursor#getIterationNumber()
-	 */
+
 	public Integer getIterationNumber() {
-		return getInt(getColumnIndexOrThrow(StoryData.ITERATION_NUMBER.getDBFieldName()));
+		int columnNotFound = -1;
+		
+		int index = getColumnIndex(StoryData.ITERATION_NUMBER.getDBFieldName());
+		
+		if ((index == columnNotFound) || isNull(index)) {
+			return null;	
+		} else {
+			return getInt(index);
+		}
 	}
 
 	/* (non-Javadoc)
@@ -278,22 +281,28 @@ public class StoriesCursorImpl extends SQLiteCursor implements StoriesCursor {
 
 		iterationStarters = new HashSet<Integer>();
 		Integer currentIteration = null;
+		Integer iterationFromStory = null;
+		Integer storyId = null;
 
 		if (this.moveToFirst()) {
+			
+				
 
-			currentIteration = this.getIterationNumber();
-			iterationStarters.add(this.getId());
-
-			if (currentIteration != null) {
-				while (this.moveToNext()) {
-
+				do {
+					if (this.getIterationGroup().equals("icebox")) // TODO refactor that shit
+						break;
+					
+					iterationFromStory = this.getIterationNumber();
+					storyId = this.getId();
+					Log.i("StoriesCursor","iteration from story ("+storyId+"): "+iterationFromStory);
+					
 					// found new iteration?
-					if (!currentIteration.equals(this.getIterationNumber())) {
-						currentIteration = this.getIterationNumber();
-						iterationStarters.add(this.getId());
+					if (!iterationFromStory.equals(currentIteration)) {
+						currentIteration = iterationFromStory;
+						iterationStarters.add(storyId);
 					}
-				}
-			}
+
+				} while(this.moveToNext());
 
 			this.moveToFirst(); // reset cursor
 		}
@@ -306,19 +315,5 @@ public class StoriesCursorImpl extends SQLiteCursor implements StoriesCursor {
 	 */
 	public boolean isIterationStarter() {
 		return iterationStarters.contains(this.getId());
-	}
-
-	/* (non-Javadoc)
-	 * @see me.linnemann.ptmobile.cursor.StoriesCursor#hasEstimate()
-	 */
-	public boolean hasEstimate() {
-
-		Integer estimate = getEstimate();
-
-		if ((estimate == null) || (estimate < 0)) {
-			return false;
-		} else {
-			return true;
-		}
 	}
 }

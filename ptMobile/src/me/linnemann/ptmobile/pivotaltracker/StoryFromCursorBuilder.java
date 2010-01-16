@@ -1,7 +1,8 @@
 package me.linnemann.ptmobile.pivotaltracker;
 
 import me.linnemann.ptmobile.cursor.StoriesCursor;
-import me.linnemann.ptmobile.pivotaltracker.lifecycle.State;
+import me.linnemann.ptmobile.pivotaltracker.value.StoryType;
+import android.util.Log;
 
 /**
  * creates story objects from a cursor (db)
@@ -12,6 +13,7 @@ import me.linnemann.ptmobile.pivotaltracker.lifecycle.State;
  */
 public class StoryFromCursorBuilder implements StoryBuilder {
 
+	private static final String TAG = "StoryFromCursorBuilder";
 	private StoriesCursor cursor;
 	private StoryImpl story;
 	
@@ -26,9 +28,13 @@ public class StoryFromCursorBuilder implements StoryBuilder {
 	
 	public void construct() {
 		initStoryType();
-		initInitialState();
-
-		story.changeEstimate(cursor.getEstimate());
+		
+		story.changeCurrentState(cursor.getCurrentState());
+		
+		if (story.getStoryType().equals(StoryType.FEATURE)) {
+			story.changeEstimate(cursor.getEstimate());
+		}
+		
 		story.changeId(new Integer(cursor.getId()));
 		story.changeName(cursor.getName());
 		story.changeProjectId(new Integer(cursor.getProjectId()));
@@ -46,12 +52,12 @@ public class StoryFromCursorBuilder implements StoryBuilder {
 	}
 	
 	private void initStoryType() {
-		StoryType type = StoryType.valueOf(cursor.getStoryType().toUpperCase());
-		story.changeStoryType(type);
-	}
+		String typeFromData = cursor.getStoryType().toUpperCase();
+		StoryType type = StoryType.valueOf(typeFromData);
 
-	private void initInitialState() {
-		State state = new State(cursor.getCurrentState());
-		story.changeInitialState(state);
+		Log.i(TAG, "from db:"+typeFromData);
+		Log.i(TAG, "type value of:"+type);
+		
+		story.changeStoryType(type);
 	}
 }

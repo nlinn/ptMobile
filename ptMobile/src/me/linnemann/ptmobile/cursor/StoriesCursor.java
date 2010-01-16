@@ -1,6 +1,8 @@
 package me.linnemann.ptmobile.cursor;
 
 import me.linnemann.ptmobile.pivotaltracker.Story;
+import me.linnemann.ptmobile.pivotaltracker.value.Estimate;
+import me.linnemann.ptmobile.pivotaltracker.value.State;
 
 public interface StoriesCursor {
 
@@ -10,11 +12,11 @@ public interface StoriesCursor {
 
 	public abstract String getStoryType();
 
-	public abstract Integer getEstimate();
+	public abstract Estimate getEstimate();
 
 	public abstract String getLabels();
 
-	public abstract String getCurrentState();
+	public abstract State getCurrentState();
 
 	public abstract String getDescription();
 
@@ -45,8 +47,6 @@ public interface StoriesCursor {
 	public abstract boolean hasOwnedBy();
 
 	public abstract boolean isIterationStarter();
-
-	public abstract boolean hasEstimate();
 
 	public abstract String getIterationGroup();
 	

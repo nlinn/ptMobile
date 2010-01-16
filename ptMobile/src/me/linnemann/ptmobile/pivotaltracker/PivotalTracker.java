@@ -4,7 +4,6 @@ import me.linnemann.ptmobile.cursor.ActivitiesCursor;
 import me.linnemann.ptmobile.cursor.IterationCursor;
 import me.linnemann.ptmobile.cursor.ProjectsCursor;
 import me.linnemann.ptmobile.cursor.StoriesCursorImpl;
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
@@ -30,9 +29,6 @@ public class PivotalTracker {
 		api = new APIAdapter(ctx,db);
 	}
 
-	/**
-	 * please call pause() when app is supposed to close/pause. whatever
-	 */
 	public void pause() {
 		db.close();
 	}
@@ -41,10 +37,6 @@ public class PivotalTracker {
 		return api.readAPIToken(username, password);
 	}	
 
-	/**
-	 * All Projects as specialized Cursor
-	 * @return
-	 */
 	public ProjectsCursor getProjectsCursor() {
 		return db.getProjectsCursor();
 	}
@@ -120,11 +112,16 @@ public class PivotalTracker {
 	}
 
 	public void commitChanges(Story story) {
-		ContentValueProvider provider = new ContentValueProvider(story);
-		provider.fill();
-		ContentValues values = provider.getValues();
-		db.updateStory(values);
-		api.updateStory(story);
+		
+		if (story.getId().isEmpty()) {
+			if (story.getModifiedFields().size() > 0) {
+				api.createStory(story);	}	
+		} else {
+			if (story.getModifiedFields().size() > 0) {
+				db.updateStory(story);
+				api.updateStory(story);
+			}
+		}
 	}
 
 	public boolean addComment(Story story, String comment) {
@@ -139,4 +136,10 @@ public class PivotalTracker {
 		return db.getCommentsAsString(story_id);
 	}
 
+	public Story getEmptyStoryForProject(Integer project_id) {
+		Story story = new StoryImpl();
+		story.changeProjectId(project_id);
+		story.resetModifiedFieldsTracking();
+		return story;
+	}
 }
