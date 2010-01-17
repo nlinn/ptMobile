@@ -61,6 +61,10 @@ public interface Story {
 	public StringValue getIterationGroup();
 	public void changeIterationGroup(String iterationGroup);
 
+	public IntegerValue getPosition();
+	public void changePosition(Integer position);
+	public boolean isFirstInIteration();
+	
 	public Set<StoryData> getModifiedFields();
 	public void resetModifiedFieldsTracking();
 	public boolean needsEstimate();

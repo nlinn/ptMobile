@@ -115,7 +115,15 @@ public class PivotalTracker {
 		
 		if (story.getId().isEmpty()) {
 			if (story.getModifiedFields().size() > 0) {
-				api.createStory(story);	}	
+				api.createStory(story);	
+			
+				// i tried to refresh icebox directly after creating story like this:
+				// api.readStories(story.getProjectId().getValue(), "icebox");
+				// but the newly created story needs some time to appear in icebox
+				// so i remove the timestamp instead to make sure that icebox is
+				// refreshed when the user clicks on it...
+				db.wipeUpdateTimestamp(story.getProjectId().getValue(), "icebox");
+			}	
 		} else {
 			if (story.getModifiedFields().size() > 0) {
 				db.updateStory(story);

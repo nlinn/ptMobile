@@ -195,6 +195,7 @@ public class APIAdapter {
 			is.close();
 		} catch (IOException e) {
 			Log.e(TAG,"editStory, IO: "+e.getMessage());
+			throw new RuntimeException(e);
 		}
 	}
 	
@@ -215,6 +216,7 @@ public class APIAdapter {
 			is.close();
 		} catch (IOException e) {
 			Log.e(TAG,"createStory, IO: "+e.getMessage());
+			throw new RuntimeException(e);
 		}
 	}
 	

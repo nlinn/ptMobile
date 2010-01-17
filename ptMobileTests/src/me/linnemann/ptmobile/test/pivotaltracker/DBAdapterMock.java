@@ -211,4 +211,9 @@ public class DBAdapterMock implements DBAdapter {
 		
 	}
 
+	public void wipeUpdateTimestamp(Integer projectId, String iterationGroup) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

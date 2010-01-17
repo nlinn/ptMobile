@@ -59,7 +59,7 @@ public class StoriesCursorAdapter extends CursorAdapter {
 		TextView tv = (TextView) view.findViewById(R.id.textIterationStory);
 	
 		if ((!story.getIterationGroup().getValue().equalsIgnoreCase("icebox")) &&
-		 (c.isIterationStarter())) {
+		 (story.isFirstInIteration())) {
 			if (tv != null) {
 				tv.setText(OutputStyler.getIterationAsText(c));				
 				tv.setVisibility(View.VISIBLE);

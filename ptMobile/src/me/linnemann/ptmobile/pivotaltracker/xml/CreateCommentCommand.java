@@ -3,12 +3,15 @@ package me.linnemann.ptmobile.pivotaltracker.xml;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import android.util.Log;
+
 import me.linnemann.ptmobile.pivotaltracker.Story;
 
 public class CreateCommentCommand extends RESTXMLCommand {
 	
 	protected static String URL="http://www.pivotaltracker.com/services/v2/projects/PROJECT_ID/stories/STORY_ID/notes";
 
+	private static final String TAG = "CreateCommentCommand";
 	private Story story;
 	private String comment;
 	
@@ -26,8 +29,8 @@ public class CreateCommentCommand extends RESTXMLCommand {
 	}
 	
 	private String compiledURLString() {
-		String url = URL.replaceAll("PROJECT_ID", story.getProjectId().toString())
-		.replaceAll("STORY_ID", story.getId().toString());
+		String url = URL.replaceAll("PROJECT_ID", story.getProjectId().getValueAsString())
+		.replaceAll("STORY_ID", story.getId().getValueAsString());
 		return url;
 	}
 	
@@ -36,6 +39,8 @@ public class CreateCommentCommand extends RESTXMLCommand {
 		StringBuilder xml = new StringBuilder("<note><text>");
 		xml.append(comment);
 		xml.append("</text></note>");
+		
+		Log.d(TAG,xml.toString());
 		
 		return xml.toString();
 	}

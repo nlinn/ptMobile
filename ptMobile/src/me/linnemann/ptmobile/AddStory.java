@@ -7,26 +7,25 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
-public class EditStory extends AddEditStoryBase {
+public class AddStory extends AddEditStoryBase {
 
 	private Story story;
+	private Integer project_id;
 	
-	public EditStory() {
-		super(R.layout.story_edit);
+	public AddStory() {
+		super(R.layout.story_add);
 	}
-	
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
-		Integer story_id = getIntent().getExtras().getInt("story_id");
-		
-		setTitle("Edit Story");
-		story = tracker.getStory(story_id);
+
+		setTitle("Add Story");
+		project_id = getIntent().getExtras().getInt("project_id");
+		story = tracker.getEmptyStoryForProject(project_id);
 		
 		initNameAndDescription(story);
 		initStoryType(story);
-		initState(story);
 		initPoints(story);
 	}
 	
@@ -35,17 +34,16 @@ public class EditStory extends AddEditStoryBase {
 		story.changeDescription(description.getText().toString());
 		story.changeEstimate(getEstimateFromSpinner());
 		story.changeStoryType(getStoryTypeFromSpinner());
-		story.changeCurrentState(getStateFromSpinner());
 		
 		try {
 			tracker.commitChanges(story);
-			Toast toast = Toast.makeText(getApplicationContext(), "update complete", Toast.LENGTH_SHORT);
+			Toast toast = Toast.makeText(getApplicationContext(), "story added to icebox", Toast.LENGTH_SHORT);
 			toast.show();
 			finish();
 		} catch (RuntimeException e) {
-			SimpleErrorDialog dialog = new SimpleErrorDialog("error updating story: "+e.getMessage(), this);
+			SimpleErrorDialog dialog = new SimpleErrorDialog("error adding story: "+e.getMessage(), this);
 			dialog.show();
-		}		
+		}	
 	}
 	
 	public void onStoryTypeSelected(String selectedItem) {
@@ -53,9 +51,7 @@ public class EditStory extends AddEditStoryBase {
 		StoryType type = StoryType.valueOf(selectedItem.toUpperCase());
 
 		story.changeStoryType(type);
-		initState(story);
 		initPoints(story);
 	}
 	
-
 }

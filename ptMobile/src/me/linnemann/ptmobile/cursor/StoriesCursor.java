@@ -9,6 +9,8 @@ public interface StoriesCursor {
 	public abstract String getName();
 
 	public abstract Integer getId();
+	
+	public abstract Integer getStoryPosition();
 
 	public abstract String getStoryType();
 
@@ -35,19 +37,7 @@ public interface StoriesCursor {
 	public abstract String getIterationFinish();
 
 	public abstract Story getStory();
-
-	public abstract boolean hasDescription();
-
-	public abstract boolean hasDeadline();
-
-	public abstract boolean hasLabels();
-
-	public abstract boolean hasRequestedBy();
-
-	public abstract boolean hasOwnedBy();
-
-	public abstract boolean isIterationStarter();
-
+	
 	public abstract String getIterationGroup();
 	
 	public abstract String getAcceptedAt();

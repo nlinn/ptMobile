@@ -5,10 +5,9 @@ import java.util.List;
 
 import me.linnemann.ptmobile.pivotaltracker.value.State;
 
-import android.util.Log;
-
 public class LifecycleImpl implements Lifecycle {
 	
+	@SuppressWarnings("unused")
 	private static final String TAG = "LifecycleImpl";
 
 	private StateWithTransitions initialState;
@@ -28,8 +27,6 @@ public class LifecycleImpl implements Lifecycle {
 	}
 	
 	private StateWithTransitions findStateInLifecycleRecursivly(State stateFromOutside, StateWithTransitions stateInLifeCycle) {
-
-		Log.i(TAG,"checking: "+stateFromOutside+" against lifecycle: "+stateInLifeCycle);
 		
 		if (stateInLifeCycle.getState().equals(stateFromOutside))
 			return stateInLifeCycle;
@@ -45,6 +42,5 @@ public class LifecycleImpl implements Lifecycle {
 		}
 		
 		return foundState;
-
 	}
 }

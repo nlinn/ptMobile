@@ -69,7 +69,7 @@ public class RESTSupport {
 		URLConnection conn = url.openConnection();
 
 		if (!(conn instanceof HttpURLConnection))                     
-			throw new IOException("Not an HTTP connection");
+			throw new RuntimeException("Not an HTTP connection");
 
 		if (conn instanceof HttpsURLConnection) {
 			Log.d(TAG,"https found");
@@ -111,7 +111,7 @@ public class RESTSupport {
 		if (response == HttpURLConnection.HTTP_OK) {
 			in = httpConn.getInputStream();                                 
 		} else {
-			throw new IOException("HTTP Response not 200: "+response);
+			throw new RuntimeException("HTTP Response not 200: "+response);
 		}                     
 
 		return in;     

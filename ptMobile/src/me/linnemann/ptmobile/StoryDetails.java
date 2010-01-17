@@ -10,6 +10,7 @@ import me.linnemann.ptmobile.pivotaltracker.value.Estimate;
 import me.linnemann.ptmobile.pivotaltracker.value.StoryType;
 import me.linnemann.ptmobile.pivotaltracker.value.StringValue;
 import me.linnemann.ptmobile.ui.OutputStyler;
+import me.linnemann.ptmobile.ui.SimpleErrorDialog;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -24,6 +25,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class StoryDetails extends Activity {
 
@@ -262,9 +264,16 @@ public class StoryDetails extends Activity {
                 	EditText edit = (EditText) ((AlertDialog) dialog).findViewById(R.id.commentEdit);
                 	
                 	if (edit.getText().length() > 0) {
-                		// TODO: response may be "unsuccessful", error msg?
-                		tracker.addComment(story, edit.getText().toString());
-                		updateView();
+                		
+                		try {
+                			tracker.addComment(story, edit.getText().toString());
+                			Toast toast = Toast.makeText(getApplicationContext(), "update complete", Toast.LENGTH_SHORT);
+                			toast.show();
+                			updateView();
+                		} catch (RuntimeException e) {
+                			SimpleErrorDialog errordlg = new SimpleErrorDialog("error adding comment: "+e.getMessage(), ctx);
+                			errordlg.show();
+                		}	
                 	}
                 }
             })

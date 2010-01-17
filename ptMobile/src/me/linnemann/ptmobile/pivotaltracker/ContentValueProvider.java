@@ -45,6 +45,7 @@ public class ContentValueProvider {
 		putStoryDataIfModified(StoryData.STORY_TYPE, story.getStoryType());
 		putStoryDataIfModified(StoryData.ITERATION_GROUP, story.getIterationGroup());
 		putStoryDataIfModified(StoryData.ITERATION_NUMBER, story.getIterationNumber());
+		putStoryDataIfModified(StoryData.POSITION, story.getPosition());
 		
 		addUpdateTimestampIfNotEmpty();
 		addIDIfNotEmpty();

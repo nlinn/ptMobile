@@ -21,81 +21,92 @@ public class StoryFromAPIBuilder implements StoryBuilder {
 	public StoryFromAPIBuilder() {
 		story = new StoryImpl();		
 	}
-	
+
 	public void clear() {
 		story = new StoryImpl();
 	}
-	
+
 	public void construct() {
 		// empty :(
 	}
 
 	public void add(String elementName, String elementData) {
 		
-		Log.d(TAG,elementName +": "+elementData);
+		if (elementName == null) return; // handler spams me with null values -> ignore
 		
-		if (isElement(StoryData.PROJECT_ID,elementName))
-			story.changeProjectId(new Integer(elementData));
+		try {
+			StoryData element = StoryData.valueOf(elementName.toUpperCase());
+			add(element,elementData);
+		} catch (IllegalArgumentException e) {
+			Log.w(TAG, "ignoring unknown element: "+elementName);
+		}
+	}
 
-		if (isElement(StoryData.ITERATION_NUMBER,elementName)) {
+	public void add(StoryData element, String elementData) {
+
+		Log.d(TAG,element +": "+elementData);
+
+		if (StoryData.PROJECT_ID.equals(element))
+			story.changeProjectId(new Integer(elementData));
+		
+		if (StoryData.POSITION.equals(element))
+			story.changePosition(new Integer(elementData));
+
+		if (StoryData.ITERATION_NUMBER.equals(element)) {
 			try {
 				story.changeIterationNumber(new Integer(elementData));
 			} catch (NumberFormatException e) {}
 		}
-		
-		if (isElement(StoryData.ITERATION_GROUP,elementName))
+
+		if (StoryData.ITERATION_GROUP.equals(element))
 			story.changeIterationGroup(elementData);
-		
-		if (isElement(StoryData.ID,elementName))
-				story.changeId(new Integer(elementData));
-		
-		if (isElement(StoryData.STORY_TYPE,elementName))
+
+		if (StoryData.ID.equals(element))
+			story.changeId(new Integer(elementData));
+
+		if (StoryData.STORY_TYPE.equals(element))
 			story.changeStoryType(StoryType.valueOf(elementData.toUpperCase()));
 
-		if (isElement(StoryData.ESTIMATE,elementName)) {
+		if (StoryData.ESTIMATE.equals(element)) {
 			Log.i("API","found estimate: "+elementData);
 			Integer estimateNumeric = new Integer(elementData);
 			story.changeEstimate(Estimate.valueOfNumeric(estimateNumeric));
 			Log.i("API","estimate after change: "+story.getEstimate().getUIString());
 		}
-			
-		if (isElement(StoryData.CURRENT_STATE,elementName))
+
+		if (StoryData.CURRENT_STATE.equals(element))
 			story.changeCurrentState(State.valueOf(elementData.toUpperCase()));
 
-		if (isElement(StoryData.DESCRIPTION,elementName))
+		if (StoryData.DESCRIPTION.equals(element))
 			story.changeDescription(elementData);
 
-		if (isElement(StoryData.NAME,elementName))
+		if (StoryData.NAME.equals(element))
 			story.changeName(elementData);
-			
-		if (isElement(StoryData.REQUESTED_BY,elementName))
+
+		if (StoryData.REQUESTED_BY.equals(element))
 			story.changeRequestedBy(elementData);
-		
-		if (isElement(StoryData.OWNED_BY,elementName))
+
+		if (StoryData.OWNED_BY.equals(element))
 			story.changeOwnedBy(elementData);
 
-		if (isElement(StoryData.LABELS,elementName))
+		if (StoryData.LABELS.equals(element))
 			story.changeLabels(elementData);
-		
-		if (isElement(StoryData.DEADLINE,elementName))
+
+		if (StoryData.DEADLINE.equals(element))
 			story.changeDeadline(convertToLocalFormat(elementData));	
-		
-		if (isElement(StoryData.CREATED_AT,elementName)) 
+
+		if (StoryData.CREATED_AT.equals(element))
 			story.changeCreatedAt(convertToLocalFormat(elementData));
 
-		if (isElement(StoryData.ACCEPTED_AT,elementName)) 
+		if (StoryData.ACCEPTED_AT.equals(element))
 			story.changeAcceptedAt(convertToLocalFormat(elementData));
-		
+
 	}
-	
-	public boolean isElement(StoryData data, String elementName) {
-		return (data.toString().equalsIgnoreCase(elementName));
-	}
-	
-	public String convertToLocalFormat(String dateFromTracker) {
+
+	private String convertToLocalFormat(String dateFromTracker) {
 		return dateFromTracker.replaceAll("/", "-").replaceAll(" UTC","");
 	}
-	
+
 	public Story getStory() {
 		return story;
 	}

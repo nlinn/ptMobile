@@ -54,18 +54,20 @@ public class StoriesInTabs extends TabActivity {
 		}
 
 		tabHost.clearAllTabs();
+		tabHost.addTab(tabHost.newTabSpec("tab_done")
+				.setIndicator("done")
+				.setContent(done));
 		tabHost.addTab(tabHost.newTabSpec("tab_current")
 				.setIndicator("current")
 				.setContent(current));
 		tabHost.addTab(tabHost.newTabSpec("tab_backlog")
 				.setIndicator("backlog")
 				.setContent(backlog));
-		tabHost.addTab(tabHost.newTabSpec("tab_done")
-				.setIndicator("done")
-				.setContent(done));
 		tabHost.addTab(tabHost.newTabSpec("tab_icebox")
 				.setIndicator("icebox")
 				.setContent(icebox));
+		
+		tabHost.setCurrentTab(1);
 	}
 	
 	private void setExtras(Bundle extras, Intent intent, String iteration_group) {

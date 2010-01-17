@@ -36,6 +36,7 @@ public class StoryImpl implements Story {
 	private String deadline;
 	private Integer iterationNumber;
 	private String iterationGroup;
+	private Integer position;
 
 	public static Story buildInstance(StoryBuilder builder) {
 		builder.construct();
@@ -126,7 +127,6 @@ public class StoryImpl implements Story {
 		(!Estimate.NO_ESTIMATE.equals(estimate))) {
 			throw new RuntimeException("Cannot change estimate if story type: "+type);
 		}
-		
 
 		this.estimate = estimate;
 		modifiedFields.add(StoryData.ESTIMATE);
@@ -212,6 +212,19 @@ public class StoryImpl implements Story {
 		modifiedFields.add(StoryData.REQUESTED_BY);
 	}
 
+	public void changePosition(Integer position) {
+		this.position = position;
+		modifiedFields.add(StoryData.POSITION);
+	}
+	
+	public IntegerValue getPosition() {
+		return new IntegerValue(position);
+	}
+	
+	public boolean isFirstInIteration() {
+		return ((this.position != null) && (this.position == 1));
+	}
+	
 	public StringValue getAcceptedAt() {
 		return new StringValue(acceptedAt);
 	}

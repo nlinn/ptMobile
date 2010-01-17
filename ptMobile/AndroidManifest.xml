@@ -29,10 +29,8 @@
                </intent-filter> 
 		</activity>
 		<activity android:name=".StoryDetails"></activity>
-		<activity android:name=".EditStory">
-		
-		
-		</activity>
+		<activity android:name=".EditStory" />
+		<activity android:name=".AddStory" />
 		<activity android:name=".About"></activity>
 		<activity android:name=".ProjectDetails"></activity>
 	</application>

@@ -10,15 +10,6 @@ import android.database.SQLException;
 
 public interface DBAdapter {
 
-	/**
-	 * Open the notes database. If it cannot be opened, try to create a new
-	 * instance of the database. If it cannot be created, throw an exception to
-	 * signal the failure
-	 * 
-	 * @return this (self reference, allowing this to be chained in an
-	 *         initialization call)
-	 * @throws SQLException if the database could be neither opened or created
-	 */
 	public abstract DBAdapter open() throws SQLException;
 
 	public abstract void close();
@@ -77,4 +68,5 @@ public interface DBAdapter {
 
 	public String getCommentsAsString(Integer project_id);
 
+	public void wipeUpdateTimestamp(Integer project_id, String iteration_group);
 }

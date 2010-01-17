@@ -21,4 +21,5 @@ public class TestData {
 	public static String ANY_ACCEPTED_AT = "24.12.2010";
 	public static String ANY_ITERATIONGROUP = "done";
 	public static String ANY_NAME = "My Name";
+	public static Integer ANY_POSITION = 2;
 }

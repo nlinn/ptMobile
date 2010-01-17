@@ -17,8 +17,8 @@ public class StoryTests extends AndroidTestCase {
 		story = new StoryImpl(StoryType.FEATURE); 	
 	}
 	
-	public void test_stateAfterCreation_isUnstarted() {
-		assertEquals(State.UNSTARTED, story.getCurrentState());
+	public void test_stateAfterCreation_isUnscheduled() {
+		assertEquals(State.UNSCHEDULED, story.getCurrentState());
 	}
 	
 	public void test_modifiedFieldsAfterCreation_isEmpty() {
@@ -67,6 +67,11 @@ public class StoryTests extends AndroidTestCase {
 		story.changeName(sameNameTwice);
 		
 		assertEquals(0,story.getModifiedFields().size());
+	}
+	
+	public void test_story_positionOneIsFirstInIteration() {
+		story.changePosition(1);
+		assertTrue(story.isFirstInIteration());
 	}
 }
 

@@ -114,6 +114,11 @@ public class XMLStoriesHandlerTests extends AndroidTestCase {
 		Story story = getFirstStoryOfReceivedStories();
 		assertEquals("2009-06-07 12:13:35", story.getAcceptedAt().getValue());
 	}
-	// TODO: Missing fields acceptedAt, createdAt, URL
+	
+	public void test_simpleStoryExample_positionOne() throws Exception {
+		Story story = getFirstStoryOfReceivedStories();
+		assertEquals(new Integer(1), story.getPosition().getValue());
+	}
+	// TODO: Missing fields URL
 
 }

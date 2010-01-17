@@ -47,6 +47,7 @@ public class StoryFromCursorBuilder implements StoryBuilder {
 		story.changeOwnedBy(cursor.getOwnedBy());
 		story.changeDeadline(cursor.getDeadline());
 		story.changeCreatedAt(cursor.getCreatedAt());
+		story.changePosition(cursor.getStoryPosition());
 
 		story.resetModifiedFieldsTracking(); // important!
 	}

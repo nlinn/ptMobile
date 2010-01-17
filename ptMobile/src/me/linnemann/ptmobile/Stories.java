@@ -221,7 +221,7 @@ public class Stories extends RefreshableListActivityWithMainMenu {
 
 	@Override
 	public void addStory() {
-		Intent i = new Intent(this, EditStory.class);
+		Intent i = new Intent(this, AddStory.class);
 		i.putExtra("project_id", project_id);
 		startActivity(i);
 	}

@@ -102,4 +102,8 @@ public class StoriesCursorMock implements StoriesCursor {
 		return TestData.ANY_ITERATIONGROUP;
 	}
 
+	public Integer getStoryPosition() {
+		return TestData.ANY_POSITION;
+	}
+
 }

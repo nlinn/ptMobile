@@ -30,6 +30,7 @@ public class XMLStoriesHandler extends XMLBaseHandler {
 	private StoryFromAPIBuilder storyBuilder;
 	private String iteration_number;
 	private Integer story_id;
+	private Integer position;
 	
 	public XMLStoriesHandler(DBAdapter db, Integer project_id, String iteration_group) {
 		super(db);
@@ -37,6 +38,7 @@ public class XMLStoriesHandler extends XMLBaseHandler {
 		this.iteration_group = iteration_group;
 		this.storyBuilder = new StoryFromAPIBuilder();
 		this.iteration_number = "";
+		this.position = 0;
 	}
 
 	public void startElement(String uri, String name, String qName, Attributes attr) {
@@ -47,6 +49,7 @@ public class XMLStoriesHandler extends XMLBaseHandler {
 		if (name.equalsIgnoreCase("iteration")) {
 			parseWhat = ITERATION;
 			iteration = new IncomingIteration(db, project_id, iteration_group);
+			position=0;
 		}
 
 		if (name.equalsIgnoreCase("story")) {
@@ -67,10 +70,8 @@ public class XMLStoriesHandler extends XMLBaseHandler {
 
 	// --- Note: uri and qname seem to be always null on android 1.5
 	public void endElement(String uri, String name, String qName) throws SAXException {
-		
-		
+				
 		if (parseWhat == STORY) {
-			Log.d(TAG, "curr: "+currentElementName);
 			storyBuilder.add(currentElementName, elementData.toString());
 			
 			if ((currentElementName != null) && (currentElementName.equalsIgnoreCase("id"))) {
@@ -96,18 +97,18 @@ public class XMLStoriesHandler extends XMLBaseHandler {
 	}
 
 	private void initStoryBuilder() {
+		position++;
 		storyBuilder.clear();
-		storyBuilder.add(StoryData.PROJECT_ID.toString(), project_id.toString());
-		storyBuilder.add(StoryData.ITERATION_NUMBER.toString(), iteration_number.toString());
-		storyBuilder.add(StoryData.ITERATION_GROUP.toString(), iteration_group);
+		storyBuilder.add(StoryData.PROJECT_ID, project_id.toString());
+		storyBuilder.add(StoryData.ITERATION_NUMBER, iteration_number.toString());
+		storyBuilder.add(StoryData.ITERATION_GROUP, iteration_group);
+		storyBuilder.add(StoryData.POSITION, position.toString());
 	}
 	
 	public void characters(char ch[], int start, int length) {
 
 		elementData.append(ch, start, length);
 		String chars = (new String(ch).substring(start, start + length));
-		
-		Log.i(TAG,chars);
 
 		if (parseWhat == ITERATION) {
 			if (checkAndFillString(iteration, currentElementName, IterationData.NUMBER, chars)) return;
