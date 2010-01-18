@@ -25,8 +25,8 @@ public class DBAdapterImpl implements DBAdapter {
 	private static final String SYSTEM_DEFAULT_INTERVAL_ACTIVITIES = "60000";
 	private static final String SYSTEM_DEFAULT_INTERVAL_STORIES = "1800000";
 	private static final String SYSTEM_DEFAULT_INTERVAL_PROJECTS = "1800000";
-	
-	
+
+
 	private static final String TAG = "DBAdapterImpl";
 	private DatabaseHelper dbHelper;
 	SQLiteDatabase db;
@@ -187,7 +187,7 @@ public class DBAdapterImpl implements DBAdapter {
 		ContentValueProvider provider = new ContentValueProvider(story);
 		provider.fill();
 		ContentValues values = provider.getValues();
-		
+
 		Log.d(TAG, "updating story: "+values.toString());
 		db.update("stories", values, "id=?", new String[]{values.getAsString("id")});
 	}
@@ -353,7 +353,7 @@ public class DBAdapterImpl implements DBAdapter {
 
 	public void wipeUpdateTimestamp(Integer project_id, String iteration_group) {
 		String timestampName = getStoryIterationGroupTimestampKey(project_id, iteration_group);
-		
+
 		try {
 			db.execSQL("DELETE FROM timestamps WHERE key='"+timestampName+"'");
 		} catch (SQLException e) { 
@@ -364,7 +364,7 @@ public class DBAdapterImpl implements DBAdapter {
 	private String getStoryIterationGroupTimestampKey(Integer project_id, String iteration_group) {
 		return "project"+project_id+iteration_group;
 	}
-	
+
 	public boolean storiesNeedUpdate(Integer project_id, String iteration_group) {
 
 		Long interval = new Long(PreferenceManager.getDefaultSharedPreferences(ctx).getString("story_refresh_interval", SYSTEM_DEFAULT_INTERVAL_STORIES));
@@ -396,6 +396,7 @@ public class DBAdapterImpl implements DBAdapter {
 	 * @see me.linnemann.ptmobile.pivotaltracker.IDBAdapter#activitiesNeedUpdate()
 	 */
 	public boolean activitiesNeedUpdate() {
+
 
 		Long interval = new Long(PreferenceManager.getDefaultSharedPreferences(ctx).getString("activity_refresh_interval", SYSTEM_DEFAULT_INTERVAL_ACTIVITIES));
 
