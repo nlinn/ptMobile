@@ -5,6 +5,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import android.util.Log;
+
 import me.linnemann.ptmobile.pivotaltracker.fields.StoryData;
 import me.linnemann.ptmobile.pivotaltracker.lifecycle.Lifecycle;
 import me.linnemann.ptmobile.pivotaltracker.lifecycle.LifecycleFactoryImpl;
@@ -60,19 +62,19 @@ public class StoryImpl implements Story {
 	}
 
 	public void changeStoryType(StoryType type) {
+
+		modifiedFields.add(StoryData.STORY_TYPE);
 		
+		if (!type.equals(this.type)) { // really changed?
 			this.type = type;
-			modifiedFields.add(StoryData.STORY_TYPE);
-		
 			if (type.equals(StoryType.FEATURE)) {
 				if (Estimate.NO_ESTIMATE.equals(estimate)) {
 					estimate =Estimate.UNESTIMATED;
 				}
-			} else {
+			}  else {
 				estimate =Estimate.NO_ESTIMATE;
 			}
-		
-		
+		}
 	}
 
 	public void changeName(String name) {
@@ -121,16 +123,8 @@ public class StoryImpl implements Story {
 	}
 
 	public void changeEstimate(Estimate estimate) {
-		
-		// --- no estimate allowed if not feature
-		if ((!StoryType.FEATURE.equals(type)) && 
-		(!Estimate.NO_ESTIMATE.equals(estimate))) {
-			throw new RuntimeException("Cannot change estimate if story type: "+type);
-		}
-
 		this.estimate = estimate;
 		modifiedFields.add(StoryData.ESTIMATE);
-
 	}
 
 	public Estimate getEstimate() {		
@@ -139,8 +133,8 @@ public class StoryImpl implements Story {
 
 	public void changeId(Integer id) {
 		if (!id.equals(this.id)) {
-		this.id = id;
-		modifiedFields.add(StoryData.ID);
+			this.id = id;
+			modifiedFields.add(StoryData.ID);
 		}
 	}
 
@@ -150,8 +144,8 @@ public class StoryImpl implements Story {
 
 	public void changeProjectId(Integer projectId) {
 		if (!projectId.equals(this.projectId)) {
-		this.projectId = projectId;
-		modifiedFields.add(StoryData.PROJECT_ID);
+			this.projectId = projectId;
+			modifiedFields.add(StoryData.PROJECT_ID);
 		}
 	}
 
@@ -216,15 +210,15 @@ public class StoryImpl implements Story {
 		this.position = position;
 		modifiedFields.add(StoryData.POSITION);
 	}
-	
+
 	public IntegerValue getPosition() {
 		return new IntegerValue(position);
 	}
-	
+
 	public boolean isFirstInIteration() {
 		return ((this.position != null) && (this.position == 1));
 	}
-	
+
 	public StringValue getAcceptedAt() {
 		return new StringValue(acceptedAt);
 	}

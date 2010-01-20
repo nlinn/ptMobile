@@ -1,6 +1,7 @@
 package me.linnemann.ptmobile.pivotaltracker;
 
 import me.linnemann.ptmobile.cursor.StoriesCursor;
+import me.linnemann.ptmobile.pivotaltracker.value.Estimate;
 import me.linnemann.ptmobile.pivotaltracker.value.StoryType;
 import android.util.Log;
 
@@ -31,9 +32,13 @@ public class StoryFromCursorBuilder implements StoryBuilder {
 		
 		story.changeCurrentState(cursor.getCurrentState());
 		
-		if (story.getStoryType().equals(StoryType.FEATURE)) {
+
+		if (StoryType.RELEASE.equals(story.getStoryType())) {
+			story.changeEstimate(Estimate.NO_ESTIMATE);
+		} else {
 			story.changeEstimate(cursor.getEstimate());
 		}
+
 		
 		story.changeId(new Integer(cursor.getId()));
 		story.changeName(cursor.getName());

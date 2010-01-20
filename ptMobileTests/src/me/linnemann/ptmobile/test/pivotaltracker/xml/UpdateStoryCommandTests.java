@@ -48,6 +48,14 @@ public class UpdateStoryCommandTests extends AndroidTestCase {
 		assertEquals(expectedXML, usc.getXMLString());
 	}
 	
+	public void test_changedEstimateToNoEstimate_notInXML() {
+		String expectedXML = "<story></story>";
+		story.changeStoryType(StoryType.FEATURE);
+		story.resetModifiedFieldsTracking();
+		story.changeEstimate(Estimate.NO_ESTIMATE);
+		UpdateStoryCommand usc = new UpdateStoryCommand(story);
+		assertEquals(expectedXML, usc.getXMLString());
+	}
 	
 	public void test_changedState_resultsInXML() {
 		String expectedXML = "<story><current_state>started</current_state></story>";

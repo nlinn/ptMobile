@@ -8,6 +8,7 @@ import me.linnemann.ptmobile.pivotaltracker.value.State;
 import me.linnemann.ptmobile.pivotaltracker.value.StoryType;
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -19,8 +20,8 @@ public abstract class AddEditStoryBase extends Activity {
 
 	protected EditText name, description;
 
-	private ArrayAdapter<CharSequence> storyTypeAdapter, stateAdapter, pointsAdapter;
-	protected Spinner storyTypeSpinner, stateSpinner, pointsSpinner;
+	private ArrayAdapter<CharSequence> storyTypeAdapter, stateAdapter, estimateAdapter;
+	protected Spinner storyTypeSpinner, stateSpinner, estimateSpinner;
 
 	protected PivotalTracker tracker;
 	int layout;
@@ -51,7 +52,7 @@ public abstract class AddEditStoryBase extends Activity {
 	}
 
 	protected Estimate getEstimateFromSpinner() {
-		String points = pointsSpinner.getSelectedItem().toString();
+		String points = estimateSpinner.getSelectedItem().toString();
 		return Estimate.valueOfBeautifiedString(points);
 	}
 
@@ -81,16 +82,16 @@ public abstract class AddEditStoryBase extends Activity {
 		stateSpinner.setSelection(position);
 	}
 
-	protected void initPoints(Story story) {
+	protected void initEstimate(Story story) {
 		int estimateArrayRessource = getEstimateArrayRessource(story);
 
-		pointsSpinner = (Spinner) findViewById(R.id.spnPointsSE);
-		pointsAdapter = createAdapterForSpinner(pointsSpinner , estimateArrayRessource);
+		estimateSpinner = (Spinner) findViewById(R.id.spnPointsSE);
+		estimateAdapter = createAdapterForSpinner(estimateSpinner , estimateArrayRessource);
 
 		Estimate estimate = story.getEstimate();
-		int position = pointsAdapter.getPosition(estimate.getUIString());
-		pointsSpinner.setSelection(position);
-		enableEstimateIfFeature(story.getStoryType());
+		int position = estimateAdapter.getPosition(estimate.getUIString());
+		estimateSpinner.setSelection(position);
+//		enableEstimateIfFeature(story.getStoryType());
 	}
 
 	private ArrayAdapter<CharSequence> createAdapterForSpinner(Spinner spinner, int arrayFromResource) {
@@ -118,20 +119,23 @@ public abstract class AddEditStoryBase extends Activity {
 		String pointscale = pc.getPointScale();
 		pc.close();
 
+		Log.i("ADDEDIT","estimate: "+story.getEstimate().getUIString());
+		
+		if (story.getEstimate().isEmpty()) return R.array.points_empty;
 		if ("0,1,2,3".equals(pointscale)) return R.array.points_linear;
 		if ("0,1,2,4,8".equals(pointscale)) return R.array.points_powerof2;
 		return R.array.points_fibonacci;
 	}
 
-	private void enableEstimateIfFeature(StoryType type) {
+	private void eenableEstimateIfFeature(StoryType type) {
 		boolean enabled = type.equals(StoryType.FEATURE);
 
 		if (!enabled) {
-			pointsAdapter = createAdapterForSpinner(pointsSpinner , R.array.points_empty);
-			pointsSpinner.setSelection(0);
+			estimateAdapter = createAdapterForSpinner(estimateSpinner , R.array.points_empty);
+			estimateSpinner.setSelection(0);
 		}
 
-		pointsSpinner.setEnabled(enabled);
+		estimateSpinner.setEnabled(enabled);
 	}
 
 	private void setStoryTypeListener() {

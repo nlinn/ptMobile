@@ -27,7 +27,7 @@ public class EditStory extends AddEditStoryBase {
 		initNameAndDescription(story);
 		initStoryType(story);
 		initState(story);
-		initPoints(story);
+		initEstimate(story);
 	}
 	
 	public void onOkButtonClick() {
@@ -54,7 +54,7 @@ public class EditStory extends AddEditStoryBase {
 
 		story.changeStoryType(type);
 		initState(story);
-		initPoints(story);
+		initEstimate(story);
 	}
 	
 

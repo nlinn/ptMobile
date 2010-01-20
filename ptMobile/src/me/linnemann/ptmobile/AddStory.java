@@ -26,7 +26,7 @@ public class AddStory extends AddEditStoryBase {
 		
 		initNameAndDescription(story);
 		initStoryType(story);
-		initPoints(story);
+		initEstimate(story);
 	}
 	
 	public void onOkButtonClick() {
@@ -51,7 +51,7 @@ public class AddStory extends AddEditStoryBase {
 		StoryType type = StoryType.valueOf(selectedItem.toUpperCase());
 
 		story.changeStoryType(type);
-		initPoints(story);
+		initEstimate(story);
 	}
 	
 }

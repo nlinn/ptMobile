@@ -8,6 +8,7 @@ import android.util.Log;
 
 import me.linnemann.ptmobile.pivotaltracker.Story;
 import me.linnemann.ptmobile.pivotaltracker.fields.StoryData;
+import me.linnemann.ptmobile.pivotaltracker.value.Estimate;
 import me.linnemann.ptmobile.pivotaltracker.value.StoryType;
 
 public abstract class StoryCommand extends RESTXMLCommand {
@@ -59,7 +60,7 @@ public abstract class StoryCommand extends RESTXMLCommand {
 			xml.append("</current_state>");
 		}
 		
-		if ((StoryType.FEATURE.equals(story.getStoryType())) && (modified.contains(StoryData.ESTIMATE))) {
+		if ((modified.contains(StoryData.ESTIMATE)) && (!Estimate.NO_ESTIMATE.equals(story.getEstimate()))) {
 			xml.append("<estimate type=\"integer\">");
 			xml.append(story.getEstimate().getValueAsString());
 			xml.append("</estimate>");

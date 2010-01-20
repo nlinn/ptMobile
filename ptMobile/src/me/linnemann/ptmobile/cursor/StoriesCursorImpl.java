@@ -36,7 +36,7 @@ public class StoriesCursorImpl extends SQLiteCursor implements StoriesCursor {
 		"left join iterations i on s.iteration_number=i.number " +
 		"where " +
 		"i.iteration_group='current' and " +
-		"s.project_id='"+project_id+"' and i.project_id='"+project_id+"'";
+		"s.project_id='"+project_id+"' and i.project_id='"+project_id+"' order by s.iteration_number asc, s.position asc";
 	}
 
 	public static String sqlBacklog(Integer project_id) {
@@ -48,7 +48,7 @@ public class StoriesCursorImpl extends SQLiteCursor implements StoriesCursor {
 		"left join iterations i on s.iteration_number=i.number " +
 		"where " +
 		"i.iteration_group='backlog' " +
-		"and s.project_id='"+project_id+"' and i.project_id='"+project_id+"'";
+		"and s.project_id='"+project_id+"' and i.project_id='"+project_id+"' order by s.iteration_number asc, s.position asc";
 	}
 
 	public static String sqlDone(Integer project_id) {
@@ -60,7 +60,7 @@ public class StoriesCursorImpl extends SQLiteCursor implements StoriesCursor {
 		"left join iterations i on s.iteration_number=i.number " +
 		"where " +
 		"i.iteration_group='done' " +
-		"and i.project_id='"+project_id+"' and s.project_id='"+project_id+"' order by s._id desc";
+		"and i.project_id='"+project_id+"' and s.project_id='"+project_id+"' order by s.iteration_number asc, s.position asc";
 	}
 
 	public static String sqlIcebox(Integer project_id) {
@@ -70,7 +70,7 @@ public class StoriesCursorImpl extends SQLiteCursor implements StoriesCursor {
 		"from stories s " +
 		"where " +
 		"s.iteration_group='icebox' " +
-		"and s.project_id='"+project_id+"' order by s._id desc";
+		"and s.project_id='"+project_id+"' order by s.position asc";
 	}
 	
 	public StoriesCursorImpl(SQLiteDatabase db, SQLiteCursorDriver driver,
@@ -111,8 +111,14 @@ public class StoriesCursorImpl extends SQLiteCursor implements StoriesCursor {
 	}
 
 	public Estimate getEstimate() {
-		Integer estimateNumeric = getInt(getColumnIndexOrThrow(StoryData.ESTIMATE.getDBFieldName()));
-		Estimate estimate = Estimate.valueOfNumeric(estimateNumeric);
+		Estimate estimate;
+		Integer estimateNumeric = getIntegerFrom(StoryData.ESTIMATE);
+		
+		if (estimateNumeric == null) {
+			estimate = Estimate.NO_ESTIMATE;
+		} else {
+			estimate = Estimate.valueOfNumeric(estimateNumeric);
+		}
 		return estimate;
 	}
 
@@ -178,6 +184,7 @@ public class StoriesCursorImpl extends SQLiteCursor implements StoriesCursor {
 		return s;
 	}
 
+	// return null so you may want to check for null when used
 	private Integer getIntegerFrom(StoryData field) {
 		int columnNotFound = -1;
 		
