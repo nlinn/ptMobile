@@ -13,7 +13,7 @@ import me.linnemann.ptmobile.test.pivotaltracker.DBAdapterMock;
 import me.linnemann.ptmobile.test.pivotaltracker.TestData;
 import android.test.AndroidTestCase;
 
-public class XMLStoriesHandlerTests extends AndroidTestCase {
+public class SimpleStoryXMLTests extends AndroidTestCase {
 
 	private XMLStoriesHandler handler;
 	private DBAdapterMock db;
@@ -37,7 +37,7 @@ public class XMLStoriesHandlerTests extends AndroidTestCase {
 	}
 	
 	private InputStream streamFromSimpleStoryXML() {
-		return XMLStoriesHandlerTests.class.getResourceAsStream("storySimple.xml");
+		return SimpleStoryXMLTests.class.getResourceAsStream("storySimple.xml");
 	}
 	
 	public void test_simpleStoryExample_correctId() throws Exception {

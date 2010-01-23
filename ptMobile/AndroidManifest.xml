@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-	package="me.linnemann.ptmobile" name="" android:versionName="0.7.1 beta"
-	android:versionCode="8">
+	package="me.linnemann.ptmobile" name="" android:versionName="0.7.2 beta"
+	android:versionCode="9">
 
 	<uses-permission android:name="android.permission.INTERNET" />
 	<uses-sdk android:minSdkVersion="3" />
@@ -13,7 +13,6 @@
 				<category android:name="android.intent.category.LAUNCHER" />
 			</intent-filter>
 		</activity>
-
 
 		<activity android:name=".Projects"></activity>
 		<activity android:name=".ChangeEstimate"></activity>	
@@ -34,6 +33,5 @@
 		<activity android:name=".About"></activity>
 		<activity android:name=".ProjectDetails"></activity>
 	</application>
-
 
 </manifest> 

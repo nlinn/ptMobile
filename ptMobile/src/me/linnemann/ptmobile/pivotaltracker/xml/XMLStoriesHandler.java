@@ -11,8 +11,6 @@ import me.linnemann.ptmobile.pivotaltracker.fields.StoryData;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 
-import android.util.Log;
-
 public class XMLStoriesHandler extends XMLBaseHandler {
 	@SuppressWarnings("unused")
 	private static final String TAG="XMLStoriesHandler";
@@ -20,6 +18,7 @@ public class XMLStoriesHandler extends XMLBaseHandler {
 	private static final int STORY = 1;
 	private static final int ITERATION = 2;
 	private static final int NOTE = 3;
+	private static final int TASK = 4;
 	
 	private Integer project_id;
 	private IncomingIteration iteration;
@@ -43,7 +42,7 @@ public class XMLStoriesHandler extends XMLBaseHandler {
 
 	public void startElement(String uri, String name, String qName, Attributes attr) {
 		super.startElement(uri, name, qName, attr);
-
+		
 		elementData = new StringBuilder();
 		
 		if (name.equalsIgnoreCase("iteration")) {
@@ -65,6 +64,11 @@ public class XMLStoriesHandler extends XMLBaseHandler {
 		if (name.equalsIgnoreCase("note")) {
 			parseWhat = NOTE;
 			note = new IncomingNote(db, project_id, story_id);
+		}
+		
+		if (name.equalsIgnoreCase("task")) {
+			parseWhat = TASK;
+			// TODO create task?
 		}
 	}
 

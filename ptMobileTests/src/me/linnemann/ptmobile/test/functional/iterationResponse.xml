@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<iterations type="array">
+  <iteration>
+    <id type="integer">35</id>
+    <number type="integer">35</number>
+    <start type="datetime">2010/01/25 00:00:00 UTC</start>
+    <finish type="datetime">2010/02/01 00:00:00 UTC</finish>
+    <stories type="array">
+    </stories>
+  </iteration>
+  <iteration>
+    <id type="integer">36</id>
+    <number type="integer">36</number>
+    <start type="datetime">2010/02/01 00:00:00 UTC</start>
+    <finish type="datetime">2010/02/08 00:00:00 UTC</finish>
+    <stories type="array">
+      <story>
+        <id type="integer">2256873</id>
+        <story_type>feature</story_type>
+        <url>http://www.pivotaltracker.com/story/show/2256873</url>
+        <estimate type="integer">2</estimate>
+        <current_state>unstarted</current_state>
+        <description>description with &quot;quotes&quot; and 'single'</description>
+        <name>Story with &quot;quotes&quot; and 'single'</name>
+        <requested_by>Niels Linnemann</requested_by>
+        <created_at type="datetime">2010/01/21 18:36:23 UTC</created_at>
+        <notes type="array">
+          <note>
+            <id type="integer">1067075</id>
+            <text>Comment with &quot;quotes&quot; and 'single'</text>
+            <author>Niels Linnemann</author>
+            <noted_at type="datetime">2010/01/21 18:36:57 UTC</noted_at>
+          </note>
+        </notes>
+       <!--  <tasks type="array">
+          <task>
+            <id type="integer">132718</id>
+            <description>task n1</description>
+            <position>1</position>
+            <complete>false</complete>
+            <created_at type="datetime">2010/01/21 18:40:56 UTC</created_at>
+          </task>
+        </tasks>-->
+      </story>
+    </stories>
+  </iteration>
+  <iteration>
+    <id type="integer">37</id>
+    <number type="integer">37</number>
+    <start type="datetime">2010/02/08 00:00:00 UTC</start>
+    <finish type="datetime">2010/02/15 00:00:00 UTC</finish>
+    <stories type="array">
+    </stories>
+  </iteration>
+  <iteration>
+    <id type="integer">38</id>
+    <number type="integer">38</number>
+    <start type="datetime">2010/02/15 00:00:00 UTC</start>
+    <finish type="datetime">2010/02/22 00:00:00 UTC</finish>
+    <stories type="array">
+      <story>
+        <id type="integer">2208457</id>
+        <story_type>feature</story_type>
+        <url>http://www.pivotaltracker.com/story/show/2208457</url>
+        <estimate type="integer">2</estimate>
+        <current_state>unstarted</current_state>
+        <description></description>
+        <name>Added Teststory2</name>
+        <requested_by>Niels Linnemann</requested_by>
+        <created_at type="datetime">2010/01/16 13:36:44 UTC</created_at>
+      </story>
+    </stories>
+  </iteration>
+  <iteration>
+    <id type="integer">39</id>
+    <number type="integer">39</number>
+    <start type="datetime">2010/02/22 00:00:00 UTC</start>
+    <finish type="datetime">2010/03/01 00:00:00 UTC</finish>
+    <stories type="array">
+    </stories>
+  </iteration>
+  <iteration>
+    <id type="integer">40</id>
+    <number type="integer">40</number>
+    <start type="datetime">2010/03/01 00:00:00 UTC</start>
+    <finish type="datetime">2010/03/08 00:00:00 UTC</finish>
+    <stories type="array">
+      <story>
+        <id type="integer">2211145</id>
+        <story_type>feature</story_type>
+        <url>http://www.pivotaltracker.com/story/show/2211145</url>
+        <estimate type="integer">2</estimate>
+        <current_state>unstarted</current_state>
+        <description>this should be a releasen</description>
+        <name>another new story</name>
+        <requested_by>Niels Linnemann</requested_by>
+        <created_at type="datetime">2010/01/17 12:19:39 UTC</created_at>
+      </story>
+    </stories>
+  </iteration>
+</iterations>
