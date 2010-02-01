@@ -1,7 +1,7 @@
 package me.linnemann.ptmobile;
 
-import me.linnemann.ptmobile.cursor.ProjectsCursor;
 import me.linnemann.ptmobile.pivotaltracker.PivotalTracker;
+import me.linnemann.ptmobile.pivotaltracker.Project;
 import me.linnemann.ptmobile.pivotaltracker.Story;
 import me.linnemann.ptmobile.pivotaltracker.value.Estimate;
 import android.app.Activity;
@@ -24,7 +24,7 @@ public class ChangeEstimate extends Activity {
 	private TextView storyName, estimateLabel;
 
 	private Story story;
-	private ProjectsCursor pc;
+	private Project project;
 	private PivotalTracker tracker;
 
 	@Override
@@ -52,8 +52,8 @@ public class ChangeEstimate extends Activity {
 			story = tracker.getStory(story_id);
 			storyName.setText(story.getName().getUIString());
 			project_id = story.getProjectId().getValue();
-			pc = tracker.getProject(project_id);
-			String pointscale = pc.getPointScale();
+			project = tracker.getProject(project_id);
+			String pointscale = project.getPointScale().getValueAsString();
 			if ("0,1,2,3".equals(pointscale)) setUpLinear();
 			if ("0,1,2,4,8".equals(pointscale)) setUpPowerOf2();
 			if ("0,1,2,3,5,8".equals(pointscale)) setUpFibonacci();
@@ -66,14 +66,12 @@ public class ChangeEstimate extends Activity {
 	@Override
 	public void onStop() {
 		super.onStop();
-		if (pc !=null) pc.close();
 		if (this.tracker != null) this.tracker.pause();
 	}
 	
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
-		if (pc !=null) pc.close();
 		if (this.tracker != null) this.tracker.pause();
 	}
 

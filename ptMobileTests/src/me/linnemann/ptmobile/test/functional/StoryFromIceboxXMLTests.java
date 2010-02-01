@@ -1,43 +1,41 @@
 package me.linnemann.ptmobile.test.functional;
 
-import java.io.InputStream;
 import java.util.List;
 
 import me.linnemann.ptmobile.pivotaltracker.Story;
-import me.linnemann.ptmobile.pivotaltracker.lifecycle.StateWithTransitions;
+import me.linnemann.ptmobile.pivotaltracker.adapter.PivotalAPI;
 import me.linnemann.ptmobile.pivotaltracker.value.Estimate;
 import me.linnemann.ptmobile.pivotaltracker.value.State;
 import me.linnemann.ptmobile.pivotaltracker.value.StoryType;
-import me.linnemann.ptmobile.pivotaltracker.xml.XMLStoriesHandler;
+import me.linnemann.ptmobile.test.pivotaltracker.APIAdapterMock;
 import me.linnemann.ptmobile.test.pivotaltracker.DBAdapterMock;
 import me.linnemann.ptmobile.test.pivotaltracker.TestData;
 import android.test.AndroidTestCase;
 
-public class SimpleStoryXMLTests extends AndroidTestCase {
+public class StoryFromIceboxXMLTests extends AndroidTestCase {
 
-	private XMLStoriesHandler handler;
 	private DBAdapterMock db;
 	
 	@Override
     protected void setUp() throws Exception {
         super.setUp();
         db = new DBAdapterMock();
-        handler = new XMLStoriesHandler(db, TestData.ANY_PROJECT_ID, TestData.ANY_ITERATIONGROUP);
+        
+        APIAdapterMock adapter = new APIAdapterMock();
+        adapter.setIceboxStream(StoryFromIceboxXMLTests.class.getResourceAsStream("storySimple.xml"));
+        
+        PivotalAPI api = new PivotalAPI(this.getContext(), db, adapter);
+        api.readStories(TestData.ANY_PROJECT_ID, "icebox");
     }
 
-	public void test_simpleStoryExample_oneStoryInResult() throws Exception {
+	public void test_simpleStoryExample_CorrectStoryCountInResult() throws Exception {
 		List<Story> receivedStories = getReceivedStoriesForSimpleStoryXML();
-		assertEquals(1, receivedStories.size());
+		assertEquals(5, receivedStories.size());
 	}
 	
 	private List<Story> getReceivedStoriesForSimpleStoryXML() throws Exception {
-		handler.go(streamFromSimpleStoryXML());
 		List<Story> receivedStories = db.getStories();
 		return receivedStories;
-	}
-	
-	private InputStream streamFromSimpleStoryXML() {
-		return SimpleStoryXMLTests.class.getResourceAsStream("storySimple.xml");
 	}
 	
 	public void test_simpleStoryExample_correctId() throws Exception {
@@ -97,7 +95,7 @@ public class SimpleStoryXMLTests extends AndroidTestCase {
 	
 	public void test_simpleStoryExample_correctIterationGroup() throws Exception {
 		Story story = getFirstStoryOfReceivedStories();
-		assertEquals(TestData.ANY_ITERATIONGROUP, story.getIterationGroup().getValue());
+		assertEquals("icebox", story.getIterationGroup().getValue());
 	}
 	
 	public void test_simpleStoryExample_correctIterationNumber() throws Exception {

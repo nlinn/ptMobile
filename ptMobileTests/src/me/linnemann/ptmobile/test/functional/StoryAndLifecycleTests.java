@@ -17,7 +17,7 @@ public class StoryAndLifecycleTests extends AndroidTestCase {
 		story.changeStoryType(StoryType.FEATURE);
 		story.changeEstimate(TestData.ANY_ESTIMATE);
 		story.changeCurrentState(State.UNSTARTED);
-		story.resetModifiedFieldsTracking();
+		story.resetModifiedDataTracking();
 		
 
 		Transition start  = story.getTransitions().get(0);

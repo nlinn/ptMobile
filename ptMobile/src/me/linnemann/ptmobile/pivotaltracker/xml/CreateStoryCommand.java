@@ -12,4 +12,9 @@ public class CreateStoryCommand extends StoryCommand {
 		if (story.getProjectId() == null) // TODO better make sure story.getprojectid never returns null
 			throw new RuntimeException("trying to create story without project_id!");
 	}
+	
+	@Override
+	public String getPUTorPOST() {
+		return "POST";
+	}
 }

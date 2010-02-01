@@ -19,15 +19,11 @@ public class StoryFromAPIBuilder implements StoryBuilder {
 	private Story story;
 
 	public StoryFromAPIBuilder() {
-		story = new StoryImpl();		
+		clear();	
 	}
 
 	public void clear() {
 		story = new StoryImpl();
-	}
-
-	public void construct() {
-		// empty :(
 	}
 
 	public void add(String elementName, String elementData) {

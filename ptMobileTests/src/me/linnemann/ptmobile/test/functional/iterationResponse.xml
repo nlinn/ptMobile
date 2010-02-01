@@ -16,6 +16,10 @@
     <stories type="array">
       <story>
         <id type="integer">2256873</id>
+        <unexpected>
+			<id>what?</id>
+			<story>what the fuck?</story>
+		</unexpected>
         <story_type>feature</story_type>
         <url>http://www.pivotaltracker.com/story/show/2256873</url>
         <estimate type="integer">2</estimate>
@@ -26,13 +30,21 @@
         <created_at type="datetime">2010/01/21 18:36:23 UTC</created_at>
         <notes type="array">
           <note>
+          <unexpected>
+			<id>what?</id>
+			<story>what the fuck?</story>
+		</unexpected>
             <id type="integer">1067075</id>
             <text>Comment with &quot;quotes&quot; and 'single'</text>
             <author>Niels Linnemann</author>
             <noted_at type="datetime">2010/01/21 18:36:57 UTC</noted_at>
           </note>
         </notes>
-       <!--  <tasks type="array">
+       <tasks type="array">
+       <unexpected>
+			<id>what?</id>
+			<story>what the fuck?</story>
+		</unexpected>
           <task>
             <id type="integer">132718</id>
             <description>task n1</description>
@@ -40,7 +52,7 @@
             <complete>false</complete>
             <created_at type="datetime">2010/01/21 18:40:56 UTC</created_at>
           </task>
-        </tasks>-->
+        </tasks>
       </story>
     </stories>
   </iteration>

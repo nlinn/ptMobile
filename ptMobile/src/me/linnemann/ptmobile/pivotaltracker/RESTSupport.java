@@ -25,7 +25,7 @@ public class RESTSupport {
 
 	private static final String TAG="RESTSupport";
 	private int timeout_millis;
-
+	
 	public RESTSupport(int timeout_millis) {
 		this.timeout_millis = timeout_millis;
 	}
@@ -101,17 +101,22 @@ public class RESTSupport {
 		
 		// --- add body to request
 		if (body != null) {
-			Log.d(TAG,"adding body");
 			writeBody(httpConn, body);
 		}
 		
 		httpConn.connect(); 
-
-		response = httpConn.getResponseCode();                 
+		response = httpConn.getResponseCode(); 
+		
 		if (response == HttpURLConnection.HTTP_OK) {
-			in = httpConn.getInputStream();                                 
+			in = httpConn.getInputStream();
 		} else {
-			throw new RuntimeException("HTTP Response not 200: "+response);
+			in = httpConn.getErrorStream();
+			String msg =textFromURL(in);
+			msg = msg.replaceAll("<message>", "");
+			msg = msg.replaceAll("</message>", "");
+			msg = msg.replaceAll("<?xml version=\"1.0\" encoding=\"UTF-8\"?>", "");
+			msg = msg.replaceAll("\n", "");
+			throw new RuntimeException("HTTP "+response+" ("+getNameOfHTTPCode(response)+")\n "+msg.substring(0, 200));
 		}                     
 
 		return in;     
@@ -213,7 +218,7 @@ throws IOException
 	/**
 	 * if you don't like inputstreams as result, use this method to convert it to string
 	 */
-	String textFromURL(InputStream in) throws IOException {
+	public static String textFromURL(InputStream in) throws IOException {
 		int BUFFER_SIZE = 2000;
 
 		InputStreamReader isr = new InputStreamReader(in);
@@ -231,7 +236,7 @@ throws IOException
 			}
 			in.close();
 		} catch (IOException e) {
-			e.printStackTrace();
+			Log.w(TAG,"IO: "+e.getMessage());
 			return "";
 		}    
 		return str;        
@@ -246,5 +251,28 @@ throws IOException
 			sb.append(Character.toString((char)b));
 		}
 		return sb.toString();
+	}
+	
+	private static String getNameOfHTTPCode(final int http) {
+		switch (http) {
+		case 400: return "Bad Request";
+		case 401: return "Unauthorized";
+		case 402: return "Payment Required";
+		case 403: return "Forbidden";
+		case 404: return "Not Found";
+		case 405: return "Method Not Allowed";
+		case 406: return "Not Acceptable";
+		case 407: return "Proxy Authentication Required";
+		case 408: return "Request Timeout";
+		
+		case 500: return "500 Internal Server Error";
+		case 501: return "Not Implemented";
+		case 502: return "Bad Gateway";
+		case 503: return "Service Unavailable";
+		case 504: return "Gateway Timeout";
+		case 505: return "HTTP Version Not Supported";
+
+		default: return "";
+		}
 	}
 }

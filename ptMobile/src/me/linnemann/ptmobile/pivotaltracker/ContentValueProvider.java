@@ -1,8 +1,8 @@
 package me.linnemann.ptmobile.pivotaltracker;
 
-import java.util.Set;
+import java.util.Map;
 
-import me.linnemann.ptmobile.pivotaltracker.fields.StoryData;
+import me.linnemann.ptmobile.pivotaltracker.fields.DBAndXMLTransferable;
 import me.linnemann.ptmobile.pivotaltracker.value.TrackerValue;
 import android.content.ContentValues;
 
@@ -16,14 +16,21 @@ import android.content.ContentValues;
 public class ContentValueProvider {
 
 	private static final String UPDATETIMESTAMP_KEY = "updatetimestamp";
+	private static final String ID_KEY = "id";
 	private ContentValues values;
-	private Story story;
-	private Set<StoryData> modified;
+	private String id;
+	private Map<?,TrackerValue> modified;
+	
+	public ContentValueProvider(Project project) {
+		this.values = new ContentValues();
+		this.id = project.getId().getValueAsString();
+		modified = project.getModifiedData();
+	}
 	
 	public ContentValueProvider(Story story) {
 		this.values = new ContentValues();
-		this.story = story;
-		modified = story.getModifiedFields();
+		this.id = story.getId().getValueAsString();
+		modified = story.getData();
 	}
 	
 	public ContentValues getValues() {
@@ -31,32 +38,15 @@ public class ContentValueProvider {
 	}
 	
 	public void fill() {
-		putStoryDataIfModified(StoryData.ESTIMATE, story.getEstimate());
-		putStoryDataIfModified(StoryData.NAME, story.getName());
-		putStoryDataIfModified(StoryData.DESCRIPTION, story.getDescription());
-		putStoryDataIfModified(StoryData.PROJECT_ID, story.getProjectId());
-		putStoryDataIfModified(StoryData.CURRENT_STATE, story.getCurrentState()); 
-		putStoryDataIfModified(StoryData.DEADLINE, story.getDeadline());
-		putStoryDataIfModified(StoryData.ACCEPTED_AT, story.getAcceptedAt());
-		putStoryDataIfModified(StoryData.CREATED_AT, story.getCreatedAt());
-		putStoryDataIfModified(StoryData.LABELS, story.getLabels());
-		putStoryDataIfModified(StoryData.OWNED_BY, story.getOwnedBy());
-		putStoryDataIfModified(StoryData.REQUESTED_BY, story.getRequestedBy());
-		putStoryDataIfModified(StoryData.STORY_TYPE, story.getStoryType());
-		putStoryDataIfModified(StoryData.ITERATION_GROUP, story.getIterationGroup());
-		putStoryDataIfModified(StoryData.ITERATION_NUMBER, story.getIterationNumber());
-		putStoryDataIfModified(StoryData.POSITION, story.getPosition());
+		for (Object key : modified.keySet()) { 
+			putStoryData((DBAndXMLTransferable) key, modified.get(key));
+		}
 		
 		addUpdateTimestampIfNotEmpty();
 		addIDIfNotEmpty();
 	}
 	
-	private void putStoryDataIfModified(StoryData key, TrackerValue value) {
-		if (modified.contains(key))
-			putStoryData(key,value);
-	}
-	
-	private void putStoryData(StoryData key, TrackerValue value) {
+	private void putStoryData(DBAndXMLTransferable key, TrackerValue value) {
 		values.put(key.getDBFieldName(), value.getValueAsString());
 	}
 	
@@ -67,6 +57,6 @@ public class ContentValueProvider {
 	
 	private void addIDIfNotEmpty() {
 		if (values.size() > 0)
-			values.put(StoryData.ID.getDBFieldName(), story.getId().getValueAsString());
+			values.put(ID_KEY, id);
 	}
 }

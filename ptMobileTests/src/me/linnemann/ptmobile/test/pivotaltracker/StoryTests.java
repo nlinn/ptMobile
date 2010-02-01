@@ -22,14 +22,14 @@ public class StoryTests extends AndroidTestCase {
 	}
 	
 	public void test_modifiedFieldsAfterCreation_isEmpty() {
-		assertTrue(story.getModifiedFields().isEmpty());
+		assertTrue(story.getModifiedData().isEmpty());
 	}
 	
 	public void test_resetModifiedFields_works() {
 		story.changeEstimate(TestData.ANY_ESTIMATE);
 		story.changeName(TestData.ANY_NAME);
-		story.resetModifiedFieldsTracking();
-		assertTrue(story.getModifiedFields().isEmpty());
+		story.resetModifiedDataTracking();
+		assertTrue(story.getModifiedData().isEmpty());
 	}
 	
 	public void test_chore_needsNoEstimate() {
@@ -63,10 +63,10 @@ public class StoryTests extends AndroidTestCase {
 		String sameNameTwice = TestData.ANY_NAME;
 		
 		story.changeName(sameNameTwice);
-		story.resetModifiedFieldsTracking();
+		story.resetModifiedDataTracking();
 		story.changeName(sameNameTwice);
 		
-		assertEquals(0,story.getModifiedFields().size());
+		assertEquals(0,story.getModifiedData().size());
 	}
 	
 	public void test_story_positionOneIsFirstInIteration() {

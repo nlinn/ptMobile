@@ -3,28 +3,44 @@ package me.linnemann.ptmobile.pivotaltracker;
 import java.util.HashMap;
 import java.util.Map;
 
+import me.linnemann.ptmobile.pivotaltracker.adapter.DBAdapter;
 import me.linnemann.ptmobile.pivotaltracker.fields.NoteData;
 import android.content.ContentValues;
+import android.util.Log;
 
 public class IncomingNote implements IncomingData {
 
+	private static final String TAG = "IncomingNote";
+	
 	private Map<NoteData,String> data;
 	private DBAdapter db;	
 
-	public IncomingNote(DBAdapter db, Integer project_id, Integer story_id) {
+	public IncomingNote(DBAdapter db) {
 		this.db = db;
 		data = new HashMap<NoteData,String>();
+	}
+	
+	/**
+	@deprecated
+	*/
+	public IncomingNote(DBAdapter db, Integer project_id, Integer story_id) {
+		this(db);
 		data.put(NoteData.STORY_ID, story_id.toString());
 		data.put(NoteData.PROJECT_ID, project_id.toString());
 	}
 
 	public void addDataForKey(Object key, String value) {
 
-		if (!data.containsKey(key)) {
-			data.put((NoteData) key, value); // add
-		} else {
-			String tmp = data.get(key);
-			data.put((NoteData) key, tmp+value); //append
+		try {
+			NoteData dataType = NoteData.valueOf(key.toString().toUpperCase()); 
+			if (!data.containsKey(dataType)) {
+				data.put(dataType, value); // add
+			} else {
+				String tmp = data.get(dataType);
+				data.put(dataType, tmp+value);
+			}
+		} catch (IllegalArgumentException e) {
+			Log.w("IncomingNote","ignoring element: "+key.toString());
 		}
 	}
 
@@ -46,6 +62,9 @@ public class IncomingNote implements IncomingData {
 		}
 		// --- important: add updatetimestamp
 		v.put("updatetimestamp", Long.toString(System.currentTimeMillis()));
+		
+		Log.v(TAG,"ContentValues from Note: "+v.toString());
+		
 		return v;
 	}
 

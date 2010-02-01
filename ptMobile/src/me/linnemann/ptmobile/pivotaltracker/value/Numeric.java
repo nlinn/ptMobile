@@ -1,11 +1,29 @@
 package me.linnemann.ptmobile.pivotaltracker.value;
 
-public class IntegerValue implements TrackerValue {
+import android.util.Log;
+
+public class Numeric implements TrackerValue {
 
 	private Integer value;
 
-	public IntegerValue(Integer value) {
+	public static Numeric getEmptyValue() {
+		return new Numeric();
+	}
+	
+	private Numeric() {
+		this.value = null;
+	}
+	
+	public Numeric(Integer value) {
 		this.value = value;
+	}
+	
+	public Numeric(String value) {
+		try {
+			this.value = new Integer(value);
+		} catch (NumberFormatException e) {
+			Log.w("IntegerValue","NumberFormatException creating Value from String: "+value);
+		}
 	}
 	
 	public String getUIString() {
@@ -13,7 +31,10 @@ public class IntegerValue implements TrackerValue {
 	}
 
 	public String getValueAsString() {
-		return value.toString();
+		if (value == null)
+			return null;
+		else
+			return value.toString();
 	}
 
 	public Integer getValue() {
@@ -40,7 +61,7 @@ public class IntegerValue implements TrackerValue {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		IntegerValue other = (IntegerValue) obj;
+		Numeric other = (Numeric) obj;
 		if (value == null) {
 			if (other.value != null)
 				return false;

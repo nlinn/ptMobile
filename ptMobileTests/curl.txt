@@ -1,8 +1,5 @@
-Last login: Sat Oct 31 16:23:25 on console
-niels-linnemanns-imac:~ niels$ niels-linnemanns-imac:~ niels$ curl -H "X-TrackerToken: 01182603613106eee46c5c6b0edf " -X GET http://www.pivotaltracker.com/services/v2/projects/18225/stories
-Access denied.
 
-18225
+curl -H "X-TrackerToken: 01182603613106eee46c5c6b0edffd46 " -X GET http://www.pivotaltracker.com/services/v3/activities
 
 niels-linnemanns-imac:~ niels$ curl -H "X-TrackerToken: 01182603613106eee46c5c6b0edffd46 " -X GET http://www.pivotaltracker.com/services/v2/projects/18225/stories
 <?xml version="1.0" encoding="UTF-8"?>

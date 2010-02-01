@@ -17,7 +17,7 @@ public class ContentValueProviderTests extends AndroidTestCase {
 	public void setUp() {
 		story = new StoryImpl(StoryType.FEATURE);
 		story.changeId(TestData.ANY_ID);
-		story.resetModifiedFieldsTracking();
+		story.resetModifiedDataTracking();
 		provider = new ContentValueProvider(story);
 	}
 	
@@ -35,16 +35,6 @@ public class ContentValueProviderTests extends AndroidTestCase {
 		assertEquals(TestData.ANY_ID.toString(), values.get("id"));
 	}
 	
-	
-	public void test_storyWithMultipleChanges_providesMultipleValues() {
-		story.changeId(TestData.ANY_ID);
-		story.changeEstimate(TestData.ANY_ESTIMATE);
-		provider = new ContentValueProvider(story);
-		provider.fill();
-		ContentValues values = provider.getValues();
-		assertEquals(3, values.size()); // expecting 2 values plus updatetimestamp
-	}
-
 	public void test_storyWithMultipleChanges_providesCorrectValues() {
 		story.changeId(TestData.ANY_ID);
 		story.changeEstimate(TestData.ANY_ESTIMATE);
@@ -54,17 +44,6 @@ public class ContentValueProviderTests extends AndroidTestCase {
 		checkContentValue(StoryData.ID, TestData.ANY_ID.toString());
 		checkContentValue(StoryData.ESTIMATE, TestData.ANY_ESTIMATE.getValueAsString().toString());
 		checkContentValue(StoryData.DESCRIPTION, TestData.ANY_DESCRIPTION);
-	}
-	
-	public void test_resettedModifiedFields_provideNoData() {
-		story.changeAcceptedAt(TestData.ANY_ACCEPTED_AT);
-		story.changeDescription(TestData.ANY_DESCRIPTION);
-		story.changeName(TestData.ANY_NAME);
-		story.resetModifiedFieldsTracking();
-		provider = new ContentValueProvider(story);
-		provider.fill();
-		ContentValues values = provider.getValues();
-		assertEquals(0, values.size());
 	}
 
 	private void fillAndCheckContentValue(StoryData storyData, String expectedValue) {

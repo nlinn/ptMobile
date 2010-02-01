@@ -3,8 +3,10 @@ package me.linnemann.ptmobile.pivotaltracker;
 import java.util.HashMap;
 import java.util.Map;
 
+import me.linnemann.ptmobile.pivotaltracker.adapter.DBAdapter;
 import me.linnemann.ptmobile.pivotaltracker.fields.IterationData;
 import android.content.ContentValues;
+import android.util.Log;
 
 public class IncomingIteration implements IncomingData {
 
@@ -19,19 +21,23 @@ public class IncomingIteration implements IncomingData {
 	}
 
 	public void addDataForKey(Object key, String value) {
-
-		if (!stringData.containsKey(key)) {
-			stringData.put((IterationData) key, value); // add
-		} else {
-			String tmp = stringData.get(key);
-			stringData.put((IterationData) key, tmp+value); //append
+		try {
+			IterationData dataType = IterationData.valueOf(key.toString().toUpperCase());
+			if (!stringData.containsKey(dataType)) {
+				stringData.put(dataType, value); // add
+			} else {
+				String tmp = stringData.get(dataType);
+				stringData.put(dataType, tmp+value); //append
+			}
+		} catch (IllegalArgumentException e) {
+			Log.w("IncomingIteration","ignoring element: "+key.toString());
 		}
 	}
 
 	public String getIterationNumber() {
 		return stringData.get(IterationData.NUMBER);
 	}
-	
+
 	/**
 	 * Get data in a db friendly way
 	 * 

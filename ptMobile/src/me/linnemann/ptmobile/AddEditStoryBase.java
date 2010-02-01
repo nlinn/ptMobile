@@ -1,7 +1,7 @@
 package me.linnemann.ptmobile;
 
-import me.linnemann.ptmobile.cursor.ProjectsCursor;
 import me.linnemann.ptmobile.pivotaltracker.PivotalTracker;
+import me.linnemann.ptmobile.pivotaltracker.Project;
 import me.linnemann.ptmobile.pivotaltracker.Story;
 import me.linnemann.ptmobile.pivotaltracker.value.Estimate;
 import me.linnemann.ptmobile.pivotaltracker.value.State;
@@ -115,9 +115,8 @@ public abstract class AddEditStoryBase extends Activity {
 
 	private int getEstimateArrayRessource(Story story) {
 		Integer project_id = story.getProjectId().getValue();
-		ProjectsCursor pc = tracker.getProject(project_id);
-		String pointscale = pc.getPointScale();
-		pc.close();
+		Project project = tracker.getProject(project_id);
+		String pointscale = project.getPointScale().getValueAsString();
 
 		Log.i("ADDEDIT","estimate: "+story.getEstimate().getUIString());
 		
@@ -125,17 +124,6 @@ public abstract class AddEditStoryBase extends Activity {
 		if ("0,1,2,3".equals(pointscale)) return R.array.points_linear;
 		if ("0,1,2,4,8".equals(pointscale)) return R.array.points_powerof2;
 		return R.array.points_fibonacci;
-	}
-
-	private void eenableEstimateIfFeature(StoryType type) {
-		boolean enabled = type.equals(StoryType.FEATURE);
-
-		if (!enabled) {
-			estimateAdapter = createAdapterForSpinner(estimateSpinner , R.array.points_empty);
-			estimateSpinner.setSelection(0);
-		}
-
-		estimateSpinner.setEnabled(enabled);
 	}
 
 	private void setStoryTypeListener() {

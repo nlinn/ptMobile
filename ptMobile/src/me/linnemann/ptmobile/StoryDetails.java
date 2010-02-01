@@ -8,9 +8,10 @@ import me.linnemann.ptmobile.pivotaltracker.Story;
 import me.linnemann.ptmobile.pivotaltracker.lifecycle.Transition;
 import me.linnemann.ptmobile.pivotaltracker.value.Estimate;
 import me.linnemann.ptmobile.pivotaltracker.value.StoryType;
-import me.linnemann.ptmobile.pivotaltracker.value.StringValue;
+import me.linnemann.ptmobile.pivotaltracker.value.Text;
 import me.linnemann.ptmobile.ui.OutputStyler;
-import me.linnemann.ptmobile.ui.SimpleErrorDialog;
+import me.linnemann.ptmobile.ui.QoS;
+import me.linnemann.ptmobile.ui.QoSMessageHandler;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -18,16 +19,17 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-public class StoryDetails extends Activity {
+public class StoryDetails extends Activity implements QoSMessageHandler {
 
 	@SuppressWarnings("unused")
 	private static final String TAG = "StoryDetails";
@@ -54,7 +56,7 @@ public class StoryDetails extends Activity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
+		requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
 		ctx = this;
 		
 		setTitle("Story");
@@ -145,7 +147,7 @@ public class StoryDetails extends Activity {
 	}
 
 	private void showDeadlineIfNotEmpty() {
-		StringValue deadline = story.getDeadline();
+		Text deadline = story.getDeadline();
 		if (!deadline.isEmpty()) {
 			deadlineWidget.setText("Deadline: "+OutputStyler.getShortDate(deadline.getUIString()));
 		} else {
@@ -154,7 +156,7 @@ public class StoryDetails extends Activity {
 	}
 
 	private void showDescription() {
-		StringValue description = story.getDescription();
+		Text description = story.getDescription();
 		if (!description.isEmpty()) {
 			descriptionWidget.setText(description.getUIString());
 		} else {
@@ -188,9 +190,7 @@ public class StoryDetails extends Activity {
 			btn1.setText(trans.get(0).getName());
 			btn1.setOnClickListener(new OnClickListener() {
 				public void onClick(View v) {  
-					story.applyTransition(trans.get(0));
-					tracker.commitChanges(story);
-					updateView();
+					applyTransition(trans.get(0));
 				}  
 			});
 			btn1.setVisibility(View.VISIBLE);
@@ -200,9 +200,7 @@ public class StoryDetails extends Activity {
 			btn2.setText(trans.get(1).getName());
 			btn2.setOnClickListener(new OnClickListener() {
 				public void onClick(View v) {  
-					story.applyTransition(trans.get(1));
-					tracker.commitChanges(story);
-					updateView();
+					applyTransition(trans.get(1));
 				}  
 			});
 			btn2.setVisibility(View.VISIBLE);
@@ -225,6 +223,24 @@ public class StoryDetails extends Activity {
 			}  
 		});
 		btn3.setVisibility(View.VISIBLE);
+	}
+	
+	private void applyTransition(final Transition transition) {
+		
+		final Handler handler = QoS.createHandlerShowingMessage(ctx, this, "update complete");
+		setProgressBarIndeterminateVisibility(true);
+		
+		new Thread() { 
+			public void run() { 
+				try {            						
+					story.applyTransition(transition);
+					tracker.commitChanges(story);
+					QoS.sendSuccessMessageToHandler(handler);
+				} catch (RuntimeException e) {
+					QoS.sendErrorMessageToHandler(e, handler);
+				}
+			} 
+		}.start();
 	}
 	
 	private void showEstimateActivity() {
@@ -253,6 +269,9 @@ public class StoryDetails extends Activity {
 	}
 
 	protected Dialog onCreateDialog(int id) {
+	
+		final Handler handler = QoS.createHandlerShowingMessage(ctx, this, "update complete");
+		
 		LayoutInflater factory = LayoutInflater.from(this);
         final View textEntryView = factory.inflate(R.layout.dialog_comment, null);
         return new AlertDialog.Builder(StoryDetails.this)
@@ -261,27 +280,39 @@ public class StoryDetails extends Activity {
             .setView(textEntryView)
             .setPositiveButton("save", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int whichButton) {
-                	EditText edit = (EditText) ((AlertDialog) dialog).findViewById(R.id.commentEdit);
-                	
+                	final EditText edit = (EditText) ((AlertDialog) dialog).findViewById(R.id.commentEdit);
+                	setProgressBarIndeterminateVisibility(true);
                 	if (edit.getText().length() > 0) {
                 		
-                		try {
-                			tracker.addComment(story, edit.getText().toString());
-                			Toast toast = Toast.makeText(getApplicationContext(), "update complete", Toast.LENGTH_SHORT);
-                			toast.show();
-                			updateView();
-                		} catch (RuntimeException e) {
-                			SimpleErrorDialog errordlg = new SimpleErrorDialog("error adding comment: "+e.getMessage(), ctx);
-                			errordlg.show();
-                		}	
+                		new Thread() { 
+            				public void run() { 
+            					try {            						
+            						tracker.addComment(story, edit.getText().toString());
+            						QoS.sendSuccessMessageToHandler(handler);
+            					} catch (RuntimeException e) {
+            						QoS.sendErrorMessageToHandler(e, handler);
+            					}
+            				} 
+            			}.start();
+                	} else {
+                		setProgressBarIndeterminateVisibility(false);
                 	}
                 }
             })
             .setNegativeButton("cancel", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int whichButton) {
-                    // --- do nothing
+                	setProgressBarIndeterminateVisibility(false);
                 }
             })
             .create();
+	}
+
+	public void onERRORFromHandler() {
+		setProgressBarIndeterminateVisibility(false);
+	}
+
+	public void onOKFromHandler() {
+		setProgressBarIndeterminateVisibility(false);
+		updateView();
 	}
 }

@@ -2,14 +2,12 @@ package me.linnemann.ptmobile.pivotaltracker.xml;
 
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.Set;
-
-import android.util.Log;
+import java.util.Map;
 
 import me.linnemann.ptmobile.pivotaltracker.Story;
-import me.linnemann.ptmobile.pivotaltracker.fields.StoryData;
-import me.linnemann.ptmobile.pivotaltracker.value.Estimate;
-import me.linnemann.ptmobile.pivotaltracker.value.StoryType;
+import me.linnemann.ptmobile.pivotaltracker.fields.DBAndXMLTransferable;
+import me.linnemann.ptmobile.pivotaltracker.value.TrackerValue;
+import android.util.Log;
 
 public abstract class StoryCommand extends RESTXMLCommand {
 	
@@ -45,48 +43,15 @@ public abstract class StoryCommand extends RESTXMLCommand {
 	
 	public String getXMLString() {
 		StringBuilder xml = new StringBuilder("<story>");
+		Map<DBAndXMLTransferable,TrackerValue> modified = story.getModifiedData();
 		
-		Set<StoryData> modified = story.getModifiedFields();
-		
-		if (modified.contains(StoryData.LABELS)) {
-			xml.append("<labels>");
-			xml.append(story.getLabels().getValueAsString());
-			xml.append("</labels>");
+		for (DBAndXMLTransferable tranferable : modified.keySet()) {
+			TrackerValue value = modified.get(tranferable);
+			xml.append(tranferable.getXMLWrappedValue(value));
 		}
 
-		if (modified.contains(StoryData.CURRENT_STATE)) {
-			xml.append("<current_state>");
-			xml.append(story.getCurrentState().getValueAsString());
-			xml.append("</current_state>");
-		}
-		
-		if ((modified.contains(StoryData.ESTIMATE)) && (!Estimate.NO_ESTIMATE.equals(story.getEstimate()))) {
-			xml.append("<estimate type=\"integer\">");
-			xml.append(story.getEstimate().getValueAsString());
-			xml.append("</estimate>");
-		}
-		
-		if (modified.contains(StoryData.NAME)) {
-			xml.append("<name>");
-			xml.append(story.getName().getValueAsString());
-			xml.append("</name>");
-		}
-		
-		if (modified.contains(StoryData.DESCRIPTION)) {
-			xml.append("<description>");
-			xml.append(story.getDescription().getValueAsString());
-			xml.append("</description>");
-		}
-		
-		if (modified.contains(StoryData.STORY_TYPE)) {
-			xml.append("<story_type>");
-			xml.append(story.getStoryType().getValueAsString());
-			xml.append("</story_type>");
-		}
-		
 		xml.append("</story>");
-		
-		Log.i("StoryCommand",xml.toString());
+		Log.v("StoryCommand",xml.toString());
 		
 		return xml.toString();
 	}

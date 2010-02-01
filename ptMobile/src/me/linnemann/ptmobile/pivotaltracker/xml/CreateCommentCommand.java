@@ -44,4 +44,9 @@ public class CreateCommentCommand extends RESTXMLCommand {
 		
 		return xml.toString();
 	}
+
+	@Override
+	public String getPUTorPOST() {
+		return "POST";
+	}
 }

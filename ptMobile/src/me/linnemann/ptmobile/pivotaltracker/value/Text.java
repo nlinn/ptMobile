@@ -1,10 +1,10 @@
 package me.linnemann.ptmobile.pivotaltracker.value;
 
-public class StringValue implements TrackerValue{
+public class Text implements TrackerValue{
 
 	private String value;
 	
-	public StringValue(String value) {
+	public Text(String value) {
 		this.value = value;
 	}
 	
@@ -40,12 +40,16 @@ public class StringValue implements TrackerValue{
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		StringValue other = (StringValue) obj;
+		Text other = (Text) obj;
 		if (value == null) {
 			if (other.value != null)
 				return false;
 		} else if (!value.equals(other.value))
 			return false;
 		return true;
+	}
+
+	public static TrackerValue getEmptyValue() {
+		return new Text("");
 	}
 }

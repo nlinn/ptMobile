@@ -9,4 +9,9 @@ public class UpdateStoryCommand extends StoryCommand {
 	public UpdateStoryCommand(Story story) {
 		super(story, URL);
 	}
+	
+	@Override
+	public String getPUTorPOST() {
+		return "PUT";
+	}
 }

@@ -4,16 +4,15 @@ import me.linnemann.ptmobile.R;
 import me.linnemann.ptmobile.cursor.StoriesCursor;
 import me.linnemann.ptmobile.cursor.StoriesCursorImpl;
 import me.linnemann.ptmobile.pivotaltracker.Story;
-import me.linnemann.ptmobile.pivotaltracker.lifecycle.StateWithTransitions;
 import me.linnemann.ptmobile.pivotaltracker.value.Estimate;
 import me.linnemann.ptmobile.pivotaltracker.value.State;
 import me.linnemann.ptmobile.pivotaltracker.value.StoryType;
-import me.linnemann.ptmobile.pivotaltracker.value.StringValue;
+import me.linnemann.ptmobile.pivotaltracker.value.Text;
 import me.linnemann.ptmobile.ui.OutputStyler;
 import android.content.Context;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,7 +30,7 @@ import android.widget.TextView;
  */
 public class StoriesCursorAdapter extends CursorAdapter {
 
-	private static final String TAG = "StoriesCursorAdapter";
+	//private static final String TAG = "StoriesCursorAdapter";
 	
 	public StoriesCursorAdapter(Context context, StoriesCursorImpl c) {
 		super(context, c);
@@ -45,10 +44,10 @@ public class StoriesCursorAdapter extends CursorAdapter {
 		if (view instanceof RelativeLayout) {
 			setName(view, ctx, story);
 			setLabels(view, ctx, story);
-			setTypeImage(view, ctx, story);
+			setStoryTypeIcon(view, ctx, story);
 			setEstimate(view, ctx, story);
 			setDescriptionImage(view,ctx, story);
-			setState(view,ctx, story);
+			setBackground(view,ctx, story);
 			setIteration(view, ctx, story, (StoriesCursor) c);
 			setNextTag(view, ctx, story);
 		}
@@ -76,7 +75,7 @@ public class StoriesCursorAdapter extends CursorAdapter {
 
 	private void setLabels(View view, Context ctx, Story story) {
 		TextView tv = (TextView) view.findViewById(R.id.textLabelsStory);
-		StringValue labels = story.getLabels();
+		Text labels = story.getLabels();
 
 		if (!labels.isEmpty()) {
 			tv.setText(labels.getUIString());
@@ -86,21 +85,34 @@ public class StoriesCursorAdapter extends CursorAdapter {
 		}
 	}
 
+	private void setBackground(View view, Context ctx, Story story) {
+		final State state = story.getCurrentState();
 
-	private void setState(View view, Context ctx, Story story) {
-		State state = story.getCurrentState();
-
-		if (State.STARTED.equals(state)) {
-			view.setBackgroundResource(R.drawable.list_view_selector_feature_started);
+		switch(state) {
+			case STARTED:
+				view.setBackgroundResource(R.drawable.list_view_selector_feature_started);
+				break;
+			case FINISHED:
+				view.setBackgroundResource(R.drawable.list_view_selector_feature_started);
+				break;
+			case DELIVERED:
+				view.setBackgroundResource(R.drawable.list_view_selector_feature_started);
+				break;
+			case ACCEPTED:
+				view.setBackgroundResource(R.drawable.list_view_selector_feature_accepted);
+				break;
+			case UNSCHEDULED:
+				view.setBackgroundResource(R.drawable.list_view_selector_feature_unscheduled);
+				break;
+			default:
+				view.setBackgroundResource(R.drawable.list_view_selector_feature);
 		}
-		if (State.FINISHED.equals(state)) {
-			view.setBackgroundResource(R.drawable.list_view_selector_feature_started);
-		}
-		if (State.DELIVERED.equals(state)) {
-			view.setBackgroundResource(R.drawable.list_view_selector_feature_started);
-		}
-		if (State.ACCEPTED.equals(state)) {
-			view.setBackgroundResource(R.drawable.list_view_selector_feature_accepted);
+		
+		// -- no matter what state, release is always same color
+		if (StoryType.RELEASE.equals(story.getStoryType())) {
+			view.setBackgroundResource(R.drawable.list_view_selector_release);
+			TextView tv = (TextView) view.findViewById(R.id.textNameStory);
+			tv.setTextColor(Color.WHITE);
 		}
 	}
 
@@ -147,6 +159,10 @@ public class StoriesCursorAdapter extends CursorAdapter {
 			if (story.getTransitions().get(0).getName().equals("accept")) {
 				iv.setImageDrawable(ctx.getResources().getDrawable(R.drawable.acceptreject));
 			} 
+			
+			if (story.getTransitions().get(0).getName().equals("restart")) {
+				iv.setImageDrawable(ctx.getResources().getDrawable(R.drawable.restart));
+			} 
 
 		}else {
 			iv.setVisibility(View.INVISIBLE);
@@ -154,31 +170,29 @@ public class StoriesCursorAdapter extends CursorAdapter {
 	}
 
 
-	private void setTypeImage(View view, Context ctx, Story story) {
+	private void setStoryTypeIcon(View view, Context ctx, Story story) {
 		ImageView iv = (ImageView) view.findViewById(R.id.imageTypeStory);
-		StoryType type = story.getStoryType();
+		final StoryType type = story.getStoryType();
 
-		if (StoryType.FEATURE.equals(type)) {
-			iv.setImageDrawable(ctx.getResources().getDrawable(R.drawable.feature));
-			view.setBackgroundResource(R.drawable.list_view_selector_feature);
-		}
-		if (StoryType.CHORE.equals(type)) {
-			iv.setImageDrawable(ctx.getResources().getDrawable(R.drawable.chore_icon));
-			view.setBackgroundResource(R.drawable.list_view_selector_feature);
-		}
-		if (StoryType.BUG.equals(type)) {
-			iv.setImageDrawable(ctx.getResources().getDrawable(R.drawable.bug_icon));
-			view.setBackgroundResource(R.drawable.list_view_selector_feature);
-		}
-		if (StoryType.RELEASE.equals(type)) {
-			iv.setImageDrawable(ctx.getResources().getDrawable(R.drawable.release_icon));
-			view.setBackgroundResource(R.drawable.list_view_selector_release);
-		}
+		switch(type) {
+			case FEATURE:
+				iv.setImageDrawable(ctx.getResources().getDrawable(R.drawable.feature));
+				break;
+			case CHORE:
+				iv.setImageDrawable(ctx.getResources().getDrawable(R.drawable.chore_icon));
+				break;
+			case BUG:
+				iv.setImageDrawable(ctx.getResources().getDrawable(R.drawable.bug_icon));
+				break;
+			case RELEASE:
+				iv.setImageDrawable(ctx.getResources().getDrawable(R.drawable.release_icon));
+				break;
+		}		
 	}
 
 	private void setDescriptionImage(View view, Context ctx, Story story) {
 		ImageView iv = (ImageView) view.findViewById(R.id.imageInfosStory);
-		StringValue description = story.getDescription();
+		Text description = story.getDescription();
 		
 		if (!description.isEmpty()) {
 			iv.setImageDrawable(ctx.getResources().getDrawable(R.drawable.story_flyover_icon));

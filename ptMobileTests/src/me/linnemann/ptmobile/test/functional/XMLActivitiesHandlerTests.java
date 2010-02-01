@@ -3,7 +3,9 @@ package me.linnemann.ptmobile.test.functional;
 import java.util.List;
 
 import me.linnemann.ptmobile.pivotaltracker.fields.ActivityData;
-import me.linnemann.ptmobile.pivotaltracker.xml.XMLActivitiesHandler;
+import me.linnemann.ptmobile.pivotaltracker.xml.XMLActivityListener;
+import me.linnemann.ptmobile.pivotaltracker.xml.XMLStack;
+import me.linnemann.ptmobile.pivotaltracker.xml.XMLStackHandler;
 import me.linnemann.ptmobile.test.pivotaltracker.DBAdapterMock;
 import android.content.ContentValues;
 import android.test.AndroidTestCase;
@@ -13,14 +15,19 @@ public class XMLActivitiesHandlerTests extends AndroidTestCase {
 
 	private static final String TAG = "XMLActivitiesHandlerTests";
 	
-	private XMLActivitiesHandler xah;
+	private XMLStackHandler xah;
 	private DBAdapterMock db;
 	
 	@Override
     protected void setUp() throws Exception {
         super.setUp();
         db = new DBAdapterMock();
-        xah = new XMLActivitiesHandler(db);
+        
+        XMLActivityListener activitiesListener = new XMLActivityListener(db);
+		XMLStack stack = new XMLStack();
+		stack.addListener("activities.activity", activitiesListener);
+        
+        xah = new XMLStackHandler(stack);
     }
 
     @Override
@@ -34,7 +41,7 @@ public class XMLActivitiesHandlerTests extends AndroidTestCase {
 
     	ContentValues cv;
     	
-    	xah.go(XMLActivitiesHandlerTests.class.getResourceAsStream("activitiesResponse.xml"));
+    	xah.parse(XMLActivitiesHandlerTests.class.getResourceAsStream("activitiesResponse.xml"));
     	List<ContentValues> result = db.getContentValuesList();
     	
     	assertTrue(result.size() == 2);	// 2 results expected from demo file

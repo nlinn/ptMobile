@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<stories type="array" count="1" total="1">
+<stories type="array" count="5" total="5" filter="state:unscheduled">
   <story>
     <id type="integer">777190</id>
     <story_type>feature</story_type>
@@ -7,11 +7,82 @@
     <estimate type="integer">5</estimate>
     <current_state>accepted</current_state>
     <description></description>
+    <unexpected>
+    	<id>dont parse this!</id>
+    </unexpected>
     <name>PO can update list of stories via pivotal API</name>
     <requested_by>Niels Linnemann</requested_by>
     <owned_by>Niels Linnemann</owned_by>
     <created_at type="datetime">2009/06/07 11:52:35 UTC</created_at>
     <accepted_at type="datetime">2009/06/07 12:13:35 UTC</accepted_at>
     <labels>view</labels>
+  </story>
+  <story>
+    <id type="integer">2286728</id>
+    <story_type>release</story_type>
+    <url>http://www.pivotaltracker.com/story/show/2286728</url>
+    <current_state>unscheduled</current_state>
+    <description></description>
+    <name>Title</name>
+    <requested_by>Niels Linnemann</requested_by>
+    <created_at type="datetime">2010/01/25 19:06:48 UTC</created_at>
+    <updated_at type="datetime">2010/01/25 19:06:48 UTC</updated_at>
+  </story>
+  <story>
+    <id type="integer">2214098</id>
+    <story_type>feature</story_type>
+    <url>http://www.pivotaltracker.com/story/show/2214098</url>
+    <estimate type="integer">-1</estimate>
+    <current_state>unscheduled</current_state>
+    <description></description>
+    <name>got it :)</name>
+    <requested_by>Niels Linnemann</requested_by>
+    <created_at type="datetime">2010/01/18 08:28:24 UTC</created_at>
+    <updated_at type="datetime">2010/01/18 08:28:24 UTC</updated_at>
+  </story>
+  <story>
+    <id type="integer">2147377</id>
+    <story_type>chore</story_type>
+    <url>http://www.pivotaltracker.com/story/show/2147377</url>
+    <estimate type="integer">-1</estimate>
+    <current_state>unscheduled</current_state>
+    <description>rrefgh</description>
+    <name>Test2</name>
+    <requested_by>Niels Linnemann</requested_by>
+    <owned_by>Niels Linnemann</owned_by>
+    <created_at type="datetime">2010/01/10 17:40:17 UTC</created_at>
+    <updated_at type="datetime">2010/01/17 14:27:34 UTC</updated_at>
+  </story>
+  <story>
+    <id type="integer">1346510</id>
+    <story_type>feature</story_type>
+    <url>http://www.pivotaltracker.com/story/show/1346510</url>
+    <estimate type="integer">-1</estimate>
+    <current_state>unscheduled</current_state>
+    <description>Velocity? Story counts?</description>
+    <name>show extra information in projects list yo yo what</name>
+    <requested_by>Niels Linnemann</requested_by>
+    <created_at type="datetime">2009/09/23 11:49:22 UTC</created_at>
+    <updated_at type="datetime">2010/01/17 14:18:22 UTC</updated_at>
+    <notes type="array">
+      <note>
+        <id type="integer">853025</id>
+        <text>comment number one!</text>
+        <author>Niels Linnemann</author>
+        <noted_at type="datetime">2009/11/18 19:09:15 UTC</noted_at>
+      </note>
+      <note>
+        <id type="integer">853027</id>
+        <text>yo number two</text>
+        <author>Niels Linnemann</author>
+        <noted_at type="datetime">2009/11/18 19:09:26 UTC</noted_at>
+      </note>
+      <note>
+        <id type="integer">920995</id>
+        <text>this is an extra big comment, this is an extra big comment, this is an extra big comment,this is an extra big comment ,this is an extra big comment,this is an extra big comment</text>
+        <author>Niels Linnemann</author>
+        <noted_at type="datetime">2009/12/08 21:14:02 UTC</noted_at>
+      </note>
+    </notes>
   </story>
 </stories>

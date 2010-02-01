@@ -26,14 +26,5 @@
 			android:entries="@array/activityupdate_list_preference" 
 			android:entryValues="@array/activityupdate_list_preference_values"
 			android:dialogTitle="Activity Refresh Interval" />			
-
-  	<PreferenceCategory
-            android:title="Misc" />
-            
-             <CheckBoxPreference
-                android:key="auto_update_velocity"
-                android:title="Auto Update Velocity"
-                android:summary="Update velocity when refreshing project list" />
-
 </PreferenceScreen>
         

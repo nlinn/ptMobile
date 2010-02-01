@@ -7,8 +7,8 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
-import me.linnemann.ptmobile.pivotaltracker.DBAdapter;
 import me.linnemann.ptmobile.pivotaltracker.IncomingData;
+import me.linnemann.ptmobile.pivotaltracker.adapter.DBAdapter;
 
 import org.xml.sax.Attributes;
 import org.xml.sax.InputSource;

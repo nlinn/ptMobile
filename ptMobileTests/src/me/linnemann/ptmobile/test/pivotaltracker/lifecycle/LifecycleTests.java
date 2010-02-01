@@ -18,6 +18,11 @@ public class LifecycleTests extends AndroidTestCase {
 		factory = new LifecycleFactoryImpl();
 	}
 	
+	public void test_feature_rejectedToRestart() {
+		Lifecycle lifecycle = factory.getLifecycle(StoryType.FEATURE);
+		assertFirstTrans(lifecycle,"restart",State.REJECTED);
+	}
+	
 	public void test_feature_unstartedToStart() {
 		Lifecycle lifecycle = factory.getLifecycle(StoryType.FEATURE);
 		assertFirstTrans(lifecycle,"start",State.UNSTARTED);

@@ -4,6 +4,10 @@
 		<id type="integer">1031</id>
 		<project>Sample Project</project>
 		<story>More power to shields</story>
+		<unexpected>
+			<id>what?</id>
+			<story>what the fuck?</story>
+		</unexpected>
 		<description>James Kirk accepted &quot;More power to shields&quot;</description>
 		<author>James Kirk</author>
 		<when>06/01/2009 08:22 AM</when>

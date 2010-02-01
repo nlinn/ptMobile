@@ -1,21 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 	<string name="app_name">ptMobile</string>
-	<string name="welcome">Welcome to ptMobile. Getting started:\n\nOn the
-		pivotaltracker Website:\n\n1) Go to
-		\"My Profile\" and create an
-		API-Token (don\'t worry, you don\'t need to
-		type it on your
-		mobile)\n\n2) Make sure that the projects you
-		want to access from
-		ptMobile have API access enabled\n\nIn ptMobile:\n\n
-		3) Press \"Menu\"
-		>>
-		\"Preferences\" and fetch and save your API-Token using your
-		pivotaltracker
-		username and password.\n\nHave fun.
-	</string>
-
 	<string name="about_headline">
 		ptMobile v$VERSION$
 	</string>

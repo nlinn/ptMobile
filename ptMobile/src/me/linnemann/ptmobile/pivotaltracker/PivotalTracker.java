@@ -4,9 +4,11 @@ import me.linnemann.ptmobile.cursor.ActivitiesCursor;
 import me.linnemann.ptmobile.cursor.IterationCursor;
 import me.linnemann.ptmobile.cursor.ProjectsCursor;
 import me.linnemann.ptmobile.cursor.StoriesCursorImpl;
+import me.linnemann.ptmobile.pivotaltracker.adapter.APIAdapterImpl;
+import me.linnemann.ptmobile.pivotaltracker.adapter.DBAdapter;
+import me.linnemann.ptmobile.pivotaltracker.adapter.DBAdapterImpl;
+import me.linnemann.ptmobile.pivotaltracker.adapter.PivotalAPI;
 import android.content.Context;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 
 /**
  * PivotalTracker is coping with the pivotal API and storage, so
@@ -18,15 +20,13 @@ import android.preference.PreferenceManager;
 public class PivotalTracker {
 
 	private DBAdapter db;
-	private APIAdapter api;
-	private Context ctx;
+	private PivotalAPI api;
 
 	public PivotalTracker(Context ctx) {
-		this.ctx = ctx;
-		// initialize api an db helpers
 		db = new DBAdapterImpl(ctx);
-		db.open();
-		api = new APIAdapter(ctx,db);
+		
+		APIAdapterImpl adapter = new APIAdapterImpl(ctx);
+		api = new PivotalAPI(ctx,db,adapter);
 	}
 
 	public void pause() {
@@ -57,12 +57,8 @@ public class PivotalTracker {
 		return db.getStory(story_id);
 	}
 
-	public ProjectsCursor getProject(Integer project_id) {
+	public Project getProject(Integer project_id) {
 		return db.getProject(project_id);
-	}
-
-	public int getVelocityForProject(Integer project_id) {
-		return db.getVelocityForProject(project_id);
 	}
 
 	public void updateStoriesForProject(Integer project_id, String iteration_group) {
@@ -81,30 +77,12 @@ public class PivotalTracker {
 		return db.activitiesNeedUpdate();
 	}
 
-	public boolean updateProjects() {
-
-		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(ctx);
-		boolean success = api.readProjects();
-
-		// --- refresh all "done" stories to calculate velocity
-		if (success && settings.getBoolean("auto_update_velocity", false)) {
-			ProjectsCursor pc = db.getProjectsCursor();
-			try {	
-				if (pc.moveToFirst()) {
-					do {
-						api.readStories(pc.getId(),"done");
-					} while (pc.moveToNext());
-				}
-			} finally {
-				pc.close();
-			}
-		}
-
-		return success;
+	public void updateProjects() {
+		api.readProjects();
 	}
 
-	public boolean updateActivities() {
-		return api.readActivities();
+	public void updateActivities() {
+		api.readActivities();
 	}
 
 	public Integer getProjectIdByName(String project_name) {
@@ -114,7 +92,7 @@ public class PivotalTracker {
 	public void commitChanges(Story story) {
 		
 		if (story.getId().isEmpty()) {
-			if (story.getModifiedFields().size() > 0) {
+			if (story.getModifiedData().size() > 0) {
 				api.createStory(story);	
 			
 				// i tried to refresh icebox directly after creating story like this:
@@ -125,15 +103,15 @@ public class PivotalTracker {
 				db.wipeUpdateTimestamp(story.getProjectId().getValue(), "icebox");
 			}	
 		} else {
-			if (story.getModifiedFields().size() > 0) {
+			if (story.getModifiedData().size() > 0) {
 				db.updateStory(story);
 				api.updateStory(story);
 			}
 		}
 	}
 
-	public boolean addComment(Story story, String comment) {
-		return api.createComment(story, comment);
+	public void addComment(Story story, String comment) {
+		api.createComment(story, comment);
 	}
 
 	public void flush() {
@@ -147,7 +125,7 @@ public class PivotalTracker {
 	public Story getEmptyStoryForProject(Integer project_id) {
 		Story story = new StoryImpl();
 		story.changeProjectId(project_id);
-		story.resetModifiedFieldsTracking();
+		story.resetModifiedDataTracking();
 		return story;
 	}
 }

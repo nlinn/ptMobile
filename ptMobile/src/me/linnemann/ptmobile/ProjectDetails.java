@@ -1,7 +1,7 @@
 package me.linnemann.ptmobile;
 
-import me.linnemann.ptmobile.cursor.ProjectsCursor;
 import me.linnemann.ptmobile.pivotaltracker.PivotalTracker;
+import me.linnemann.ptmobile.pivotaltracker.Project;
 import me.linnemann.ptmobile.ui.OutputStyler;
 import android.app.Activity;
 import android.os.Bundle;
@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 public class ProjectDetails extends Activity {
 
-	private ProjectsCursor c;
+	private Project project;
 	private PivotalTracker tracker;
 	
 	@Override
@@ -24,29 +24,24 @@ public class ProjectDetails extends Activity {
 		Log.i("ProjectDetails","called for project: "+project_id);
 		
 		tracker = new PivotalTracker(this);
-		c = tracker.getProject(project_id);
+		project = tracker.getProject(project_id);
 		
-		tracker.updateStoriesForProject(project_id, "done"); // --- update done stories for velocity
-		
-
-		findTextView(R.id.textNamePD).setText(c.getName());
-		findTextView(R.id.textIterationLengthPD).setText(OutputStyler.getIterationLengthAsText(c));
-		findTextView(R.id.textWeekStartDayPD).setText(c.getWeekStartDay());
-		findTextView(R.id.textPointScalePD).setText(c.getPointScale());
-		findTextView(R.id.textVelocityPD).setText(OutputStyler.getVelocityAsText(tracker.getVelocityForProject(project_id)));
+		findTextView(R.id.textNamePD).setText(project.getName().getUIString());
+		findTextView(R.id.textIterationLengthPD).setText(OutputStyler.getIterationLengthAsText(project));
+		findTextView(R.id.textWeekStartDayPD).setText(project.getWeekStartDay().getUIString());
+		findTextView(R.id.textPointScalePD).setText(project.getPointScale().getUIString());
+		findTextView(R.id.textVelocityPD).setText(OutputStyler.getVelocityAsText(project));
 	}
 	
 	@Override
 	public void onStop() {
 		super.onStop();
-		if (c !=null) c.close();
 		if (this.tracker != null) this.tracker.pause();
 	}
 	
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
-		if (c !=null) c.close();
 		if (this.tracker != null) this.tracker.pause();
 	}
 	

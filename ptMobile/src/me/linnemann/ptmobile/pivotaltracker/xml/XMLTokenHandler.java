@@ -4,15 +4,26 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
 
+import org.xml.sax.Attributes;
+import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
+import org.xml.sax.XMLReader;
+import org.xml.sax.helpers.DefaultHandler;
 
-public class XMLTokenHandler extends XMLBaseHandler {
+import android.util.Log;
 
-	StringBuilder token = new StringBuilder();
+public class XMLTokenHandler extends DefaultHandler {
+
+	private static final String TAG = "XMLTokenHandler";
 	
-	public XMLTokenHandler() {
-		super(null);
+	private StringBuilder token = new StringBuilder();
+	private String currentElementName="";
+		
+	public void startElement(String uri, String name, String qName, Attributes attr) {
+		currentElementName = name.trim();
 	}
 	
 	public void endElement(String uri, String name, String qName) throws SAXException {
@@ -28,11 +39,32 @@ public class XMLTokenHandler extends XMLBaseHandler {
 		}
     }
 	
-	
-	public String getToken(InputStream in) throws IOException, ParserConfigurationException, SAXException {
-		
-		go(in);
-		return token.toString();
+	public String getTokenAndClose(InputStream in) {
+		try {
+			parse(in);
+			in.close();
+			return token.toString();
+		} catch (ParserConfigurationException e) {
+			Log.e(TAG,"ParserConfigurationException "+e.getMessage());
+			throw new RuntimeException("ParserConfigurationException "+e.getMessage(),e);
+		} catch (SAXException e) {
+			Log.e(TAG,"SAXException "+e.getMessage());
+			throw new RuntimeException("SAXException "+e.getMessage(),e);
+		} catch (IOException e) {
+			Log.e(TAG,"IOException "+e.getMessage());
+			throw new RuntimeException("IOException "+e.getMessage(),e);
+		}
 	}
 	
+	private void parse(InputStream in) throws ParserConfigurationException, SAXException, IOException {
+		SAXParserFactory spf = SAXParserFactory.newInstance();
+		SAXParser sp;
+
+		sp = spf.newSAXParser();
+		XMLReader xr = sp.getXMLReader();
+		xr.setContentHandler(this);
+		InputSource is = new InputSource(in);	        
+		xr.parse(is);
+
+	}
 }

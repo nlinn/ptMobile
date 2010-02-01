@@ -10,4 +10,6 @@ public abstract class RESTXMLCommand {
 	public byte[] getXMLBytes() {
 		return getXMLString().getBytes();
 	}
+	
+	public abstract String getPUTorPOST();
 }

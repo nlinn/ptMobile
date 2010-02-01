@@ -1,15 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-     
-     <color name="color_text">#222</color>
-     <color name="color_background">#fff</color>
-     <color name="color_started">#fff8dc</color>
-     <color name="color_accepted">#d4ffd3</color>
-     <color name="color_release">#aed9ff</color>
-     <color name="color_labels">#005e04</color>
-     <color name="color_iteration_bg">#AAA</color>
+
+	<color name="color_text">#222</color>
+	
+	<color name="color_background">#fff</color>
+	<color name="color_background_selected">#ebebeb</color>
+	
+	<color name="color_started">#fff8dc</color>
+	<color name="color_started_selected">#fff0b4</color>
+	
+	<color name="color_accepted">#d4ffd3</color>
+	<color name="color_accepted_selected">#acf7ac</color>
+	
+	<!--  <color name="color_release">#aed9ff</color>-->
+	<color name="color_release">#407aa5</color>
+	<color name="color_release_selected">#106096</color>
+	
+	<color name="color_unscheduled">#e7f3fa</color>
+	<color name="color_unscheduled_selected">#b1daf1</color>
+	
+	<color name="color_labels">#005e04</color>
+	<color name="color_iteration_bg">#666</color>
 	<color name="color_iteration">#fff</color>
 	<color name="color_selector">#ff8000</color>
-	 <color name="color_buttonbar_bg">#AAA</color>
+	<color name="color_buttonbar_bg">#AAA</color>
 	
 </resources>

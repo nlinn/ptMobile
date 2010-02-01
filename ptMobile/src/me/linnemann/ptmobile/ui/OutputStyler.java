@@ -6,12 +6,11 @@ import java.util.Calendar;
 import java.util.Locale;
 import java.util.TimeZone;
 
-import android.util.Log;
-
 import me.linnemann.ptmobile.cursor.IterationCursor;
-import me.linnemann.ptmobile.cursor.ProjectsCursor;
 import me.linnemann.ptmobile.cursor.StoriesCursor;
+import me.linnemann.ptmobile.pivotaltracker.Project;
 import me.linnemann.ptmobile.pivotaltracker.Story;
+import android.util.Log;
 
 public class OutputStyler {
 
@@ -31,10 +30,13 @@ public class OutputStyler {
 
 	public static String getIterationAsText(StoriesCursor c) {
 		
-		if (c.getIterationNumber() == null) return "";
+		Story story = c.getStory();
+		Integer iterationNumber = story.getIterationNumber().getValue();
+		
+		if (iterationNumber == null) return "";
 		
 		StringBuilder s = new StringBuilder();
-		s.append(c.getIterationNumber());
+		s.append(iterationNumber);
 		s.append(" |  ");
 		try {
 			s.append(out.format(from_db.parse(c.getIterationStart())));
@@ -66,14 +68,15 @@ public class OutputStyler {
 		return s.toString();
 	}
 	
-	public static String getIterationLengthAsText(ProjectsCursor c) {
+	public static String getIterationLengthAsText(Project project) {
 
 		String s = "";
-
-		if (c.getIterationLength().equals("1")) {
-			s= c.getIterationLength()+" week";
+		String iterationLength = project.getIterationLength().getValueAsString();
+		
+		if (iterationLength.equals("1")) {
+			s= iterationLength+" week";
 		} else {
-			s= c.getIterationLength()+" weeks";
+			s= iterationLength+" weeks";
 		}
 
 		return s;
@@ -85,11 +88,12 @@ public class OutputStyler {
 	}
 	
 	
-	public static String getVelocityAsText(int v) {
+	public static String getVelocityAsText(Project project) {
 
 		String s = "";
-
-		if (v < 1) {
+		Integer v = project.getCurrentVelocity().getValue();
+		
+		if ((v == null) || (v < 1)) {
 			s= s+" n/a";
 		} else if (v == 1) {
 			s= s+"1 point";

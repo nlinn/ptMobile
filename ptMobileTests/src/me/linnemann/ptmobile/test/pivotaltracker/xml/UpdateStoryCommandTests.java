@@ -42,7 +42,7 @@ public class UpdateStoryCommandTests extends AndroidTestCase {
 	public void test_changedEstimate_resultsInXML() {
 		String expectedXML = "<story><estimate type=\"integer\">8</estimate></story>";
 		story.changeStoryType(StoryType.FEATURE);
-		story.resetModifiedFieldsTracking();
+		story.resetModifiedDataTracking();
 		story.changeEstimate(Estimate.POINTS_8);
 		UpdateStoryCommand usc = new UpdateStoryCommand(story);
 		assertEquals(expectedXML, usc.getXMLString());
@@ -51,7 +51,7 @@ public class UpdateStoryCommandTests extends AndroidTestCase {
 	public void test_changedEstimateToNoEstimate_notInXML() {
 		String expectedXML = "<story></story>";
 		story.changeStoryType(StoryType.FEATURE);
-		story.resetModifiedFieldsTracking();
+		story.resetModifiedDataTracking();
 		story.changeEstimate(Estimate.NO_ESTIMATE);
 		UpdateStoryCommand usc = new UpdateStoryCommand(story);
 		assertEquals(expectedXML, usc.getXMLString());

@@ -2,7 +2,12 @@ package me.linnemann.ptmobile.pivotaltracker.fields;
 
 public enum ActivityData {
 
-	ID("id"), PROJECT("project"), STORY("story"), DESCRIPTION("description"), AUTHOR("author"), WHEN("_when");
+	ID("id"), 
+	PROJECT("project"), 
+	STORY("story"), 
+	DESCRIPTION("description"), 
+	AUTHOR("author"), 
+	WHEN("_when");
 	
 	private final String db_field;
 	

@@ -26,16 +26,24 @@ public final class R {
     public static final class attr {
     }
     public static final class color {
-        public static final int color_accepted=0x7f070003;
+        public static final int color_accepted=0x7f070005;
+        public static final int color_accepted_selected=0x7f070006;
         public static final int color_background=0x7f070001;
-        public static final int color_buttonbar_bg=0x7f070009;
-        public static final int color_iteration=0x7f070007;
-        public static final int color_iteration_bg=0x7f070006;
-        public static final int color_labels=0x7f070005;
-        public static final int color_release=0x7f070004;
-        public static final int color_selector=0x7f070008;
-        public static final int color_started=0x7f070002;
+        public static final int color_background_selected=0x7f070002;
+        public static final int color_buttonbar_bg=0x7f07000f;
+        public static final int color_iteration=0x7f07000d;
+        public static final int color_iteration_bg=0x7f07000c;
+        public static final int color_labels=0x7f07000b;
+        /**   <color name="color_release">#aed9ff</color>
+         */
+        public static final int color_release=0x7f070007;
+        public static final int color_release_selected=0x7f070008;
+        public static final int color_selector=0x7f07000e;
+        public static final int color_started=0x7f070003;
+        public static final int color_started_selected=0x7f070004;
         public static final int color_text=0x7f070000;
+        public static final int color_unscheduled=0x7f070009;
+        public static final int color_unscheduled_selected=0x7f07000a;
     }
     public static final class drawable {
         public static final int acceptreject=0x7f020000;
@@ -50,22 +58,27 @@ public final class R {
         public static final int list_view_selector_feature=0x7f020009;
         public static final int list_view_selector_feature_accepted=0x7f02000a;
         public static final int list_view_selector_feature_started=0x7f02000b;
-        public static final int list_view_selector_release=0x7f02000c;
-        public static final int list_view_selector_shape_longpress=0x7f02000d;
-        public static final int list_view_selector_shape_tr=0x7f02000e;
-        public static final int lv_selector_shape=0x7f02000f;
-        public static final int lv_selector_shape_release=0x7f020010;
-        public static final int points0=0x7f020011;
-        public static final int points1=0x7f020012;
-        public static final int points2=0x7f020013;
-        public static final int points3=0x7f020014;
-        public static final int points4=0x7f020015;
-        public static final int points5=0x7f020016;
-        public static final int points8=0x7f020017;
-        public static final int pointsnoestimate=0x7f020018;
-        public static final int release_icon=0x7f020019;
-        public static final int start=0x7f02001a;
-        public static final int story_flyover_icon=0x7f02001b;
+        public static final int list_view_selector_feature_unscheduled=0x7f02000c;
+        public static final int list_view_selector_release=0x7f02000d;
+        public static final int list_view_selector_shape_longpress=0x7f02000e;
+        public static final int list_view_selector_shape_tr=0x7f02000f;
+        public static final int lv_selector_shape=0x7f020010;
+        public static final int lv_selector_shape_accepted=0x7f020011;
+        public static final int lv_selector_shape_release=0x7f020012;
+        public static final int lv_selector_shape_started=0x7f020013;
+        public static final int lv_selector_shape_unscheduled=0x7f020014;
+        public static final int points0=0x7f020015;
+        public static final int points1=0x7f020016;
+        public static final int points2=0x7f020017;
+        public static final int points3=0x7f020018;
+        public static final int points4=0x7f020019;
+        public static final int points5=0x7f02001a;
+        public static final int points8=0x7f02001b;
+        public static final int pointsnoestimate=0x7f02001c;
+        public static final int release_icon=0x7f02001d;
+        public static final int restart=0x7f02001e;
+        public static final int start=0x7f02001f;
+        public static final int story_flyover_icon=0x7f020020;
     }
     public static final class id {
         public static final int ButtonEstimate0=0x7f080009;
@@ -159,22 +172,21 @@ public final class R {
         public static final int storytabs=0x7f030010;
     }
     public static final class string {
-        public static final int about=0x7f060003;
-        public static final int about_headline=0x7f060002;
+        public static final int about=0x7f060002;
+        public static final int about_headline=0x7f060001;
         public static final int app_name=0x7f060000;
-        public static final int empty_list=0x7f060005;
-        public static final int menu_about=0x7f060007;
-        public static final int menu_add_story=0x7f060008;
-        public static final int menu_editstory=0x7f06000a;
-        public static final int menu_header_project=0x7f06000e;
-        public static final int menu_prefs=0x7f06000f;
-        public static final int menu_refesh=0x7f060006;
-        public static final int menu_showprojectdetails=0x7f06000b;
-        public static final int menu_showstories=0x7f060009;
-        public static final int menu_showstorydetails=0x7f06000c;
-        public static final int menu_storynextstate=0x7f06000d;
-        public static final int thanks=0x7f060004;
-        public static final int welcome=0x7f060001;
+        public static final int empty_list=0x7f060004;
+        public static final int menu_about=0x7f060006;
+        public static final int menu_add_story=0x7f060007;
+        public static final int menu_editstory=0x7f060009;
+        public static final int menu_header_project=0x7f06000d;
+        public static final int menu_prefs=0x7f06000e;
+        public static final int menu_refesh=0x7f060005;
+        public static final int menu_showprojectdetails=0x7f06000a;
+        public static final int menu_showstories=0x7f060008;
+        public static final int menu_showstorydetails=0x7f06000b;
+        public static final int menu_storynextstate=0x7f06000c;
+        public static final int thanks=0x7f060003;
     }
     public static final class xml {
         public static final int preferences=0x7f040000;

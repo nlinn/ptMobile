@@ -1,47 +1,31 @@
 package me.linnemann.ptmobile.pivotaltracker;
 
 import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Set;
+import java.util.Map;
 
-import android.util.Log;
-
+import me.linnemann.ptmobile.pivotaltracker.fields.DBAndXMLTransferable;
 import me.linnemann.ptmobile.pivotaltracker.fields.StoryData;
 import me.linnemann.ptmobile.pivotaltracker.lifecycle.Lifecycle;
 import me.linnemann.ptmobile.pivotaltracker.lifecycle.LifecycleFactoryImpl;
 import me.linnemann.ptmobile.pivotaltracker.lifecycle.Transition;
 import me.linnemann.ptmobile.pivotaltracker.value.Estimate;
-import me.linnemann.ptmobile.pivotaltracker.value.IntegerValue;
+import me.linnemann.ptmobile.pivotaltracker.value.Numeric;
 import me.linnemann.ptmobile.pivotaltracker.value.State;
 import me.linnemann.ptmobile.pivotaltracker.value.StoryType;
-import me.linnemann.ptmobile.pivotaltracker.value.StringValue;
+import me.linnemann.ptmobile.pivotaltracker.value.Text;
+import me.linnemann.ptmobile.pivotaltracker.value.TrackerValue;
 
 public class StoryImpl implements Story {
 
 	@SuppressWarnings("unused")
 	private static final String TAG = "StoryImpl";
 
-	private Set<StoryData> modifiedFields;
-	private State state;
-	private StoryType type;
-	private Estimate estimate;
-	private String name;
-	private Integer id;
-	private Integer projectId;
-	private String description;
-	private String labels;
-	private String acceptedAt;
-	private String createdAt;
-	private String ownedBy;
-	private String requestedBy;
-	private String deadline;
-	private Integer iterationNumber;
-	private String iterationGroup;
-	private Integer position;
+	private Map<DBAndXMLTransferable, TrackerValue> modifiedData;
+	private Map<StoryData, TrackerValue> data;
 
 	public static Story buildInstance(StoryBuilder builder) {
-		builder.construct();
 		return builder.getStory();
 	}
 
@@ -50,111 +34,127 @@ public class StoryImpl implements Story {
 	}
 
 	public StoryImpl(StoryType type) {
-		state = State.UNSCHEDULED;
-		estimate = Estimate.NO_ESTIMATE;
-		modifiedFields = new HashSet<StoryData>();	
+		modifiedData = new HashMap<DBAndXMLTransferable, TrackerValue>();
+		data = new HashMap<StoryData, TrackerValue>();
+		initStoryData();
 		changeStoryType(type);
-		resetModifiedFieldsTracking();
+		resetModifiedDataTracking();
 	}
 
+	private void initStoryData() {
+		data.put(StoryData.CURRENT_STATE, State.UNSCHEDULED);
+		data.put(StoryData.ESTIMATE, Estimate.NO_ESTIMATE);
+		data.put(StoryData.ITERATION_NUMBER, Numeric.getEmptyValue());
+		data.put(StoryData.ID, Numeric.getEmptyValue());
+		data.put(StoryData.DESCRIPTION, Text.getEmptyValue());
+		data.put(StoryData.LABELS, Text.getEmptyValue());
+		data.put(StoryData.ACCEPTED_AT, Text.getEmptyValue());
+		data.put(StoryData.REQUESTED_BY, Text.getEmptyValue());
+		data.put(StoryData.OWNED_BY, Text.getEmptyValue());
+		data.put(StoryData.DEADLINE, Text.getEmptyValue());
+		data.put(StoryData.NAME, Text.getEmptyValue());
+		data.put(StoryData.ITERATION_GROUP, Text.getEmptyValue());
+		data.put(StoryData.POSITION, Numeric.getEmptyValue());
+		data.put(StoryData.PROJECT_ID, Numeric.getEmptyValue());
+	}
+	
 	public StoryType getStoryType() {
-		return type;
+		return (StoryType) data.get(StoryData.STORY_TYPE);
 	}
 
 	public void changeStoryType(StoryType type) {
 
-		modifiedFields.add(StoryData.STORY_TYPE);
+		modifiedData.put(StoryData.STORY_TYPE,type);
+		StoryType oldType = getStoryType();
 		
-		if (!type.equals(this.type)) { // really changed?
-			this.type = type;
+		if (!type.equals(oldType)) { // really changed?
+			data.put(StoryData.STORY_TYPE, type);
+			final Estimate estimate = getEstimate();
+			
 			if (type.equals(StoryType.FEATURE)) {
 				if (Estimate.NO_ESTIMATE.equals(estimate)) {
-					estimate =Estimate.UNESTIMATED;
+					data.put(StoryData.ESTIMATE, Estimate.UNESTIMATED);
 				}
 			}  else {
-				estimate =Estimate.NO_ESTIMATE;
+				data.put(StoryData.ESTIMATE, Estimate.NO_ESTIMATE);
 			}
 		}
 	}
 
 	public void changeName(String name) {
-		if (!name.equals(this.name)) {
-			this.name = name;
-			modifiedFields.add(StoryData.NAME);
-		}
+		putDataAndModified(StoryData.NAME, new Text(name));
 	}
 
-	public StringValue getName() {
-		return new StringValue(name);
+	public Text getName() {
+		return (Text) data.get(StoryData.NAME);
 	}
 
 	public void changeDescription(String description) {
-		if (!description.equals(this.description)) {
-			this.description = description;
-			modifiedFields.add(StoryData.DESCRIPTION);
-		}
+		putDataAndModified(StoryData.DESCRIPTION, new Text(description));
 	}
 
-	public StringValue getDescription() {
-		return new StringValue(description);
+	public Text getDescription() {
+		return (Text) data.get(StoryData.DESCRIPTION);
 	}
 
 	public void changeLabels(String labels) {
-		if ((labels != null) && (!labels.equals(this.labels))) {
-			this.labels = labels;
-			modifiedFields.add(StoryData.LABELS);
+		Text newlabels = new Text(labels);
+		Text oldlabels = getLabels();
+		
+		if ((newlabels != null) && (!newlabels.equals(oldlabels))) {
+			putDataAndModified(StoryData.LABELS, newlabels);
 		}
 	}
 
-	public StringValue getLabels() {
-		return new StringValue(labels);
+	public Text getLabels() {
+		return (Text) data.get(StoryData.LABELS);
 	}
 
 	public Lifecycle getLifecycle() {
-		return LifecycleFactoryImpl.getLifecycleForType(type);
+		return LifecycleFactoryImpl.getLifecycleForType(getStoryType());
 	}
 
-	public Set<StoryData> getModifiedFields() {
-		return modifiedFields;
+	public Map<DBAndXMLTransferable, TrackerValue> getModifiedData() {
+		removeEstimateFromModifiedDataIfNO_ESTIMATE();
+		return modifiedData;
 	}
 
-	public void resetModifiedFieldsTracking() {
-		modifiedFields.clear();
+	private void removeEstimateFromModifiedDataIfNO_ESTIMATE() {
+		if (Estimate.NO_ESTIMATE.equals(getEstimate())) {
+			modifiedData.remove(StoryData.ESTIMATE);
+		}		
+	}
+	
+	public void resetModifiedDataTracking() {
+		modifiedData.clear();
 	}
 
 	public void changeEstimate(Estimate estimate) {
-		this.estimate = estimate;
-		modifiedFields.add(StoryData.ESTIMATE);
+		putDataAndModified(StoryData.ESTIMATE, estimate);
 	}
 
 	public Estimate getEstimate() {		
-		return estimate;
+		return (Estimate) data.get(StoryData.ESTIMATE);
 	}
 
 	public void changeId(Integer id) {
-		if (!id.equals(this.id)) {
-			this.id = id;
-			modifiedFields.add(StoryData.ID);
-		}
+		putDataAndModified(StoryData.ID, new Numeric(id));
 	}
 
-	public IntegerValue getId() {
-		return new IntegerValue(id);
+	public Numeric getId() {
+		return (Numeric) data.get(StoryData.ID);
 	}
 
 	public void changeProjectId(Integer projectId) {
-		if (!projectId.equals(this.projectId)) {
-			this.projectId = projectId;
-			modifiedFields.add(StoryData.PROJECT_ID);
-		}
+		putDataAndModified(StoryData.PROJECT_ID, new Numeric(projectId));
 	}
 
-	public IntegerValue getProjectId() {
-		return new IntegerValue(projectId);
+	public Numeric getProjectId() {
+		return (Numeric) data.get(StoryData.PROJECT_ID);
 	}
 
 	public State getCurrentState() {
-		return state;
+		return (State) data.get(StoryData.CURRENT_STATE);
 	}
 
 
@@ -163,98 +163,105 @@ public class StoryImpl implements Story {
 	 * @return
 	 */
 	public boolean needsEstimate() {
-		return (StoryType.FEATURE.equals(this.type) && (Estimate.UNESTIMATED.equals(estimate)));
+		Estimate estimate = getEstimate();
+		StoryType type = getStoryType();
+		return (StoryType.FEATURE.equals(type) && (Estimate.UNESTIMATED.equals(estimate)));
 	}
 
 	public void changeAcceptedAt(String acceptedAt) {
-		this.acceptedAt = acceptedAt;
-		modifiedFields.add(StoryData.ACCEPTED_AT);
+		putDataAndModified(StoryData.ACCEPTED_AT, new Text(acceptedAt));
 	}
 
 	public void changeCreatedAt(String createdAt) {
-		this.createdAt = createdAt;
-		modifiedFields.add(StoryData.CREATED_AT);
+		putDataAndModified(StoryData.CREATED_AT, new Text(createdAt));
 	}
 
 	public void changeCurrentState(State state) {
-		this.state = state;
-		modifiedFields.add(StoryData.CURRENT_STATE);
+		putDataAndModified(StoryData.CURRENT_STATE, state);
 	}
 
 	public void changeDeadline(String deadline) {
-		this.deadline = deadline;
-		modifiedFields.add(StoryData.DEADLINE);
+		putDataAndModified(StoryData.DEADLINE, new Text(deadline));
 	}
 
 	public void changeIterationGroup(String iterationGroup) {
-		this.iterationGroup = iterationGroup;
-		modifiedFields.add(StoryData.ITERATION_GROUP);		
+		putDataAndModified(StoryData.ITERATION_GROUP, new Text(iterationGroup));
 	}
 
 	public void changeIterationNumber(Integer iterationNumber) {
-		this.iterationNumber = iterationNumber;
-		modifiedFields.add(StoryData.ITERATION_NUMBER);
+		putDataAndModified(StoryData.ITERATION_NUMBER, new Numeric(iterationNumber));
 	}
 
 	public void changeOwnedBy(String ownedBy) {
-		this.ownedBy = ownedBy;
-		modifiedFields.add(StoryData.OWNED_BY);
+		putDataAndModified(StoryData.OWNED_BY, new Text(ownedBy));
 	}
 
 	public void changeRequestedBy(String requestedBy) {
-		this.requestedBy = requestedBy;
-		modifiedFields.add(StoryData.REQUESTED_BY);
+		putDataAndModified(StoryData.REQUESTED_BY, new Text(requestedBy));
 	}
 
 	public void changePosition(Integer position) {
-		this.position = position;
-		modifiedFields.add(StoryData.POSITION);
+		putDataAndModified(StoryData.POSITION, new Numeric(position));
 	}
 
-	public IntegerValue getPosition() {
-		return new IntegerValue(position);
+	public Numeric getPosition() {
+		return (Numeric) data.get(StoryData.POSITION);
 	}
 
 	public boolean isFirstInIteration() {
-		return ((this.position != null) && (this.position == 1));
+		Numeric position = getPosition();
+		return ((!position.isEmpty()) && (position.getValue() == 1));
 	}
 
-	public StringValue getAcceptedAt() {
-		return new StringValue(acceptedAt);
+	public Text getAcceptedAt() {
+		return (Text) data.get(StoryData.ACCEPTED_AT);
 	}
 
-	public StringValue getCreatedAt() {
-		return new StringValue(createdAt);
+	public Text getCreatedAt() {
+		return (Text) data.get(StoryData.CREATED_AT);
 	}
 
-	public StringValue getDeadline() {
-		return new StringValue(deadline);
+	public Text getDeadline() {
+		return (Text) data.get(StoryData.DEADLINE);
 	}
 
-	public StringValue getIterationGroup() {
-		return new StringValue(iterationGroup);
+	public Text getIterationGroup() {
+		return (Text) data.get(StoryData.ITERATION_GROUP);
 	}
 
-	public IntegerValue getIterationNumber() {
-		return new IntegerValue(iterationNumber);
+	public Numeric getIterationNumber() {
+		return (Numeric) data.get(StoryData.ITERATION_NUMBER);
 	}
 
-	public StringValue getOwnedBy() {
-		return new StringValue(ownedBy);
+	public Text getOwnedBy() {
+		return (Text) data.get(StoryData.OWNED_BY);
 	}
 
-	public StringValue getRequestedBy() {
-		return new StringValue(requestedBy);
+	public Text getRequestedBy() {
+		return (Text) data.get(StoryData.REQUESTED_BY);
 	}
 
 	public void applyTransition(Transition trans) {
-		changeCurrentState(trans.resultingState().getState());
+		changeCurrentState(trans.getResultingState());
 	}
 
 	public List<Transition> getTransitions() {
 		if (needsEstimate())
 			return new ArrayList<Transition>();
 		else
-			return getLifecycle().getAvailableTransitions(state);
+			return getLifecycle().getAvailableTransitions(getCurrentState());
 	}	
+	
+	private void putDataAndModified(StoryData key, TrackerValue value) {
+		TrackerValue oldValue = data.put(key, value);
+
+		// --- put into modified, only if data has really changed
+		if ((oldValue == null) || (!oldValue.equals(value))) {
+			modifiedData.put(key, value);
+		}
+	}
+
+	public Map<StoryData, TrackerValue> getData() {
+		return data;
+	}
 }

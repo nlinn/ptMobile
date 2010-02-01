@@ -1,28 +1,30 @@
 package me.linnemann.ptmobile.pivotaltracker;
 
 import java.util.List;
-import java.util.Set;
+import java.util.Map;
 
+import me.linnemann.ptmobile.pivotaltracker.fields.DBAndXMLTransferable;
 import me.linnemann.ptmobile.pivotaltracker.fields.StoryData;
 import me.linnemann.ptmobile.pivotaltracker.lifecycle.Transition;
 import me.linnemann.ptmobile.pivotaltracker.value.Estimate;
-import me.linnemann.ptmobile.pivotaltracker.value.IntegerValue;
+import me.linnemann.ptmobile.pivotaltracker.value.Numeric;
 import me.linnemann.ptmobile.pivotaltracker.value.State;
 import me.linnemann.ptmobile.pivotaltracker.value.StoryType;
-import me.linnemann.ptmobile.pivotaltracker.value.StringValue;
+import me.linnemann.ptmobile.pivotaltracker.value.Text;
+import me.linnemann.ptmobile.pivotaltracker.value.TrackerValue;
 
 public interface Story {
 
-	public IntegerValue getId();
+	public Numeric getId();
 	public void changeId(Integer id);
 
-	public IntegerValue getProjectId();
+	public Numeric getProjectId();
 	public void changeProjectId(Integer projectId);
 	
-	public StringValue getName();
+	public Text getName();
 	public void changeName(String name);
 	
-	public IntegerValue getIterationNumber();
+	public Numeric getIterationNumber();
 	public void changeIterationNumber(Integer iterationNumber);
 	
 	public Estimate getEstimate();
@@ -31,41 +33,42 @@ public interface Story {
 	public StoryType getStoryType();
 	public void changeStoryType(StoryType type);
 	
-	public StringValue getLabels();
+	public Text getLabels();
 	public void changeLabels(String labels);
 	
 	public State getCurrentState();
-	public void changeCurrentState(State state); // please consider changing state via lifecycle!
+	public void changeCurrentState(State state);
 	
 	public List<Transition> getTransitions();
 	public void applyTransition(Transition trans);
 	
-	public StringValue getDescription();
+	public Text getDescription();
 	public void changeDescription(String description);
 	
-	public StringValue getDeadline();
+	public Text getDeadline();
 	public void changeDeadline(String deadline);
 	
-	public StringValue getRequestedBy();
+	public Text getRequestedBy();
 	public void changeRequestedBy(String requestedBy);
 
-	public StringValue getOwnedBy();
+	public Text getOwnedBy();
 	public void changeOwnedBy(String ownedBy);
 	
-	public StringValue getCreatedAt();
+	public Text getCreatedAt();
 	public void changeCreatedAt(String createdAt);
 
-	public StringValue getAcceptedAt();
+	public Text getAcceptedAt();
 	public void changeAcceptedAt(String acceptedAt);
 
-	public StringValue getIterationGroup();
+	public Text getIterationGroup();
 	public void changeIterationGroup(String iterationGroup);
 
-	public IntegerValue getPosition();
+	public Numeric getPosition();
 	public void changePosition(Integer position);
 	public boolean isFirstInIteration();
 	
-	public Set<StoryData> getModifiedFields();
-	public void resetModifiedFieldsTracking();
+	public Map<StoryData, TrackerValue> getData();
+	public Map<DBAndXMLTransferable, TrackerValue> getModifiedData();
+	public void resetModifiedDataTracking();
 	public boolean needsEstimate();
 }

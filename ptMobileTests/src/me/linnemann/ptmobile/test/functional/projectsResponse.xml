@@ -1,0 +1,811 @@
+<projects type="array">
+  <project>
+  <id>48422</id>
+  <name>BaR</name>
+  <iteration_length type="integer">2</iteration_length>
+  <week_start_day>Monday</week_start_day>
+  <point_scale>0,1,2,3,5,8</point_scale>
+  <account>Niels Linnemann</account>
+  <velocity_scheme>Average of 3 iterations</velocity_scheme>
+  <current_velocity>16</current_velocity>
+  <initial_velocity>18</initial_velocity>
+  <number_of_done_iterations_to_show>12</number_of_done_iterations_to_show>
+  <labels>(poe),account,agg,autotopup,beta,data,deb,delta,freeze,fwf,gamma,invoice,mantopup,mbilling,misc,order,portout,replacement,tkg</labels>
+  <last_activity_at type="datetime">2010/01/27 14:41:09 UTC</last_activity_at>
+  <allow_attachments>true</allow_attachments>
+  <public>false</public>
+  <use_https>false</use_https>
+  <bugs_and_chores_are_estimatable>false</bugs_and_chores_are_estimatable>
+  <commit_mode>true</commit_mode>
+    <memberships>
+      <membership>
+        <id>176788</id>
+        <person>
+          <email>nl@blau.de</email>
+          <name>Niels Linnemann</name>
+          <initials>NL</initials>
+        </person>
+        <role>Owner</role>
+      </membership>
+      <membership>
+        <id>176855</id>
+        <person>
+          <email>kp@blau.de</email>
+          <name>Klaas Prause</name>
+          <initials>KP</initials>
+        </person>
+        <role>Owner</role>
+      </membership>
+      <membership>
+        <id>176856</id>
+        <person>
+          <email>tri@blau.de</email>
+          <name>Thilko Richter</name>
+          <initials>tri</initials>
+        </person>
+        <role>Member</role>
+      </membership>
+      <membership>
+        <id>176857</id>
+        <person>
+          <email>ps@blau.de</email>
+          <name>Peter Schr&#246;der</name>
+          <initials>ps</initials>
+        </person>
+        <role>Member</role>
+      </membership>
+      <membership>
+        <id>176858</id>
+        <person>
+          <email>mn@blau.de</email>
+          <name>Michael Nitz</name>
+          <initials>MN</initials>
+        </person>
+        <role>Member</role>
+      </membership>
+      <membership>
+        <id>176859</id>
+        <person>
+          <email>fn@blau.de</email>
+          <name>Fabian Nilius</name>
+          <initials>FN</initials>
+        </person>
+        <role>Member</role>
+      </membership>
+      <membership>
+        <id>176860</id>
+        <person>
+          <email>joerg.rothbarth@blau.de</email>
+          <name>J&#246;rg Rothbarth</name>
+          <initials>JR</initials>
+        </person>
+        <role>Member</role>
+      </membership>
+      <membership>
+        <id>178411</id>
+        <person>
+          <email>nm@blau.de</email>
+          <name>Nico Mainka</name>
+          <initials>NM</initials>
+        </person>
+        <role>Member</role>
+      </membership>
+      <membership>
+        <id>178412</id>
+        <person>
+          <email>mfr@blau.de</email>
+          <name>Mathias Freier</name>
+          <initials>MF</initials>
+        </person>
+        <role>Member</role>
+      </membership>
+      <membership>
+        <id>178413</id>
+        <person>
+          <email>mh@blau.de</email>
+          <name>Markus Hanses</name>
+          <initials>MH</initials>
+        </person>
+        <role>Member</role>
+      </membership>
+      <membership>
+        <id>178414</id>
+        <person>
+          <email>tv@blau.de</email>
+          <name>Tim Voller</name>
+          <initials>tv</initials>
+        </person>
+        <role>Member</role>
+      </membership>
+      <membership>
+        <id>178415</id>
+        <person>
+          <email>ap@blau.de</email>
+          <name>Alexander Peters</name>
+          <initials>ap</initials>
+        </person>
+        <role>Member</role>
+      </membership>
+      <membership>
+        <id>178416</id>
+        <person>
+          <email>chb@blau.de</email>
+          <name>Claudius Hofbauer</name>
+          <initials>CHB</initials>
+        </person>
+        <role>Member</role>
+      </membership>
+      <membership>
+        <id>178417</id>
+        <person>
+          <email>meike.wiemann@blau.de</email>
+          <name>Meike Wiemann</name>
+          <initials>MW</initials>
+        </person>
+        <role>Member</role>
+      </membership>
+      <membership>
+        <id>178418</id>
+        <person>
+          <email>mb@blau.de</email>
+          <name>Matthias Brandt</name>
+          <initials>MB</initials>
+        </person>
+        <role>Member</role>
+      </membership>
+      <membership>
+        <id>178419</id>
+        <person>
+          <email>dh@blau.de</email>
+          <name>Daniel Harrington</name>
+          <initials>dh</initials>
+        </person>
+        <role>Member</role>
+      </membership>
+      <membership>
+        <id>178420</id>
+        <person>
+          <email>sh@blau.de</email>
+          <name>Steven Hofmann</name>
+          <initials>SH</initials>
+        </person>
+        <role>Viewer</role>
+      </membership>
+      <membership>
+        <id>178421</id>
+        <person>
+          <email>nadine.dierolf@blau.de</email>
+          <name>Nadine Dierolf</name>
+          <initials>ND</initials>
+        </person>
+        <role>Viewer</role>
+      </membership>
+      <membership>
+        <id>178422</id>
+        <person>
+          <email>df@blau.de</email>
+          <name>Dirk Freise</name>
+          <initials>DF</initials>
+        </person>
+        <role>Viewer</role>
+      </membership>
+      <membership>
+        <id>178423</id>
+        <person>
+          <email>dt@blau.de</email>
+          <name>Dirk Thiede</name>
+          <initials>DT</initials>
+        </person>
+        <role>Viewer</role>
+      </membership>
+      <membership>
+        <id>178424</id>
+        <person>
+          <email>fk@blau.de</email>
+          <name>Felix Krug v. Nidda</name>
+          <initials>FKVN</initials>
+        </person>
+        <role>Viewer</role>
+      </membership>
+      <membership>
+        <id>178624</id>
+        <person>
+          <email>timo.dorsch@blau.de</email>
+          <name>Timo Dorsch</name>
+          <initials>TD</initials>
+        </person>
+        <role>Viewer</role>
+      </membership>
+    </memberships>
+  </project>
+  <project>
+    <id>49016</id>
+    <name>bulk</name>
+    <iteration_length type="integer">2</iteration_length>
+    <week_start_day>Monday</week_start_day>
+    <point_scale>0,1,2,3,5,8</point_scale>
+    <account>Niels Linnemann</account>
+    <velocity_scheme>Average of 3 iterations</velocity_scheme>
+    <initial_velocity>10</initial_velocity>
+    <number_of_done_iterations_to_show>12</number_of_done_iterations_to_show>
+    <allow_attachments>true</allow_attachments>
+    <public>false</public>
+    <use_https>false</use_https>
+    <bugs_and_chores_are_estimatable>false</bugs_and_chores_are_estimatable>
+    <commit_mode>false</commit_mode>
+    <memberships>
+      <membership>
+        <id>178594</id>
+        <person>
+          <email>nl@blau.de</email>
+          <name>Niels Linnemann</name>
+          <initials>NL</initials>
+        </person>
+        <role>Owner</role>
+      </membership>
+      <membership>
+        <id>178609</id>
+        <person>
+          <email>ps@blau.de</email>
+          <name>Peter Schr&#246;der</name>
+          <initials>ps</initials>
+        </person>
+        <role>Member</role>
+      </membership>
+      <membership>
+        <id>178610</id>
+        <person>
+          <email>kp@blau.de</email>
+          <name>Klaas Prause</name>
+          <initials>KP</initials>
+        </person>
+        <role>Owner</role>
+      </membership>
+      <membership>
+        <id>178611</id>
+        <person>
+          <email>mn@blau.de</email>
+          <name>Michael Nitz</name>
+          <initials>MN</initials>
+        </person>
+        <role>Member</role>
+      </membership>
+      <membership>
+        <id>178612</id>
+        <person>
+          <email>joerg.rothbarth@blau.de</email>
+          <name>J&#246;rg Rothbarth</name>
+          <initials>JR</initials>
+        </person>
+        <role>Member</role>
+      </membership>
+      <membership>
+        <id>178613</id>
+        <person>
+          <email>tri@blau.de</email>
+          <name>Thilko Richter</name>
+          <initials>tri</initials>
+        </person>
+        <role>Member</role>
+      </membership>
+      <membership>
+        <id>178615</id>
+        <person>
+          <email>fn@blau.de</email>
+          <name>Fabian Nilius</name>
+          <initials>FN</initials>
+        </person>
+        <role>Member</role>
+      </membership>
+      <membership>
+        <id>178617</id>
+        <person>
+          <email>fk@blau.de</email>
+          <name>Felix Krug v. Nidda</name>
+          <initials>FKVN</initials>
+        </person>
+        <role>Viewer</role>
+      </membership>
+      <membership>
+        <id>178619</id>
+        <person>
+          <email>timo.dorsch@blau.de</email>
+          <name>Timo Dorsch</name>
+          <initials>TD</initials>
+        </person>
+        <role>Viewer</role>
+      </membership>
+      <membership>
+        <id>178641</id>
+        <person>
+          <email>df@blau.de</email>
+          <name>Dirk Freise</name>
+          <initials>DF</initials>
+        </person>
+        <role>Viewer</role>
+      </membership>
+      <membership>
+        <id>178642</id>
+        <person>
+          <email>dt@blau.de</email>
+          <name>Dirk Thiede</name>
+          <initials>DT</initials>
+        </person>
+        <role>Viewer</role>
+      </membership>
+      <membership>
+        <id>178644</id>
+        <person>
+          <email>sh@blau.de</email>
+          <name>Steven Hofmann</name>
+          <initials>SH</initials>
+        </person>
+        <role>Viewer</role>
+      </membership>
+      <membership>
+        <id>184491</id>
+        <person>
+          <email>mb@blau.de</email>
+          <name>Matthias Brandt</name>
+          <initials>MB</initials>
+        </person>
+        <role>Member</role>
+      </membership>
+      <membership>
+        <id>184492</id>
+        <person>
+          <email>chb@blau.de</email>
+          <name>Claudius Hofbauer</name>
+          <initials>CHB</initials>
+        </person>
+        <role>Member</role>
+      </membership>
+      <membership>
+        <id>184493</id>
+        <person>
+          <email>ap@blau.de</email>
+          <name>Alexander Peters</name>
+          <initials>ap</initials>
+        </person>
+        <role>Member</role>
+      </membership>
+      <membership>
+        <id>184495</id>
+        <person>
+          <email>mh@blau.de</email>
+          <name>Markus Hanses</name>
+          <initials>MH</initials>
+        </person>
+        <role>Member</role>
+      </membership>
+    </memberships>
+  </project>
+  <project>
+    <id>48487</id>
+    <name>Misc</name>
+    <iteration_length type="integer">2</iteration_length>
+    <week_start_day>Monday</week_start_day>
+    <point_scale>0,1,2,3,5,8</point_scale>
+    <account>Niels Linnemann</account>
+    <velocity_scheme>Average of 3 iterations</velocity_scheme>
+    <initial_velocity>5</initial_velocity>
+    <number_of_done_iterations_to_show>12</number_of_done_iterations_to_show>
+    <allow_attachments>true</allow_attachments>
+    <public>false</public>
+    <use_https>false</use_https>
+    <bugs_and_chores_are_estimatable>false</bugs_and_chores_are_estimatable>
+    <commit_mode>true</commit_mode>
+    <memberships>
+      <membership>
+        <id>177028</id>
+        <person>
+          <email>nl@blau.de</email>
+          <name>Niels Linnemann</name>
+          <initials>NL</initials>
+        </person>
+        <role>Owner</role>
+      </membership>
+      <membership>
+        <id>177030</id>
+        <person>
+          <email>kp@blau.de</email>
+          <name>Klaas Prause</name>
+          <initials>KP</initials>
+        </person>
+        <role>Owner</role>
+      </membership>
+      <membership>
+        <id>178399</id>
+        <person>
+          <email>dh@blau.de</email>
+          <name>Daniel Harrington</name>
+          <initials>dh</initials>
+        </person>
+        <role>Member</role>
+      </membership>
+      <membership>
+        <id>178400</id>
+        <person>
+          <email>mb@blau.de</email>
+          <name>Matthias Brandt</name>
+          <initials>MB</initials>
+        </person>
+        <role>Member</role>
+      </membership>
+      <membership>
+        <id>178401</id>
+        <person>
+          <email>meike.wiemann@blau.de</email>
+          <name>Meike Wiemann</name>
+          <initials>MW</initials>
+        </person>
+        <role>Member</role>
+      </membership>
+      <membership>
+        <id>178402</id>
+        <person>
+          <email>mh@blau.de</email>
+          <name>Markus Hanses</name>
+          <initials>MH</initials>
+        </person>
+        <role>Member</role>
+      </membership>
+      <membership>
+        <id>178403</id>
+        <person>
+          <email>mfr@blau.de</email>
+          <name>Mathias Freier</name>
+          <initials>MF</initials>
+        </person>
+        <role>Member</role>
+      </membership>
+      <membership>
+        <id>178404</id>
+        <person>
+          <email>nm@blau.de</email>
+          <name>Nico Mainka</name>
+          <initials>NM</initials>
+        </person>
+        <role>Member</role>
+      </membership>
+      <membership>
+        <id>178405</id>
+        <person>
+          <email>ap@blau.de</email>
+          <name>Alexander Peters</name>
+          <initials>ap</initials>
+        </person>
+        <role>Member</role>
+      </membership>
+      <membership>
+        <id>178406</id>
+        <person>
+          <email>tv@blau.de</email>
+          <name>Tim Voller</name>
+          <initials>tv</initials>
+        </person>
+        <role>Member</role>
+      </membership>
+      <membership>
+        <id>178407</id>
+        <person>
+          <email>df@blau.de</email>
+          <name>Dirk Freise</name>
+          <initials>DF</initials>
+        </person>
+        <role>Viewer</role>
+      </membership>
+      <membership>
+        <id>178408</id>
+        <person>
+          <email>sh@blau.de</email>
+          <name>Steven Hofmann</name>
+          <initials>SH</initials>
+        </person>
+        <role>Member</role>
+      </membership>
+      <membership>
+        <id>178409</id>
+        <person>
+          <email>nadine.dierolf@blau.de</email>
+          <name>Nadine Dierolf</name>
+          <initials>ND</initials>
+        </person>
+        <role>Viewer</role>
+      </membership>
+      <membership>
+        <id>178410</id>
+        <person>
+          <email>chb@blau.de</email>
+          <name>Claudius Hofbauer</name>
+          <initials>CHB</initials>
+        </person>
+        <role>Member</role>
+      </membership>
+      <membership>
+        <id>178425</id>
+        <person>
+          <email>fk@blau.de</email>
+          <name>Felix Krug v. Nidda</name>
+          <initials>FKVN</initials>
+        </person>
+        <role>Viewer</role>
+      </membership>
+      <membership>
+        <id>178629</id>
+        <person>
+          <email>timo.dorsch@blau.de</email>
+          <name>Timo Dorsch</name>
+          <initials>TD</initials>
+        </person>
+        <role>Viewer</role>
+      </membership>
+      <membership>
+        <id>178630</id>
+        <person>
+          <email>ps@blau.de</email>
+          <name>Peter Schr&#246;der</name>
+          <initials>ps</initials>
+        </person>
+        <role>Member</role>
+      </membership>
+      <membership>
+        <id>178634</id>
+        <person>
+          <email>tri@blau.de</email>
+          <name>Thilko Richter</name>
+          <initials>tri</initials>
+        </person>
+        <role>Member</role>
+      </membership>
+      <membership>
+        <id>178635</id>
+        <person>
+          <email>mn@blau.de</email>
+          <name>Michael Nitz</name>
+          <initials>MN</initials>
+        </person>
+        <role>Member</role>
+      </membership>
+      <membership>
+        <id>178636</id>
+        <person>
+          <email>joerg.rothbarth@blau.de</email>
+          <name>J&#246;rg Rothbarth</name>
+          <initials>JR</initials>
+        </person>
+        <role>Member</role>
+      </membership>
+      <membership>
+        <id>178637</id>
+        <person>
+          <email>fn@blau.de</email>
+          <name>Fabian Nilius</name>
+          <initials>FN</initials>
+        </person>
+        <role>Member</role>
+      </membership>
+    </memberships>
+  </project>
+  <project>
+    <id>18225</id>
+    <name>ptMobile</name>
+    <iteration_length type="integer">1</iteration_length>
+    <week_start_day>Monday</week_start_day>
+    <point_scale>0,1,2,3</point_scale>
+    <account>Niels Linnemann</account>
+    <velocity_scheme>Average of 3 iterations</velocity_scheme>
+    <initial_velocity>5</initial_velocity>
+    <number_of_done_iterations_to_show>12</number_of_done_iterations_to_show>
+    <allow_attachments>true</allow_attachments>
+    <public>false</public>
+    <use_https>false</use_https>
+    <bugs_and_chores_are_estimatable>true</bugs_and_chores_are_estimatable>
+    <commit_mode>true</commit_mode>
+    <memberships>
+      <membership>
+        <id>98201</id>
+        <person>
+          <email>nl@blau.de</email>
+          <name>Niels Linnemann</name>
+          <initials>NL</initials>
+        </person>
+        <role>Owner</role>
+      </membership>
+    </memberships>
+  </project>
+  <project>
+    <id>11997</id>
+    <name>Teamwork</name>
+    <unexpected>
+    	<id>yoyo</id>
+    	<name>not this name</name>
+    	<justtotest></justtotest>
+    </unexpected>
+    <iteration_length type="integer">2</iteration_length>
+    <week_start_day>Monday</week_start_day>
+    <point_scale>0,1,2,3,5,8</point_scale>
+    <account>Klaas Prause</account>
+    <velocity_scheme>Average of 3 iterations</velocity_scheme>
+    <initial_velocity>10</initial_velocity>
+    <number_of_done_iterations_to_show>24</number_of_done_iterations_to_show>
+    <allow_attachments>true</allow_attachments>
+    <public>false</public>
+    <use_https>false</use_https>
+    <bugs_and_chores_are_estimatable>false</bugs_and_chores_are_estimatable>
+    <commit_mode>true</commit_mode>
+    <memberships>
+      <membership>
+        <id>81975</id>
+        <person>
+          <email>kp@blau.de</email>
+          <name>Klaas Prause</name>
+          <initials>KP</initials>
+        </person>
+        <role>Owner</role>
+      </membership>
+      <membership>
+        <id>81976</id>
+        <person>
+          <email>dh@blau.de</email>
+          <name>Daniel Harrington</name>
+          <initials>dh</initials>
+        </person>
+        <role>Viewer</role>
+      </membership>
+      <membership>
+        <id>81977</id>
+        <person>
+          <email>chb@blau.de</email>
+          <name>Claudius Hofbauer</name>
+          <initials>CHB</initials>
+        </person>
+        <role>Viewer</role>
+      </membership>
+      <membership>
+        <id>81978</id>
+        <person>
+          <email>df@blau.de</email>
+          <name>Dirk Freise</name>
+          <initials>DF</initials>
+        </person>
+        <role>Viewer</role>
+      </membership>
+      <membership>
+        <id>81979</id>
+        <person>
+          <email>mfr@blau.de</email>
+          <name>Mathias Freier</name>
+          <initials>MF</initials>
+        </person>
+        <role>Member</role>
+      </membership>
+      <membership>
+        <id>81980</id>
+        <person>
+          <email>mn@blau.de</email>
+          <name>Michael Nitz</name>
+          <initials>MN</initials>
+        </person>
+        <role>Viewer</role>
+      </membership>
+      <membership>
+        <id>81981</id>
+        <person>
+          <email>nl@blau.de</email>
+          <name>Niels Linnemann</name>
+          <initials>NL</initials>
+        </person>
+        <role>Member</role>
+      </membership>
+      <membership>
+        <id>85194</id>
+        <person>
+          <email>ps@blau.de</email>
+          <name>Peter Schr&#246;der</name>
+          <initials>ps</initials>
+        </person>
+        <role>Viewer</role>
+      </membership>
+      <membership>
+        <id>85195</id>
+        <person>
+          <email>ap@blau.de</email>
+          <name>Alexander Peters</name>
+          <initials>ap</initials>
+        </person>
+        <role>Member</role>
+      </membership>
+      <membership>
+        <id>85196</id>
+        <person>
+          <email>tv@blau.de</email>
+          <name>Tim Voller</name>
+          <initials>tv</initials>
+        </person>
+        <role>Member</role>
+      </membership>
+      <membership>
+        <id>85198</id>
+        <person>
+          <email>tri@blau.de</email>
+          <name>Thilko Richter</name>
+          <initials>tri</initials>
+        </person>
+        <role>Viewer</role>
+      </membership>
+      <membership>
+        <id>85199</id>
+        <person>
+          <email>nm@blau.de</email>
+          <name>Nico Mainka</name>
+          <initials>NM</initials>
+        </person>
+        <role>Member</role>
+      </membership>
+      <membership>
+        <id>104180</id>
+        <person>
+          <email>mh@blau.de</email>
+          <name>Markus Hanses</name>
+          <initials>MH</initials>
+        </person>
+        <role>Member</role>
+      </membership>
+      <membership>
+        <id>104184</id>
+        <person>
+          <email>mb@blau.de</email>
+          <name>Matthias Brandt</name>
+          <initials>MB</initials>
+        </person>
+        <role>Viewer</role>
+      </membership>
+      <membership>
+        <id>117506</id>
+        <person>
+          <email>fn@blau.de</email>
+          <name>Fabian Nilius</name>
+          <initials>FN</initials>
+        </person>
+        <role>Viewer</role>
+      </membership>
+    </memberships>
+  </project>
+  <project>
+    <id>52569</id>
+    <name>Test3</name>
+    <iteration_length type="integer">1</iteration_length>
+    <week_start_day>Wednesday</week_start_day>
+    <point_scale>0,1,2,3,5,8</point_scale>
+    <account>David Giesberg</account>
+    <velocity_scheme>Average of 3 iterations</velocity_scheme>
+    <initial_velocity>10</initial_velocity>
+    <number_of_done_iterations_to_show>12</number_of_done_iterations_to_show>
+    <allow_attachments>true</allow_attachments>
+    <public>true</public>
+    <use_https>false</use_https>
+    <bugs_and_chores_are_estimatable>true</bugs_and_chores_are_estimatable>
+    <commit_mode>true</commit_mode>
+    <memberships>
+      <membership>
+        <id>188774</id>
+        <person>
+          <email>davidgiesberg@capitalthought.com</email>
+          <name>David Giesberg</name>
+          <initials>DG</initials>
+        </person>
+        <role>Owner</role>
+      </membership>
+      <membership>
+        <id>188923</id>
+        <person>
+          <email>nl@blau.de</email>
+          <name>Niels Linnemann</name>
+          <initials>NL</initials>
+        </person>
+        <role>Member</role>
+      </membership>
+    </memberships>
+  </project>
+</projects>

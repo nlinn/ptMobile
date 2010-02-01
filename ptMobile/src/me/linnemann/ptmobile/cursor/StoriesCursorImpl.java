@@ -1,11 +1,11 @@
 package me.linnemann.ptmobile.cursor;
 
 import me.linnemann.ptmobile.pivotaltracker.Story;
-import me.linnemann.ptmobile.pivotaltracker.StoryFromCursorBuilder;
 import me.linnemann.ptmobile.pivotaltracker.StoryImpl;
 import me.linnemann.ptmobile.pivotaltracker.fields.StoryData;
 import me.linnemann.ptmobile.pivotaltracker.value.Estimate;
 import me.linnemann.ptmobile.pivotaltracker.value.State;
+import me.linnemann.ptmobile.pivotaltracker.value.StoryType;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteCursor;
 import android.database.sqlite.SQLiteCursorDriver;
@@ -89,71 +89,8 @@ public class StoriesCursorImpl extends SQLiteCursor implements StoriesCursor {
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see me.linnemann.ptmobile.cursor.StoriesCursor#getName()
-	 */
-	public String getName() {
-		return getString(getColumnIndexOrThrow(StoryData.NAME.getDBFieldName()));
-	}
 
-	/* (non-Javadoc)
-	 * @see me.linnemann.ptmobile.cursor.StoriesCursor#getId()
-	 */
-	public Integer getId() {
-		return getInt(getColumnIndexOrThrow(StoryData.ID.getDBFieldName()));
-	}
-
-	/* (non-Javadoc)
-	 * @see me.linnemann.ptmobile.cursor.StoriesCursor#getStoryType()
-	 */
-	public String getStoryType() {
-		return getString(getColumnIndexOrThrow(StoryData.STORY_TYPE.getDBFieldName()));
-	}
-
-	public Estimate getEstimate() {
-		Estimate estimate;
-		Integer estimateNumeric = getIntegerFrom(StoryData.ESTIMATE);
-		
-		if (estimateNumeric == null) {
-			estimate = Estimate.NO_ESTIMATE;
-		} else {
-			estimate = Estimate.valueOfNumeric(estimateNumeric);
-		}
-		return estimate;
-	}
-
-	public String getLabels() {
-		return getString(getColumnIndexOrThrow(StoryData.LABELS.getDBFieldName()));
-	}
-
-	public State getCurrentState() {
-		String stateName = getString(getColumnIndexOrThrow(StoryData.CURRENT_STATE.getDBFieldName()));
-		return State.valueOf(stateName.toUpperCase());
-	}
-
-	public String getDescription() {
-		return getString(getColumnIndexOrThrow(StoryData.DESCRIPTION.getDBFieldName()));
-	}
-
-	public String getRequestedBy() {
-		return getString(getColumnIndexOrThrow(StoryData.REQUESTED_BY.getDBFieldName()));
-	}
-
-	public String getOwnedBy() {
-		return getString(getColumnIndexOrThrow(StoryData.OWNED_BY.getDBFieldName()));
-	}
-
-	public String getDeadline() {
-		return getString(getColumnIndexOrThrow(StoryData.DEADLINE.getDBFieldName()));
-	}
-
-	public Integer getIterationNumber() {
-		return getIntegerFrom(StoryData.ITERATION_NUMBER);
-	}
-
-	public Integer getProjectId() {
-		return getIntegerFrom(StoryData.PROJECT_ID);
-	}
+	
 
 	public String getIterationStart() {
 		return getString(getColumnIndexOrThrow("start"));
@@ -162,28 +99,46 @@ public class StoriesCursorImpl extends SQLiteCursor implements StoriesCursor {
 	public String getIterationFinish() {
 		return getString(getColumnIndexOrThrow("finish"));
 	}
-
-	public String getIterationGroup() {
-		return getString(getColumnIndexOrThrow(StoryData.ITERATION_GROUP.getDBFieldName()));
-	}
-	
-	public String getAcceptedAt() {
-		return getString(getColumnIndexOrThrow(StoryData.ACCEPTED_AT.getDBFieldName()));
-	}
-	
-	public String getCreatedAt() {
-		return getString(getColumnIndexOrThrow(StoryData.CREATED_AT.getDBFieldName()));
-	}
-	
-	public Integer getStoryPosition() {
-		return getIntegerFrom(StoryData.POSITION);
-	}
 	
 	public Story getStory() {
-		Story s = StoryImpl.buildInstance(new StoryFromCursorBuilder(this));
+		Story s = new StoryImpl();
+		fillStory(s);
+		s.resetModifiedDataTracking();
 		return s;
 	}
 
+	private void fillStory(Story story) {
+		
+		story.changeId(getInt(getColumnIndexOrThrow(StoryData.ID.getDBFieldName())));
+		story.changeName(getStringFrom(StoryData.NAME));
+		
+		StoryType type = StoryType.valueOf(getStringFrom(StoryData.STORY_TYPE).toUpperCase());
+		story.changeStoryType(type);
+		
+		State state = State.valueOf(getStringFrom(StoryData.CURRENT_STATE).toUpperCase());
+		story.changeCurrentState(state);
+		
+		Estimate estimate = getEstimate();
+		story.changeEstimate(estimate);
+		
+		story.changeProjectId(getIntegerFrom(StoryData.PROJECT_ID));
+		story.changePosition(getIntegerFrom(StoryData.POSITION));
+		story.changeIterationNumber(getIntegerFrom(StoryData.ITERATION_NUMBER));
+		
+		story.changeCreatedAt(getStringFrom(StoryData.CREATED_AT));
+		story.changeAcceptedAt(getStringFrom(StoryData.ACCEPTED_AT));
+		story.changeIterationGroup(getStringFrom(StoryData.ITERATION_GROUP));
+		story.changeDeadline(getStringFrom(StoryData.DEADLINE));
+		story.changeOwnedBy(getStringFrom(StoryData.OWNED_BY));
+		story.changeRequestedBy(getStringFrom(StoryData.REQUESTED_BY));
+		story.changeDescription(getStringFrom(StoryData.DESCRIPTION));
+		story.changeLabels(getStringFrom(StoryData.LABELS));
+	}
+	
+	private String getStringFrom(StoryData data) {
+		return getString(getColumnIndexOrThrow(data.getDBFieldName()));
+	}
+	
 	// return null so you may want to check for null when used
 	private Integer getIntegerFrom(StoryData field) {
 		int columnNotFound = -1;
@@ -195,5 +150,17 @@ public class StoriesCursorImpl extends SQLiteCursor implements StoriesCursor {
 		} else {
 			return getInt(index);
 		}
+	}
+	
+	private Estimate getEstimate() {
+		Estimate estimate;
+		Integer estimateNumeric = getIntegerFrom(StoryData.ESTIMATE);
+		
+		if (estimateNumeric == null) {
+			estimate = Estimate.NO_ESTIMATE;
+		} else {
+			estimate = Estimate.valueOfNumeric(estimateNumeric);
+		}
+		return estimate;
 	}
 }

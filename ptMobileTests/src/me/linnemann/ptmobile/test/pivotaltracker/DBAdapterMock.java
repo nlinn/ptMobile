@@ -11,8 +11,9 @@ import me.linnemann.ptmobile.cursor.ActivitiesCursor;
 import me.linnemann.ptmobile.cursor.IterationCursor;
 import me.linnemann.ptmobile.cursor.ProjectsCursor;
 import me.linnemann.ptmobile.cursor.StoriesCursorImpl;
-import me.linnemann.ptmobile.pivotaltracker.DBAdapter;
+import me.linnemann.ptmobile.pivotaltracker.Project;
 import me.linnemann.ptmobile.pivotaltracker.Story;
+import me.linnemann.ptmobile.pivotaltracker.adapter.DBAdapter;
 
 public class DBAdapterMock implements DBAdapter {
 
@@ -20,10 +21,12 @@ public class DBAdapterMock implements DBAdapter {
 	
 	private List<ContentValues> cvlist;
 	private List<Story> stories;
+	private List<Project> projects;
 	
 	public DBAdapterMock() {
 		cvlist = new ArrayList<ContentValues>();
 		stories = new ArrayList<Story>();
+		projects = new ArrayList<Project>();
 	}
 	
 	public List<ContentValues> getContentValuesList() {
@@ -34,6 +37,9 @@ public class DBAdapterMock implements DBAdapter {
 		return stories;
 	}
 	
+	public List<Project> getProjects() {
+		return projects;
+	}
 	
 	// --- Implementation of DBAdapter
 	
@@ -77,7 +83,7 @@ public class DBAdapterMock implements DBAdapter {
 		return null;
 	}
 
-	public ProjectsCursor getProject(Integer projectId) {
+	public Project getProject(Integer projectId) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -102,20 +108,13 @@ public class DBAdapterMock implements DBAdapter {
 		return 0;
 	}
 
-	public long insertActivity(ContentValues cv) {
+	public void insertActivity(ContentValues cv) {
 		Log.d(TAG, "insertActivity");
 		this.cvlist.add(cv);
-		return 1;
 	}
 
 	public long insertProject(ContentValues cv) {
 		Log.d(TAG, "insertProject");
-		this.cvlist.add(cv);
-		return 1;
-	}
-
-	public long insertStory(ContentValues cv) {
-		Log.d(TAG, "insertStory");
 		this.cvlist.add(cv);
 		return 1;
 	}
@@ -202,10 +201,17 @@ public class DBAdapterMock implements DBAdapter {
 	}
 
 	public void insertStory(Story story) {
-		Log.d(TAG,"insertStory(story)");
+		Log.v(TAG, "project_id:"+story.getProjectId().getValueAsString());
+		Log.v(TAG, "id:"+story.getId().getValueAsString());
+		
 		stories.add(story);
 	}
 
+	public void insertProject(Project project) {		
+		Log.v(TAG, "project_id:"+project.getId().getValueAsString());		
+		projects.add(project);
+	}
+	
 	public void updateStory(Story story) {
 		// TODO Auto-generated method stub
 		
