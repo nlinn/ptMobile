@@ -11,6 +11,7 @@ import me.linnemann.ptmobile.cursor.ActivitiesCursor;
 import me.linnemann.ptmobile.cursor.IterationCursor;
 import me.linnemann.ptmobile.cursor.ProjectsCursor;
 import me.linnemann.ptmobile.cursor.StoriesCursorImpl;
+import me.linnemann.ptmobile.pivotaltracker.Activity;
 import me.linnemann.ptmobile.pivotaltracker.Project;
 import me.linnemann.ptmobile.pivotaltracker.Story;
 import me.linnemann.ptmobile.pivotaltracker.adapter.DBAdapter;
@@ -22,11 +23,13 @@ public class DBAdapterMock implements DBAdapter {
 	private List<ContentValues> cvlist;
 	private List<Story> stories;
 	private List<Project> projects;
+	private List<Activity> activities;
 	
 	public DBAdapterMock() {
 		cvlist = new ArrayList<ContentValues>();
 		stories = new ArrayList<Story>();
 		projects = new ArrayList<Project>();
+		activities = new ArrayList<Activity>();
 	}
 	
 	public List<ContentValues> getContentValuesList() {
@@ -40,6 +43,11 @@ public class DBAdapterMock implements DBAdapter {
 	public List<Project> getProjects() {
 		return projects;
 	}
+	
+	public List<Activity> getActivities() {
+		return activities;
+	}
+	
 	
 	// --- Implementation of DBAdapter
 	
@@ -210,6 +218,11 @@ public class DBAdapterMock implements DBAdapter {
 	public void insertProject(Project project) {		
 		Log.v(TAG, "project_id:"+project.getId().getValueAsString());		
 		projects.add(project);
+	}
+	
+	public void insertActivity(Activity activity) {
+		Log.v(TAG, "activity_id:"+activity.getId().getValueAsString());		
+		activities.add(activity);
 	}
 	
 	public void updateStory(Story story) {

@@ -3,7 +3,7 @@ package me.linnemann.ptmobile.pivotaltracker;
 import java.util.List;
 import java.util.Map;
 
-import me.linnemann.ptmobile.pivotaltracker.fields.DBAndXMLTransferable;
+import me.linnemann.ptmobile.pivotaltracker.fields.TrackerData;
 import me.linnemann.ptmobile.pivotaltracker.fields.StoryData;
 import me.linnemann.ptmobile.pivotaltracker.lifecycle.Transition;
 import me.linnemann.ptmobile.pivotaltracker.value.Estimate;
@@ -68,7 +68,7 @@ public interface Story {
 	public boolean isFirstInIteration();
 	
 	public Map<StoryData, TrackerValue> getData();
-	public Map<DBAndXMLTransferable, TrackerValue> getModifiedData();
+	public Map<TrackerData, TrackerValue> getModifiedData();
 	public void resetModifiedDataTracking();
 	public boolean needsEstimate();
 }

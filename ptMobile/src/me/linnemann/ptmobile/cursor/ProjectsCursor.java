@@ -1,10 +1,13 @@
 package me.linnemann.ptmobile.cursor;
 
 import me.linnemann.ptmobile.pivotaltracker.Project;
-import me.linnemann.ptmobile.pivotaltracker.ProjectImpl;
+import me.linnemann.ptmobile.pivotaltracker.Project;
+import me.linnemann.ptmobile.pivotaltracker.fields.DataType;
 import me.linnemann.ptmobile.pivotaltracker.fields.ProjectData;
+import me.linnemann.ptmobile.pivotaltracker.fields.ProjectDataType;
 import me.linnemann.ptmobile.pivotaltracker.value.Numeric;
 import me.linnemann.ptmobile.pivotaltracker.value.Text;
+import me.linnemann.ptmobile.pivotaltracker.value.TrackerValue;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteCursor;
 import android.database.sqlite.SQLiteCursorDriver;
@@ -40,23 +43,28 @@ public class ProjectsCursor extends SQLiteCursor {
 	}
 
 	public Project getProject() {
-		Project project = new ProjectImpl();
+		Project project = new Project();
 		fillProject(project);
-		project.resetModifiedFieldsTracking();
+		project.resetModifiedDataTracking();
 		
 		return project;
 	}
 	
 	private void fillProject(Project project) {
-		project.changeCurrentVelocity(new Numeric(getByField(ProjectData.CURRENT_VELOCITY)));
-		project.changeId(new Numeric(getByField(ProjectData.ID)));
-		project.changeIterationLength(new Text(getByField(ProjectData.ITERATION_LENGTH)));
-		project.changeWeekStartDay(new Text(getByField(ProjectData.WEEK_START_DAY)));
-		project.changeName(new Text(getByField(ProjectData.NAME)));
-		project.changePointScale(new Text(getByField(ProjectData.POINT_SCALE)));
+		addFieldToProject(project, ProjectDataType.ID);
+		addFieldToProject(project, ProjectDataType.NAME);
+		addFieldToProject(project, ProjectDataType.POINT_SCALE);
+		addFieldToProject(project, ProjectDataType.WEEK_START_DAY);
+		addFieldToProject(project, ProjectDataType.ITERATION_LENGTH);
+		addFieldToProject(project, ProjectDataType.CURRENT_VELOCITY);
 	}
 
-	private String getByField(ProjectData field) {
+	private void addFieldToProject(Project project, DataType type) {
+		TrackerValue value = type.getValueFromString(getByField(type));
+		project.putDataAndTrackChanges(type, value);
+	}
+	
+	private String getByField(DataType field) {
 		return getString(getColumnIndexOrThrow(field.getDBFieldName()));
 	}
 }

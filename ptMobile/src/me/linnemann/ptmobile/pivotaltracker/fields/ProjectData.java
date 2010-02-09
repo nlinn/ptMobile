@@ -5,7 +5,7 @@ import me.linnemann.ptmobile.pivotaltracker.value.Numeric;
 import me.linnemann.ptmobile.pivotaltracker.value.Text;
 import me.linnemann.ptmobile.pivotaltracker.value.TrackerValue;
 
-public enum ProjectData implements DBAndXMLTransferable {
+public enum ProjectData implements TrackerData {
 
 	
 	ID(1), NAME(0), ITERATION_LENGTH(0), WEEK_START_DAY(0), POINT_SCALE(0), CURRENT_VELOCITY(1), LABELS(0);

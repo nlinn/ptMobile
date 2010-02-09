@@ -4,6 +4,7 @@ import me.linnemann.ptmobile.cursor.ActivitiesCursor;
 import me.linnemann.ptmobile.cursor.IterationCursor;
 import me.linnemann.ptmobile.cursor.ProjectsCursor;
 import me.linnemann.ptmobile.cursor.StoriesCursorImpl;
+import me.linnemann.ptmobile.pivotaltracker.Activity;
 import me.linnemann.ptmobile.pivotaltracker.Project;
 import me.linnemann.ptmobile.pivotaltracker.Story;
 import android.content.ContentValues;
@@ -15,7 +16,7 @@ public interface DBAdapter {
 
 	public abstract void insertProject(Project project);
 	
-	public abstract void insertActivity(ContentValues cv);
+	public abstract void insertActivity(Activity activity);
 
 	public abstract long insertNote(ContentValues cv);
 

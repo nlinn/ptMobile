@@ -2,7 +2,7 @@ package me.linnemann.ptmobile.pivotaltracker;
 
 import java.util.Map;
 
-import me.linnemann.ptmobile.pivotaltracker.fields.DBAndXMLTransferable;
+import me.linnemann.ptmobile.pivotaltracker.fields.TrackerData;
 import me.linnemann.ptmobile.pivotaltracker.value.TrackerValue;
 import android.content.ContentValues;
 
@@ -20,6 +20,10 @@ public class ContentValueProvider {
 	private ContentValues values;
 	private String id;
 	private Map<?,TrackerValue> modified;
+	
+	public ContentValueProvider(Activity activity) {
+		throw new RuntimeException("not implemented");
+	}
 	
 	public ContentValueProvider(Project project) {
 		this.values = new ContentValues();
@@ -39,14 +43,14 @@ public class ContentValueProvider {
 	
 	public void fill() {
 		for (Object key : modified.keySet()) { 
-			putStoryData((DBAndXMLTransferable) key, modified.get(key));
+			putStoryData((TrackerData) key, modified.get(key));
 		}
 		
 		addUpdateTimestampIfNotEmpty();
 		addIDIfNotEmpty();
 	}
 	
-	private void putStoryData(DBAndXMLTransferable key, TrackerValue value) {
+	private void putStoryData(TrackerData key, TrackerValue value) {
 		values.put(key.getDBFieldName(), value.getValueAsString());
 	}
 	

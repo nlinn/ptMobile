@@ -1,28 +1,36 @@
 package me.linnemann.ptmobile.pivotaltracker.xml;
 
-import me.linnemann.ptmobile.pivotaltracker.IncomingActivity;
+import me.linnemann.ptmobile.pivotaltracker.Activity;
+import me.linnemann.ptmobile.pivotaltracker.EntityFromAPIBuilder;
 import me.linnemann.ptmobile.pivotaltracker.adapter.DBAdapter;
+import me.linnemann.ptmobile.pivotaltracker.fields.ActivityDataTypeFactory;
+import me.linnemann.ptmobile.pivotaltracker.fields.DataTypeFactory;
 
 public class XMLActivityListener implements XMLStackListener {
 
-	private IncomingActivity activity;
+	//private static final String TAG = "XMLActivityListener";
 	private DBAdapter db;
+	
+	private DataTypeFactory factory;
+	private EntityFromAPIBuilder builder;
 	
 	public XMLActivityListener(DBAdapter db) {
 		this.db = db;
-		initActivity();
+		this.factory = new ActivityDataTypeFactory();
+		initBuilder();
 	}
 	
-	private void initActivity() {
-		activity = new IncomingActivity(db);
+	private void initBuilder() {
+		builder = new EntityFromAPIBuilder(factory, Activity.emptyActivity());
 	}
 	
 	public void elementPoppedFromStack() {
-		activity.save();
-		initActivity();
+		Activity activity = (Activity) builder.getEntity();
+		db.insertActivity(activity);
+		initBuilder();
 	}
 
 	public void handleSubElement(String element, String data) {
-		activity.addDataForKey(element, data);
+		builder.add(element, data);
 	}
 }

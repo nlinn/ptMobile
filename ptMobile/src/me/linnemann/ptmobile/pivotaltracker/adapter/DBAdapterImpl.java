@@ -4,6 +4,7 @@ import me.linnemann.ptmobile.cursor.ActivitiesCursor;
 import me.linnemann.ptmobile.cursor.IterationCursor;
 import me.linnemann.ptmobile.cursor.ProjectsCursor;
 import me.linnemann.ptmobile.cursor.StoriesCursorImpl;
+import me.linnemann.ptmobile.pivotaltracker.Activity;
 import me.linnemann.ptmobile.pivotaltracker.ContentValueProvider;
 import me.linnemann.ptmobile.pivotaltracker.Project;
 import me.linnemann.ptmobile.pivotaltracker.Story;
@@ -163,7 +164,7 @@ public class DBAdapterImpl implements DBAdapter {
 	/* (non-Javadoc)
 	 * @see me.linnemann.ptmobile.pivotaltracker.IDBAdapter#insertActivity(android.content.ContentValues)
 	 */
-	public void insertActivity(ContentValues cv) {
+	private void insertActivity(ContentValues cv) {
 		openDBOnDemand();
 		long rc = db.insert("activities", null, cv);
 		if (rc < 1) {
@@ -475,6 +476,13 @@ public class DBAdapterImpl implements DBAdapter {
 		ContentValueProvider provider = new ContentValueProvider(story);
 		provider.fill();
 		insertStory(provider.getValues());
+	}
+	
+	public void insertActivity(Activity activity) {
+		openDBOnDemand();
+		ContentValueProvider provider = new ContentValueProvider(activity);
+		provider.fill();
+		insertActivity(provider.getValues());
 	}
 	
 	public void insertProject(Project project) {

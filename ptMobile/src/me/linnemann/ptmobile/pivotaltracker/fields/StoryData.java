@@ -2,7 +2,7 @@ package me.linnemann.ptmobile.pivotaltracker.fields;
 
 import me.linnemann.ptmobile.pivotaltracker.value.TrackerValue;
 
-public enum StoryData implements DBAndXMLTransferable {
+public enum StoryData implements TrackerData {
 	
 	ID, NAME, ESTIMATE, STORY_TYPE, LABELS, CURRENT_STATE, DESCRIPTION, REQUESTED_BY, OWNED_BY,
 	CREATED_AT, ACCEPTED_AT, DEADLINE, ITERATION_NUMBER, PROJECT_ID, ITERATION_GROUP, POSITION;
@@ -34,5 +34,10 @@ public enum StoryData implements DBAndXMLTransferable {
 				break;
 		}
 		return xml;
+	}
+
+	public TrackerValue getValueFromString(String from) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

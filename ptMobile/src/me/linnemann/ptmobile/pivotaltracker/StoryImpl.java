@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import me.linnemann.ptmobile.pivotaltracker.fields.DBAndXMLTransferable;
+import me.linnemann.ptmobile.pivotaltracker.fields.TrackerData;
 import me.linnemann.ptmobile.pivotaltracker.fields.StoryData;
 import me.linnemann.ptmobile.pivotaltracker.lifecycle.Lifecycle;
 import me.linnemann.ptmobile.pivotaltracker.lifecycle.LifecycleFactoryImpl;
@@ -22,7 +22,7 @@ public class StoryImpl implements Story {
 	@SuppressWarnings("unused")
 	private static final String TAG = "StoryImpl";
 
-	private Map<DBAndXMLTransferable, TrackerValue> modifiedData;
+	private Map<TrackerData, TrackerValue> modifiedData;
 	private Map<StoryData, TrackerValue> data;
 
 	public static Story buildInstance(StoryBuilder builder) {
@@ -34,7 +34,7 @@ public class StoryImpl implements Story {
 	}
 
 	public StoryImpl(StoryType type) {
-		modifiedData = new HashMap<DBAndXMLTransferable, TrackerValue>();
+		modifiedData = new HashMap<TrackerData, TrackerValue>();
 		data = new HashMap<StoryData, TrackerValue>();
 		initStoryData();
 		changeStoryType(type);
@@ -114,7 +114,7 @@ public class StoryImpl implements Story {
 		return LifecycleFactoryImpl.getLifecycleForType(getStoryType());
 	}
 
-	public Map<DBAndXMLTransferable, TrackerValue> getModifiedData() {
+	public Map<TrackerData, TrackerValue> getModifiedData() {
 		removeEstimateFromModifiedDataIfNO_ESTIMATE();
 		return modifiedData;
 	}
