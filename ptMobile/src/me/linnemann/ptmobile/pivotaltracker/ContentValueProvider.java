@@ -22,13 +22,15 @@ public class ContentValueProvider {
 	private Map<?,TrackerValue> modified;
 	
 	public ContentValueProvider(Activity activity) {
-		throw new RuntimeException("not implemented");
+		this.values = new ContentValues();
+		this.id = activity.getId().getValueAsString();
+		modified = activity.getData();
 	}
 	
 	public ContentValueProvider(Project project) {
 		this.values = new ContentValues();
 		this.id = project.getId().getValueAsString();
-		modified = project.getModifiedData();
+		modified = project.getData();
 	}
 	
 	public ContentValueProvider(Story story) {

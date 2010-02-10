@@ -19,7 +19,7 @@ public abstract class TrackerEntity {
 	}
 	
 	public void putDataAndTrackChanges(DataType key, TrackerValue value) {
-		Log.v("TrackerEntity","Key: "+key+" Value: "+value.getValueAsString());
+		Log.v("TrackerEntity","Key(DB Name): "+key.getDBFieldName()+" Value: "+value.getValueAsString());
 		
 		TrackerValue oldValue = data.put(key, value);
 

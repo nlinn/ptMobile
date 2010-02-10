@@ -5,7 +5,8 @@ import java.util.Map;
 
 import me.linnemann.ptmobile.pivotaltracker.value.TrackerValue;
 
-public class DataType {
+// TODO: check if trackerdata is needed or just legacy stuff
+public class DataType implements TrackerData {
 
 	public static DataType ID;
 	public static Map<String, DataType> knownTypes;

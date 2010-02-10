@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.widget.Toast;
 
 /**
@@ -50,6 +51,8 @@ public class QoS {
 	}
 	
 	public static void sendErrorMessageToHandler(Exception e, Handler handler) {
+		Log.w("QoS","Showing error: "+e.getMessage());
+		e.printStackTrace();
 		Message msg = new Message();
 		msg.what = ERROR;
 		Bundle bundle = new Bundle();

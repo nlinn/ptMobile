@@ -14,12 +14,12 @@ public class ProjectDataType extends DataType {
 
 	static {
 		ID = new ProjectDataType("id",NUMERIC);
-		NAME = new ProjectDataType("id",TEXT);
-		ITERATION_LENGTH = new ProjectDataType("id",TEXT);
-		WEEK_START_DAY = new ProjectDataType("id",TEXT);
-		POINT_SCALE = new ProjectDataType("id",TEXT);
-		CURRENT_VELOCITY = new ProjectDataType("id",NUMERIC);
-		LABELS = new ProjectDataType("id",TEXT);
+		NAME = new ProjectDataType("name",TEXT);
+		ITERATION_LENGTH = new ProjectDataType("iteration_length",TEXT);
+		WEEK_START_DAY = new ProjectDataType("week_start_day",TEXT);
+		POINT_SCALE = new ProjectDataType("point_scale",TEXT);
+		CURRENT_VELOCITY = new ProjectDataType("current_velocity",NUMERIC);
+		LABELS = new ProjectDataType("labels",TEXT);
 	}
 
 	private ProjectDataType(String colName, int valueType) {
@@ -30,6 +30,12 @@ public class ProjectDataType extends DataType {
 	public String getDBColName() {
 		return dbColName;
 	}
+	
+	// TODO: wipe that stupid TrackerValue interface
+	public String getDBFieldName() {
+		return getDBColName();
+	}
+
 
 	public TrackerValue getValueFromString(String from) {
 		TrackerValue value;

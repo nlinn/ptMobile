@@ -36,7 +36,7 @@ public class DBAdapterImpl implements DBAdapter {
 	SQLiteDatabase db;
 
 	private static final String DATABASE_NAME = "data";
-	private static final int DATABASE_VERSION = 42;
+	private static final int DATABASE_VERSION = 43;
 
 	private final Context ctx;
 
@@ -97,6 +97,7 @@ public class DBAdapterImpl implements DBAdapter {
 					+ "story text not null, "
 					+ "description text not null, "
 					+ "author text not null, "
+					+ "updatetimestamp integer not null, "
 					+ "_when date not null);");
 
 			// --- TIMESTAMPS

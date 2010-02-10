@@ -25,6 +25,11 @@ public class ActivityDataType extends DataType {
 		this.dbColName = colName;
 		this.valueType = valueType;
 	}
+	
+	// TODO: wipe that stupid TrackerValue interface
+	public String getDBFieldName() {
+		return getDBColName();
+	}
 
 	public String getDBColName() {
 		return dbColName;
