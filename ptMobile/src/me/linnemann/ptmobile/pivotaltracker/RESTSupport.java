@@ -114,9 +114,12 @@ public class RESTSupport {
 			String msg =textFromURL(in);
 			msg = msg.replaceAll("<message>", "");
 			msg = msg.replaceAll("</message>", "");
-			msg = msg.replaceAll("<?xml version=\"1.0\" encoding=\"UTF-8\"?>", "");
+			msg = msg.replaceAll("<\\?xml version=\"1.0\" encoding=\"UTF-8\"\\?>", "");
 			msg = msg.replaceAll("\n", "");
-			throw new RuntimeException("HTTP "+response+" ("+getNameOfHTTPCode(response)+")\n "+msg.substring(0, 200));
+			if (msg.length() > 200) {
+				msg = msg.substring(0, 200);
+			}
+			throw new RuntimeException("HTTP "+response+" ("+getNameOfHTTPCode(response)+")\n "+msg);
 		}                     
 
 		return in;     

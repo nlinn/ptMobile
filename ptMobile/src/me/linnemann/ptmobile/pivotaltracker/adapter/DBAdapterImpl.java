@@ -36,7 +36,7 @@ public class DBAdapterImpl implements DBAdapter {
 	SQLiteDatabase db;
 
 	private static final String DATABASE_NAME = "data";
-	private static final int DATABASE_VERSION = 43;
+	private static final int DATABASE_VERSION = 44;
 
 	private final Context ctx;
 
@@ -57,6 +57,7 @@ public class DBAdapterImpl implements DBAdapter {
 					+ "current_velocity integer not null, "
 					+ "point_scale text not null, "
 					+ "labels text not null, "
+					+ "use_https text not null, "
 					+ "updatetimestamp integer not null, "
 					+ "name text not null);");
 

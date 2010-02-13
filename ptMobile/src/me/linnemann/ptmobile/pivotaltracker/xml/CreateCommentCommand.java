@@ -9,15 +9,17 @@ import me.linnemann.ptmobile.pivotaltracker.Story;
 
 public class CreateCommentCommand extends RESTXMLCommand {
 	
-	protected static String URL="http://www.pivotaltracker.com/services/v2/projects/PROJECT_ID/stories/STORY_ID/notes";
+	protected static String URL="www.pivotaltracker.com/services/v2/projects/PROJECT_ID/stories/STORY_ID/notes";
 
 	private static final String TAG = "CreateCommentCommand";
 	private Story story;
 	private String comment;
+	private String protocol;
 	
-	public CreateCommentCommand(Story story, String comment) {
+	public CreateCommentCommand(Story story, String comment, String protocol) {
 		this.story = story;
 		this.comment = comment;
+		this.protocol =protocol;
 	}
 	
 	public URL getURL() {
@@ -29,7 +31,7 @@ public class CreateCommentCommand extends RESTXMLCommand {
 	}
 	
 	private String compiledURLString() {
-		String url = URL.replaceAll("PROJECT_ID", story.getProjectId().getValueAsString())
+		String url = protocol+URL.replaceAll("PROJECT_ID", story.getProjectId().getValueAsString())
 		.replaceAll("STORY_ID", story.getId().getValueAsString());
 		return url;
 	}

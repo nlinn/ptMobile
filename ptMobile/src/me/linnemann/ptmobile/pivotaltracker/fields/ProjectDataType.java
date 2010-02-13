@@ -6,7 +6,7 @@ import me.linnemann.ptmobile.pivotaltracker.value.TrackerValue;
 
 public class ProjectDataType extends DataType {
 
-	public static DataType ID, NAME, ITERATION_LENGTH, WEEK_START_DAY, POINT_SCALE, CURRENT_VELOCITY, LABELS;
+	public static DataType ID, NAME, USE_HTTPS, ITERATION_LENGTH, WEEK_START_DAY, POINT_SCALE, CURRENT_VELOCITY, LABELS;
 	private String dbColName;
 	private int valueType;
 	private static final int NUMERIC = 0;
@@ -20,6 +20,7 @@ public class ProjectDataType extends DataType {
 		POINT_SCALE = new ProjectDataType("point_scale",TEXT);
 		CURRENT_VELOCITY = new ProjectDataType("current_velocity",NUMERIC);
 		LABELS = new ProjectDataType("labels",TEXT);
+		USE_HTTPS = new ProjectDataType("use_https",TEXT);
 	}
 
 	private ProjectDataType(String colName, int valueType) {

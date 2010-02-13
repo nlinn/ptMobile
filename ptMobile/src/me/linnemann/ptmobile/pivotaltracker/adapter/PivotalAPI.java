@@ -3,6 +3,7 @@ package me.linnemann.ptmobile.pivotaltracker.adapter;
 import java.io.IOException;
 import java.io.InputStream;
 
+import me.linnemann.ptmobile.pivotaltracker.Project;
 import me.linnemann.ptmobile.pivotaltracker.RESTSupport;
 import me.linnemann.ptmobile.pivotaltracker.Story;
 import me.linnemann.ptmobile.pivotaltracker.xml.CreateCommentCommand;
@@ -161,18 +162,20 @@ public class PivotalAPI {
 	}
 	
 	private InputStream getStreamForGroup(Integer project_id, String iteration_group) {
+		Project project = db.getProject(project_id);
+		String protocol = project.getProtocol();
 		InputStream in = null;
 		if (iteration_group.equalsIgnoreCase("current")) {
-			in = adapter.getCurrentStream(project_id);
+			in = adapter.getCurrentStream(project_id, protocol);
 		}
 		if (iteration_group.equalsIgnoreCase("done")) {
-			in = adapter.getDoneStream(project_id);
+			in = adapter.getDoneStream(project_id, protocol);
 		}
 		if (iteration_group.equalsIgnoreCase("backlog")) {
-			in = adapter.getBacklogStream(project_id);
+			in = adapter.getBacklogStream(project_id, protocol);
 		}
 		if (iteration_group.equalsIgnoreCase("icebox")) {
-			in = adapter.getIceboxStream(project_id);
+			in = adapter.getIceboxStream(project_id, protocol);
 		}
 
 		return in;

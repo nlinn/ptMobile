@@ -42,4 +42,17 @@ public class Project extends TrackerEntity {
 	public Numeric getCurrentVelocity() {
 		return (Numeric) data.get(ProjectDataType.CURRENT_VELOCITY);
 	}
+	
+	public Text getUseHTTPS() {
+		return (Text) data.get(ProjectDataType.USE_HTTPS);
+	}
+	
+	public String getProtocol() {		
+		String s = getUseHTTPS().getValue();
+		if (s.equalsIgnoreCase("true")) {
+			return "https://";
+		} else {
+			return "http://";
+		}
+	}
 }

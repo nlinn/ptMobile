@@ -10,5 +10,6 @@ public class ProjectDataTypeFactory extends DataTypeFactory {
 		addKnownType("point_scale", ProjectDataType.POINT_SCALE);
 		addKnownType("current_velocity", ProjectDataType.CURRENT_VELOCITY);
 		addKnownType("labels", ProjectDataType.LABELS);
+		addKnownType("use_https", ProjectDataType.USE_HTTPS);
 	}
 }

@@ -1,3 +1,9 @@
+0.8beta
+- Error Dialog
+- XML Parsing 
+- Stability...
+- HTTPS working
+
 Todo:
 - Comments
 - "restart" in lifecycle"

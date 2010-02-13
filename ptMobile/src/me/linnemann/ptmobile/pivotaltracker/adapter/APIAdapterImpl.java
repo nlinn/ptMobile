@@ -23,10 +23,10 @@ public class APIAdapterImpl implements APIAdapter {
 
 	private static final String URL_PROJECTS ="http://www.pivotaltracker.com/services/v3/projects";
 	private static final String URL_ACTIVITIES ="http://www.pivotaltracker.com/services/v2/activities";
-	private static final String URL_ITERATIONS_CURRENT ="http://www.pivotaltracker.com/services/v2/projects/PROJECT_ID/iterations/current";
-	private static final String URL_ITERATIONS_DONE ="http://www.pivotaltracker.com/services/v2/projects/PROJECT_ID/iterations/done?offset=-3";
-	private static final String URL_ICEBOX ="http://www.pivotaltracker.com/services/v2/projects/PROJECT_ID/stories?filter=state%3Aunscheduled";
-	private static final String URL_ITERATIONS_BACKLOG ="http://www.pivotaltracker.com/services/v2/projects/PROJECT_ID/iterations/backlog";
+	private static final String URL_ITERATIONS_CURRENT ="www.pivotaltracker.com/services/v2/projects/PROJECT_ID/iterations/current";
+	private static final String URL_ITERATIONS_DONE ="www.pivotaltracker.com/services/v2/projects/PROJECT_ID/iterations/done?offset=-3";
+	private static final String URL_ICEBOX ="www.pivotaltracker.com/services/v2/projects/PROJECT_ID/stories?filter=state%3Aunscheduled";
+	private static final String URL_ITERATIONS_BACKLOG ="www.pivotaltracker.com/services/v2/projects/PROJECT_ID/iterations/backlog";
 	private static final String URL_TOKEN ="https://www.pivotaltracker.com/services/tokens/active";
 
 	private String apikey;
@@ -74,23 +74,27 @@ public class APIAdapterImpl implements APIAdapter {
 		} 
 	}
 
-	public InputStream getDoneStream(Integer project_id) {
-		String url = URL_ITERATIONS_DONE.replaceAll("PROJECT_ID", project_id.toString());
+	public InputStream getDoneStream(Integer project_id, String protocol) {
+		String url = protocol;
+		url += URL_ITERATIONS_DONE.replaceAll("PROJECT_ID", project_id.toString());
 		return loadURL(url);
 	}
 
-	public InputStream getCurrentStream(Integer project_id) {
-		String url = URL_ITERATIONS_CURRENT.replaceAll("PROJECT_ID", project_id.toString());
+	public InputStream getCurrentStream(Integer project_id, String protocol) {
+		String url = protocol;
+		url += URL_ITERATIONS_CURRENT.replaceAll("PROJECT_ID", project_id.toString());
 		return loadURL(url);
 	}
 
-	public InputStream getBacklogStream(Integer project_id) {
-		String url = URL_ITERATIONS_BACKLOG.replaceAll("PROJECT_ID", project_id.toString());
+	public InputStream getBacklogStream(Integer project_id, String protocol) {
+		String url = protocol;
+		url += URL_ITERATIONS_BACKLOG.replaceAll("PROJECT_ID", project_id.toString());
 		return loadURL(url);
 	}
 
-	public InputStream getIceboxStream(Integer project_id) {
-		String url = URL_ICEBOX.replaceAll("PROJECT_ID", project_id.toString());
+	public InputStream getIceboxStream(Integer project_id, String protocol) {
+		String url = protocol;
+		url += URL_ICEBOX.replaceAll("PROJECT_ID", project_id.toString());
 		return loadURL(url);
 	}
 
