@@ -22,7 +22,7 @@ public class StoryFromIceboxXMLTests extends AndroidTestCase {
         db = new DBAdapterMock();
         
         APIAdapterMock adapter = new APIAdapterMock();
-        adapter.setIceboxStream(StoryFromIceboxXMLTests.class.getResourceAsStream("storySimple.xml"));
+        adapter.setMockStream(StoryFromIceboxXMLTests.class.getResourceAsStream("storySimple.xml"));
         
         PivotalAPI api = new PivotalAPI(this.getContext(), db, adapter);
         api.readStories(TestData.ANY_PROJECT_ID, "icebox");

@@ -182,12 +182,14 @@ public class PivotalAPI {
 	}
 
 	public void updateStory(Story story) {
-		UpdateStoryCommand command = new UpdateStoryCommand(story);
+		String protocol = getProtocolForStory(story);
+		UpdateStoryCommand command = new UpdateStoryCommand(story, protocol);
 		executeCommandAndClose(command);
 	}
 
 	public void createStory(Story story) {
-		CreateStoryCommand command = new CreateStoryCommand(story);
+		String protocol = getProtocolForStory(story);
+		CreateStoryCommand command = new CreateStoryCommand(story, protocol);
 		executeCommandAndClose(command);
 	}
 
@@ -202,7 +204,10 @@ public class PivotalAPI {
 	}
 
 	public void createComment(Story story, String comment) {
-		CreateCommentCommand command = new CreateCommentCommand(story, comment);
+		
+		String protocol = getProtocolForStory(story);
+		
+		CreateCommentCommand command = new CreateCommentCommand(story, comment, protocol);
 		try {
 			InputStream in = adapter.getStreamForCommand(command);
 			XMLStackHandler handler = getXMLHandlerWithListenersForComments(story.getProjectId().getValue(), story.getId().getValue());
@@ -212,6 +217,13 @@ public class PivotalAPI {
 			Log.e(TAG,"IO while closing stream: "+e.getMessage());
 			// --- ignore exceptions while closing
 		}
+	}
+	
+	private String getProtocolForStory(Story story) {
+		// --- TODO design: should a story should know its projects protocol
+		Project project = db.getProject(story.getProjectId().getValue());
+		String protocol = project.getProtocol();
+		return protocol;
 	}
 
 	private XMLStackHandler getXMLHandlerWithListenersForComments(final Integer project_id, final Integer story_id) {

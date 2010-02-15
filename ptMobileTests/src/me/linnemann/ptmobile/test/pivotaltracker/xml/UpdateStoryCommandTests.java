@@ -24,7 +24,7 @@ public class UpdateStoryCommandTests extends AndroidTestCase {
 	public void testGenerateCorrectURL() {
 		story.changeId(222222);
 		story.changeProjectId(1111);
-		UpdateStoryCommand usc = new UpdateStoryCommand(story);
+		UpdateStoryCommand usc = new UpdateStoryCommand(story,"http://");
 		
 		URL url = usc.getURL();
 		Log.d(TAG, url.toString());
@@ -35,7 +35,7 @@ public class UpdateStoryCommandTests extends AndroidTestCase {
 		String expectedXML = "<story><labels>label1,label2</labels></story>";
 
 		story.changeLabels("label1,label2");
-		UpdateStoryCommand usc = new UpdateStoryCommand(story);
+		UpdateStoryCommand usc = new UpdateStoryCommand(story,"http://");
 		assertEquals(expectedXML, usc.getXMLString());
 	}
 	
@@ -44,7 +44,7 @@ public class UpdateStoryCommandTests extends AndroidTestCase {
 		story.changeStoryType(StoryType.FEATURE);
 		story.resetModifiedDataTracking();
 		story.changeEstimate(Estimate.POINTS_8);
-		UpdateStoryCommand usc = new UpdateStoryCommand(story);
+		UpdateStoryCommand usc = new UpdateStoryCommand(story,"http://");
 		assertEquals(expectedXML, usc.getXMLString());
 	}
 	
@@ -53,7 +53,7 @@ public class UpdateStoryCommandTests extends AndroidTestCase {
 		story.changeStoryType(StoryType.FEATURE);
 		story.resetModifiedDataTracking();
 		story.changeEstimate(Estimate.NO_ESTIMATE);
-		UpdateStoryCommand usc = new UpdateStoryCommand(story);
+		UpdateStoryCommand usc = new UpdateStoryCommand(story,"http://");
 		assertEquals(expectedXML, usc.getXMLString());
 	}
 	
@@ -61,7 +61,7 @@ public class UpdateStoryCommandTests extends AndroidTestCase {
 		String expectedXML = "<story><current_state>started</current_state></story>";
 
 		story.changeCurrentState(State.STARTED);		
-		UpdateStoryCommand usc = new UpdateStoryCommand(story);
+		UpdateStoryCommand usc = new UpdateStoryCommand(story,"http://");
 		assertEquals(expectedXML, usc.getXMLString());
 	}
 	
@@ -69,7 +69,7 @@ public class UpdateStoryCommandTests extends AndroidTestCase {
 		String expectedXML = "<story><story_type>chore</story_type></story>";
 
 		story.changeStoryType(StoryType.CHORE);		
-		UpdateStoryCommand usc = new UpdateStoryCommand(story);
+		UpdateStoryCommand usc = new UpdateStoryCommand(story,"http://");
 		assertEquals(expectedXML, usc.getXMLString());
 	}
 	
@@ -77,7 +77,7 @@ public class UpdateStoryCommandTests extends AndroidTestCase {
 		String expectedXML = "<story><name>My Name</name></story>";
 
 		story.changeName("My Name");		
-		UpdateStoryCommand usc = new UpdateStoryCommand(story);
+		UpdateStoryCommand usc = new UpdateStoryCommand(story,"http://");
 		assertEquals(expectedXML, usc.getXMLString());
 	}
 	
@@ -85,7 +85,7 @@ public class UpdateStoryCommandTests extends AndroidTestCase {
 		String expectedXML = "<story><description>My simple description.</description></story>";
 
 		story.changeDescription("My simple description.");		
-		UpdateStoryCommand usc = new UpdateStoryCommand(story);
+		UpdateStoryCommand usc = new UpdateStoryCommand(story,"http://");
 		assertEquals(expectedXML, usc.getXMLString());
 	}
 }

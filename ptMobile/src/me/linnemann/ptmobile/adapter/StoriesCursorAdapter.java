@@ -109,10 +109,12 @@ public class StoriesCursorAdapter extends CursorAdapter {
 		}
 		
 		// -- no matter what state, release is always same color
+		TextView tv = (TextView) view.findViewById(R.id.textNameStory);
 		if (StoryType.RELEASE.equals(story.getStoryType())) {
 			view.setBackgroundResource(R.drawable.list_view_selector_release);
-			TextView tv = (TextView) view.findViewById(R.id.textNameStory);
 			tv.setTextColor(Color.WHITE);
+		} else {
+			tv.setTextColor(Color.BLACK);
 		}
 	}
 

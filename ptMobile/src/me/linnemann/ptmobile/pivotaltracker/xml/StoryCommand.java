@@ -13,10 +13,12 @@ public abstract class StoryCommand extends RESTXMLCommand {
 	
 	private Story story;
 	private String url;
+	private String protocol;
 	
-	public StoryCommand(Story story, String url) {
+	public StoryCommand(Story story, String url, String protocol) {
 		this.story = story;
 		this.url = url;
+		this.protocol = protocol;
 	}
 	
 	public Story getStory() {
@@ -32,7 +34,7 @@ public abstract class StoryCommand extends RESTXMLCommand {
 	}
 	
 	private String compiledURLString() {
-		String compiledUrl = url.replaceAll("PROJECT_ID", story.getProjectId().getValueAsString());
+		String compiledUrl = protocol + url.replaceAll("PROJECT_ID", story.getProjectId().getValueAsString());
 		
 		if (!story.getId().isEmpty()) {
 			compiledUrl= compiledUrl.replaceAll("STORY_ID", story.getId().getValueAsString());	
