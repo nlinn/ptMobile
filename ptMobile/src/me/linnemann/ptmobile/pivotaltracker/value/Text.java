@@ -52,4 +52,8 @@ public class Text implements TrackerValue{
 	public static TrackerValue getEmptyValue() {
 		return new Text("");
 	}
+
+	public String getXMLWrappedValue(String xmlTag) {
+		return "<" + xmlTag + ">" + getValueAsString() + "</"+xmlTag+">";
+	}
 }

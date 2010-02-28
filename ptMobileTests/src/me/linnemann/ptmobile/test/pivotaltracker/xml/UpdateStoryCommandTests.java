@@ -3,7 +3,7 @@ package me.linnemann.ptmobile.test.pivotaltracker.xml;
 import java.net.URL;
 
 import me.linnemann.ptmobile.pivotaltracker.Story;
-import me.linnemann.ptmobile.pivotaltracker.StoryImpl;
+import me.linnemann.ptmobile.pivotaltracker.Story;
 import me.linnemann.ptmobile.pivotaltracker.lifecycle.StateWithTransitions;
 import me.linnemann.ptmobile.pivotaltracker.value.Estimate;
 import me.linnemann.ptmobile.pivotaltracker.value.State;
@@ -18,7 +18,7 @@ public class UpdateStoryCommandTests extends AndroidTestCase {
 	private Story story;
 	
 	public void setUp() {
-		story = new StoryImpl();
+		story = new Story();
 	}
 	
 	public void testGenerateCorrectURL() {

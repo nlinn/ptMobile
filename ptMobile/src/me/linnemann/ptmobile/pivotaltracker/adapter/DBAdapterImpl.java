@@ -4,11 +4,16 @@ import me.linnemann.ptmobile.cursor.ActivitiesCursor;
 import me.linnemann.ptmobile.cursor.IterationCursor;
 import me.linnemann.ptmobile.cursor.ProjectsCursor;
 import me.linnemann.ptmobile.cursor.StoriesCursorImpl;
-import me.linnemann.ptmobile.pivotaltracker.Activity;
 import me.linnemann.ptmobile.pivotaltracker.ContentValueProvider;
+import me.linnemann.ptmobile.pivotaltracker.Iteration;
+import me.linnemann.ptmobile.pivotaltracker.Note;
 import me.linnemann.ptmobile.pivotaltracker.Project;
 import me.linnemann.ptmobile.pivotaltracker.Story;
-import me.linnemann.ptmobile.ui.OutputStyler;
+import me.linnemann.ptmobile.pivotaltracker.TrackerEntity;
+import me.linnemann.ptmobile.pivotaltracker.datatype.NoteDataType;
+import me.linnemann.ptmobile.pivotaltracker.value.DateTime;
+import me.linnemann.ptmobile.pivotaltracker.value.Numeric;
+import me.linnemann.ptmobile.pivotaltracker.value.Text;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -36,7 +41,7 @@ public class DBAdapterImpl implements DBAdapter {
 	SQLiteDatabase db;
 
 	private static final String DATABASE_NAME = "data";
-	private static final int DATABASE_VERSION = 44;
+	private static final int DATABASE_VERSION = 47;
 
 	private final Context ctx;
 
@@ -72,11 +77,11 @@ public class DBAdapterImpl implements DBAdapter {
 					+ "labels text not null, "
 					+ "current_state text not null, "
 					+ "description text not null, "
-					+ "deadline date, "
+					+ "deadline text, "
 					+ "requested_by text, "
 					+ "owned_by text, "
-					+ "created_at date, "
-					+ "accepted_at date, "
+					+ "created_at text, "
+					+ "accepted_at text, "
 					+ "updatetimestamp integer not null, "
 					+ "iteration_group text not null, "
 					+ "name text not null);");
@@ -85,22 +90,25 @@ public class DBAdapterImpl implements DBAdapter {
 			db.execSQL("create table iterations (_id integer primary key autoincrement, "
 					+ "id text not null, "
 					+ "number integer not null, "
-					+ "start date not null, "
-					+ "finish date not null, "
+					+ "start text not null, "
+					+ "finish text not null, "
 					+ "updatetimestamp integer not null, "
 					+ "iteration_group text not null, "
 					+ "project_id text not null);");
 
 			// --- ACTIVITIES
 			db.execSQL("create table activities (_id integer primary key autoincrement, "
-					+ "id text not null, "
-					+ "project text not null, "
-					+ "story text not null, "
-					+ "description text not null, "
+					+ "id integer not null, "
+					+ "version integer not null, "
+					+ "event_type text not null, "
+					+ "occurred_at text not null, "
+					+ "project_id integer not null, "
 					+ "author text not null, "
-					+ "updatetimestamp integer not null, "
-					+ "_when date not null);");
+					+ "description text not null, "
+					+ "updatetimestamp integer not null);"
+					);
 
+			
 			// --- TIMESTAMPS
 			db.execSQL("create table timestamps (_id integer primary key autoincrement, "
 					+ "key text not null, "
@@ -114,7 +122,7 @@ public class DBAdapterImpl implements DBAdapter {
 					+ "_text text not null, "
 					+ "author text not null, "
 					+ "updatetimestamp integer not null, "
-					+ "noted_at date not null)");
+					+ "noted_at text not null)");
 		}
 
 		@Override
@@ -153,43 +161,6 @@ public class DBAdapterImpl implements DBAdapter {
 	 */
 	public void close() {
 		dbHelper.close();
-	}
-
-	private void insertProject(ContentValues cv) {
-		openDBOnDemand();
-		long rc = db.insert("projects", null, cv);
-		if (rc < 1) {
-			throw new RuntimeException("error saving data.");
-		}
-	}
-
-	/* (non-Javadoc)
-	 * @see me.linnemann.ptmobile.pivotaltracker.IDBAdapter#insertActivity(android.content.ContentValues)
-	 */
-	private void insertActivity(ContentValues cv) {
-		openDBOnDemand();
-		long rc = db.insert("activities", null, cv);
-		if (rc < 1) {
-			throw new RuntimeException("error saving data.");
-		}
-	}
-
-	private long insertStory(ContentValues cv) {
-		openDBOnDemand();
-		Log.v("DB","CV: "+cv);
-		long result = db.insert("stories", null, cv);
-		Log.v("DB","insert: "+result);
-		return result;
-	}
-
-	/* (non-Javadoc)
-	 * @see me.linnemann.ptmobile.pivotaltracker.IDBAdapter#insertNote(android.content.ContentValues)
-	 */
-	public long insertNote(ContentValues cv) {
-		openDBOnDemand();
-		long result = db.insert("notes", null, cv);
-		Log.v("DB","insert: "+result);
-		return result;
 	}
 
 	public void updateStory(Story story) {
@@ -250,6 +221,7 @@ public class DBAdapterImpl implements DBAdapter {
 	public ActivitiesCursor getActivitiesCursor() {
 		openDBOnDemand();
 		ActivitiesCursor c = (ActivitiesCursor) db.rawQueryWithFactory(new ActivitiesCursor.Factory(), ActivitiesCursor.getListSQL(), null, null);
+		c.setDBAdapter(this);
 		c.moveToFirst();
 		return c;
 	}
@@ -266,27 +238,14 @@ public class DBAdapterImpl implements DBAdapter {
 		return project;
 	}
 
-	public IterationCursor getIteration(Integer project_id, Integer number) {
+	public Iteration getIteration(Numeric project_id, Numeric number) {
 		openDBOnDemand();
-		IterationCursor c = (IterationCursor) db.rawQueryWithFactory(new IterationCursor.Factory(), IterationCursor.sqlSingleIteration(number, project_id), null, null);
+		IterationCursor c = (IterationCursor) db.rawQueryWithFactory(new IterationCursor.Factory(), IterationCursor.sqlSingleIteration(number.getValue(), project_id.getValue()), null, null);
 		c.moveToFirst();
-		return c;
-	}
-
-
-	/* (non-Javadoc)
-	 * @see me.linnemann.ptmobile.pivotaltracker.IDBAdapter#getProjectIdByName(java.lang.String)
-	 */
-	public Integer getProjectIdByName(String project_name) {
-		openDBOnDemand();
-		ProjectsCursor c = (ProjectsCursor) db.rawQueryWithFactory(new ProjectsCursor.Factory(), ProjectsCursor.getProjectByName(project_name), null, null);
-		c.moveToFirst();
-
-		Integer project_id = 0; //c.getId();
+		Iteration iteration = c.getIteration();
 		c.close();
-		return project_id;
+		return iteration;
 	}
-
 
 	/* (non-Javadoc)
 	 * @see me.linnemann.ptmobile.pivotaltracker.IDBAdapter#getStoriesCursorBacklog(java.lang.String)
@@ -306,6 +265,7 @@ public class DBAdapterImpl implements DBAdapter {
 		}
 
 		StoriesCursorImpl c = (StoriesCursorImpl) db.rawQueryWithFactory(new StoriesCursorImpl.Factory(), sql, null, null);
+		c.setDBAdapter(this);
 		c.moveToFirst();
 		return c;
 	}
@@ -316,6 +276,7 @@ public class DBAdapterImpl implements DBAdapter {
 	public Story getStory(Integer story_id) {
 		openDBOnDemand();
 		StoriesCursorImpl c = (StoriesCursorImpl) db.rawQueryWithFactory(new StoriesCursorImpl.Factory(), StoriesCursorImpl.sqlSingleStory(story_id), null, null);
+		c.setDBAdapter(this);
 		c.moveToFirst();
 		Story story = c.getStory();
 		c.close();
@@ -430,11 +391,16 @@ public class DBAdapterImpl implements DBAdapter {
 
 		Cursor c=null;
 		try { 
-			c = db.rawQuery("Select _text, author, noted_at from notes where story_id='"+story_id+"'",null);
+			c = db.rawQuery("Select _text, author, noted_at from notes where story_id="+story_id+" order by id desc",null);
 
 			if (c.moveToFirst()) {
 				do {
-					comments.append(OutputStyler.getCommentAsText(c.getString(0), c.getString(1), c.getString(2)));
+					Note note = new Note();
+					note.putDataAndTrackChanges(NoteDataType.TEXT, new Text(c.getString(c.getColumnIndex("_text"))));
+					note.putDataAndTrackChanges(NoteDataType.AUTHOR, new Text(c.getString(c.getColumnIndex("author"))));
+					note.putDataAndTrackChanges(NoteDataType.NOTED_AT, new DateTime(c.getString(c.getColumnIndex("noted_at"))));
+					
+					comments.append(note.getUIString());
 					comments.append("\n\n");
 				} while (c.moveToNext());
 			}
@@ -472,26 +438,19 @@ public class DBAdapterImpl implements DBAdapter {
 
 		return needsUpdate;
 	}
-
-	public void insertStory(Story story) {
-		openDBOnDemand();
-		ContentValueProvider provider = new ContentValueProvider(story);
+	
+	public void insertEntity(TrackerEntity entity) {
+		ContentValueProvider provider = new ContentValueProvider(entity);
 		provider.fill();
-		insertStory(provider.getValues());
+		insertContentValues(entity.getTableName(), provider.getValues());
 	}
 	
-	public void insertActivity(Activity activity) {
+	private long insertContentValues(String table, ContentValues cv) {
 		openDBOnDemand();
-		ContentValueProvider provider = new ContentValueProvider(activity);
-		provider.fill();
-		insertActivity(provider.getValues());
-	}
-	
-	public void insertProject(Project project) {
-		openDBOnDemand();
-		ContentValueProvider provider = new ContentValueProvider(project);
-		provider.fill();
-		insertProject(provider.getValues());
+		Log.v("DB","CV: "+cv);
+		long result = db.insert(table, null, cv);
+		Log.v("DB","insert: "+result);
+		return result;
 	}
 	
 	private void openDBOnDemand() {

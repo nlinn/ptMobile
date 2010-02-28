@@ -1,7 +1,6 @@
 package me.linnemann.ptmobile.pivotaltracker;
 
 import me.linnemann.ptmobile.cursor.ActivitiesCursor;
-import me.linnemann.ptmobile.cursor.IterationCursor;
 import me.linnemann.ptmobile.cursor.ProjectsCursor;
 import me.linnemann.ptmobile.cursor.StoriesCursorImpl;
 import me.linnemann.ptmobile.pivotaltracker.adapter.APIAdapterImpl;
@@ -45,10 +44,6 @@ public class PivotalTracker {
 		return db.getActivitiesCursor();
 	}
 
-	public IterationCursor getIterationCursor(Integer project_id, Integer number) {
-		return db.getIteration(project_id, number);
-	}
-
 	public StoriesCursorImpl getStoriesCursor(Integer project_id, String filter) {
 		return db.getStoriesCursor(project_id, filter);
 	}
@@ -85,10 +80,6 @@ public class PivotalTracker {
 		api.readActivities();
 	}
 
-	public Integer getProjectIdByName(String project_name) {
-		return db.getProjectIdByName(project_name);
-	}
-
 	public void commitChanges(Story story) {
 		
 		if (story.getId().isEmpty()) {
@@ -123,7 +114,7 @@ public class PivotalTracker {
 	}
 
 	public Story getEmptyStoryForProject(Integer project_id) {
-		Story story = new StoryImpl();
+		Story story = new Story();
 		story.changeProjectId(project_id);
 		story.resetModifiedDataTracking();
 		return story;

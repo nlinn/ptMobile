@@ -1,7 +1,7 @@
 package me.linnemann.ptmobile.test.functional;
 
 import me.linnemann.ptmobile.pivotaltracker.Story;
-import me.linnemann.ptmobile.pivotaltracker.StoryImpl;
+import me.linnemann.ptmobile.pivotaltracker.Story;
 import me.linnemann.ptmobile.pivotaltracker.lifecycle.StateWithTransitions;
 import me.linnemann.ptmobile.pivotaltracker.lifecycle.Transition;
 import me.linnemann.ptmobile.pivotaltracker.value.State;
@@ -13,7 +13,7 @@ public class StoryAndLifecycleTests extends AndroidTestCase {
 
 	public void test_estimatedUnstartedFeature_hasTransitionStart() {
 		
-		Story story = new StoryImpl();
+		Story story = new Story();
 		story.changeStoryType(StoryType.FEATURE);
 		story.changeEstimate(TestData.ANY_ESTIMATE);
 		story.changeCurrentState(State.UNSTARTED);

@@ -1,15 +1,10 @@
 package me.linnemann.ptmobile.pivotaltracker;
 
-import me.linnemann.ptmobile.pivotaltracker.fields.ProjectDataType;
+import me.linnemann.ptmobile.pivotaltracker.datatype.ProjectDataType;
 import me.linnemann.ptmobile.pivotaltracker.value.Numeric;
 import me.linnemann.ptmobile.pivotaltracker.value.Text;
 
 public class Project extends TrackerEntity {
-
-	
-	public static Project buildInstance(ProjectBuilder builder) {
-		return builder.getConstructedProject();
-	}
 	
 	public static Project emptyProject() {
 		return new Project();
@@ -55,4 +50,10 @@ public class Project extends TrackerEntity {
 			return "http://";
 		}
 	}
+	
+	@Override
+	public String getTableName() {
+		return "projects";
+	}
+
 }

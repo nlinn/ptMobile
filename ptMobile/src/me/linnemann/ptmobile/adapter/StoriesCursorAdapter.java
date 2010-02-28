@@ -3,12 +3,12 @@ package me.linnemann.ptmobile.adapter;
 import me.linnemann.ptmobile.R;
 import me.linnemann.ptmobile.cursor.StoriesCursor;
 import me.linnemann.ptmobile.cursor.StoriesCursorImpl;
+import me.linnemann.ptmobile.pivotaltracker.Iteration;
 import me.linnemann.ptmobile.pivotaltracker.Story;
 import me.linnemann.ptmobile.pivotaltracker.value.Estimate;
 import me.linnemann.ptmobile.pivotaltracker.value.State;
 import me.linnemann.ptmobile.pivotaltracker.value.StoryType;
 import me.linnemann.ptmobile.pivotaltracker.value.Text;
-import me.linnemann.ptmobile.ui.OutputStyler;
 import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Color;
@@ -60,7 +60,8 @@ public class StoriesCursorAdapter extends CursorAdapter {
 		if ((!story.getIterationGroup().getValue().equalsIgnoreCase("icebox")) &&
 		 (story.isFirstInIteration())) {
 			if (tv != null) {
-				tv.setText(OutputStyler.getIterationAsText(c));				
+				Iteration iteration = story.getIteration();
+				tv.setText(iteration.toUIString());				
 				tv.setVisibility(View.VISIBLE);
 			}
 		} else {

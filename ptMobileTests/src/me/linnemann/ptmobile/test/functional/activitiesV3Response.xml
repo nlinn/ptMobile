@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<activities type="array">
+  <activity>
+    <id type="integer">13813364</id>
+    <version type="integer">782</version>
+    <event_type>story_update</event_type>
+    <occurred_at type="datetime">2010/02/28 15:29:37 UTC</occurred_at>
+    <author>Niels Linnemann</author>
+    <project_id type="integer">48422</project_id>
+    <description>Niels Linnemann accepted &quot;Im CS-Client benutzen alle existierenden Webflows den internen Browser&quot;</description>
+    <stories>
+      <story>
+        <id type="integer">2528319</id>
+        <url>http://www.pivotaltracker.com/services/v3/projects/48422/stories/2528319</url>
+        <accepted_at type="datetime">2010/02/28 15:29:37 UTC</accepted_at>
+        <current_state>accepted</current_state>
+      </story>
+    </stories>
+  </activity>
+  <activity>
+    <id type="integer">13813363</id>
+    <version type="integer">781</version>
+    <event_type>story_update</event_type>
+    <occurred_at type="datetime">2010/02/28 15:29:36 UTC</occurred_at>
+    <author>Niels Linnemann</author>
+    <project_id type="integer">48422</project_id>
+    <description>Niels Linnemann delivered &quot;Im CS-Client benutzen alle existierenden Webflows den internen Browser&quot;</description>
+    <stories>
+      <story>
+        <id type="integer">2528319</id>
+        <url>http://www.pivotaltracker.com/services/v3/projects/48422/stories/2528319</url>
+        <current_state>delivered</current_state>
+      </story>
+    </stories>
+  </activity>
+  <activity>
+    <id type="integer">13813362</id>
+    <version type="integer">780</version>
+    <event_type>story_update</event_type>
+    <occurred_at type="datetime">2010/02/28 15:29:35 UTC</occurred_at>
+    <author>Niels Linnemann</author>
+    <project_id type="integer">48422</project_id>
+    <description>Niels Linnemann finished &quot;Im CS-Client benutzen alle existierenden Webflows den internen Browser&quot;</description>
+    <stories>
+      <story>
+        <id type="integer">2528319</id>
+        <url>http://www.pivotaltracker.com/services/v3/projects/48422/stories/2528319</url>
+        <current_state>finished</current_state>
+      </story>
+    </stories>
+  </activity>
+  <activity>
+    <id type="integer">13813361</id>
+    <version type="integer">779</version>
+    <event_type>story_update</event_type>
+    <occurred_at type="datetime">2010/02/28 15:29:33 UTC</occurred_at>
+    <author>Niels Linnemann</author>
+    <project_id type="integer">48422</project_id>
+    <description>Niels Linnemann accepted &quot;Die CS-Client Abschlussmaske l&#228;uft im internen Browser&quot;</description>
+    <stories>
+      <story>
+        <id type="integer">2493283</id>
+        <url>http://www.pivotaltracker.com/services/v3/projects/48422/stories/2493283</url>
+        <accepted_at type="datetime">2010/02/28 15:29:33 UTC</accepted_at>
+        <current_state>accepted</current_state>
+      </story>
+    </stories>
+  </activity>
+  <activity>
+    <id type="integer">13813360</id>
+    <version type="integer">778</version>
+    <event_type>story_update</event_type>
+    <occurred_at type="datetime">2010/02/28 15:29:32 UTC</occurred_at>
+    <author>Niels Linnemann</author>
+    <project_id type="integer">48422</project_id>
+    <description>Niels Linnemann delivered &quot;Die CS-Client Abschlussmaske l&#228;uft im internen Browser&quot;</description>
+    <stories>
+      <story>
+        <id type="integer">2493283</id>
+        <url>http://www.pivotaltracker.com/services/v3/projects/48422/stories/2493283</url>
+        <current_state>delivered</current_state>
+      </story>
+    </stories>
+  </activity>
+  <activity>
+    <id type="integer">13813359</id>
+    <version type="integer">777</version>
+    <event_type>story_update</event_type>
+    <occurred_at type="datetime">2010/02/28 15:29:31 UTC</occurred_at>
+    <author>Niels Linnemann</author>
+    <project_id type="integer">48422</project_id>
+    <description>Niels Linnemann finished &quot;Die CS-Client Abschlussmaske l&#228;uft im internen Browser&quot;</description>
+    <stories>
+      <story>
+        <id type="integer">2493283</id>
+        <url>http://www.pivotaltracker.com/services/v3/projects/48422/stories/2493283</url>
+        <current_state>finished</current_state>
+      </story>
+    </stories>
+  </activity>
+  <activity>
+    <id type="integer">13813356</id>
+    <version type="integer">775</version>
+    <event_type>story_update</event_type>
+    <occurred_at type="datetime">2010/02/28 15:29:27 UTC</occurred_at>
+    <author>Niels Linnemann</author>
+    <project_id type="integer">48422</project_id>
+    <description>Niels Linnemann delivered &quot;CDRs werden mit &quot;dialed number&quot; gespeichert&quot;</description>
+    <stories>
+      <story>
+        <id type="integer">2493151</id>
+        <url>http://www.pivotaltracker.com/services/v3/projects/48422/stories/2493151</url>
+        <current_state>delivered</current_state>
+      </story>
+    </stories>
+  </activity>
+  <activity>
+    <id type="integer">13813357</id>
+    <version type="integer">776</version>
+    <event_type>story_update</event_type>
+    <occurred_at type="datetime">2010/02/28 15:29:27 UTC</occurred_at>
+    <author>Niels Linnemann</author>
+    <project_id type="integer">48422</project_id>
+    <description>Niels Linnemann accepted &quot;CDRs werden mit &quot;dialed number&quot; gespeichert&quot;</description>
+    <stories>
+      <story>
+        <id type="integer">2493151</id>
+        <url>http://www.pivotaltracker.com/services/v3/projects/48422/stories/2493151</url>
+        <accepted_at type="datetime">2010/02/28 15:29:27 UTC</accepted_at>
+        <current_state>accepted</current_state>
+      </story>
+    </stories>
+  </activity>
+  <activity>
+    <id type="integer">13813355</id>
+    <version type="integer">774</version>
+    <event_type>story_update</event_type>
+    <occurred_at type="datetime">2010/02/28 15:29:26 UTC</occurred_at>
+    <author>Niels Linnemann</author>
+    <project_id type="integer">48422</project_id>
+    <description>Niels Linnemann finished &quot;CDRs werden mit &quot;dialed number&quot; gespeichert&quot;</description>
+    <stories>
+      <story>
+        <id type="integer">2493151</id>
+        <url>http://www.pivotaltracker.com/services/v3/projects/48422/stories/2493151</url>
+        <current_state>finished</current_state>
+      </story>
+    </stories>
+  </activity>
+  <activity>
+    <id type="integer">13751487</id>
+    <version type="integer">772</version>
+    <event_type>story_update</event_type>
+    <occurred_at type="datetime">2010/02/26 15:41:51 UTC</occurred_at>
+    <author>Klaas Prause</author>
+    <project_id type="integer">48422</project_id>
+    <description>Klaas Prause edited &quot;Zahlungseing&#228;nge werden mittels Infobuchung auf ein anderes Konto verschoben.&quot;</description>
+    <stories>
+      <story>
+        <id type="integer">2563607</id>
+        <url>http://www.pivotaltracker.com/services/v3/projects/48422/stories/2563607</url>
+        <name>Zahlungseing&#228;nge werden mittels Infobuchung auf ein anderes Konto verschoben.</name>
+        <description>Zahlungseing&#228;nge sind
+* BFS: Vorkasse
+* blau: Voucher, externe Aufladung, Kulanz, Gutschrift, ...</description>
+      </story>
+    </stories>
+  </activity>
+</activities>

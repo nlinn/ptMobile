@@ -5,4 +5,5 @@ public interface TrackerValue {
 	public String getUIString();
 	public Object getValue();
 	public boolean isEmpty();
+	public String getXMLWrappedValue(String xmlTag);
 }

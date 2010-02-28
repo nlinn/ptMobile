@@ -1,7 +1,7 @@
 package me.linnemann.ptmobile.pivotaltracker;
 
-import me.linnemann.ptmobile.pivotaltracker.fields.DataType;
-import me.linnemann.ptmobile.pivotaltracker.fields.DataTypeFactory;
+import me.linnemann.ptmobile.pivotaltracker.datatype.DataType;
+import me.linnemann.ptmobile.pivotaltracker.datatype.DataTypeFactory;
 import me.linnemann.ptmobile.pivotaltracker.value.TrackerValue;
 import android.util.Log;
 
@@ -12,9 +12,10 @@ public class EntityFromAPIBuilder {
 	DataTypeFactory factory;
 	TrackerEntity entity;
 	
-	public EntityFromAPIBuilder(DataTypeFactory factory, TrackerEntity entity) {
+	public EntityFromAPIBuilder(DataTypeFactory factory) {
+		Log.v(TAG,"Init with factory "+factory.getClass().getName());
 		this.factory = factory;
-		this.entity = entity;
+		this.entity = factory.getEmptyEntity();
 	}
 	
 	public TrackerEntity getEntity() {

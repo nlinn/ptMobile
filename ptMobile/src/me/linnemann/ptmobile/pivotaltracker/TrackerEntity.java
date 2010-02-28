@@ -5,21 +5,23 @@ import java.util.Map;
 
 import android.util.Log;
 
-import me.linnemann.ptmobile.pivotaltracker.fields.DataType;
+import me.linnemann.ptmobile.pivotaltracker.datatype.DataType;
 import me.linnemann.ptmobile.pivotaltracker.value.TrackerValue;
 
 public abstract class TrackerEntity {
 
 	protected Map<DataType, TrackerValue> data; 
-	private Map<DataType, TrackerValue> modifiedData;
+	protected Map<DataType, TrackerValue> modifiedData;
 
 	public TrackerEntity() {
 		data = new HashMap<DataType, TrackerValue>();
 		modifiedData = new HashMap<DataType, TrackerValue>();
 	}
 	
+	public abstract String getTableName();
+	
 	public void putDataAndTrackChanges(DataType key, TrackerValue value) {
-		Log.v("TrackerEntity","Key(DB Name): "+key.getDBFieldName()+" Value: "+value.getValueAsString());
+		Log.v("TrackerEntity","Key(DB Name): "+key.getDBColName()+" Value: "+value.getValueAsString());
 		
 		TrackerValue oldValue = data.put(key, value);
 

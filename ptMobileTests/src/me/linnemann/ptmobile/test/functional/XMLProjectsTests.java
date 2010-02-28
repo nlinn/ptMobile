@@ -3,6 +3,7 @@ package me.linnemann.ptmobile.test.functional;
 import java.util.List;
 
 import me.linnemann.ptmobile.pivotaltracker.Project;
+import me.linnemann.ptmobile.pivotaltracker.TrackerEntity;
 import me.linnemann.ptmobile.pivotaltracker.xml.XMLProjectsListener;
 import me.linnemann.ptmobile.pivotaltracker.xml.XMLStack;
 import me.linnemann.ptmobile.pivotaltracker.xml.XMLStackHandler;
@@ -31,9 +32,9 @@ public class XMLProjectsTests extends AndroidTestCase {
 
 	public void test_parseProject_rightSize() throws Exception {
 		xah.parse(XMLActivitiesHandlerTests.class.getResourceAsStream("projectsResponse.xml"));
-		List<Project> projects = db.getProjects();
+		List<TrackerEntity> entities = db.getEntities();
 
-		assertEquals(6, projects.size());	// results expected from demo file
+		assertEquals(6, entities.size());	// results expected from demo file
 	}
 	
 	public void test_firstProject_correctCurrentVelocity() {
@@ -43,8 +44,8 @@ public class XMLProjectsTests extends AndroidTestCase {
 	
 	private Project getFirstProject() {
 		xah.parse(XMLActivitiesHandlerTests.class.getResourceAsStream("projectsResponse.xml"));
-		List<Project> projects = db.getProjects();
-		return projects.get(0);
+		List<TrackerEntity> entities = db.getEntities();
+		return (Project) entities.get(0);
 	}
 	
 	public void test_firstProject_correctName() {

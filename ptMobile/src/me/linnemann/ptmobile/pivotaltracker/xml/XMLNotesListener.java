@@ -1,37 +1,45 @@
 package me.linnemann.ptmobile.pivotaltracker.xml;
 
-import me.linnemann.ptmobile.pivotaltracker.IncomingNote;
+import me.linnemann.ptmobile.pivotaltracker.EntityFromAPIBuilder;
+import me.linnemann.ptmobile.pivotaltracker.Note;
 import me.linnemann.ptmobile.pivotaltracker.adapter.DBAdapter;
-import me.linnemann.ptmobile.pivotaltracker.fields.NoteData;
+import me.linnemann.ptmobile.pivotaltracker.datatype.DataTypeFactory;
+import me.linnemann.ptmobile.pivotaltracker.datatype.NoteDataType;
+import me.linnemann.ptmobile.pivotaltracker.datatype.NoteDataTypeFactory;
+import me.linnemann.ptmobile.pivotaltracker.value.Numeric;
 
 public class XMLNotesListener implements XMLStackListener {
 
-	IncomingNote note;
 	private DBAdapter db;
 	private StoryContext story;
+	
+	private DataTypeFactory factory;
+	private EntityFromAPIBuilder builder;
 	
 	public XMLNotesListener(DBAdapter db, StoryContext story) {
 		this.db = db;
 		this.story = story;
-		initNote();
+		this.factory = new NoteDataTypeFactory();
+		initBuilder();
 	}
 	
-	private void initNote() {
-		note = new IncomingNote(db);
+	private void initBuilder() {
+		builder = new EntityFromAPIBuilder(factory);
 	}
 	
 	public void elementPoppedFromStack() {
-		addMetaDataToNote();
-		note.save();
-		initNote();
+		Note note = (Note) builder.getEntity();
+		addMetaDataToNote(note);
+		db.insertEntity(note);
+		initBuilder();
 	}
 	
-	private void addMetaDataToNote() {
-		note.addDataForKey(NoteData.PROJECT_ID.getDBFieldName(), story.getProjectId().toString());
-		note.addDataForKey(NoteData.STORY_ID.getDBFieldName(), story.getStoryId().toString());
+	private void addMetaDataToNote(Note note) {
+		note.putDataAndTrackChanges(NoteDataType.PROJECT_ID, new Numeric(story.getProjectId()));
+		note.putDataAndTrackChanges(NoteDataType.STORY_ID, new Numeric(story.getStoryId()));
 	}
 
 	public void handleSubElement(String element, String data) {
-		note.addDataForKey(element, data);		
+		builder.add(element, data);	
 	}
 }

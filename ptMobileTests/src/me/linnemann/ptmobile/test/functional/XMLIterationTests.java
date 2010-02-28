@@ -3,7 +3,10 @@ package me.linnemann.ptmobile.test.functional;
 import java.io.InputStream;
 import java.util.List;
 
+import me.linnemann.ptmobile.pivotaltracker.Iteration;
 import me.linnemann.ptmobile.pivotaltracker.Story;
+import me.linnemann.ptmobile.pivotaltracker.TrackerEntity;
+import me.linnemann.ptmobile.pivotaltracker.datatype.IterationDataType;
 import me.linnemann.ptmobile.pivotaltracker.value.Estimate;
 import me.linnemann.ptmobile.pivotaltracker.value.State;
 import me.linnemann.ptmobile.pivotaltracker.value.StoryType;
@@ -50,6 +53,12 @@ public class XMLIterationTests extends AndroidTestCase {
 		return receivedStories;
 	}
 	
+	private List<Iteration> getReceivedIterations() throws Exception {
+		xah.parse(streamFromXMLFile());
+		List<Iteration> receivedIterations = db.getIterations();
+		return receivedIterations;
+	}
+	
 	private InputStream streamFromXMLFile() {
 		return StoryFromIceboxXMLTests.class.getResourceAsStream("iterationResponse.xml");
 	}
@@ -69,6 +78,18 @@ public class XMLIterationTests extends AndroidTestCase {
 		assertEquals("description with \"quotes\" and 'single'", story.getDescription().getValue());
 		assertEquals("Story with \"quotes\" and 'single'", story.getName().getValue());
 		assertEquals("Niels Linnemann", story.getRequestedBy().getValue());
-		assertEquals("2010-01-21 18:36:23", story.getCreatedAt().getValue());
+		assertEquals("2010/01/21 18:36:23 UTC", story.getCreatedAt().getValueAsString());
+	}
+	
+	public void test_firstIteration_hasCorrectData() throws Exception {
+		List<Iteration> receivedIterations = getReceivedIterations();
+		Iteration iteration = receivedIterations.get(0);
+		
+		assertEquals(new Integer(35), iteration.getId().getValue());
+		assertEquals(new Integer(35), iteration.getNumber().getValue());
+		assertEquals(TestData.ANY_PROJECT_ID, iteration.getProjectId().getValue());
+		assertEquals(TestData.ANY_ITERATIONGROUP, iteration.getIterationGroup().getValue());
+		assertEquals("2010/01/25 00:00:00 UTC", iteration.getStart().getValueAsString());
+		assertEquals("2010/02/01 00:00:00 UTC", iteration.getFinish().getValueAsString());
 	}
 }

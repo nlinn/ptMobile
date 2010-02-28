@@ -2,7 +2,7 @@ package me.linnemann.ptmobile.pivotaltracker;
 
 import java.util.Map;
 
-import me.linnemann.ptmobile.pivotaltracker.fields.TrackerData;
+import me.linnemann.ptmobile.pivotaltracker.datatype.DataType;
 import me.linnemann.ptmobile.pivotaltracker.value.TrackerValue;
 import android.content.ContentValues;
 
@@ -16,27 +16,27 @@ import android.content.ContentValues;
 public class ContentValueProvider {
 
 	private static final String UPDATETIMESTAMP_KEY = "updatetimestamp";
-	private static final String ID_KEY = "id";
 	private ContentValues values;
-	private String id;
-	private Map<?,TrackerValue> modified;
+	private Map<?,TrackerValue> data;
+	
+	public ContentValueProvider(TrackerEntity entity) {
+		this.values = new ContentValues();
+		data = entity.getData();
+	}
 	
 	public ContentValueProvider(Activity activity) {
 		this.values = new ContentValues();
-		this.id = activity.getId().getValueAsString();
-		modified = activity.getData();
+		data = activity.getData();
 	}
 	
 	public ContentValueProvider(Project project) {
 		this.values = new ContentValues();
-		this.id = project.getId().getValueAsString();
-		modified = project.getData();
+		data = project.getData();
 	}
 	
 	public ContentValueProvider(Story story) {
 		this.values = new ContentValues();
-		this.id = story.getId().getValueAsString();
-		modified = story.getData();
+		data = story.getData();
 	}
 	
 	public ContentValues getValues() {
@@ -44,25 +44,19 @@ public class ContentValueProvider {
 	}
 	
 	public void fill() {
-		for (Object key : modified.keySet()) { 
-			putStoryData((TrackerData) key, modified.get(key));
+		for (Object key : data.keySet()) { 
+			putStoryData((DataType) key, data.get(key));
 		}
 		
 		addUpdateTimestampIfNotEmpty();
-		addIDIfNotEmpty();
 	}
 	
-	private void putStoryData(TrackerData key, TrackerValue value) {
-		values.put(key.getDBFieldName(), value.getValueAsString());
+	private void putStoryData(DataType key, TrackerValue value) {
+		values.put(key.getDBColName(), value.getValueAsString());
 	}
 	
 	private void addUpdateTimestampIfNotEmpty() {
 		if (values.size() > 0)
 			values.put(UPDATETIMESTAMP_KEY, Long.toString(System.currentTimeMillis()));
-	}
-	
-	private void addIDIfNotEmpty() {
-		if (values.size() > 0)
-			values.put(ID_KEY, id);
 	}
 }

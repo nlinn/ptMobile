@@ -1,6 +1,6 @@
 package me.linnemann.ptmobile.test.pivotaltracker;
 
-import me.linnemann.ptmobile.pivotaltracker.StoryImpl;
+import me.linnemann.ptmobile.pivotaltracker.Story;
 import me.linnemann.ptmobile.pivotaltracker.lifecycle.StateWithTransitions;
 import me.linnemann.ptmobile.pivotaltracker.value.State;
 import me.linnemann.ptmobile.pivotaltracker.value.StoryType;
@@ -11,10 +11,10 @@ public class StoryTests extends AndroidTestCase {
 	@SuppressWarnings("unused")
 	private static final String TAG = "StoryTests";
 	
-	private StoryImpl story;
+	private Story story;
 	
 	public void setUp() {
-		story = new StoryImpl(StoryType.FEATURE); 	
+		story = new Story(StoryType.FEATURE); 	
 	}
 	
 	public void test_stateAfterCreation_isUnscheduled() {

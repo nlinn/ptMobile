@@ -1,8 +1,8 @@
 package me.linnemann.ptmobile.cursor;
 
 import me.linnemann.ptmobile.pivotaltracker.Project;
-import me.linnemann.ptmobile.pivotaltracker.fields.DataType;
-import me.linnemann.ptmobile.pivotaltracker.fields.ProjectDataType;
+import me.linnemann.ptmobile.pivotaltracker.datatype.DataType;
+import me.linnemann.ptmobile.pivotaltracker.datatype.ProjectDataType;
 import me.linnemann.ptmobile.pivotaltracker.value.TrackerValue;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteCursor;
@@ -62,6 +62,6 @@ public class ProjectsCursor extends SQLiteCursor {
 	}
 	
 	private String getByField(DataType field) {
-		return getString(getColumnIndexOrThrow(field.getDBFieldName()));
+		return getString(getColumnIndexOrThrow(field.getDBColName()));
 	}
 }

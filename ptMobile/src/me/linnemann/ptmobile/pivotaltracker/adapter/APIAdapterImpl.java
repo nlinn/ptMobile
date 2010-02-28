@@ -22,11 +22,11 @@ public class APIAdapterImpl implements APIAdapter {
 	private static final String TRACKER_TOKEN_NAME = "X-TrackerToken";
 
 	private static final String URL_PROJECTS ="http://www.pivotaltracker.com/services/v3/projects";
-	private static final String URL_ACTIVITIES ="http://www.pivotaltracker.com/services/v2/activities";
-	private static final String URL_ITERATIONS_CURRENT ="www.pivotaltracker.com/services/v2/projects/PROJECT_ID/iterations/current";
-	private static final String URL_ITERATIONS_DONE ="www.pivotaltracker.com/services/v2/projects/PROJECT_ID/iterations/done?offset=-3";
-	private static final String URL_ICEBOX ="www.pivotaltracker.com/services/v2/projects/PROJECT_ID/stories?filter=state%3Aunscheduled";
-	private static final String URL_ITERATIONS_BACKLOG ="www.pivotaltracker.com/services/v2/projects/PROJECT_ID/iterations/backlog";
+	private static final String URL_ACTIVITIES ="http://www.pivotaltracker.com/services/v3/activities";
+	private static final String URL_ITERATIONS_CURRENT ="www.pivotaltracker.com/services/v3/projects/PROJECT_ID/iterations/current";
+	private static final String URL_ITERATIONS_DONE ="www.pivotaltracker.com/services/v3/projects/PROJECT_ID/iterations/done?offset=-3";
+	private static final String URL_ICEBOX ="www.pivotaltracker.com/services/v3/projects/PROJECT_ID/stories?filter=state%3Aunscheduled";
+	private static final String URL_ITERATIONS_BACKLOG ="www.pivotaltracker.com/services/v3/projects/PROJECT_ID/iterations/backlog";
 	private static final String URL_TOKEN ="https://www.pivotaltracker.com/services/tokens/active";
 
 	private String apikey;

@@ -3,6 +3,7 @@ package me.linnemann.ptmobile.test.functional;
 import java.util.List;
 
 import me.linnemann.ptmobile.pivotaltracker.Story;
+import me.linnemann.ptmobile.pivotaltracker.TrackerEntity;
 import me.linnemann.ptmobile.pivotaltracker.adapter.PivotalAPI;
 import me.linnemann.ptmobile.pivotaltracker.value.Estimate;
 import me.linnemann.ptmobile.pivotaltracker.value.State;
@@ -28,7 +29,7 @@ public class StoryFromIceboxXMLTests extends AndroidTestCase {
         api.readStories(TestData.ANY_PROJECT_ID, "icebox");
     }
 
-	public void test_simpleStoryExample_CorrectStoryCountInResult() throws Exception {
+	public void test_simpleStoryExample_correctStoryCountInResult() throws Exception {
 		List<Story> receivedStories = getReceivedStoriesForSimpleStoryXML();
 		assertEquals(5, receivedStories.size());
 	}
@@ -105,12 +106,12 @@ public class StoryFromIceboxXMLTests extends AndroidTestCase {
 	
 	public void test_simpleStoryExample_correctCreatedAt() throws Exception {
 		Story story = getFirstStoryOfReceivedStories();
-		assertEquals("2009-06-07 11:52:35", story.getCreatedAt().getValue());
+		assertEquals("2009/06/07 11:52:35 UTC", story.getCreatedAt().getValueAsString());
 	}
 	
 	public void test_simpleStoryExample_correctAcceptedAt() throws Exception {
 		Story story = getFirstStoryOfReceivedStories();
-		assertEquals("2009-06-07 12:13:35", story.getAcceptedAt().getValue());
+		assertEquals("2009/06/07 12:13:35 UTC", story.getAcceptedAt().getValueAsString());
 	}
 	
 	public void test_simpleStoryExample_positionOne() throws Exception {

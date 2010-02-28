@@ -2,6 +2,7 @@ package me.linnemann.ptmobile;
 
 import me.linnemann.ptmobile.adapter.ActivitiesCursorAdapter;
 import me.linnemann.ptmobile.cursor.ActivitiesCursor;
+import me.linnemann.ptmobile.pivotaltracker.Activity;
 import me.linnemann.ptmobile.pivotaltracker.PivotalTracker;
 import me.linnemann.ptmobile.ui.QoS;
 import me.linnemann.ptmobile.ui.QoSMessageHandler;
@@ -107,11 +108,14 @@ public class Activities extends RefreshableListActivityWithMainMenu implements Q
 	 * @param pc
 	 */
 	private void startStoriesActivity(ActivitiesCursor c) {
-		Log.i("pos stories","pos: "+pc.getPosition());
+		Activity activity = c.getActivity();
+		
+		Integer projectId =  activity.getProjectId().getValue();
+		String projectName = tracker.getProject(projectId).getName().getUIString();
+		
 		Intent i = new Intent(this, StoriesInTabs.class);
-		i.putExtra("project_id", tracker.getProjectIdByName(c.getProject()));
-		i.putExtra("project_name", c.getProject());
-
+		i.putExtra("project_id", projectId);
+		i.putExtra("project_name", projectName);
 		startActivity(i);
 	}
 

@@ -1,26 +1,21 @@
 package me.linnemann.ptmobile.pivotaltracker.adapter;
 
 import me.linnemann.ptmobile.cursor.ActivitiesCursor;
-import me.linnemann.ptmobile.cursor.IterationCursor;
 import me.linnemann.ptmobile.cursor.ProjectsCursor;
 import me.linnemann.ptmobile.cursor.StoriesCursorImpl;
-import me.linnemann.ptmobile.pivotaltracker.Activity;
+import me.linnemann.ptmobile.pivotaltracker.Iteration;
 import me.linnemann.ptmobile.pivotaltracker.Project;
 import me.linnemann.ptmobile.pivotaltracker.Story;
+import me.linnemann.ptmobile.pivotaltracker.TrackerEntity;
+import me.linnemann.ptmobile.pivotaltracker.value.Numeric;
 import android.content.ContentValues;
 import android.database.Cursor;
 
 public interface DBAdapter {
 
 	public abstract void close();
-
-	public abstract void insertProject(Project project);
 	
-	public abstract void insertActivity(Activity activity);
-
-	public abstract long insertNote(ContentValues cv);
-
-	public abstract void insertStory(Story story);
+	public abstract void insertEntity(TrackerEntity entity);
 	
 	public abstract long insertIteration(ContentValues cv);
 
@@ -38,13 +33,11 @@ public interface DBAdapter {
 
 	public abstract Project getProject(Integer project_id);
 
-	public abstract Integer getProjectIdByName(String project_name);
-
 	public abstract StoriesCursorImpl getStoriesCursor(Integer project_id, String filter);
 		
 	public abstract Story getStory(Integer story_id);
 
-	public abstract IterationCursor getIteration(Integer project_id, Integer number);
+	public abstract Iteration getIteration(Numeric project_id, Numeric number);
 	
 	public abstract void flush();
 

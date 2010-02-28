@@ -1,14 +1,19 @@
 package me.linnemann.ptmobile.pivotaltracker.xml;
 
-import me.linnemann.ptmobile.pivotaltracker.StoryFromAPIBuilder;
+import me.linnemann.ptmobile.pivotaltracker.EntityFromAPIBuilder;
+import me.linnemann.ptmobile.pivotaltracker.Story;
 import me.linnemann.ptmobile.pivotaltracker.adapter.DBAdapter;
-import me.linnemann.ptmobile.pivotaltracker.fields.StoryData;
+import me.linnemann.ptmobile.pivotaltracker.datatype.DataTypeFactory;
+import me.linnemann.ptmobile.pivotaltracker.datatype.StoryDataTypeFactory;
 
 public class XMLStoriesListener implements XMLStackListener, StoryContext {
 
 	private DBAdapter db;
 	private IterationContext iteration;
-	private StoryFromAPIBuilder storyBuilder;
+	//private StoryFromAPIBuilder storyBuilder;
+	
+	private EntityFromAPIBuilder builder;
+	private DataTypeFactory factory;
 	private Integer position=0;
 	private Integer lastKnownIteration = 0;
 	private Integer lastStoryId = 0;
@@ -16,36 +21,38 @@ public class XMLStoriesListener implements XMLStackListener, StoryContext {
 	public XMLStoriesListener(DBAdapter db, IterationContext iteration) {
 		this.db = db;
 		this.iteration = iteration;
-		this.storyBuilder = new StoryFromAPIBuilder();
-		initStoryBuilder();
+		this.factory = new StoryDataTypeFactory();
+		initBuilder();
 	}
 	
+	private void initBuilder() {
+		this.builder = new EntityFromAPIBuilder(factory);
+	}
+	
+	
 	public void elementPoppedFromStack() {
-		addMetaDataToStory();
-		db.insertStory(storyBuilder.getStory());
-		initStoryBuilder();
+		Story story = (Story) builder.getEntity();
+		addMetaDataToStory(story);
+		db.insertEntity(story);
+		initBuilder();
 	}
 
 	public void handleSubElement(String element, String data) {
-		storyBuilder.add(element, data);
+		builder.add(element, data);
 		
 		if (element.equalsIgnoreCase("ID")) {
 			lastStoryId = Integer.valueOf(data);
 		}
 	}
-
-	private void initStoryBuilder() {
-		storyBuilder.clear();
-	}
 	
-	private void addMetaDataToStory() {
+	private void addMetaDataToStory(Story story) {
 		resetOrIncrementPosition();
-		storyBuilder.add(StoryData.PROJECT_ID, iteration.getProjectId().toString());
-		storyBuilder.add(StoryData.ITERATION_GROUP, iteration.getIterationGroup());
-		storyBuilder.add(StoryData.POSITION, position.toString());
+		story.changeProjectId(iteration.getProjectId());
+		story.changeIterationGroup(iteration.getIterationGroup());
+		story.changePosition(position);
 		
 		if (iteration.getIterationNumber() != null) {
-			storyBuilder.add(StoryData.ITERATION_NUMBER, iteration.getIterationNumber().toString());
+			story.changeIterationNumber(iteration.getIterationNumber());
 		}
 	}
 	

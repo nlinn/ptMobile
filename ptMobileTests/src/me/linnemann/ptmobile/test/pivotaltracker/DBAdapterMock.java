@@ -3,31 +3,44 @@ package me.linnemann.ptmobile.test.pivotaltracker;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.content.ContentValues;
-import android.database.Cursor;
-import android.database.SQLException;
-import android.util.Log;
 import me.linnemann.ptmobile.cursor.ActivitiesCursor;
 import me.linnemann.ptmobile.cursor.IterationCursor;
 import me.linnemann.ptmobile.cursor.ProjectsCursor;
 import me.linnemann.ptmobile.cursor.StoriesCursorImpl;
 import me.linnemann.ptmobile.pivotaltracker.Activity;
+import me.linnemann.ptmobile.pivotaltracker.Iteration;
+import me.linnemann.ptmobile.pivotaltracker.Note;
 import me.linnemann.ptmobile.pivotaltracker.Project;
 import me.linnemann.ptmobile.pivotaltracker.Story;
+import me.linnemann.ptmobile.pivotaltracker.TrackerEntity;
 import me.linnemann.ptmobile.pivotaltracker.adapter.DBAdapter;
+import me.linnemann.ptmobile.pivotaltracker.datatype.ProjectDataType;
+import me.linnemann.ptmobile.pivotaltracker.value.Numeric;
+import me.linnemann.ptmobile.pivotaltracker.value.Text;
+import android.content.ContentValues;
+import android.database.Cursor;
+import android.database.SQLException;
+import android.util.Log;
 
 public class DBAdapterMock implements DBAdapter {
 
 	private static final String TAG = "DBAdapterMock";
 	
 	private List<ContentValues> cvlist;
+	private List<TrackerEntity> entities;
+	
 	private List<Story> stories;
+	private List<Iteration> iterations;
+	private List<Note> notes;
 	private List<Project> projects;
 	private List<Activity> activities;
 	
 	public DBAdapterMock() {
 		cvlist = new ArrayList<ContentValues>();
+		entities = new ArrayList<TrackerEntity>();
 		stories = new ArrayList<Story>();
+		iterations = new ArrayList<Iteration>();
+		notes = new ArrayList<Note>();
 		projects = new ArrayList<Project>();
 		activities = new ArrayList<Activity>();
 	}
@@ -36,8 +49,20 @@ public class DBAdapterMock implements DBAdapter {
 		return cvlist;
 	}
 	
+	public List<TrackerEntity> getEntities() {
+		return entities;
+	}
+	
 	public List<Story> getStories() {
 		return stories;
+	}
+	
+	public List<Iteration> getIterations() {
+		return iterations;
+	}
+	
+	public List<Note> getNotes() {
+		return notes;
 	}
 	
 	public List<Project> getProjects() {
@@ -48,7 +73,6 @@ public class DBAdapterMock implements DBAdapter {
 		return activities;
 	}
 	
-	
 	// --- Implementation of DBAdapter
 	
 	public boolean activitiesNeedUpdate() {
@@ -56,10 +80,7 @@ public class DBAdapterMock implements DBAdapter {
 		return false;
 	}
 
-	public void close() {
-		// TODO Auto-generated method stub
-
-	}
+	public void close() {}
 
 	public boolean deleteAllActivities() {
 		// TODO Auto-generated method stub
@@ -92,8 +113,10 @@ public class DBAdapterMock implements DBAdapter {
 	}
 
 	public Project getProject(Integer projectId) {
-		// TODO Auto-generated method stub
-		return null;
+		Project project = new Project();
+		project.putDataAndTrackChanges(ProjectDataType.ID, new Numeric(projectId));
+		project.putDataAndTrackChanges(ProjectDataType.USE_HTTPS, new Text("false"));
+		return project;
 	}
 
 	public Integer getProjectIdByName(String projectName) {
@@ -107,27 +130,6 @@ public class DBAdapterMock implements DBAdapter {
 	}
 
 	public Story getStory(Integer storyId) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public int getVelocityForProject(Integer projectId) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	public void insertActivity(ContentValues cv) {
-		Log.d(TAG, "insertActivity");
-		this.cvlist.add(cv);
-	}
-
-	public long insertProject(ContentValues cv) {
-		Log.d(TAG, "insertProject");
-		this.cvlist.add(cv);
-		return 1;
-	}
-
-	public DBAdapter open() throws SQLException {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -168,11 +170,6 @@ public class DBAdapterMock implements DBAdapter {
 		return false;
 	}
 
-	public IterationCursor getIteration(Integer projectId, Integer number) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 	public StoriesCursorImpl getStoriesCursor(Integer projectId, String filter) {
 		// TODO Auto-generated method stub
 		return null;
@@ -208,23 +205,6 @@ public class DBAdapterMock implements DBAdapter {
 		return 0;
 	}
 
-	public void insertStory(Story story) {
-		Log.v(TAG, "project_id:"+story.getProjectId().getValueAsString());
-		Log.v(TAG, "id:"+story.getId().getValueAsString());
-		
-		stories.add(story);
-	}
-
-	public void insertProject(Project project) {		
-		Log.v(TAG, "project_id:"+project.getId().getValueAsString());		
-		projects.add(project);
-	}
-	
-	public void insertActivity(Activity activity) {
-		Log.v(TAG, "activity_id:"+activity.getId().getValueAsString());		
-		activities.add(activity);
-	}
-	
 	public void updateStory(Story story) {
 		// TODO Auto-generated method stub
 		
@@ -233,6 +213,41 @@ public class DBAdapterMock implements DBAdapter {
 	public void wipeUpdateTimestamp(Integer projectId, String iterationGroup) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	public void insertEntity(TrackerEntity entity) {
+		Log.d(TAG, "insertEntity");
+		entities.add(entity);		
+		
+		if (entity instanceof Story) {
+			Log.d(TAG, "Story");
+			stories.add((Story) entity);
+		}
+		
+		if (entity instanceof Project) {
+			Log.d(TAG, "Project");
+			projects.add((Project) entity);
+		}
+		
+		if (entity instanceof Iteration) {
+			Log.d(TAG, "Iteration");
+			iterations.add((Iteration) entity);
+		}
+		
+		if (entity instanceof Note) {
+			Log.d(TAG, "Note");
+			notes.add((Note) entity);
+		}
+		
+		if (entity instanceof Activity) {
+			Log.d(TAG, "Activity");
+			activities.add((Activity) entity);
+		}
+	}
+
+	public Iteration getIteration(Numeric projectId, Numeric number) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

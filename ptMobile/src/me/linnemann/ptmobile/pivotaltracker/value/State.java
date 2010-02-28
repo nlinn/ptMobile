@@ -36,4 +36,8 @@ public enum State implements TrackerValue  {
 	public boolean isEmpty() {
 		return false;
 	}
+	
+	public String getXMLWrappedValue(String xmlTag) {
+		return "<" + xmlTag + ">" + getValueAsString() + "</"+xmlTag+">";
+	}
 }

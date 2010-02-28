@@ -2,14 +2,14 @@ package me.linnemann.ptmobile;
 
 import java.util.List;
 
-import me.linnemann.ptmobile.cursor.IterationCursor;
+import me.linnemann.ptmobile.pivotaltracker.Iteration;
 import me.linnemann.ptmobile.pivotaltracker.PivotalTracker;
 import me.linnemann.ptmobile.pivotaltracker.Story;
 import me.linnemann.ptmobile.pivotaltracker.lifecycle.Transition;
+import me.linnemann.ptmobile.pivotaltracker.value.DateTime;
 import me.linnemann.ptmobile.pivotaltracker.value.Estimate;
 import me.linnemann.ptmobile.pivotaltracker.value.StoryType;
 import me.linnemann.ptmobile.pivotaltracker.value.Text;
-import me.linnemann.ptmobile.ui.OutputStyler;
 import me.linnemann.ptmobile.ui.QoS;
 import me.linnemann.ptmobile.ui.QoSMessageHandler;
 import android.app.Activity;
@@ -43,7 +43,7 @@ public class StoryDetails extends Activity implements QoSMessageHandler {
 	private TextView requested;	
 	private TextView deadlineWidget;
 	private TextView state;
-	private TextView iteration;
+	private TextView iterationWidget;
 	private ImageView image;
 	private TextView comments;
 	
@@ -72,7 +72,7 @@ public class StoryDetails extends Activity implements QoSMessageHandler {
 		deadlineWidget = (TextView) this.findViewById(R.id.textDeadlineStoryDetails);
 		state = (TextView) this.findViewById(R.id.textStateStoryDetails);
 		image = (ImageView) this.findViewById(R.id.imageTypeStoryDetails);
-		iteration = (TextView) this.findViewById(R.id.textIterationStoryDetails);
+		iterationWidget = (TextView) this.findViewById(R.id.textIterationStoryDetails);
 		comments = (TextView) this.findViewById(R.id.textCommentsSD);
 		
 		story_id = getIntent().getExtras().getInt("story_id");
@@ -126,11 +126,10 @@ public class StoryDetails extends Activity implements QoSMessageHandler {
 		}
 		
 		if (!story.getIterationNumber().isEmpty()) {
-			IterationCursor ic = tracker.getIterationCursor(story.getProjectId().getValue(), story.getIterationNumber().getValue());
-			iteration.setText(OutputStyler.getIterationAsText(ic));	
-			ic.close();
+			Iteration iteration = story.getIteration();
+			iterationWidget.setText(iteration.toUIString());	
 		} else {
-			iteration.setVisibility(View.GONE);
+			iterationWidget.setVisibility(View.GONE);
 		}
 		
 		comments.setText(tracker.getCommentsAsString(story_id));
@@ -147,9 +146,9 @@ public class StoryDetails extends Activity implements QoSMessageHandler {
 	}
 
 	private void showDeadlineIfNotEmpty() {
-		Text deadline = story.getDeadline();
+		DateTime deadline = story.getDeadline();
 		if (!deadline.isEmpty()) {
-			deadlineWidget.setText("Deadline: "+OutputStyler.getShortDate(deadline.getUIString()));
+			deadlineWidget.setText("Deadline: "+deadline.getUIStringShortDate());
 		} else {
 			deadlineWidget.setVisibility(View.INVISIBLE);
 		}

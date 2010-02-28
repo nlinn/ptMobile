@@ -1,10 +1,10 @@
 package me.linnemann.ptmobile.pivotaltracker.xml;
 
 import me.linnemann.ptmobile.pivotaltracker.EntityFromAPIBuilder;
-import me.linnemann.ptmobile.pivotaltracker.Project;
+import me.linnemann.ptmobile.pivotaltracker.TrackerEntity;
 import me.linnemann.ptmobile.pivotaltracker.adapter.DBAdapter;
-import me.linnemann.ptmobile.pivotaltracker.fields.DataTypeFactory;
-import me.linnemann.ptmobile.pivotaltracker.fields.ProjectDataTypeFactory;
+import me.linnemann.ptmobile.pivotaltracker.datatype.DataTypeFactory;
+import me.linnemann.ptmobile.pivotaltracker.datatype.ProjectDataTypeFactory;
 
 public class XMLProjectsListener implements XMLStackListener {
 
@@ -19,12 +19,12 @@ public class XMLProjectsListener implements XMLStackListener {
 	}
 	
 	private void initBuilder() {
-		builder = new EntityFromAPIBuilder(factory, Project.emptyProject());
+		builder = new EntityFromAPIBuilder(factory);
 	}
 	
 	public void elementPoppedFromStack() {
-		Project project = (Project) builder.getEntity();
-		db.insertProject(project);
+		TrackerEntity activity = builder.getEntity();
+		db.insertEntity(activity);
 		initBuilder();
 	}
 

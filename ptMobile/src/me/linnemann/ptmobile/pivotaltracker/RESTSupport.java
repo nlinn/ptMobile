@@ -25,7 +25,7 @@ public class RESTSupport {
 
 	private static final String TAG="RESTSupport";
 	private int timeout_millis;
-	
+
 	public RESTSupport(int timeout_millis) {
 		this.timeout_millis = timeout_millis;
 	}
@@ -33,7 +33,7 @@ public class RESTSupport {
 	public InputStream doGET(URL url, Map<String, String> requestProperties) throws IOException {
 		return doGET(url, requestProperties, null, null);
 	}
-	
+
 	public InputStream doGET(URL url, Map<String, String> requestProperties, String username, String password) throws IOException {
 		return doRequest("GET",url, requestProperties, username, password, null);
 	}
@@ -41,11 +41,11 @@ public class RESTSupport {
 	public InputStream doPUT(URL url, Map<String, String> requestProperties, InputStream body) throws IOException {
 		return doRequest("PUT",url, requestProperties, null, null, body);
 	}
-	
+
 	public InputStream doPOST(URL url, Map<String, String> requestProperties, InputStream body) throws IOException {
 		return doRequest("POST",url, requestProperties, null, null, body);
 	}
-	
+
 	/**
 	 * 
 	 * @param url
@@ -98,27 +98,31 @@ public class RESTSupport {
 		httpConn.setInstanceFollowRedirects(true);
 		httpConn.setRequestMethod(Method);
 		httpConn.setReadTimeout(timeout_millis); // timeout in millis
-		
+
 		// --- add body to request
 		if (body != null) {
 			writeBody(httpConn, body);
 		}
-		
+
 		httpConn.connect(); 
 		response = httpConn.getResponseCode(); 
-		
+
 		if (response == HttpURLConnection.HTTP_OK) {
 			in = httpConn.getInputStream();
 		} else {
-			in = httpConn.getErrorStream();
-			String msg =textFromURL(in);
-			msg = msg.replaceAll("<message>", "");
-			msg = msg.replaceAll("</message>", "");
-			msg = msg.replaceAll("<\\?xml version=\"1.0\" encoding=\"UTF-8\"\\?>", "");
-			msg = msg.replaceAll("\n", "");
+			String msg = "";
+			if (in != null) {
+				in = httpConn.getErrorStream();
+				msg =textFromURL(in);
+				msg = msg.replaceAll("<message>", "");
+				msg = msg.replaceAll("</message>", "");
+				msg = msg.replaceAll("<\\?xml version=\"1.0\" encoding=\"UTF-8\"\\?>", "");
+				msg = msg.replaceAll("\n", "");
+			}
 			if (msg.length() > 200) {
 				msg = msg.substring(0, 200);
 			}
+
 			throw new RuntimeException("HTTP "+response+" ("+getNameOfHTTPCode(response)+")\n "+msg);
 		}                     
 
@@ -217,7 +221,7 @@ throws IOException
     System.out.print(responseBody);
     System.out.flush();
 	 */
-	
+
 	/**
 	 * if you don't like inputstreams as result, use this method to convert it to string
 	 */
@@ -255,7 +259,7 @@ throws IOException
 		}
 		return sb.toString();
 	}
-	
+
 	private static String getNameOfHTTPCode(final int http) {
 		switch (http) {
 		case 400: return "Bad Request";
@@ -267,7 +271,7 @@ throws IOException
 		case 406: return "Not Acceptable";
 		case 407: return "Proxy Authentication Required";
 		case 408: return "Request Timeout";
-		
+
 		case 500: return "500 Internal Server Error";
 		case 501: return "Not Implemented";
 		case 502: return "Bad Gateway";

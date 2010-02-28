@@ -5,7 +5,7 @@ import java.net.URL;
 import java.util.Map;
 
 import me.linnemann.ptmobile.pivotaltracker.Story;
-import me.linnemann.ptmobile.pivotaltracker.fields.TrackerData;
+import me.linnemann.ptmobile.pivotaltracker.datatype.DataType;
 import me.linnemann.ptmobile.pivotaltracker.value.TrackerValue;
 import android.util.Log;
 
@@ -45,9 +45,9 @@ public abstract class StoryCommand extends RESTXMLCommand {
 	
 	public String getXMLString() {
 		StringBuilder xml = new StringBuilder("<story>");
-		Map<TrackerData,TrackerValue> modified = story.getModifiedData();
+		Map<DataType,TrackerValue> modified = story.getModifiedData();
 		
-		for (TrackerData tranferable : modified.keySet()) {
+		for (DataType tranferable : modified.keySet()) {
 			TrackerValue value = modified.get(tranferable);
 			xml.append(tranferable.getXMLWrappedValue(value));
 		}

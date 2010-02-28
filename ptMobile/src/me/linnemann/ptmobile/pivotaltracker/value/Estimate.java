@@ -47,4 +47,12 @@ public enum Estimate implements TrackerValue {
 	public boolean isEmpty() {
 		return this.equals(NO_ESTIMATE);
 	}
+	
+	public String getXMLWrappedValue(String xmlTag) {
+		if (!this.equals(NO_ESTIMATE)) {
+			return "<" + xmlTag + " type=\"integer\">" + getValueAsString() + "</"+xmlTag+">";
+		} else {
+			return "";
+		}
+	}
 }

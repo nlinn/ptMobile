@@ -1,7 +1,7 @@
 package me.linnemann.ptmobile.test.pivotaltracker;
 
 import me.linnemann.ptmobile.pivotaltracker.Project;
-import me.linnemann.ptmobile.pivotaltracker.fields.ProjectDataType;
+import me.linnemann.ptmobile.pivotaltracker.datatype.ProjectDataType;
 import me.linnemann.ptmobile.pivotaltracker.value.Text;
 import android.test.AndroidTestCase;
 

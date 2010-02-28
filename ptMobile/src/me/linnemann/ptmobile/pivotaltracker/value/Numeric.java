@@ -69,4 +69,8 @@ public class Numeric implements TrackerValue {
 			return false;
 		return true;
 	}
+	
+	public String getXMLWrappedValue(String xmlTag) {
+		return "<" + xmlTag + " type=\"integer\">" + getValueAsString() + "</"+xmlTag+">";
+	}
 }
