@@ -45,7 +45,7 @@ public class Projects extends RefreshableListActivityWithMainMenu implements QoS
 		setContentView(R.layout.projects_list);
 		this.getListView().setBackgroundResource(android.R.color.white);
 		this.getListView().setCacheColorHint(0);
-		this.getListView().setDivider(this.getResources().getDrawable(R.drawable.darkgray1x1));// .getDivider().
+		this.getListView().setDivider(this.getResources().getDrawable(R.drawable.darkgray1x1));
 
 		registerForContextMenu(getListView());
 		setTitle("Projects");

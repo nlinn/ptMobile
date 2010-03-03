@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+	<color name="color_black">#000</color>
 	<color name="color_text">#222</color>
+	
+	<color name="color_background_login">#a7d1e9</color>
 	
 	<color name="color_background">#fff</color>
 	<color name="color_background_selected">#ebebeb</color>

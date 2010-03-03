@@ -21,10 +21,6 @@ public class Story  extends TrackerEntity {
 	private static final String TAG = "StoryImpl";
 	private DBAdapter db;
 	
-	public static Story buildInstance(StoryBuilder builder) {
-		return builder.getStory();
-	}
-	
 	public Story(DBAdapter db) {
 		this();
 		this.db = db;
@@ -59,21 +55,10 @@ public class Story  extends TrackerEntity {
 	}
 
 	public void changeStoryType(StoryType type) {
-
-		modifiedData.put(StoryDataType.STORY_TYPE,type);
-		StoryType oldType = getStoryType();
+		putDataAndTrackChanges(StoryDataType.STORY_TYPE, type);
 		
-		if (!type.equals(oldType)) { // really changed?
-			data.put(StoryDataType.STORY_TYPE, type);
-			final Estimate estimate = getEstimate();
-			
-			if (type.equals(StoryType.FEATURE)) {
-				if (Estimate.NO_ESTIMATE.equals(estimate)) {
-					data.put(StoryDataType.ESTIMATE, Estimate.UNESTIMATED);
-				}
-			}  else {
-				data.put(StoryDataType.ESTIMATE, Estimate.NO_ESTIMATE);
-			}
+		if ( type.equals(StoryType.FEATURE) && getEstimate().equals(Estimate.NO_ESTIMATE) ) {
+			putDataAndTrackChanges(StoryDataType.ESTIMATE, Estimate.UNESTIMATED);
 		}
 	}
 
@@ -244,5 +229,9 @@ public class Story  extends TrackerEntity {
 	
 	public Iteration getIteration() {
 		return db.getIteration(getProjectId(), getIterationNumber());
+	}
+	
+	public Project getProject() {
+		return db.getProject(getProjectId().getValue());
 	}
 }

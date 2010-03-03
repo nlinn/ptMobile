@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView android:layout_width="fill_parent"
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_height="fill_parent" android:background="@drawable/login_background">
+
+	<LinearLayout android:layout_width="fill_parent"
+		android:layout_height="fill_parent" android:orientation="vertical"
+		android:padding="15dip">
+
+
+
+		<LinearLayout android:layout_width="fill_parent"
+		android:layout_height="wrap_content" android:orientation="horizontal" android:paddingBottom="10dip">
+		<ImageView
+			android:layout_width="wrap_content" android:layout_height="wrap_content"
+			android:src="@drawable/icon" android:paddingRight="10dip" />
+		<TextView android:text="Welcome to ptMobile" 
+			android:layout_width="wrap_content" android:layout_height="fill_parent"
+			android:textSize="20dip" android:textColor="@color/color_black" android:textStyle="bold" android:paddingTop="14dip"></TextView>
+		</LinearLayout>
+			<TextView android:text="Email / Username:" android:layout_marginTop="20px"
+			android:layout_width="wrap_content" android:layout_height="wrap_content" android:textColor="@color/color_black">
+		</TextView>
+
+		<EditText android:text="" android:id="@+id/EditTextUsername"
+			android:layout_width="fill_parent" android:layout_height="wrap_content"></EditText>
+
+		<TextView android:text="Password:" android:layout_width="wrap_content"
+			android:layout_height="wrap_content" android:textColor="@color/color_black"></TextView>
+		<EditText android:text="" android:id="@+id/EditTextPassword"
+			android:password="true" android:layout_width="fill_parent"
+			android:layout_height="wrap_content"></EditText>
+		<Button android:text="Login" android:layout_width="fill_parent" android:layout_height="wrap_content" android:id="@+id/ButtonLogin"></Button>
+		<TextView
+			android:text="Please make sure API access is enabled in your pivotaltracker preferences."
+			android:id="@+id/TextView02" android:layout_width="fill_parent"
+			android:layout_height="wrap_content" android:textColor="@color/color_black"></TextView>
+
+
+	
+</LinearLayout>
+</ScrollView>

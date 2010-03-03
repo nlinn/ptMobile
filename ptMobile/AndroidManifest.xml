@@ -14,6 +14,9 @@
 			</intent-filter>
 		</activity>
 
+		<!--  dont forget start -->
+		<activity android:name=".Login"></activity>
+		<activity android:name=".SelectLabels"></activity>
 		<activity android:name=".Projects"></activity>
 		<activity android:name=".ChangeEstimate"></activity>	
 		<activity android:name=".Activities"></activity>

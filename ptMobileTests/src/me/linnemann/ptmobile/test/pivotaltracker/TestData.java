@@ -14,7 +14,7 @@ public class TestData {
 	public static String ANY_LABELS = "one,two,three";
 	public static State ANY_STATE = State.UNSTARTED;
 	public static String ANY_DESCRIPTION = "Just a Description.";
-	public static String ANY_DEADLINE = "02.02.2010";
+	public static String ANY_DEADLINE = "2009/06/07 12:13:35 UTC";
 	public static String ANY_REQUESTED_BY = "Mr. Requester";
 	public static String ANY_OWNED_BY = "Mrs. Owner";
 	public static String ANY_CREATED_AT = "28.10.2009";

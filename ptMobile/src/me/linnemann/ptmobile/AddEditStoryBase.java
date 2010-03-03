@@ -7,6 +7,7 @@ import me.linnemann.ptmobile.pivotaltracker.value.Estimate;
 import me.linnemann.ptmobile.pivotaltracker.value.State;
 import me.linnemann.ptmobile.pivotaltracker.value.StoryType;
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -15,16 +16,30 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 public abstract class AddEditStoryBase extends Activity {
 
 	protected EditText name, description;
+	protected TextView labels;
 
 	private ArrayAdapter<CharSequence> storyTypeAdapter, stateAdapter, estimateAdapter;
 	protected Spinner storyTypeSpinner, stateSpinner, estimateSpinner;
 
 	protected PivotalTracker tracker;
 	int layout;
+	
+	View.OnClickListener labelsClick = new View.OnClickListener() {
+		public void onClick(View v) {
+			showEditLabels();
+		}
+	};
+	
+	private void showEditLabels() {
+		Intent i = new Intent(this, SelectLabels.class);
+		i.putExtra("story_id", getStory().getId().getValue());
+		startActivity(i);
+	}
 	
 	public AddEditStoryBase(int layout) {
 		this.layout = layout;
@@ -46,6 +61,12 @@ public abstract class AddEditStoryBase extends Activity {
 		description.setText(story.getDescription().getUIString());
 	}
 
+	protected void initLabels(Story story) {
+		labels = (TextView) findViewById(R.id.textLabels);
+		labels.setText(story.getLabels().getUIString());
+		((Button) findViewById(R.id.btnEditLabels)).setOnClickListener(labelsClick);
+	}
+	
 	protected StoryType getStoryTypeFromSpinner() {
 		StoryType type = StoryType.valueOf(storyTypeSpinner.getSelectedItem().toString().toUpperCase());
 		return type;
@@ -149,5 +170,6 @@ public abstract class AddEditStoryBase extends Activity {
 
 	protected abstract void onStoryTypeSelected(String selectedItem);
 	protected abstract void onOkButtonClick();
+	protected abstract Story getStory();
 
 }

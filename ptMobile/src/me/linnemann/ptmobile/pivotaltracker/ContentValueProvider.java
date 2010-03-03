@@ -24,21 +24,6 @@ public class ContentValueProvider {
 		data = entity.getData();
 	}
 	
-	public ContentValueProvider(Activity activity) {
-		this.values = new ContentValues();
-		data = activity.getData();
-	}
-	
-	public ContentValueProvider(Project project) {
-		this.values = new ContentValues();
-		data = project.getData();
-	}
-	
-	public ContentValueProvider(Story story) {
-		this.values = new ContentValues();
-		data = story.getData();
-	}
-	
 	public ContentValues getValues() {
 		return values;
 	}

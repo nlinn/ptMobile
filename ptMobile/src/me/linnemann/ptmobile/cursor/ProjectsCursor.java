@@ -13,15 +13,15 @@ import android.database.sqlite.SQLiteQuery;
 public class ProjectsCursor extends SQLiteCursor {
 	
 	public static String getListSQL() {
-		return "SELECT _id, id, use_https, current_velocity, name, iteration_length, point_scale, week_start_day FROM projects";
+		return "SELECT _id, id, use_https, current_velocity, name, iteration_length, point_scale, week_start_day, labels FROM projects";
 	}
 
 	public static String getProjectById(Integer project_id) {
-		return "SELECT _id, id, use_https, current_velocity, name, iteration_length, point_scale, week_start_day FROM projects WHERE id="+project_id;
+		return "SELECT _id, id, use_https, current_velocity, name, iteration_length, point_scale, week_start_day, labels FROM projects WHERE id="+project_id;
 	}
 
 	public static String getProjectByName(String project_name) {
-		return "SELECT _id, id, use_https, current_velocity, name, iteration_length, point_scale, week_start_day FROM projects WHERE name='"+project_name+"'";
+		return "SELECT _id, id, use_https, current_velocity, name, iteration_length, point_scale, week_start_day, labels FROM projects WHERE name='"+project_name+"'";
 	}
 	
 	public ProjectsCursor(SQLiteDatabase db, SQLiteCursorDriver driver,
@@ -54,6 +54,7 @@ public class ProjectsCursor extends SQLiteCursor {
 		addFieldToProject(project, ProjectDataType.ITERATION_LENGTH);
 		addFieldToProject(project, ProjectDataType.CURRENT_VELOCITY);
 		addFieldToProject(project, ProjectDataType.USE_HTTPS);
+		addFieldToProject(project, ProjectDataType.LABELS);
 	}
 
 	private void addFieldToProject(Project project, DataType type) {

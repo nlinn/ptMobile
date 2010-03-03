@@ -13,8 +13,6 @@
 			<EditText android:text="Enter new story title here" android:id="@+id/editNameSE" android:layout_width="fill_parent" android:layout_height="wrap_content">
 			</EditText>
 
-
-
 			<Spinner android:layout_height="wrap_content" 
 			android:layout_below="@id/editNameSE" 
 			android:layout_width="fill_parent" 
@@ -29,8 +27,25 @@
 			 android:layout_below="@id/spnPointsSE"
 			 android:layout_width="fill_parent"
 			 android:id="@+id/spnStateSE" android:layout_alignWithParentIfMissing="true"/>
+			 
+			 
+			<LinearLayout android:layout_below="@id/spnStateSE" android:layout_width="fill_parent" android:id="@+id/layoutLabels"
+				android:layout_height="wrap_content" android:orientation="horizontal" android:paddingLeft="7dip">
+		
+			<TextView  android:text="labels, labels" android:id="@+id/textLabels"
+			 	android:layout_height="wrap_content" android:layout_width="wrap_content"
+			  	android:textColor="@color/color_labels" android:layout_weight="1" android:textStyle="bold"></TextView>
 
-	<TextView android:layout_below="@id/spnStateSE" android:text="Description" android:id="@+id/labelDescSE" android:layout_height="wrap_content" android:layout_width="wrap_content" android:paddingTop="10dip" android:paddingBottom="5dip" android:paddingLeft="5dip" android:textColor="@color/color_text"></TextView>
+			
+			<Button android:id="@+id/btnEditLabels" 
+				android:layout_width="wrap_content" android:layout_height="wrap_content"
+				android:layout_weight="0" android:text="edit labels"></Button>
+		</LinearLayout>
+			 
+			
+
+
+	<TextView android:layout_below="@id/layoutLabels" android:text="Description" android:id="@+id/labelDescSE" android:layout_height="wrap_content" android:layout_width="wrap_content" android:paddingTop="10dip" android:paddingBottom="5dip" android:paddingLeft="5dip" android:textColor="@color/color_text"></TextView>
 			 
 	<EditText android:text="Description" android:textSize="14px" 
 	android:id="@+id/editDescriptionSE" android:layout_width="fill_parent" android:layout_below="@id/labelDescSE" android:inputType="textMultiLine|textLongMessage" android:layout_height="wrap_content" android:gravity="fill_horizontal" android:lines="5">

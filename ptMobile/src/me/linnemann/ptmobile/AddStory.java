@@ -29,6 +29,11 @@ public class AddStory extends AddEditStoryBase {
 		initEstimate(story);
 	}
 	
+
+	public Story getStory() {
+		return story;
+	}
+	
 	public void onOkButtonClick() {
 		story.changeName(name.getText().toString());
 		story.changeDescription(description.getText().toString());
