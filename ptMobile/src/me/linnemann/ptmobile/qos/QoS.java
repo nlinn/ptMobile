@@ -133,7 +133,7 @@ public class QoS implements QoSMessageHandler{
 		final Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
 		emailIntent.setType("plain/text");
 
-		emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{"niels.linnemann@gmail.com"});
+		emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{"ptmobile@linnemann.me"});
 		emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "User Feedback");
 		emailIntent.putExtra(android.content.Intent.EXTRA_TEXT, getFeedbackEmailBody(context,errormsg,details));
 		context.startActivity(Intent.createChooser(emailIntent, "Send mail..."));
@@ -145,14 +145,15 @@ public class QoS implements QoSMessageHandler{
 		body.append(errormsg);
 		body.append("\n\nDetails:\n");
 		body.append(details);
-		body.append(getBuildInfo());
+		
 		
 		body.append("\n\nSystem Info:\n");
-		body.append(getBasicPhoneInfo(ctx));
-		body.append("\n\n");
-		body.append(getMoreSysInfo());
-		body.append("\n\n");
-		body.append(getSystemInfo());
+		body.append(getBuildInfo());
+		//body.append(getBasicPhoneInfo(ctx));
+		//body.append("\n\n");
+		//body.append(getMoreSysInfo());
+		//body.append("\n\n");
+		//body.append(getSystemInfo());
 		return body.toString();
 	}
 
@@ -186,9 +187,7 @@ public class QoS implements QoSMessageHandler{
 
 	private static String getBuildInfo() {
 		StringBuilder info = new StringBuilder();
-		
-		info.append("\n\nBuild: \n");
-		
+			
 		info.append("\nBoard: ");
 		info.append(Build.BOARD);
 		

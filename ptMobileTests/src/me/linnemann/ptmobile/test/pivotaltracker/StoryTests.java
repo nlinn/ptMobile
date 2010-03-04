@@ -1,7 +1,6 @@
 package me.linnemann.ptmobile.test.pivotaltracker;
 
 import me.linnemann.ptmobile.pivotaltracker.Story;
-import me.linnemann.ptmobile.pivotaltracker.lifecycle.StateWithTransitions;
 import me.linnemann.ptmobile.pivotaltracker.value.State;
 import me.linnemann.ptmobile.pivotaltracker.value.StoryType;
 import android.test.AndroidTestCase;
