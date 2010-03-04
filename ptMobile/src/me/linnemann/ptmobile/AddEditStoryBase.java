@@ -38,7 +38,7 @@ public abstract class AddEditStoryBase extends Activity {
 	private void showEditLabels() {
 		Intent i = new Intent(this, SelectLabels.class);
 		i.putExtra("story_id", getStory().getId().getValue());
-		startActivity(i);
+		startActivityForResult(i, 1);
 	}
 	
 	public AddEditStoryBase(int layout) {
@@ -172,4 +172,17 @@ public abstract class AddEditStoryBase extends Activity {
 	protected abstract void onOkButtonClick();
 	protected abstract Story getStory();
 
+	@Override 
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Log.i("T","Activity is back");
+        switch (resultCode) {
+           case RESULT_OK:
+             setTitle("Result Ok");
+             Log.i("T","Result ok");
+             labels.setText(data.getExtras().get(SelectLabels.KEY_LABELS).toString());
+           default:
+             break;
+        }
+        labels.setText(data.getExtras().get(SelectLabels.KEY_LABELS).toString());
+	} 
 }

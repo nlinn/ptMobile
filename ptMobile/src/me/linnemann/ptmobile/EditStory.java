@@ -76,4 +76,6 @@ public class EditStory extends AddEditStoryBase {
 		super.onStop();
 		if (tracker != null) tracker.pause();
 	}
+	
+	
 }
