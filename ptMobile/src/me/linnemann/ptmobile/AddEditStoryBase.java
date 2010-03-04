@@ -6,6 +6,7 @@ import me.linnemann.ptmobile.pivotaltracker.Story;
 import me.linnemann.ptmobile.pivotaltracker.value.Estimate;
 import me.linnemann.ptmobile.pivotaltracker.value.State;
 import me.linnemann.ptmobile.pivotaltracker.value.StoryType;
+import me.linnemann.ptmobile.pivotaltracker.value.Text;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -80,6 +81,10 @@ public abstract class AddEditStoryBase extends Activity {
 	protected State getStateFromSpinner() {
 		String state = stateSpinner.getSelectedItem().toString();
 		return State.valueOfBeautifiedString(state);
+	}
+	
+	protected String getLabelsFromTextView() {
+		return labels.getText().toString().trim();
 	}
 
 	protected void initStoryType(Story story) {

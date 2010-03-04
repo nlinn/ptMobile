@@ -5,13 +5,12 @@ import me.linnemann.ptmobile.cursor.StoriesCursorImpl;
 import me.linnemann.ptmobile.pivotaltracker.PivotalTracker;
 import me.linnemann.ptmobile.pivotaltracker.Story;
 import me.linnemann.ptmobile.pivotaltracker.lifecycle.Transition;
+import me.linnemann.ptmobile.qos.QoS;
+import me.linnemann.ptmobile.qos.QoSMessageHandler;
 import me.linnemann.ptmobile.ui.OutputStyler;
-import me.linnemann.ptmobile.ui.QoS;
-import me.linnemann.ptmobile.ui.QoSMessageHandler;
 import me.linnemann.ptmobile.ui.RefreshableListActivityWithMainMenu;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.Menu;
@@ -195,7 +194,10 @@ public class Stories extends RefreshableListActivityWithMainMenu implements QoSM
 
 	public void refresh() {
 
-		final Handler handler = QoS.createHandlerShowingMessage(this, this, "update complete");
+		final QoS qos = new QoS(this,this);
+		qos.setErrorMessage("error updating data");
+		qos.setOkMessage("update complete");
+	
 
 		if (getParent() != null) {
 			getParent().setProgressBarIndeterminateVisibility(true);
@@ -209,9 +211,9 @@ public class Stories extends RefreshableListActivityWithMainMenu implements QoSM
 
 				try {
 					tracker.updateStoriesForProject(project_id, iteration_group);
-					QoS.sendSuccessMessageToHandler(handler);
+					qos.sendSuccessMessageToHandler();
 				} catch (RuntimeException e) {
-					QoS.sendErrorMessageToHandler(e, handler);
+					qos.sendErrorMessageToHandler(e);
 				}
 			} 
 		}.start(); 
@@ -224,16 +226,18 @@ public class Stories extends RefreshableListActivityWithMainMenu implements QoSM
 		startActivity(i);
 	}
 
-	public void onERRORFromHandler() {
+	public boolean onQoSERROR() {
 		if (getParent() != null) {
 			getParent().setProgressBarIndeterminateVisibility(false);
 		}
+		return QoS.HANDLE_EVENT;
 	}
 
-	public void onOKFromHandler() {
+	public boolean onQoSOK() {
 		if (getParent() != null) {
 			getParent().setProgressBarIndeterminateVisibility(false);
 		}
 		updateList(project_id);
+		return QoS.HANDLE_EVENT;
 	}
 }

@@ -4,8 +4,8 @@ import me.linnemann.ptmobile.adapter.ProjectsCursorAdapter;
 import me.linnemann.ptmobile.cursor.ProjectsCursor;
 import me.linnemann.ptmobile.pivotaltracker.PivotalTracker;
 import me.linnemann.ptmobile.pivotaltracker.Project;
-import me.linnemann.ptmobile.ui.QoS;
-import me.linnemann.ptmobile.ui.QoSMessageHandler;
+import me.linnemann.ptmobile.qos.QoS;
+import me.linnemann.ptmobile.qos.QoSMessageHandler;
 import me.linnemann.ptmobile.ui.RefreshableListActivityWithMainMenu;
 import android.content.Context;
 import android.content.Intent;
@@ -164,7 +164,10 @@ public class Projects extends RefreshableListActivityWithMainMenu implements QoS
 	
 	public void refresh() {
 
-		final Handler handler = QoS.createHandlerShowingMessage(ctx, this, "update complete");
+		final QoS qos = new QoS(ctx,this);
+		qos.setErrorMessage("error updating data");
+		qos.setOkMessage("update complete");
+		
 		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(ctx);
 
 		// --- try if API-Token is set
@@ -174,9 +177,9 @@ public class Projects extends RefreshableListActivityWithMainMenu implements QoS
 				public void run() { 
 					try {
 						tracker.updateProjects();						
-						QoS.sendSuccessMessageToHandler(handler);
+						qos.sendSuccessMessageToHandler();
 					} catch (RuntimeException e) {
-						QoS.sendErrorMessageToHandler(e, handler);
+						qos.sendErrorMessageToHandler(e);
 					}
 				} 
 			}.start();
@@ -190,13 +193,14 @@ public class Projects extends RefreshableListActivityWithMainMenu implements QoS
 		// nothing
 	}
 
-	public void onERRORFromHandler() {
+	public boolean onQoSERROR() {
 		getParent().setProgressBarIndeterminateVisibility(false);
-		
+		return QoS.HANDLE_EVENT;
 	}
 
-	public void onOKFromHandler() {
+	public boolean onQoSOK() {
 		getParent().setProgressBarIndeterminateVisibility(false);
 		populateList();
+		return QoS.HANDLE_EVENT;
 	}
 }

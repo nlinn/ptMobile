@@ -10,8 +10,8 @@ import me.linnemann.ptmobile.pivotaltracker.value.DateTime;
 import me.linnemann.ptmobile.pivotaltracker.value.Estimate;
 import me.linnemann.ptmobile.pivotaltracker.value.StoryType;
 import me.linnemann.ptmobile.pivotaltracker.value.Text;
-import me.linnemann.ptmobile.ui.QoS;
-import me.linnemann.ptmobile.ui.QoSMessageHandler;
+import me.linnemann.ptmobile.qos.QoS;
+import me.linnemann.ptmobile.qos.QoSMessageHandler;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -19,7 +19,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
@@ -226,7 +226,10 @@ public class StoryDetails extends Activity implements QoSMessageHandler {
 	
 	private void applyTransition(final Transition transition) {
 		
-		final Handler handler = QoS.createHandlerShowingMessage(ctx, this, "update complete");
+		final QoS qos = new QoS(ctx,this);
+		qos.setErrorMessage("error updating data");
+		qos.setOkMessage("update complete");
+		
 		setProgressBarIndeterminateVisibility(true);
 		
 		new Thread() { 
@@ -234,9 +237,9 @@ public class StoryDetails extends Activity implements QoSMessageHandler {
 				try {            						
 					story.applyTransition(transition);
 					tracker.commitChanges(story);
-					QoS.sendSuccessMessageToHandler(handler);
+					qos.sendSuccessMessageToHandler();
 				} catch (RuntimeException e) {
-					QoS.sendErrorMessageToHandler(e, handler);
+					qos.sendErrorMessageToHandler(e);
 				}
 			} 
 		}.start();
@@ -262,6 +265,7 @@ public class StoryDetails extends Activity implements QoSMessageHandler {
 	
 	@Override
 	public void onResume() {
+		Log.v(TAG,"onResume");
 		super.onResume();
 		tracker = new PivotalTracker(this);
 		updateView();
@@ -269,7 +273,10 @@ public class StoryDetails extends Activity implements QoSMessageHandler {
 
 	protected Dialog onCreateDialog(int id) {
 	
-		final Handler handler = QoS.createHandlerShowingMessage(ctx, this, "update complete");
+		final QoS qos = new QoS(ctx,this);
+		qos.setErrorMessage("error updating data");
+		qos.setOkMessage("update complete");
+	
 		
 		LayoutInflater factory = LayoutInflater.from(this);
         final View textEntryView = factory.inflate(R.layout.dialog_comment, null);
@@ -287,9 +294,9 @@ public class StoryDetails extends Activity implements QoSMessageHandler {
             				public void run() { 
             					try {            						
             						tracker.addComment(story, edit.getText().toString());
-            						QoS.sendSuccessMessageToHandler(handler);
+            						qos.sendSuccessMessageToHandler();
             					} catch (RuntimeException e) {
-            						QoS.sendErrorMessageToHandler(e, handler);
+            						qos.sendErrorMessageToHandler(e);
             					}
             				} 
             			}.start();
@@ -306,12 +313,14 @@ public class StoryDetails extends Activity implements QoSMessageHandler {
             .create();
 	}
 
-	public void onERRORFromHandler() {
+	public boolean onQoSERROR() {
 		setProgressBarIndeterminateVisibility(false);
+		return QoS.HANDLE_EVENT;
 	}
 
-	public void onOKFromHandler() {
+	public boolean onQoSOK() {
 		setProgressBarIndeterminateVisibility(false);
 		updateView();
+		return QoS.HANDLE_EVENT;
 	}
 }

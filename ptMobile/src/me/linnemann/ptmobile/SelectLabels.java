@@ -76,12 +76,19 @@ public class SelectLabels extends ListActivity {
 		String csv="";
 		SparseBooleanArray chosen = listView.getCheckedItemPositions();
 		for(int i=0; i<chosen.size(); i++) {
-			if (csv.length() > 0) {
-				csv += ",";
+			if (chosen.valueAt(i)) {
+				csv = addToCSV(csv,chosen.keyAt(i));
 			}
-			csv += labels[chosen.keyAt(i)];
 		}
 		Log.i(TAG,csv);
+		return csv;
+	}
+	
+	private String addToCSV(String csv, int i) {
+		if (csv.length() > 0) {
+			csv += ",";
+		}
+		csv += labels[i];
 		return csv;
 	}
 	

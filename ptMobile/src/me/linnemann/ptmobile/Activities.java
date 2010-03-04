@@ -4,8 +4,8 @@ import me.linnemann.ptmobile.adapter.ActivitiesCursorAdapter;
 import me.linnemann.ptmobile.cursor.ActivitiesCursor;
 import me.linnemann.ptmobile.pivotaltracker.Activity;
 import me.linnemann.ptmobile.pivotaltracker.PivotalTracker;
-import me.linnemann.ptmobile.ui.QoS;
-import me.linnemann.ptmobile.ui.QoSMessageHandler;
+import me.linnemann.ptmobile.qos.QoS;
+import me.linnemann.ptmobile.qos.QoSMessageHandler;
 import me.linnemann.ptmobile.ui.RefreshableListActivityWithMainMenu;
 import android.content.Context;
 import android.content.Intent;
@@ -120,8 +120,11 @@ public class Activities extends RefreshableListActivityWithMainMenu implements Q
 	}
 
 	public void refresh() {
+		
+		final QoS qos = new QoS(ctx,this);
+		qos.setErrorMessage("error updating data");
+		qos.setOkMessage("update complete");
 
-		final Handler handler = QoS.createHandlerShowingMessage(ctx, this, "update complete");
 		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(ctx);
 
 		// --- try if API-Token is set
@@ -133,9 +136,9 @@ public class Activities extends RefreshableListActivityWithMainMenu implements Q
 				public void run() { 
 					try {
 						tracker.updateActivities();
-						QoS.sendSuccessMessageToHandler(handler);
+						qos.sendSuccessMessageToHandler();
 					} catch (RuntimeException e) {
-						QoS.sendErrorMessageToHandler(e, handler);
+						qos.sendErrorMessageToHandler(e);
 					}
 				} 
 			}.start();
@@ -144,21 +147,20 @@ public class Activities extends RefreshableListActivityWithMainMenu implements Q
 		}
 	}
 
-
 	@Override
 	public void addStory() {
 		// nothing
 	}
 
-
-	public void onERRORFromHandler() {
+	public boolean onQoSERROR() {
 		getParent().setProgressBarIndeterminateVisibility(false);
+		return QoS.HANDLE_EVENT;
 	}
 
-
-	public void onOKFromHandler() {
+	public boolean onQoSOK() {
 		getParent().setProgressBarIndeterminateVisibility(false);
 		fillData();
+		return QoS.HANDLE_EVENT;
 	}
 }
 

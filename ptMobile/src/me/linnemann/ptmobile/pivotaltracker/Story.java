@@ -37,6 +37,7 @@ public class Story  extends TrackerEntity {
 	}
 
 	private void initStoryData() {
+		putDataAndTrackChanges(StoryDataType.NAME, Text.getEmptyValue());
 		putDataAndTrackChanges(StoryDataType.CURRENT_STATE, State.UNSCHEDULED);
 		putDataAndTrackChanges(StoryDataType.ESTIMATE, Estimate.NO_ESTIMATE);
 		putDataAndTrackChanges(StoryDataType.ITERATION_NUMBER, Numeric.getEmptyValue());

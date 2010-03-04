@@ -44,6 +44,7 @@ public class EditStory extends AddEditStoryBase {
 		story.changeEstimate(getEstimateFromSpinner());
 		story.changeStoryType(getStoryTypeFromSpinner());
 		story.changeCurrentState(getStateFromSpinner());
+		story.changeLabels(getLabelsFromTextView());
 
 		try {
 			tracker.commitChanges(story);
