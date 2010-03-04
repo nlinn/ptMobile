@@ -4,7 +4,7 @@ import me.linnemann.ptmobile.pivotaltracker.Story;
 
 public class CreateStoryCommand extends StoryCommand {
 
-	private static final String URL="http://www.pivotaltracker.com/services/v2/projects/PROJECT_ID/stories";
+	private static final String URL="www.pivotaltracker.com/services/v2/projects/PROJECT_ID/stories";
 	
 	public CreateStoryCommand(Story story, String protocol) {
 		super(story,URL,protocol);

@@ -2,10 +2,9 @@ package me.linnemann.ptmobile;
 
 import me.linnemann.ptmobile.pivotaltracker.Story;
 import me.linnemann.ptmobile.pivotaltracker.value.StoryType;
-import me.linnemann.ptmobile.ui.SimpleErrorDialog;
+import me.linnemann.ptmobile.qos.QoS;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.Toast;
 
 public class AddStory extends AddEditStoryBase {
 
@@ -40,14 +39,16 @@ public class AddStory extends AddEditStoryBase {
 		story.changeEstimate(getEstimateFromSpinner());
 		story.changeStoryType(getStoryTypeFromSpinner());
 		
+		QoS qos = new QoS(this);
+		qos.setOkMessage("story added to icebox");
+		qos.setErrorMessage("error adding story");
+			
 		try {
 			tracker.commitChanges(story);
-			Toast toast = Toast.makeText(getApplicationContext(), "story added to icebox", Toast.LENGTH_SHORT);
-			toast.show();
+			qos.sendSuccessMessageToHandler();
 			finish();
 		} catch (RuntimeException e) {
-			SimpleErrorDialog dialog = new SimpleErrorDialog("error adding story: "+e.getMessage(), this);
-			dialog.show();
+			qos.sendErrorMessageToHandler(e);
 		}	
 	}
 	

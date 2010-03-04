@@ -147,23 +147,23 @@ public class StoriesCursorAdapter extends CursorAdapter {
 		if (story.getTransitions().size() > 0){
 			iv.setVisibility(View.VISIBLE);
 
-			if (story.getTransitions().get(0).getName().equals("start")) {
+			if (story.getTransitions().get(0).getName().equalsIgnoreCase("start")) {
 				iv.setImageDrawable(ctx.getResources().getDrawable(R.drawable.start));
 			}
 
-			if (story.getTransitions().get(0).getName().equals("finish")) {
+			if (story.getTransitions().get(0).getName().equalsIgnoreCase("finish")) {
 				iv.setImageDrawable(ctx.getResources().getDrawable(R.drawable.finish));
 			}
 
-			if (story.getTransitions().get(0).getName().equals("deliver")) {
+			if (story.getTransitions().get(0).getName().equalsIgnoreCase("deliver")) {
 				iv.setImageDrawable(ctx.getResources().getDrawable(R.drawable.deliver));
 			}
 
-			if (story.getTransitions().get(0).getName().equals("accept")) {
+			if (story.getTransitions().get(0).getName().equalsIgnoreCase("accept")) {
 				iv.setImageDrawable(ctx.getResources().getDrawable(R.drawable.acceptreject));
 			} 
 			
-			if (story.getTransitions().get(0).getName().equals("restart")) {
+			if (story.getTransitions().get(0).getName().equalsIgnoreCase("restart")) {
 				iv.setImageDrawable(ctx.getResources().getDrawable(R.drawable.restart));
 			} 
 

@@ -25,7 +25,7 @@ public class Start extends TabActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
-
+		
 		showLoginIfNoAPIKey();
 
 		tabHost = getTabHost();
@@ -71,11 +71,11 @@ public class Start extends TabActivity {
 		tabHost.clearAllTabs();
 
 		tabHost.addTab(tabHost.newTabSpec("tab_projects")
-				.setIndicator("projects")
+				.setIndicator("My Projects")
 				.setContent(projects));
 
 		tabHost.addTab(tabHost.newTabSpec("tab_activities")
-				.setIndicator("activity feed")
+				.setIndicator("Activity Feed")
 				.setContent(activities));
 
 	}

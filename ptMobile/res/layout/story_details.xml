@@ -123,13 +123,13 @@
 		android:padding="3px" android:background="@color/color_iteration_bg">
 
 		<TableRow>
-			<Button android:text="start" android:id="@+id/btn1SD"
+			<Button android:text="Start" android:id="@+id/btn1SD"
 				android:layout_width="fill_parent" android:layout_height="wrap_content"
 				android:layout_weight="1"></Button>
-			<Button android:text="start" android:id="@+id/btn2SD"
+			<Button android:text="Start" android:id="@+id/btn2SD"
 				android:layout_width="fill_parent" android:layout_height="wrap_content"
 				android:layout_weight="1"></Button>
-			<Button android:text="start" android:id="@+id/btn3SD"
+			<Button android:text="Start" android:id="@+id/btn3SD"
 				android:layout_width="fill_parent" android:layout_height="wrap_content"
 				android:layout_weight="1"></Button>
 

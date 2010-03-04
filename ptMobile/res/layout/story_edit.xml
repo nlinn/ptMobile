@@ -65,13 +65,13 @@
 		<TableRow>
 			<Button android:id="@+id/btn1SE"
 				android:layout_width="fill_parent" android:layout_height="wrap_content"
-				android:layout_weight="1" android:visibility="invisible" android:text="save"></Button>
-			<Button android:text="start" android:id="@+id/btn2SE"
+				android:layout_weight="1" android:visibility="invisible" android:text="Save"></Button>
+			<Button android:text="Start" android:id="@+id/btn2SE"
 				android:layout_width="fill_parent" android:layout_height="wrap_content"
 				android:layout_weight="1" android:visibility="invisible"></Button>
 			<Button android:id="@+id/btn3SE"
 				android:layout_width="fill_parent" android:layout_height="wrap_content"
-				android:layout_weight="1" android:text="save"></Button>
+				android:layout_weight="1" android:text="Save"></Button>
 
 		</TableRow>
 	</TableLayout>

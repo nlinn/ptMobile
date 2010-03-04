@@ -31,7 +31,6 @@ import android.widget.TextView;
 
 public class StoryDetails extends Activity implements QoSMessageHandler {
 
-	@SuppressWarnings("unused")
 	private static final String TAG = "StoryDetails";
 	
 	private TextView name;
@@ -204,7 +203,7 @@ public class StoryDetails extends Activity implements QoSMessageHandler {
 			});
 			btn2.setVisibility(View.VISIBLE);
 		} else {
-			btn2.setText("edit");
+			btn2.setText("Edit");
 			btn2.setOnClickListener(new OnClickListener() {
 				public void onClick(View v) {  
 					Intent i = new Intent(ctx, EditStory.class);
@@ -215,7 +214,7 @@ public class StoryDetails extends Activity implements QoSMessageHandler {
 			btn2.setVisibility(View.VISIBLE);
 		}
 		
-		btn3.setText("comment");
+		btn3.setText("Comment");
 		btn3.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {  
 				showDialog(1);
@@ -284,7 +283,7 @@ public class StoryDetails extends Activity implements QoSMessageHandler {
         	.setIcon(null)
             .setTitle("Comments")
             .setView(textEntryView)
-            .setPositiveButton("save", new DialogInterface.OnClickListener() {
+            .setPositiveButton("Save", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int whichButton) {
                 	final EditText edit = (EditText) ((AlertDialog) dialog).findViewById(R.id.commentEdit);
                 	setProgressBarIndeterminateVisibility(true);
@@ -305,7 +304,7 @@ public class StoryDetails extends Activity implements QoSMessageHandler {
                 	}
                 }
             })
-            .setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+            .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int whichButton) {
                 	setProgressBarIndeterminateVisibility(false);
                 }

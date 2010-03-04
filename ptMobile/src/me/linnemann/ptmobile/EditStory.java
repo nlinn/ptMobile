@@ -2,10 +2,9 @@ package me.linnemann.ptmobile;
 
 import me.linnemann.ptmobile.pivotaltracker.Story;
 import me.linnemann.ptmobile.pivotaltracker.value.StoryType;
-import me.linnemann.ptmobile.ui.SimpleErrorDialog;
+import me.linnemann.ptmobile.qos.QoS;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.Toast;
 
 public class EditStory extends AddEditStoryBase {
 
@@ -14,8 +13,6 @@ public class EditStory extends AddEditStoryBase {
 	public EditStory() {
 		super(R.layout.story_edit);
 	}
-
-	
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -33,7 +30,6 @@ public class EditStory extends AddEditStoryBase {
 		initLabels(story);
 	}
 
-
 	public Story getStory() {
 		return story;
 	}
@@ -46,14 +42,16 @@ public class EditStory extends AddEditStoryBase {
 		story.changeCurrentState(getStateFromSpinner());
 		story.changeLabels(getLabelsFromTextView());
 
+		QoS qos = new QoS(this);
+		qos.setOkMessage("update complete");
+		qos.setErrorMessage("error updating story");
+		
 		try {
 			tracker.commitChanges(story);
-			Toast toast = Toast.makeText(getApplicationContext(), "update complete", Toast.LENGTH_SHORT);
-			toast.show();
+			qos.sendSuccessMessageToHandler();
 			finish();
 		} catch (RuntimeException e) {
-			SimpleErrorDialog dialog = new SimpleErrorDialog("error updating story: "+e.getMessage(), this);
-			dialog.show();
+			qos.sendErrorMessageToHandler(e);
 		}		
 	}
 

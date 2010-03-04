@@ -28,4 +28,6 @@
 	<color name="color_selector">#ff8000</color>
 	<color name="color_buttonbar_bg">#AAA</color>
 	
+	<color name="titelbar">#325a89</color>
+	
 </resources>

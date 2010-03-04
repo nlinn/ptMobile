@@ -6,7 +6,6 @@ import me.linnemann.ptmobile.pivotaltracker.Story;
 import me.linnemann.ptmobile.pivotaltracker.value.Estimate;
 import me.linnemann.ptmobile.pivotaltracker.value.State;
 import me.linnemann.ptmobile.pivotaltracker.value.StoryType;
-import me.linnemann.ptmobile.pivotaltracker.value.Text;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -70,6 +69,7 @@ public abstract class AddEditStoryBase extends Activity {
 	
 	protected StoryType getStoryTypeFromSpinner() {
 		StoryType type = StoryType.valueOf(storyTypeSpinner.getSelectedItem().toString().toUpperCase());
+		Log.i("AddEdit","StoryType from spinner: "+type.getUIString());
 		return type;
 	}
 
@@ -180,14 +180,6 @@ public abstract class AddEditStoryBase extends Activity {
 	@Override 
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         Log.i("T","Activity is back");
-        switch (resultCode) {
-           case RESULT_OK:
-             setTitle("Result Ok");
-             Log.i("T","Result ok");
-             labels.setText(data.getExtras().get(SelectLabels.KEY_LABELS).toString());
-           default:
-             break;
-        }
         labels.setText(data.getExtras().get(SelectLabels.KEY_LABELS).toString());
 	} 
 }

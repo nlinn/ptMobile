@@ -17,7 +17,7 @@ public class ReleaseLifecycle implements Lifecycle {
 				// -- no transitions from here
 				break;
 			case UNSTARTED:
-				list.add(new Transition("finish",State.ACCEPTED));
+				list.add(new Transition("Finish",State.ACCEPTED));
 				break;
 			case ACCEPTED:
 				// -- no transitions from here

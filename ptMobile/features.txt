@@ -1,14 +1,18 @@
+Future:
+- "more"-btn in done
+- Abgelaufende Releases in Rot darstellen
+- Leere Iterationen auch anzeigen
+- Sprechblase auch wenn keine Description aber Notes
+- Labels alphabetisch sortieren
+- Wenn "Chores estimatable" dann auch Bugs estimatable...
+
+
 0.8beta
 - Error Dialog
 - XML Parsing 
 - Stability...
 - HTTPS working
 
-Todo:
-- Comments
-- "restart" in lifecycle"
-- Velocity/Sum in iterations
-- "more"-btn in done
 
 0.6beta
 - icebox

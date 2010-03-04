@@ -46,6 +46,7 @@ public final class R {
         public static final int color_text=0x7f070001;
         public static final int color_unscheduled=0x7f07000b;
         public static final int color_unscheduled_selected=0x7f07000c;
+        public static final int titelbar=0x7f070012;
     }
     public static final class drawable {
         public static final int acceptreject=0x7f020000;

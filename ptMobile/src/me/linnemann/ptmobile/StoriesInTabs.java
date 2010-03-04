@@ -55,16 +55,16 @@ public class StoriesInTabs extends TabActivity {
 
 		tabHost.clearAllTabs();
 		tabHost.addTab(tabHost.newTabSpec("tab_done")
-				.setIndicator("done")
+				.setIndicator("Done")
 				.setContent(done));
 		tabHost.addTab(tabHost.newTabSpec("tab_current")
-				.setIndicator("current")
+				.setIndicator("Current")
 				.setContent(current));
 		tabHost.addTab(tabHost.newTabSpec("tab_backlog")
-				.setIndicator("backlog")
+				.setIndicator("Backlog")
 				.setContent(backlog));
 		tabHost.addTab(tabHost.newTabSpec("tab_icebox")
-				.setIndicator("icebox")
+				.setIndicator("Icebox")
 				.setContent(icebox));
 		
 		tabHost.setCurrentTab(1);

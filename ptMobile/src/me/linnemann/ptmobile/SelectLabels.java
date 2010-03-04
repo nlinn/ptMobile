@@ -4,18 +4,15 @@ import me.linnemann.ptmobile.pivotaltracker.PivotalTracker;
 import me.linnemann.ptmobile.pivotaltracker.Project;
 import me.linnemann.ptmobile.pivotaltracker.Story;
 import android.app.ListActivity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.AdapterView.OnItemSelectedListener;
 
 public class SelectLabels extends ListActivity {
 
@@ -70,6 +67,7 @@ public class SelectLabels extends ListActivity {
 		listView.setOnItemClickListener(listener);
 		
 		checkExistingLabels();
+		updateActivityResult();	// in case user does not change anything
 	}
 	
 	private String getChosenLabelsAsCSV() {

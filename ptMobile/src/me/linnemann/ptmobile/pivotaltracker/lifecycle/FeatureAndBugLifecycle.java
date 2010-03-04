@@ -18,23 +18,23 @@ public class FeatureAndBugLifecycle implements Lifecycle {
 				// -- no transitions from here
 				break;
 			case UNSTARTED:
-				list.add(new Transition("start",State.STARTED));
+				list.add(new Transition("Start",State.STARTED));
 				break;
 			case STARTED:	
-				list.add(new Transition("finish",State.FINISHED));
+				list.add(new Transition("Finish",State.FINISHED));
 				break;
 			case FINISHED:
-				list.add(new Transition("deliver",State.DELIVERED));
+				list.add(new Transition("Deliver",State.DELIVERED));
 				break;
 			case DELIVERED:
-				list.add(new Transition("accept",State.ACCEPTED));
-				list.add(new Transition("reject",State.REJECTED));
+				list.add(new Transition("Accept",State.ACCEPTED));
+				list.add(new Transition("Reject",State.REJECTED));
 				break;
 			case ACCEPTED:
 				// -- no transitions from here
 				break;
 			case REJECTED:	
-				list.add(new Transition("restart",State.STARTED));
+				list.add(new Transition("Restart",State.STARTED));
 				break;
 			default:
 				Log.w(TAG, "Unexpected State: "+state);

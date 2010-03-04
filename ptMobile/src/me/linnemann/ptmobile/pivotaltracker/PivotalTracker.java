@@ -116,7 +116,6 @@ public class PivotalTracker {
 	public Story getEmptyStoryForProject(Integer project_id) {
 		Story story = new Story();
 		story.changeProjectId(project_id);
-		story.resetModifiedDataTracking();
 		return story;
 	}
 }

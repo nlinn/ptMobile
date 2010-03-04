@@ -3,7 +3,10 @@ package me.linnemann.ptmobile.pivotaltracker;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.util.Log;
+
 import me.linnemann.ptmobile.pivotaltracker.adapter.DBAdapter;
+import me.linnemann.ptmobile.pivotaltracker.datatype.DataType;
 import me.linnemann.ptmobile.pivotaltracker.datatype.StoryDataType;
 import me.linnemann.ptmobile.pivotaltracker.lifecycle.Lifecycle;
 import me.linnemann.ptmobile.pivotaltracker.lifecycle.LifecycleFactoryImpl;
@@ -14,29 +17,33 @@ import me.linnemann.ptmobile.pivotaltracker.value.Numeric;
 import me.linnemann.ptmobile.pivotaltracker.value.State;
 import me.linnemann.ptmobile.pivotaltracker.value.StoryType;
 import me.linnemann.ptmobile.pivotaltracker.value.Text;
+import me.linnemann.ptmobile.pivotaltracker.value.TrackerValue;
 
 public class Story  extends TrackerEntity {
 
-	@SuppressWarnings("unused")
 	private static final String TAG = "StoryImpl";
 	private DBAdapter db;
 	
 	public Story(DBAdapter db) {
-		this();
-		this.db = db;
+		this(db,StoryType.CHORE);
 	}
 	
 	public Story() {
-		this(StoryType.FEATURE);
+		this(null,StoryType.CHORE);
 	}
-
+	
 	public Story(StoryType type) {
-		initStoryData();
-		changeStoryType(type);
-		resetModifiedDataTracking();
+		this(null,type);
 	}
 
+	public Story(DBAdapter db, StoryType type) {
+		initStoryData();
+		this.db = db;
+		changeStoryType(type);
+	}
+	
 	private void initStoryData() {
+		
 		putDataAndTrackChanges(StoryDataType.NAME, Text.getEmptyValue());
 		putDataAndTrackChanges(StoryDataType.CURRENT_STATE, State.UNSCHEDULED);
 		putDataAndTrackChanges(StoryDataType.ESTIMATE, Estimate.NO_ESTIMATE);
@@ -49,6 +56,9 @@ public class Story  extends TrackerEntity {
 		putDataAndTrackChanges(StoryDataType.OWNED_BY, Text.getEmptyValue());
 		putDataAndTrackChanges(StoryDataType.POSITION, Numeric.getEmptyValue());
 		putDataAndTrackChanges(StoryDataType.PROJECT_ID, Numeric.getEmptyValue());
+		resetModifiedDataTracking();
+		// TODO: this is a bit strange: story type must be marked modified... because of add new story
+		putDataAndTrackChanges(StoryDataType.STORY_TYPE, StoryType.CHORE);
 	}
 	
 	public StoryType getStoryType() {
@@ -60,6 +70,19 @@ public class Story  extends TrackerEntity {
 		
 		if ( type.equals(StoryType.FEATURE) && getEstimate().equals(Estimate.NO_ESTIMATE) ) {
 			putDataAndTrackChanges(StoryDataType.ESTIMATE, Estimate.UNESTIMATED);
+		}
+		
+	
+	}
+	
+	@Override
+	public void putDataAndTrackChanges(DataType key, TrackerValue value) {
+		super.putDataAndTrackChanges(key, value);
+		
+		// --- rule: Release and Bugs never have estimates
+		if ((value.equals(StoryType.RELEASE) || value.equals(StoryType.BUG) )) {
+			Log.i(TAG,"Release or Bug -> no estimate");
+			putDataAndTrackChanges(StoryDataType.ESTIMATE, Estimate.NO_ESTIMATE);
 		}
 	}
 

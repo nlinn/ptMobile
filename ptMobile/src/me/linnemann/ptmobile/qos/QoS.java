@@ -74,7 +74,7 @@ public class QoS implements QoSMessageHandler{
 			}
 		});
 
-		builder.setNegativeButton("No Feedback", new DialogInterface.OnClickListener() {
+		builder.setNegativeButton("Ignore", new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int id) {
 				dialog.dismiss();
 			}
