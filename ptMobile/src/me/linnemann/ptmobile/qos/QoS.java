@@ -28,12 +28,16 @@ public class QoS implements QoSMessageHandler{
 
 	public static final int SUCCESS=0;
 	public static final int ERROR=1;
+	public static final int WARN=2;
 
 	private static final String KEY_ERROR_MESSAGE = "emsg";
 	private static final String KEY_TRACE = "trace";
-
+	
+	
 	public static final boolean HANDLE_EVENT = true;
 	public static final boolean IGNORE_EVENT = false;
+	
+	
 
 	private Handler handler;
 	private String okMessage, errorMessage;
@@ -54,16 +58,25 @@ public class QoS implements QoSMessageHandler{
 		this.errorMessage = message;
 	}
 
-	public void showErrorDialog(Context ctx, Message msg) {
+	public void showErrorOrWarnDialog(Context ctx, Message msg) {
 		Bundle bundle = msg.getData();
-		String error = bundle.getString(KEY_ERROR_MESSAGE);
+		String errormessage = bundle.getString(KEY_ERROR_MESSAGE);
 		String trace = bundle.getString(KEY_TRACE);
 
 		Log.i("QoS",trace);
 
-		showErrorDialog(ctx, error,trace);
+		if (msg.what == QoS.ERROR) {
+		showErrorDialog(ctx, errormessage,trace);
+		} else {
+			showWarnDialog(ctx, errormessage);
+		}
 	}
 
+	private void showWarnDialog(final Context ctx, final String warning) {
+		Toast toast = Toast.makeText(ctx, warning, Toast.LENGTH_SHORT);
+		toast.show();
+	}
+	
 	public void showErrorDialog(final Context ctx, final String errormsg, final String details) {
 		AlertDialog.Builder builder = new AlertDialog.Builder(ctx);
 		builder.setMessage(errorMessage+"\n\n"+errormsg);
@@ -88,11 +101,17 @@ public class QoS implements QoSMessageHandler{
 		Log.w("QoS","Showing error: "+e.getMessage());
 		e.printStackTrace();
 		Message msg = new Message();
-		msg.what = ERROR;
+		
 		Bundle bundle = new Bundle();
 		bundle.putString(KEY_ERROR_MESSAGE, e.getMessage());
 		bundle.putString(KEY_TRACE, stackTraceAsString(e));
 
+		if (e instanceof WarningException) {
+			msg.what = WARN;
+		} else {
+			msg.what = ERROR;
+		}
+		
 		msg.setData(bundle);
 		handler.sendMessage(msg);
 	}
@@ -112,10 +131,10 @@ public class QoS implements QoSMessageHandler{
 		Handler handler = new Handler() {
 			@Override
 			public void handleMessage(Message msg) {
-				if (msg.what == QoS.ERROR) {
+				if (msg.what != QoS.SUCCESS) {
 					boolean handleOrIgnore = messageHandler.onQoSERROR();
 					if (handleOrIgnore == QoS.HANDLE_EVENT) {
-						showErrorDialog(ctx, msg);
+						showErrorOrWarnDialog(ctx, msg);
 					}
 				} else {
 					boolean handleOrIgnore = messageHandler.onQoSOK();
@@ -149,11 +168,6 @@ public class QoS implements QoSMessageHandler{
 		
 		body.append("\n\nSystem Info:\n");
 		body.append(getBuildInfo());
-		//body.append(getBasicPhoneInfo(ctx));
-		//body.append("\n\n");
-		//body.append(getMoreSysInfo());
-		//body.append("\n\n");
-		//body.append(getSystemInfo());
 		return body.toString();
 	}
 

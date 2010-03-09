@@ -38,7 +38,7 @@ public class StoriesCursorImpl extends SQLiteCursor implements StoriesCursor {
 		"from stories s " +
 		"left join iterations i on s.iteration_number=i.number " +
 		"where " +
-		"i.iteration_group='current' and " +
+		"s.iteration_group='current' and " +
 		"s.project_id='"+project_id+"' and i.project_id='"+project_id+"' order by s.iteration_number asc, s.position asc";
 	}
 
@@ -50,7 +50,7 @@ public class StoriesCursorImpl extends SQLiteCursor implements StoriesCursor {
 		"from stories s " +
 		"left join iterations i on s.iteration_number=i.number " +
 		"where " +
-		"i.iteration_group='backlog' " +
+		"s.iteration_group='backlog' " +
 		"and s.project_id='"+project_id+"' and i.project_id='"+project_id+"' order by s.iteration_number asc, s.position asc";
 	}
 
@@ -62,7 +62,7 @@ public class StoriesCursorImpl extends SQLiteCursor implements StoriesCursor {
 		"from stories s " +
 		"left join iterations i on s.iteration_number=i.number " +
 		"where " +
-		"i.iteration_group='done' " +
+		"s.iteration_group='done' " +
 		"and i.project_id='"+project_id+"' and s.project_id='"+project_id+"' order by s.iteration_number asc, s.position asc";
 	}
 

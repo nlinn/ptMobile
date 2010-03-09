@@ -9,6 +9,7 @@ import java.util.Map;
 
 import me.linnemann.ptmobile.pivotaltracker.RESTSupport;
 import me.linnemann.ptmobile.pivotaltracker.xml.RESTXMLCommand;
+import me.linnemann.ptmobile.qos.WarningException;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
@@ -51,7 +52,12 @@ public class APIAdapterImpl implements APIAdapter {
 			return in;
 		} catch(IOException e) {
 			Log.e(TAG,"IOException: "+e.getMessage());
-			throw new RuntimeException("IOException while loading stream: "+e.getMessage());
+			String message = e.getMessage();
+			if (message.indexOf("timed out") > 0) {
+				throw new WarningException(message);
+			} else {
+				throw new RuntimeException("IOException while loading stream: "+e.getMessage());
+			}
 		} 
 	}
 

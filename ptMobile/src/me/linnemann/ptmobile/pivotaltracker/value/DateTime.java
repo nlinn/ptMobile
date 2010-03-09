@@ -11,7 +11,9 @@ import android.util.Log;
 public class DateTime implements TrackerValue {
 
 	private Date date;
+	private String original_date;
 	private static SimpleDateFormat UTC_FORMAT = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss 'UTC'");
+	private static SimpleDateFormat LOCAL_FORMAT = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 	private static SimpleDateFormat OUT_FORMAT_UI = new SimpleDateFormat("dd MMM yyyy, HH:mm");
 	private static SimpleDateFormat OUT_FORMAT_UI_SHORT = new SimpleDateFormat("dd MMM yyyy");
 	
@@ -20,6 +22,7 @@ public class DateTime implements TrackerValue {
 		OUT_FORMAT_UI.setTimeZone(cal.getTimeZone());
 		OUT_FORMAT_UI_SHORT.setTimeZone(cal.getTimeZone());
 		UTC_FORMAT.setTimeZone(TimeZone.getTimeZone("UTC"));
+		LOCAL_FORMAT.setTimeZone(cal.getTimeZone());
 	}
 	
 	public static DateTime getEmptyValue() {
@@ -27,16 +30,33 @@ public class DateTime implements TrackerValue {
 	}
 	
 	private DateTime() {
+		original_date = "";
+		date = null;
 	}
 	
 	public DateTime(String from) {
 		try {
-			date = UTC_FORMAT.parse(from.trim());
-			Log.v("DateTime",date.toLocaleString());
+			if (from.indexOf("UTC") > 1) {
+				parseUTCFormat(from);
+			} else {
+				parseLocalFormat(from);
+			}
+			original_date = from.trim();
 		} catch (ParseException e) {
 			throw(new RuntimeException("Cannot parse date: "+from));
 		}
 	}
+	
+	private void parseUTCFormat(String from) throws ParseException {
+		Log.v("DateTime","parsing UTC format");
+		date = UTC_FORMAT.parse(from.trim());
+	}
+	
+	private void parseLocalFormat(String from) throws ParseException {
+		Log.v("DateTime","parsing local format: "+from.substring(0,19));
+		date = LOCAL_FORMAT.parse(from.substring(0,19));
+	}
+	
 
 	public String getUIString() {
 		if (isEmpty()) {
@@ -63,7 +83,7 @@ public class DateTime implements TrackerValue {
 		if (isEmpty()) {
 			return "";
 		} else {
-			return UTC_FORMAT.format(date);
+			return original_date;
 		}
 	}
 
