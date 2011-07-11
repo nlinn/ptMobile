@@ -50,7 +50,7 @@ public class SelectLabels extends ListActivity {
 
 		Integer story_id = getIntent().getExtras().getInt("story_id");
 
-		tracker = new PivotalTracker(this);
+		tracker = PivotalTracker.getInstance(this);
 		story = tracker.getStory(story_id);
 		Project project = story.getProject();
 
@@ -88,27 +88,6 @@ public class SelectLabels extends ListActivity {
 		}
 		csv += labels[i];
 		return csv;
-	}
-	
-	@Override
-	public void onPause() {
-		super.onPause();
-		if (tracker != null)
-			tracker.pause();
-	}
-	
-	@Override
-	public void onStop() {
-		super.onStop();
-		if (tracker != null)
-			tracker.pause();
-	}
-	
-	@Override
-	public void onDestroy() {
-		super.onDestroy();
-		if (tracker != null)
-			tracker.pause();
 	}
 	
 	private void checkExistingLabels() {

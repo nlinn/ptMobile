@@ -169,27 +169,11 @@ public class Stories extends RefreshableListActivityWithMainMenu implements QoSM
 	public void onResume() {
 		Log.v(TAG,"onResume");
 		super.onResume();
-		tracker = new PivotalTracker(this);
+		tracker = PivotalTracker.getInstance(this);
 		updateList(project_id);
 		if (tracker.storiesNeedUpdate(project_id, iteration_group)) {
 			refresh();
 		}
-	}
-
-	@Override
-	public void onDestroy() {
-		Log.v(TAG,"onDestroy");
-		super.onDestroy();
-		if (c !=null) c.close();
-		if (tracker != null) tracker.pause();
-	}
-
-	@Override
-	public void onStop() {
-		Log.v(TAG,"onStop");
-		super.onStop();
-		if (c !=null) c.close();
-		if (tracker != null) tracker.pause();
 	}
 
 	public void refresh() {

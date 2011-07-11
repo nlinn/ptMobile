@@ -61,7 +61,7 @@ public class APIKeyPrefs extends Activity {
 			new Thread() { 
 				public void run() { 
 					try{ 
-						String token = new PivotalTracker(ctx).fetchAPIToken(etxtUsername.getText().toString().trim(),
+						String token = PivotalTracker.getInstance(ctx).fetchAPIToken(etxtUsername.getText().toString().trim(),
 								etxtPassword.getText().toString().trim());
 
 						// --- very verbose msg sending :(	

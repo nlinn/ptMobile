@@ -48,7 +48,7 @@ public class ChangeEstimate extends Activity {
 			Log.i(TAG,"Project ID from Extras: "+extras.getInt("project_id"));
 			setTitle("Estimate");
 			story_id=extras.getInt("story_id");
-			tracker = new PivotalTracker(this);
+			tracker = PivotalTracker.getInstance(this);
 			story = tracker.getStory(story_id);
 			storyName.setText(story.getName().getUIString());
 			project_id = story.getProjectId().getValue();
@@ -62,19 +62,6 @@ public class ChangeEstimate extends Activity {
 		Log.i(TAG,"onCreate finished");
 	}
 	
-
-	@Override
-	public void onStop() {
-		super.onStop();
-		if (this.tracker != null) this.tracker.pause();
-	}
-	
-	@Override
-	public void onDestroy() {
-		super.onDestroy();
-		if (this.tracker != null) this.tracker.pause();
-	}
-
 	private void setUpFibonacci() {
 		estimateLabel.setText("Estimate, Fibonacci Point Scale");
 		b0.setText("0 points");

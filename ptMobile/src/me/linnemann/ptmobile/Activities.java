@@ -55,7 +55,7 @@ public class Activities extends RefreshableListActivityWithMainMenu implements Q
 
 	public void onResume() {
 		super.onResume();
-		tracker = new PivotalTracker(this);
+		tracker = PivotalTracker.getInstance(this);
 		fillData(); // show list
 		Log.i("Activities","needs update?");
 		// --- refresh if update timestamp is too old (or never set)
@@ -76,20 +76,6 @@ public class Activities extends RefreshableListActivityWithMainMenu implements Q
 
 		pc.moveToPosition(position);
 		startStoriesActivity(pc);
-	}
-
-	@Override
-	public void onStop() {
-		super.onStop();
-		if (pc !=null) pc.close();
-		if (tracker != null) tracker.pause();
-	}
-
-	@Override
-	public void onDestroy() {
-		super.onDestroy();
-		if (pc !=null) pc.close();
-		if (tracker != null) tracker.pause();
 	}
 
 	private void fillData() {

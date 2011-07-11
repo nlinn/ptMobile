@@ -32,10 +32,10 @@ public class APIAdapterImpl implements APIAdapter {
 
 	private String apikey;
 	private RESTSupport rest;
+	private Context ctx;
 
 	public APIAdapterImpl(Context ctx) {
-		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(ctx);
-		apikey = settings.getString("APIKEY", "");
+		this.ctx = ctx;
 		rest = new RESTSupport(TIMEOUT_MILLIS);
 	}
 
@@ -45,6 +45,8 @@ public class APIAdapterImpl implements APIAdapter {
 
 	private InputStream loadURL(String urlString) {
 		Map<String,String> properties = new HashMap<String,String>();
+		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(ctx);
+		apikey = settings.getString("APIKEY", "");
 		properties.put(TRACKER_TOKEN_NAME,apikey);
 
 		try {
@@ -75,6 +77,7 @@ public class APIAdapterImpl implements APIAdapter {
 		try {
 			return rest.doGET(new URL(URL_TOKEN), null, username, password);
 		} catch(IOException e) {
+			e.printStackTrace();
 			Log.e(TAG,"IOException: "+e.getMessage());
 			throw new RuntimeException("IOException while loading stream: "+e.getMessage());
 		} 

@@ -18,9 +18,16 @@ import android.content.Context;
  */
 public class PivotalTracker {
 
+	private static PivotalTracker instance = null;
 	private DBAdapter db;
 	private PivotalAPI api;
+	
 
+	/**
+	 * Public only for unit tests
+	 * 
+	 * @param ctx
+	 */
 	public PivotalTracker(Context ctx) {
 		db = new DBAdapterImpl(ctx);
 		
@@ -28,7 +35,15 @@ public class PivotalTracker {
 		api = new PivotalAPI(ctx,db,adapter);
 	}
 
-	public void pause() {
+	public static PivotalTracker getInstance(Context ctx) {
+		if (instance == null) {
+			instance = new PivotalTracker(ctx);
+		}
+		
+		return instance;
+	}
+	
+	public void close() {
 		db.close();
 	}
 

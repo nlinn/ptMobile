@@ -50,7 +50,7 @@ public abstract class AddEditStoryBase extends Activity {
 		
 		setContentView(layout);
 		
-		tracker = new PivotalTracker(this);
+		tracker = PivotalTracker.getInstance(this);
 		setOKButtonListener();
 	}
 

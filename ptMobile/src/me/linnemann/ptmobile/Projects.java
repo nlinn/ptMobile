@@ -62,7 +62,7 @@ public class Projects extends RefreshableListActivityWithMainMenu implements QoS
 	
 	public void onResume() {
 		super.onResume();
-		tracker = new PivotalTracker(this);
+		tracker = PivotalTracker.getInstance(this);
 		populateList(); // show projects
 		
 		if (!alreadyCheckedForUpdates) { // TODO maybe better to store a timestamp in prefs? am i checking too often?
@@ -103,20 +103,6 @@ public class Projects extends RefreshableListActivityWithMainMenu implements QoS
 
 		pc.moveToPosition(position);
 		startStoriesActivity(pc);
-	}
-
-	@Override
-	public void onStop() {
-		super.onStop();
-		if (pc !=null) pc.close();
-		if (tracker != null) tracker.pause();
-	}
-
-	@Override
-	public void onDestroy() {
-		super.onDestroy();
-		if (pc !=null) pc.close();
-		if (tracker != null) tracker.pause();
 	}
 
 	private void populateList() {
