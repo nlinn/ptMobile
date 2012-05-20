@@ -23,7 +23,7 @@ public class ProjectDetails extends Activity {
 		Integer project_id = getIntent().getExtras().getInt("project_id");
 		Log.i("ProjectDetails","called for project: "+project_id);
 		
-		tracker = new PivotalTracker(this);
+		tracker = PivotalTracker.getInstance(this);
 		project = tracker.getProject(project_id);
 		
 		findTextView(R.id.textNamePD).setText(project.getName().getUIString());
@@ -31,18 +31,6 @@ public class ProjectDetails extends Activity {
 		findTextView(R.id.textWeekStartDayPD).setText(project.getWeekStartDay().getUIString());
 		findTextView(R.id.textPointScalePD).setText(project.getPointScale().getUIString());
 		findTextView(R.id.textVelocityPD).setText(OutputStyler.getVelocityAsText(project));
-	}
-	
-	@Override
-	public void onStop() {
-		super.onStop();
-		if (this.tracker != null) this.tracker.pause();
-	}
-	
-	@Override
-	public void onDestroy() {
-		super.onDestroy();
-		if (this.tracker != null) this.tracker.pause();
 	}
 	
 	private TextView findTextView(int id) {

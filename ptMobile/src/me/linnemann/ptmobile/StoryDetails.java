@@ -251,22 +251,10 @@ public class StoryDetails extends Activity implements QoSMessageHandler {
 	}
 	
 	@Override
-	public void onStop() {
-		super.onStop();
-		if (this.tracker != null) this.tracker.pause();
-	}
-	
-	@Override
-	public void onDestroy() {
-		super.onStop();
-		if (this.tracker != null) this.tracker.pause();
-	}
-	
-	@Override
 	public void onResume() {
 		Log.v(TAG,"onResume");
 		super.onResume();
-		tracker = new PivotalTracker(this);
+		tracker = PivotalTracker.getInstance(this);
 		updateView();
 	}
 

@@ -63,18 +63,4 @@ public class EditStory extends AddEditStoryBase {
 		initState(story);
 		initEstimate(story);
 	}
-
-	@Override
-	public void onDestroy() {
-		super.onDestroy();
-		if (tracker != null) tracker.pause();
-	}
-
-	@Override
-	public void onStop() {
-		super.onStop();
-		if (tracker != null) tracker.pause();
-	}
-	
-	
 }
